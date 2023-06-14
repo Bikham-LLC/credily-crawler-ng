@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 
 declare var Toastnotify: any;
@@ -15,7 +16,8 @@ export class LoginComponent implements OnInit {
   password: string = '';
   loginToggle: boolean = false;
 
-  constructor(private authservice: AuthService) { }
+  constructor(private authservice: AuthService,
+    private _router: Router) { }
 
   ngOnInit(): void {
   }
@@ -33,11 +35,17 @@ export class LoginComponent implements OnInit {
     this.loginToggle = true;
     this.authservice.login(this.userName, this.password).subscribe(response=>{
 
-      
+      localStorage.setItem('idToken', response.idToken);
+      localStorage.setItem('refreshToken', response.refreshToken);
+      localStorage.setItem('accountUuid', response.accountUuid);
+      localStorage.setItem('userName', response.userName);
+
+      this._router.navigate(['/configuration']);
+    
       this.loginToggle = false;
     },error=>{
-      this.showToast(error.error, 'warning');
       this.loginToggle = false;
+      this.showToast(error.error, 'warning');
     })
   }
 
