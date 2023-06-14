@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
-
-declare var Toastnotify: any;
+import { DataService } from 'src/app/services/data.service';
 
 @Component({
   selector: 'app-login',
@@ -17,6 +16,7 @@ export class LoginComponent implements OnInit {
   loginToggle: boolean = false;
 
   constructor(private authservice: AuthService,
+    private dataService: DataService,
     private _router: Router) { }
 
   ngOnInit(): void {
@@ -45,16 +45,8 @@ export class LoginComponent implements OnInit {
       this.loginToggle = false;
     },error=>{
       this.loginToggle = false;
-      this.showToast(error.error, 'warning');
+      this.dataService.showToast(error);
     })
-  }
-
-  showToast(msg: any, type = 'dark') {
-    Toastnotify.create({
-      text: msg,
-      type: type,
-      duration: 5000,
-    });
   }
 
 }
