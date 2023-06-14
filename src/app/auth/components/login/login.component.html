@@ -42,14 +42,9 @@
                                   </div>
                             </div>
 
-
-                            <!-- <span class="text-danger" *ngIf="error.length>0">{{error}}</span> -->
-
                             <div class="login-formsubmit mt-2">
                                 <button type="submit" [disabled]="loginToggle" class="btn primaryBtn justify-content-center w-100" >
-                                    <span>Sign In 
-                                        <i class="fa fa-spinner fa-spin" *ngIf="loginToggle"></i>
-                                    </span>
+                                    Sign In <i class="spinner-border spinner-border-sm" role="status" *ngIf="loginToggle"></i>
                                 </button>
                             </div>
                         </form>
