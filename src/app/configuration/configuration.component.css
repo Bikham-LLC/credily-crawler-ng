@@ -94,26 +94,53 @@ header {
 }
 
 .configSteps {
-    position: relative;
-    margin-bottom: 1rem;
-    border: 1px solid #dfdfdf;
-    border-radius: 5px;
-    padding: 10px 10px;
+  position: relative;
+  margin-bottom: 1rem;
+  border: 1px solid #dfdfdf;
+  border-radius: 5px;
+  padding: 10px 10px;
 }
 .configSteps:last-child {
-    margin-bottom: 0rem;
+  margin-bottom: 0rem;
 }
-.configSteps p{
-    margin-bottom: 0;
-    font-size: 12px;
-    font-weight: 400;
+.configSteps p {
+  margin-bottom: 0;
+  font-size: 12px;
+  font-weight: 400;
 }
 .configSteps::before {
-    content: '';
-    position: absolute;
-    left: -25px;
-    width: 25px;
-    height: 1px;
-    background-color: #dfdfdf;
-    top: 9px;
+  content: "";
+  position: absolute;
+  left: -25px;
+  width: 25px;
+  height: 1px;
+  background-color: #dfdfdf;
+  top: 9px;
+}
+
+.closeStepsDiv {
+  text-align: right;
+  margin-bottom: 1rem;
+}
+
+.closeSteps {
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  line-height: 1;
+  color: #000;
+  box-shadow: none !important;
+  outline: none !important;
+}
+.closeSteps i::before{
+  font-weight: 900 !important;
+}
+.addStepsModal {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background-color: #ffffff;
+  padding: 15px;
 }
