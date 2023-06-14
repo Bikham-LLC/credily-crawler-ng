@@ -1,0 +1,31 @@
+/* You can add global styles to this file, and also import other style files */
+* {
+  margin: 0px;
+  padding: 0px;
+}
+
+body {
+  font-size: 14px;
+  color: #444;
+  box-sizing: border-box;
+  overflow-x: hidden;
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+}
+a {
+  text-decoration: none;
+}
+.primaryBtn {
+  background-color: #42bebe;
+  font-size: 14px;
+  color: #fff !important;
+  font-weight: 400;
+  box-shadow: none !important;
+}
+.secondaryBtn {
+  background-color: #cccccc;
+  font-size: 14px;
+  color: #444 !important;
+  font-weight: 400;
+  box-shadow: none !important;
+}

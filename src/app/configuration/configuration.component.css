@@ -1,0 +1,119 @@
+header {
+  background-color: #42bebe;
+  padding: 12px 14px;
+  position: relative;
+}
+.logo img {
+  width: 65%;
+}
+.logOut {
+  text-align: right;
+}
+.logOutbtn {
+  background-color: transparent;
+  color: #fff;
+  border: none;
+  font-size: 30px;
+  padding: 0;
+  line-height: 0;
+}
+.logOutbtn i::before {
+  font-weight: 900 !important;
+}
+
+.main {
+  padding: 1rem 0rem 1rem;
+}
+.dashNav-link.active {
+  color: #fff !important;
+  background-color: #42bfbf !important;
+  border-color: #42bfbf !important;
+}
+.nav-tabs .nav-link {
+  border: 1px solid transparent !important;
+  font-size: 14px;
+  color: #444;
+}
+.dashNav-content {
+  border: 1px solid #dee2e6;
+  padding: 14px;
+  border-radius: 0px 0px 5px 5px;
+  border-top: 0px;
+}
+.emptyNotifinner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.emptyNotifinner img {
+  width: 10%;
+  margin-bottom: 1rem;
+}
+.emptyBtn {
+  background-color: #42bebe;
+  font-size: 14px;
+  color: #fff !important;
+  font-weight: 400;
+  box-shadow: none !important;
+}
+.configSetupBox {
+  padding: 2rem 2rem 2rem;
+}
+.configSetupBox > h3 {
+  text-align: center;
+  font-size: 22px;
+  font-weight: 500;
+  margin-bottom: 3rem;
+}
+.configStepsinner {
+  position: relative;
+  padding: 0 0 0 1.5rem;
+  border-left: 1px solid #dfdfdf;
+  max-height: 550px;
+  overflow-y: auto;
+}
+.configAction {
+  margin-top: 2rem;
+}
+.configStepsinner {
+  position: relative;
+  padding: 0 0 0 1.5rem;
+  border-left: 1px solid #dfdfdf;
+  max-height: 600px;
+  overflow-y: auto;
+  margin-bottom: 2rem;
+}
+.configSteps label {
+  font-size: 12px;
+  background-color: #e7e7e7;
+  padding: 2px 8px;
+  border-radius: 5px;
+  font-weight: 500;
+  color: #111;
+}
+
+.configSteps {
+    position: relative;
+    margin-bottom: 1rem;
+    border: 1px solid #dfdfdf;
+    border-radius: 5px;
+    padding: 10px 10px;
+}
+.configSteps:last-child {
+    margin-bottom: 0rem;
+}
+.configSteps p{
+    margin-bottom: 0;
+    font-size: 12px;
+    font-weight: 400;
+}
+.configSteps::before {
+    content: '';
+    position: absolute;
+    left: -25px;
+    width: 25px;
+    height: 1px;
+    background-color: #dfdfdf;
+    top: 9px;
+}
