@@ -34,18 +34,25 @@ export class LoginComponent implements OnInit {
     debugger
     this.loginToggle = true;
     this.authservice.login(this.userName, this.password).subscribe(response=>{
-
-      localStorage.setItem('idToken', response.idToken);
-      localStorage.setItem('refreshToken', response.refreshToken);
-      localStorage.setItem('accountUuid', response.accountUuid);
-      localStorage.setItem('userName', response.userName);
-
-      this._router.navigate(['/configuration']);
-    
+      if(response.status && response.object!=null){
+        localStorage.setItem('idToken', response.object.idToken);
+        localStorage.setItem('refreshToken', response.object.refreshToken);
+        localStorage.setItem('accountUuid', response.object.accountUuid);
+        localStorage.setItem('userName', response.object.userName);
+  
+        this._router.navigate(['/configuration']);
+      }else{
+        this.dataService.showToast(response.message);
+      }
       this.loginToggle = false;
     },error=>{
+      console.log(error)
       this.loginToggle = false;
-      this.dataService.showToast(error);
+      if(error.status==0){
+        this.dataService.showToast('Server is down, please try after sometime.');
+      }else{
+        this.dataService.showToast(error.error);
+      }
     })
   }
 
