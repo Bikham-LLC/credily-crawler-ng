@@ -6,7 +6,7 @@ import { ConfigurationComponent } from './configuration/configuration.component'
 const routes: Routes = [
   { path: '' , component: LoginComponent, pathMatch:'full'},
   { path: 'configuration', component:ConfigurationComponent}, 
-{  path: 'auth', loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule) }];
+  {  path: 'auth', loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule) }];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
