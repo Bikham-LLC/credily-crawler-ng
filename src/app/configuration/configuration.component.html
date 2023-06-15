@@ -178,6 +178,22 @@
                         </tbody>
                     </table>
                 </div>
+                <div class="row justify-content-center">  
+                    dgfakms  
+                    <div class="paginationmain" *ngIf="lookupTaxonomyList.length == 0">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <p class="currentshowing mb-0">
+                                Showing <span>{{lookupTaxonomyList.length}}</span> of <span>{{totalLookupTaxonomy}}</span>  
+                            </p>
+                            <div class="col-lg-6">
+                                <div class="card-body d-flex justify-content-end">
+                                    <ngb-pagination [collectionSize]="totalLookupTaxonomy" [rotate]="true" (pageChange)="pageChanged($event)" [pageSize]="databaseHelper.itemsPerPage" [(page)]="databaseHelper.currentPage" [maxSize]="5" [boundaryLinks]="true">
+                                    </ngb-pagination>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
           </div>
         </div>
