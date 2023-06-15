@@ -144,11 +144,18 @@ header {
   background-color: #ffffff;
   padding: 15px;
 }
+.reportListing{
+  max-height: 450px;
+  overflow-y: auto;
+}
 .reportListing .table thead th {
   border-top: 0px;
   border: 1px solid #ccc;
   padding: 12px 12px;
   background-color: #f6f6f6;
+  position: sticky;
+  top: -1px;
+  z-index: 5;
 }
 .reportListing .table thead th p {
   font-weight: 600;
