@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Constant } from 'src/app/models/Constant';
 import { AuthService } from 'src/app/services/auth.service';
 import { DataService } from 'src/app/services/data.service';
 
@@ -10,6 +11,7 @@ import { DataService } from 'src/app/services/data.service';
 })
 export class LoginComponent implements OnInit {
 
+  readonly Constant = Constant;
   togglePassword:string = "password";
   userName: string = '';
   password: string = '';
@@ -35,10 +37,10 @@ export class LoginComponent implements OnInit {
     this.loginToggle = true;
     this.authservice.login(this.userName, this.password).subscribe(response=>{
       if(response.status && response.object!=null){
-        localStorage.setItem('idToken', response.object.idToken);
-        localStorage.setItem('refreshToken', response.object.refreshToken);
-        localStorage.setItem('accountUuid', response.object.accountUuid);
-        localStorage.setItem('userName', response.object.userName);
+        localStorage.setItem(this.Constant.TOKEN, response.object.idToken);
+        localStorage.setItem(this.Constant.REFRESH_TOKEN, response.object.refreshToken);
+        localStorage.setItem(this.Constant.ACCOUNT_UUID, response.object.accountUuid);
+        localStorage.setItem(this.Constant.USER_NAME, response.object.userName);
   
         this._router.navigate(['/configuration']);
       }else{

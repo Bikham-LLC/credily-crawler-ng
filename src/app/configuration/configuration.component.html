@@ -31,16 +31,20 @@
               <div class="tab-content dashNav-content" id="nav-tabContent">
                 <div class="tab-pane dashNav-pane show active" id="nav-config" role="tabpanel" aria-labelledby="nav-config-tab">
                     <div class="dashNav-paneinner">
-                        <div class="emptyNotif">
+                        <div class="emptyNotif" *ngIf="addStepToggle">
                             <div class="emptyNotifinner">
                                 <img src="assets/images/settings.png" alt="">
-                                <button class="btn emptyBtn" data-toggle="modal" data-target="#configModal">Create Configurtaion</button>
+                                <button class="btn emptyBtn" data-toggle="modal" data-target="#configModal" (click)="getLookupTaxonomy()">Create Configurtaion</button>
                             </div>
                         </div>
 
-                        <div class="configMaininfo">
+                        <div class="configMaininfo" *ngIf="addStepToggle">
                             <div class="row">
-                                <div class="col-lg-6"></div>
+                                <div class="col-lg-6">
+                                    <!-- <img src="assets/images/settings.png" alt=""> -->
+                                    <iframe src="assets/images/settings.png" style="width:100%; height:100vh;" frameborder="0" *ngIf="Constant.EMPTY_STRINGS.includes(lookupLink)"></iframe>
+                                    <iframe [src]="lookupLink | safe" style="width:100%; height:100vh;" frameborder="0" *ngIf="!Constant.EMPTY_STRINGS.includes(lookupLink)"></iframe>
+                                </div>
                                 <div class="col-lg-6 px-2 position-relative">
                                     <div class="configSetupBox">
                                         <h3>New Configuration</h3>
@@ -64,7 +68,7 @@
                                                     <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Blanditiis, itaque.</p>
                                                 </div>
                                             </div>
-                                            <button class="btn primaryBtn">Add Steps</button>
+                                            <button class="btn primaryBtn" (click)="openAddConfigModal()">Add Steps</button>
 
                                             <div class="configAction d-flex justify-content-end align-items-center">
                                                 <button class="btn secondaryBtn mr-2">Test Configuration</button>
@@ -107,93 +111,198 @@
     </div>
 
 
-
-    <!--  -->
     <!-- Button trigger modal -->
-<!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#configModal">
-    Launch demo modal
-  </button> -->
+
+    <button type="button" class="btn btn-primary d-none" data-toggle="modal" data-target="#addConfigStepModal" #addConfigStepModalButton>Launch Modal</button>
   
-  <!-- Modal -->
-  <div class="modal fade" id="configModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog configModal">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">New Configuration</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <div class="mldConfigurationmain">
-            <div class="mldConfigurationinner">
-                <div class="lookupSearch mb-3">
-                    <div class="row m-0">
-                        <div class="col-lg-6 px-0">
-                            <div class="lookupSearchForm">
-                                <div class="position-relative">
-                                    <!-- <i class="bi bi-search"></i> -->
-                                    <input type="text" class="form-control" placeholder="Enter Lookup Name">
+    <!-- select taxonomy modal -->
+    <div class="modal fade" id="configModal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog configModal">
+            <div class="modal-content">
+                <form  #providerHospitalForm="ngForm" ngNativeValidate (ngSubmit)="saveLookupDetails()" >
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">New Configuration</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="closeTaxonomyModal()">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mldConfigurationmain">
+                            <div class="mldConfigurationinner">
+                                <div class="lookupSearch mb-3">
+                                    <div class="row m-0">
+                                        <div class="col-lg-6 px-0 pr-2">
+                                            <div class="lookupSearchForm">
+                                                <div class="position-relative">
+                                                    <!-- <i class="bi bi-search"></i> -->
+                                                    <input type="text" class="form-control" name="lname" placeholder="Enter Lookup Name" [(ngModel)]="lookupName" maxlength="155" required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 px-0">
+                                            <div class="lookupSearchForm">
+                                                <div class="position-relative">
+                                                    <input type="url" class="form-control" name="llink" placeholder="Enter Lookup Link" [(ngModel)]="lookupLink" maxlength="200" required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="empty-notific" *ngIf="!loadingLookupTaxonomy && lookupTaxonomyList.length == 0">
+                                    <div class="empty-notificinner text-center">
+                                        <div class="empty-notificinnerimg">
+                                            <img src="assets/images/nodocument.svg" alt="" style="width:40%">
+                                        </div>
+                                        <h5>No Taxonomy Found.</h5>
+                                    </div>
+                                </div>
+
+                                <div class=" p-5" *ngIf="loadingLookupTaxonomy">
+                                    <app-circular-loader></app-circular-loader>
+                                </div>
+                                <div class="reportListing" *ngIf="!loadingLookupTaxonomy && lookupTaxonomyList.length > 0">
+                                    <caption>Taxonomy</caption>
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th class="tableDead" style="width: 2%;">
+                                                    
+                                                </th>
+                                                <th class="tableDead" style="width: 18%;">
+                                                    <p class="mb-0 text-center">Code</p>
+                                                </th>
+                                                <th class="tableDead" style="width: 30%;">
+                                                    <p class="mb-0">State</p>
+                                                </th>
+                                                <th class="tableDead" style="width: 50%;">
+                                                    <p class="mb-0">Description</p>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let tax of lookupTaxonomyList; let i = index">
+                                                <td class="tableData">
+                                                    <div class="text-ceter">
+                                                        <input type="checkbox" class="form-check" [checked]="tax.checked" (click)="selectTaxonomySingle(i)">
+                                                    </div>
+                                                </td>
+                                                <td class="tableData">
+                                                    <p class="mb-0 text-center">{{tax.code}}</p>
+                                                </td>
+                                                <td class="tableData">
+                                                    <p class="mb-0">{{tax.state}}</p>
+                                                </td>
+                                                <td class="tableData lookupLiks">
+                                                    <p class="mb-0">{{tax.displayName}}</p>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="row justify-content-center" *ngIf="totalLookupTaxonomy>0">  
+                                    <div class="paginationmain w-100 px-3 mt-2">
+                                        <div class="d-flex align-items-center justify-content-between">
+                                            <p class="currentshowing mb-0">
+                                                Showing <span>{{lookupTaxonomyList.length}}</span> of <span>{{totalLookupTaxonomy}}</span>  
+                                            </p>
+                                            <div class="d-flex justify-content-end">
+                                                <ngb-pagination [collectionSize]="totalLookupTaxonomy" [rotate]="true" (pageChange)="pageChanged($event)" [pageSize]="databaseHelper.itemsPerPage" [(page)]="databaseHelper.currentPage" [maxSize]="5" [boundaryLinks]="true">
+                                                </ngb-pagination>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="reportListing">
-                    <table class="table table-hover">
-                        <thead>
-                            <tr>
-                                <th class="tableDead" style="width: 2%;">
-                                    
-                                </th>
-                                <th class="tableDead" style="width: 5%;">
-                                    <p class="mb-0 text-center">S No.</p>
-                                </th>
-                                <th class="tableDead" style="width: 15%;">
-                                    <p class="mb-0">Lookup Name</p>
-                                </th>
-                                <th class="tableDead" style="width: 40%;">
-                                    <p class="mb-0">Link</p>
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let e of [].constructor(10); let i = index">
-                                <td class="tableData">
-                                    <div class="text-ceter">
-                                        <input type="checkbox" class="form-check">
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="closeTaxonomyModal()">Close</button>
+                        <button type="submit" class="btn primaryBtn" data-dismiss="modal" [disabled]="selectedTaxonomyIds.length==0">Save changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- add configuration step modal -->
+    <div class="modal fade" id="addConfigStepModal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="stepModalLabel" aria-hidden="true">
+        <div class="modal-dialog configModal">
+            <div class="modal-content">
+                <form  #addStepForm="ngForm" ngNativeValidate (ngSubmit)="addConfigurationStep()" >
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="stepModalLabel">Add Configuration Step</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="closeAddConfigStepModal()">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mldConfigurationmain">
+                            <div class="mldConfigurationinner">
+                                <div class="lookupSearch">
+                                    <div class="row m-0 mb-3">
+                                        <div class="col-lg-6 px-0 pr-2">
+                                            <div class="lookupSearchForm">
+                                                <div class="position-relative">
+                                                    <label class="m-1">Crawler Attribute</label>
+                                                    <angular2-multiselect id="attribute" name="attribute" [data]="attributeList" [settings]="dropdownSettingsAttribute" [(ngModel)]="selectedAttribute" (ngModelChange)="selectCrawlerAttribute($event)" (keyup)="onSearch($event)" required>
+                                                    </angular2-multiselect>
+                                                </div>
+                                                <!-- <small *ngIf="addStepForm.submitted && addStepFormInvalid && Constant.EMPTY_STRINGS.includes(specialities.code)" style="color: red;">Select Specialty!</small> -->
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 px-0">
+                                            <div class="lookupSearchForm">
+                                                <div class="position-relative">
+                                                    <label class="m-1">Lookup Element</label>
+                                                    <input type="url" class="form-control" name="llink" placeholder="Enter Lookup Link" [(ngModel)]="lookupLink" maxlength="200" required>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                </td>
-                                <td class="tableData">
-                                    <p class="mb-0 text-center">1</p>
-                                </td>
-                                <td class="tableData">
-                                    <p class="mb-0">CDS</p>
-                                </td>
-                                <td class="tableData lookupLiks">
-                                    <p class="mb-0">www.cds.com</p>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="row justify-content-center">  
-                    <div class="paginationmain w-100 px-3 mt-2">
-                        <div class="d-flex align-items-center justify-content-between">
-                            <p class="currentshowing mb-0">
-                                Showing <span>{{lookupTaxonomyList.length}}</span> of <span>{{totalLookupTaxonomy}}</span>  
-                            </p>
-                            <div class="d-flex justify-content-end">
-                                <ngb-pagination [collectionSize]="totalLookupTaxonomy" [rotate]="true" (pageChange)="pageChanged($event)" [pageSize]="databaseHelper.itemsPerPage" [(page)]="databaseHelper.currentPage" [maxSize]="5" [boundaryLinks]="true">
-                                </ngb-pagination>
+                                    <div class="row m-0 mt-3">
+                                        <div class="col-lg-6 px-0 pr-2">
+                                            <div class="lookupSearchForm">
+                                                <div class="position-relative">
+                                                    <label class="m-1">Lookup Element Event</label>
+                                                    <input type="text" class="form-control" name="lname" placeholder="Enter Lookup Name" [(ngModel)]="lookupName" maxlength="155" required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 px-0">
+                                            <div class="lookupSearchForm">
+                                                <div class="position-relative">
+                                                    <label class="m-1">Class Name</label>
+                                                    <angular2-multiselect id="className" name="className" [data]="classList" [settings]="dropdownSettingsClass" [(ngModel)]="selectedClass" (ngModelChange)="selectClassName($event)" required>
+                                                    </angular2-multiselect>
+                                                </div>
+                                                <!-- <small *ngIf="addStepForm.submitted && addStepFormInvalid && Constant.EMPTY_STRINGS.includes(specialities.code)" style="color: red;">Select Specialty!</small> -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row m-0 mt-3">
+                                        <div class="col-lg-6 px-0 pr-2">
+                                            <div class="lookupSearchForm">
+                                                <div class="position-relative">
+                                                    <label class="m-1">Column Name</label>
+                                                    <angular2-multiselect id="columnName" name="columnName" [data]="columnList" [settings]="dropdownSettingsColumn" [(ngModel)]="selectedColumn" (ngModelChange)="selectColumnName($event)" required>
+                                                    </angular2-multiselect>
+                                                </div>
+                                                <!-- <small *ngIf="addStepForm.submitted && addStepFormInvalid && Constant.EMPTY_STRINGS.includes(specialities.code)" style="color: red;">Select Specialty!</small> -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                    <div class="modal-footer">
+                        <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal" >Close</button> -->
+                        <button type="submit" class="btn primaryBtn" data-dismiss="modal" >Add Steps</button>
+                    </div>
+                </form>
             </div>
-          </div>
         </div>
-      </div>
     </div>
-  </div>
+
 </div>

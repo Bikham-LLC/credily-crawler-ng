@@ -1,4 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
+
+@import "~angular2-multiselect-dropdown/themes/default.theme.css";
+
 * {
   margin: 0px;
   padding: 0px;
@@ -53,3 +56,8 @@ a {
   background-color: #42bebe !important;
   border-color: #42bebe !important;
 }
+
+.c-btn {
+  min-height: 42px !important;
+}
+

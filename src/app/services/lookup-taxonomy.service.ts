@@ -13,7 +13,7 @@ export class LookupTaxonomyService {
 
   key: Keys = new Keys();
 
-  getLookupTaxonomyMap(databaseHelper:DatabaseHelper): Observable<any> {
+  getLookupTaxonomy(databaseHelper:DatabaseHelper): Observable<any> {
     if(databaseHelper==undefined || databaseHelper==null){
       databaseHelper = new DatabaseHelper();
     }

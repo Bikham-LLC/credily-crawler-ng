@@ -7,6 +7,6 @@ export class Keys{
 
     api_version_one = "/api/v1";
     login = '/auth/login'
-    lookup_taxonomy = '/license-lookup-configuration/link-with-taxonomy'
+    lookup_taxonomy = '/license-lookup-configuration/taxonomy'
     
 }
