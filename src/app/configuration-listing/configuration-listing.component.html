@@ -1,0 +1,98 @@
+<header>
+    <div class="container-fluid">
+        <div class="row justify-content-between">
+            <div class="col-lg-2 px-2">
+                <div class="logo">
+                    <img src="assets/images/logo-white.svg" alt="">
+                </div>
+            </div>
+            
+            <div class="col-lg-2 px-2">
+                <div class="logOut">
+                    <button (click)="logOut()" class="logOutbtn">
+                        <i class="bi bi-power"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<div class="main">
+    <div class="container-fluid">
+        <div class="dashboardArea">
+            <nav>
+                <div class="nav nav-tabs dashNav-tabs" id="nav-tab" role="tablist">
+                  <a class="nav-link dashNav-link active" id="nav-config-tab" data-toggle="tab" href="#nav-config" role="tab" aria-controls="nav-config" aria-selected="true">Configuration</a>
+                  <a class="nav-link dashNav-link" id="nav-report-tab" data-toggle="tab" href="#nav-report" role="tab" aria-controls="nav-report" aria-selected="false">Report</a>
+                  <a class="nav-link dashNav-link" id="nav-dashboard-tab" data-toggle="tab" href="#nav-dashboard" role="tab" aria-controls="nav-dashboard" aria-selected="false">Dasboard</a>
+                </div>
+              </nav>
+              <div class="tab-content dashNav-content" id="nav-tabContent">
+                <div class="tab-pane dashNav-pane show active" id="nav-config" role="tabpanel" aria-labelledby="nav-config-tab">
+                    <div class="dashNav-paneinner">
+                        <div class="reportListing">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th class="tableDead text-center" colspan="3">
+                                            <p class="mb-0">Configuration</p>
+                                        </th>
+                                        <th class="tableDead text-center"> 
+                                            <p class="mb-0">Added By</p>
+                                        </th>
+                                        <th class="tableDead text-center">
+                                            <p class="mb-0">Status</p>
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <th class="tableDead" style="width: 5%;">
+                                            <p class="mb-0 text-center">S No.</p>
+                                        </th>
+                                        <th class="tableDead" style="width: 15%;">
+                                            <p class="mb-0">Lookup Name</p>
+                                        </th>
+                                        <th class="tableDead" style="width: 40%;">
+                                            <p class="mb-0">Link</p>
+                                        </th>
+                                        <th style="width: 20%;"></th>
+                                        <th style="width: 20%;"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let e of [].constructor(10); let i = index">
+                                        <td class="tableData">
+                                            <p class="mb-0 text-center">1</p>
+                                        </td>
+                                        <td class="tableData">
+                                            <p class="mb-0">CDS</p>
+                                        </td>
+                                        <td class="tableData lookupLiks">
+                                            <p class="mb-0">www.cds.com</p>
+                                        </td>
+                                        <td class="tableData text-center">
+                                            <p class="mb-0">Param</p>
+                                        </td>
+                                        <td class="tableData text-center">
+                                            <p class="mb-0">Active</p>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane dashNav-pane" id="nav-report" role="tabpanel" aria-labelledby="nav-report-tab">
+                    <div class="dashNav-paneinner">
+                        Report
+                    </div>
+                </div>
+                <div class="tab-pane dashNav-pane" id="nav-dashboard" role="tabpanel" aria-labelledby="nav-dashboard-tab">
+                    <div class="dashNav-paneinner">
+                        Dashboard
+                    </div>
+                </div>
+              </div>
+        </div>
+    </div>
+</div>

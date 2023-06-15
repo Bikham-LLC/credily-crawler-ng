@@ -29,3 +29,14 @@ a {
   font-weight: 400;
   box-shadow: none !important;
 }
+.form-control {
+  font-size: 14px;
+  padding: 20px 10px;
+  letter-spacing: 0.3px;
+  font-weight: 400;
+  box-shadow: none !important;
+}
+.form-control:focus {
+  color: #232323;
+  border-color: #42bebe;
+}

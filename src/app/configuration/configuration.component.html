@@ -34,7 +34,7 @@
                         <div class="emptyNotif">
                             <div class="emptyNotifinner">
                                 <img src="assets/images/settings.png" alt="">
-                                <button class="btn emptyBtn">Create Configurtaion</button>
+                                <button class="btn emptyBtn" data-toggle="modal" data-target="#configModal">Create Configurtaion</button>
                             </div>
                         </div>
 
@@ -90,9 +90,6 @@
                                 </div>
                             </div>
                         </div>
-
-
-
                     </div>
                 </div>
                 <div class="tab-pane dashNav-pane" id="nav-report" role="tabpanel" aria-labelledby="nav-report-tab">
@@ -108,4 +105,79 @@
               </div>
         </div>
     </div>
+
+
+
+    <!--  -->
+    <!-- Button trigger modal -->
+<!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#configModal">
+    Launch demo modal
+  </button> -->
+  
+  <!-- Modal -->
+  <div class="modal fade" id="configModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog configModal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">New Configuration</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="mldConfigurationmain">
+            <div class="mldConfigurationinner">
+                <div class="lookupSearch mb-3">
+                    <div class="row m-0">
+                        <div class="col-lg-6 px-0">
+                            <div class="lookupSearchForm">
+                                <div class="position-relative">
+                                    <i class="bi bi-search"></i>
+                                    <input type="text" class="form-control" placeholder="Search Lookup Name">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- <ngb-pagination></ngb-pagination> -->
+                <div class="reportListing">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th class="tableDead" style="width: 5%;">
+                                    <p class="mb-0 text-center">S No.</p>
+                                </th>
+                                <th class="tableDead" style="width: 15%;">
+                                    <p class="mb-0">Lookup Name</p>
+                                </th>
+                                <th class="tableDead" style="width: 40%;">
+                                    <p class="mb-0">Link</p>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let e of [].constructor(10); let i = index">
+                                <td class="tableData">
+                                    <p class="mb-0 text-center">1</p>
+                                </td>
+                                <td class="tableData">
+                                    <p class="mb-0">CDS</p>
+                                </td>
+                                <td class="tableData lookupLiks">
+                                    <p class="mb-0">www.cds.com</p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+          </div>
+        </div>
+        <!-- <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div> -->
+      </div>
+    </div>
+  </div>
 </div>

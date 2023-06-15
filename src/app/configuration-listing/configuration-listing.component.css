@@ -170,18 +170,3 @@ header {
   overflow: hidden;
   white-space: nowrap;
 }
-
-.configModal {
-  max-width: 800px;
-}
-.lookupSearchForm i.bi.bi-search {
-  position: absolute;
-  left: 11px;
-  top: 10px;
-  font-size: 16px;
-  color: #727272;
-}
-
-.lookupSearchForm input{
-  padding-left: 40px !important;
-}
