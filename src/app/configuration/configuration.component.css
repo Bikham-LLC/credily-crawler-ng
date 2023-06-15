@@ -149,6 +149,9 @@ header {
   border: 1px solid #ccc;
   padding: 12px 12px;
   background-color: #f6f6f6;
+  position: sticky;
+  top: -1px;
+  z-index: 5;
 }
 .reportListing .table thead th p {
   font-weight: 600;
