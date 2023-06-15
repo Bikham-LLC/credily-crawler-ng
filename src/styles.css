@@ -40,3 +40,16 @@ a {
   color: #232323;
   border-color: #42bebe;
 }
+.pagination {
+  margin-bottom: 0px;
+}
+.page-link {
+  color: #444;
+}
+
+.page-item.active .page-link {
+  z-index: 3;
+  color: #fff;
+  background-color: #42bebe !important;
+  border-color: #42bebe !important;
+}
