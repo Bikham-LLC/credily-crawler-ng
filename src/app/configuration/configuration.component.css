@@ -181,7 +181,13 @@ header {
   font-size: 16px;
   color: #727272;
 }
-
+/* 
 .lookupSearchForm input{
   padding-left: 40px !important;
+} */
+.form-check {
+  margin: 0 auto;
+  width: 1rem;
+  height: 1rem;
+  accent-color: #17a2b8;
 }
