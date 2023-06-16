@@ -32,7 +32,7 @@ export class ConfigurationComponent implements OnInit {
   lookupLink:string='';
   @ViewChild('lookupModalButton') lookupModalButton !:ElementRef;
 
-  addStepToggle:boolean=true;
+  addStepToggle:boolean=false;
 
   ngOnInit(): void {
 
