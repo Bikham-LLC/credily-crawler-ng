@@ -178,7 +178,10 @@ a {
   line-height: 20px;
   color: #3e3e3c;
 }
-
-:host ::ng-deep .pagination > li.page-item.active > a.page-link > span {
+/* 
+::ng-deep .pagination > li.page-item.active > a.page-link > span {
   display: none;
+} */
+.sr-only {
+  display: none !important;
 }
