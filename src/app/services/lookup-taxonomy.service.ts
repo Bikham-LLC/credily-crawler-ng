@@ -27,6 +27,10 @@ export class LookupTaxonomyService {
     return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.lookup_taxonomy, {params});
   }
 
+  testConfiguration(config:LicenseLookupConfigRequest): Observable<any> {
+    return this.http.post<any>(this.key.server_url + this.key.api_version_one + this.key.lookup_config_controller, config);
+  }
+
   createConfiguration(config:LicenseLookupConfigRequest): Observable<any> {
     return this.http.post<any>(this.key.server_url + this.key.api_version_one + this.key.lookup_config_controller, config);
   }

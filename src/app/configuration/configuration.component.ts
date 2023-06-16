@@ -151,6 +151,7 @@ export class ConfigurationComponent implements OnInit {
   @ViewChild('addStepForm') addStepForm : any;
   addStepFormInvalid:boolean=false;
   loadingIframe:boolean=false;
+  isValidConfiguration:boolean=false;
 
   licenseLookupConfigRequest : LicenseLookupConfigRequest = new LicenseLookupConfigRequest();
   cofigStepRequest : ConfigRequest = new ConfigRequest();
@@ -279,6 +280,18 @@ export class ConfigurationComponent implements OnInit {
     }
     this.configurationStepList.push(this.cofigStepRequest);
     this.closeAddStepModal.nativeElement.click();
+  }
+
+  testConfiguration(){
+    this.licenseLookupConfigRequest.licenseLookUpName = this.lookupName;
+    this.licenseLookupConfigRequest.licenseLookUpLink = this.lookupLink;
+    this.licenseLookupConfigRequest.taxonomyIdList = this.selectedTaxonomyIds;
+    this.licenseLookupConfigRequest.userAccountUuid = String(localStorage.getItem(this.Constant.ACCOUNT_UUID));
+    this.licenseLookupConfigRequest.configRequests = this.configurationStepList;
+    this.isValidConfiguration = false;
+    this.lookupTaxonomyService.testConfiguration(this.licenseLookupConfigRequest).subscribe(response=>{
+      this.isValidConfiguration = true;
+    })
   }
 
   saveConfiguration(){
