@@ -26,8 +26,8 @@
 }
 .dashNav-link.active {
   color: #fff !important;
-  background-color: #42bfbf !important;
-  border-color: #42bfbf !important;
+  background-color: #0070d2 !important;
+  border-color: #0070d2 !important;
 }
 .nav-tabs .nav-link {
   border: 1px solid transparent !important;
@@ -150,7 +150,7 @@
   padding: 15px;
 }
 .reportListing {
-  max-height: 450px;
+  max-height: 350px;
   overflow-y: auto;
 }
 .reportListing .table thead th {
@@ -201,7 +201,7 @@
   margin: 0 auto;
   width: 1rem;
   height: 1rem;
-  accent-color: #17a2b8;
+  accent-color: #0070d2;
 }
 
 /* New CSS */
