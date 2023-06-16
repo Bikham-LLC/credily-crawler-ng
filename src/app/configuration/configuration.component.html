@@ -253,8 +253,8 @@
                     <div class="modal-body">
                         <div class="mldConfigurationmain">
                             <div class="mldConfigurationinner">
-                                <div class="lookupSearch mb-3">
-                                    <div class="row mb-3">
+                                <div class="lookupSearch mb-1">
+                                    <div class="row mb-1">
                                         <div class="col-lg-6 pr-0">
                                             <div class="lookupSearchForm">
                                                 <label>Enter Lookup Name</label>
@@ -309,42 +309,45 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <table class="table table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th class="tableDead" style="width: 2%;">
-                                                    
-                                                </th>
-                                                <th class="tableDead" style="width: 18%;">
-                                                    <p class="mb-0">Code</p>
-                                                </th>
-                                                <th class="tableDead" style="width: 30%;">
-                                                    <p class="mb-0">State</p>
-                                                </th>
-                                                <th class="tableDead" style="width: 50%;">
-                                                    <p class="mb-0">Description</p>
-                                                </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr *ngFor="let tax of lookupTaxonomyList; let i = index">
-                                                <td class="tableData">
-                                                    <div class="text-ceter">
-                                                        <input type="checkbox" class="form-check" [checked]="tax.checked" (click)="selectTaxonomySingle(i)">
-                                                    </div>
-                                                </td>
-                                                <td class="tableData">
-                                                    <p class="mb-0">{{tax.code}}</p>
-                                                </td>
-                                                <td class="tableData">
-                                                    <p class="mb-0">{{tax.state}}</p>
-                                                </td>
-                                                <td class="tableData lookupLiks">
-                                                    <p class="mb-0">{{tax.displayName}}</p>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+                                    <div class="reportListing">
+                                        <table class="table table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th class="tableDead" style="width: 2%;">
+                                                        
+                                                    </th>
+                                                    <th class="tableDead" style="width: 18%;">
+                                                        <p class="mb-0">Code</p>
+                                                    </th>
+                                                    <th class="tableDead" style="width: 30%;">
+                                                        <p class="mb-0">State</p>
+                                                    </th>
+                                                    <th class="tableDead" style="width: 50%;">
+                                                        <p class="mb-0">Description</p>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let tax of lookupTaxonomyList; let i = index">
+                                                    <td class="tableData">
+                                                        <div class="text-ceter">
+                                                            <input type="checkbox" class="form-check" [checked]="tax.checked" (click)="selectTaxonomySingle(i)">
+                                                        </div>
+                                                    </td>
+                                                    <td class="tableData">
+                                                        <p class="mb-0">{{tax.code}}</p>
+                                                    </td>
+                                                    <td class="tableData">
+                                                        <p class="mb-0">{{tax.state}}</p>
+                                                    </td>
+                                                    <td class="tableData lookupLiks">
+                                                        <p class="mb-0">{{tax.displayName}}</p>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    
                                 </div>
                                 <div class="row justify-content-center" *ngIf="totalLookupTaxonomy>0">  
                                     <div class="paginationmain w-100 px-3 mt-2">

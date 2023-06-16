@@ -154,6 +154,11 @@
   overflow-y: auto;
 }
 .reportListing .table thead th {
+  position: sticky;
+  top: -1px;
+  z-index: 5;
+}
+/* .reportListing .table thead th {
   border-top: 0px;
   border: 1px solid #ccc;
   padding: 12px 12px;
@@ -174,7 +179,7 @@
 .reportListing .table tbody tr td p {
   font-size: 14px;
   font-weight: 400;
-}
+} */
 .lookupLiks p {
   width: 100%;
   max-width: 450px;
