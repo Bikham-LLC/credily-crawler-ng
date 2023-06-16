@@ -201,9 +201,13 @@ export class ConfigurationComponent implements OnInit {
   }
 
   getClassName(){
-    this.lookupTaxonomyService.getClassName().subscribe(response=>{
-      this.classList = response.object;
-    })
+
+    var temp: { id: any, itemName: any} = { id: 'static', itemName: 'static' };
+    this.classList.push(temp);
+
+    // this.lookupTaxonomyService.getClassName().subscribe(response=>{
+    //   this.classList = response.object;
+    // })
     this.classList = JSON.parse(JSON.stringify(this.classList));
   }
 
@@ -313,7 +317,13 @@ export class ConfigurationComponent implements OnInit {
     debugger
     this.savingConfiguration = true;
     
-    await this.testConfiguration();
+    // await this.testConfiguration();
+
+    this.licenseLookupConfigRequest.licenseLookUpName = this.lookupName;
+    this.licenseLookupConfigRequest.licenseLookUpLink = this.lookupLink;
+    this.licenseLookupConfigRequest.taxonomyIdList = this.selectedTaxonomyIds;
+    this.licenseLookupConfigRequest.userAccountUuid = String(localStorage.getItem(this.Constant.ACCOUNT_UUID));
+    this.licenseLookupConfigRequest.configRequests = this.configurationStepList;
 
     if(!this.isInvalidConfiguration){
       this.lookupTaxonomyService.createConfiguration(this.licenseLookupConfigRequest).subscribe(response=>{

@@ -3,6 +3,6 @@ export class ConfigRequest{
     crawlerAttribute : string = '';
     lookUpElementDesc : string = '';
     elementEvent : string = '';
-    className : string = '';
+    className : string = 'static';
     columnName : string = '';
 }
