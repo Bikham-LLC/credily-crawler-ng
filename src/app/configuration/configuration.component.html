@@ -119,8 +119,8 @@
                                     </div>
 
                                     <div class="configAction d-flex justify-content-end align-items-center">
-                                        <button class="btn secondaryBtn mr-2">Test Configuration</button>
-                                        <button class="btn primaryBtn">Save Configuration <i class="spinner-border spinner-border-sm"></i></button>
+                                        <button class="btn secondaryBtn mr-2" [disabled]="testingConfiguration" (click)="testConfiguration()">Test Configuration <i class="spinner-border spinner-border-sm" *ngIf="testingConfiguration && !savingConfiguration"></i></button>
+                                        <button class="btn primaryBtn" [disabled]="savingConfiguration || isInvalidConfiguration" (click)="saveConfiguration()">Save Configuration <i class="spinner-border spinner-border-sm" *ngIf="!testingConfiguration && savingConfiguration"></i></button>
                                     </div>
                                 </div>
                             </div>

@@ -56,7 +56,7 @@ export class ConfigurationComponent implements OnInit {
       noDataLabel: 'Select Class Name First'
     }
 
-    // this.getLookupTaxonomy();
+    this.getLookupTaxonomy();
     this.getArribute();
     this.getClassName();
 
@@ -151,6 +151,9 @@ export class ConfigurationComponent implements OnInit {
   @ViewChild('addStepForm') addStepForm : any;
   addStepFormInvalid:boolean=false;
   loadingIframe:boolean=false;
+  isInvalidConfiguration:boolean=false;
+  testingConfiguration:boolean=false;
+  savingConfiguration:boolean=false;
 
   licenseLookupConfigRequest : LicenseLookupConfigRequest = new LicenseLookupConfigRequest();
   cofigStepRequest : ConfigRequest = new ConfigRequest();
@@ -281,12 +284,40 @@ export class ConfigurationComponent implements OnInit {
     this.closeAddStepModal.nativeElement.click();
   }
 
-  saveConfiguration(){
+  testConfiguration(){
+    debugger
     this.licenseLookupConfigRequest.licenseLookUpName = this.lookupName;
     this.licenseLookupConfigRequest.licenseLookUpLink = this.lookupLink;
     this.licenseLookupConfigRequest.taxonomyIdList = this.selectedTaxonomyIds;
     this.licenseLookupConfigRequest.userAccountUuid = String(localStorage.getItem(this.Constant.ACCOUNT_UUID));
     this.licenseLookupConfigRequest.configRequests = this.configurationStepList;
+    this.testingConfiguration = true;
+    this.isInvalidConfiguration = false;
+    this.lookupTaxonomyService.testConfiguration(this.licenseLookupConfigRequest).subscribe(response=>{
+      this.testingConfiguration = false;
+      this.dataService.showToast('Valid Configuration.');
+    },error=>{
+      this.isInvalidConfiguration = true;
+      this.testingConfiguration = false;
+      this.dataService.showToast('Invalid Configuration.');
+    })
+  }
+
+  async saveConfiguration(){
+    debugger
+    this.savingConfiguration = true;
+    
+    await this.testConfiguration();
+
+    if(!this.isInvalidConfiguration){
+      this.lookupTaxonomyService.createConfiguration(this.licenseLookupConfigRequest).subscribe(response=>{
+        this.savingConfiguration = false;
+        this.dataService.showToast('Configuration Saved Successfully.')
+      },error=>{
+        this.savingConfiguration = false;
+        this.dataService.showToast(error.error);
+      })
+    }
   }
 
 }
