@@ -40,14 +40,16 @@
   border-radius: 0px 0px 5px 5px;
   border-top: 0px;
 }
+.dashboardArea{
+  border: 1px solid #e6e6e6;
+  padding: 1rem 1rem 1rem;
+  border-radius: 5px;
+}
 .emptyNotifinner {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  border: 1px solid #e6e6e6;
-  padding: 2rem 1rem 2rem;
-  border-radius: 5px;
 }
 .emptyNotifinner img {
   width: 10%;
@@ -61,7 +63,7 @@
   box-shadow: none !important;
 }
 .configSetupBox {
-  padding: 2rem 2rem 2rem;
+  padding: 1rem 1rem 1rem;
 }
 .configSetupBox > h3 {
   text-align: center;

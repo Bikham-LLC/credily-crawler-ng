@@ -89,13 +89,33 @@ a {
   gap: 8px;
   align-items: center;
 }
+.primarycancelbtn {
+  background: #ffffff;
+  border: 1px solid #dddbda !important;
+  border-radius: 4px;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 20px;
+  text-align: center;
+  color: #c23934 !important;
+  padding: 6px 16px;
+}
 .btn {
   font-weight: 500;
   font-size: 12px;
   line-height: 20px;
 }
 .c-btn {
-  min-height: 42px !important;
+  min-height: 36px !important;
+  font-weight: 400;
+  font-size: 12px !important;
+  line-height: 20px !important;
+  color: #000 !important;
+  height: 36px;
+  box-shadow: none !important;
+  background: #f9fafb;
+  border: 1px solid #d1d5db;
+  border-radius: 4px !important;
 }
 .close {
   background-color: transparent !important;
@@ -103,4 +123,58 @@ a {
   padding: 0;
   line-height: 0;
   font-size: 22px;
+}
+.blur-bg-2,
+.modal {
+  -webkit-backdrop-filter: blur(2px);
+  backdrop-filter: blur(2px);
+}
+.modal-content {
+  border-radius: 12px;
+}
+
+.pr-0 {
+  padding-right: 0;
+}
+.pl-0 {
+  padding-left: 0;
+}
+
+.form-group label,
+.lookupSearchForm label {
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 21px;
+  color: #111928;
+  margin-bottom: 5px;
+}
+
+.usertableinner thead {
+  border: 1px solid #fafaf9;
+  border-bottom: 0px !important;
+}
+
+.usertableinner .table th,
+.usertableinner .table td {
+  vertical-align: middle;
+  padding: 7px 7px !important;
+}
+.usertableinner .table th {
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 20px;
+  color: #3e3e3c;
+  background-color: #fafaf9;
+  /* box-shadow: 0px 2px 0px #dddbda; */
+}
+
+.usertableinner tbody {
+  border: 1px solid #f0f0f0;
+  border-top: 0;
+}
+.usertableinner .table td {
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 20px;
+  color: #3e3e3c;
 }

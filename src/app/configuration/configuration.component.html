@@ -73,15 +73,13 @@
 <div class="main">
     <div class="container-fluid">
 
-
-
         <div class="dashboardArea">
             <div class="dashNav-paneinner">
 
                 <div class="emptyNotif" *ngIf="!addStepToggle">
                     <div class="emptyNotifinner">
                         <img src="assets/images/settings.png" alt="">
-                        <button class="btn emptyBtn" (click)="openLookupModal()">Create Configurtaion</button>
+                        <button class="btn primarybtn" (click)="openLookupModal()">Create Configuration</button>
                     </div>
                 </div>
 
@@ -95,19 +93,22 @@
                         <div class="col-lg-6 px-2 position-relative">
                             <div class="configSetupBox">
                                 <h3>New Configuration</h3>
-                                <div class="float-right">
+                                <!-- <div class="float-right" style="float: right;">
                                     <button class="btn primaryBtn" (click)="openAddConfigModal()">Add Steps</button>
-                                </div>
-                                <div class="empty-notific" style="margin-top: 20%;" *ngIf="configurationStepList.length==0">
+                                </div> -->
+                                <div class="empty-notific" style="margin-top: 10%;" *ngIf="configurationStepList.length==0">
                                     <div class="empty-notificinner text-center">
                                         <div class="empty-notificinnerimg">
                                             <img src="assets/images/nodocument.svg" alt="" style="width:40%">
                                         </div>
                                         <h5>No Step Added.</h5>
+                                        <div class="d-flex justify-content-center mt-4">
+                                            <button class="btn primaryBtn" (click)="openAddConfigModal()">Add Steps</button>
+                                        </div>
                                     </div>
                                 </div>
 
-                                <div class="configStepsouter" style="margin-top: 20%;" *ngIf="configurationStepList.length>0">
+                                <div class="configStepsouter" style="margin-top: 10%;" *ngIf="configurationStepList.length>0">
                                     
                                     <div class="configStepsinner">
                                         <div class="configSteps" *ngFor="let step of configurationStepList; let i = index">
@@ -252,8 +253,8 @@
                         <div class="mldConfigurationmain">
                             <div class="mldConfigurationinner">
                                 <div class="lookupSearch mb-3">
-                                    <div class="row m-0">
-                                        <div class="col-lg-6 px-0 pr-2">
+                                    <div class="row">
+                                        <div class="col-lg-6 pr-0">
                                             <div class="lookupSearchForm">
                                                 <div class="position-relative">
                                                     <!-- <i class="bi bi-search"></i> -->
@@ -261,7 +262,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 px-0">
+                                        <div class="col-lg-6 ">
                                             <div class="lookupSearchForm">
                                                 <div class="position-relative">
                                                     <input type="url" class="form-control" name="llink" placeholder="Enter Lookup Link" [(ngModel)]="lookupLink" maxlength="200" required>
@@ -271,7 +272,7 @@
                                     </div>
                                 </div>
 
-                                <div class="empty-notific" *ngIf="!loadingLookupTaxonomy && lookupTaxonomyList.length == 0">
+                                <div class="empty-notific mt-4" *ngIf="!loadingLookupTaxonomy && lookupTaxonomyList.length == 0">
                                     <div class="empty-notificinner text-center">
                                         <div class="empty-notificinnerimg">
                                             <img src="assets/images/nodocument.svg" alt="" style="width:40%">
@@ -339,7 +340,8 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" #closeTaxomonModalButton (click)="closeTaxonomyModal()">Close</button>
+                        <button type="button" class="btn primarycancelbtn" style="border-color: #F05252 !important;" 
+                        data-bs-dismiss="modal" #closeTaxomonModalButton (click)="closeTaxonomyModal()">Close</button>
                         <button type="submit" class="btn primaryBtn" [disabled]="selectedTaxonomyIds.length==0">Save changes</button>
                     </div>
                 </form>
@@ -362,8 +364,8 @@
                         <div class="mldConfigurationmain">
                             <div class="mldConfigurationinner">
                                 <div class="lookupSearch">
-                                    <div class="row m-0 mb-3">
-                                        <div class="col-lg-6 px-0 pr-2">
+                                    <div class="row mb-3">
+                                        <div class="col-lg-6 pr-0">
                                             <div class="lookupSearchForm">
                                                 <div class="position-relative">
                                                     <label class="m-1">Crawler Attribute</label>
@@ -373,7 +375,7 @@
                                                 <small *ngIf="addStepForm.submitted && addStepFormInvalid && cofigStepRequest.crawlerAttributeId<=0" style="color: red;">Select Crawler Attribute!</small>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 px-0">
+                                        <div class="col-lg-6">
                                             <div class="lookupSearchForm">
                                                 <div class="position-relative">
                                                     <label class="m-1">Lookup Element</label>
@@ -382,8 +384,8 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row m-0 mt-3">
-                                        <div class="col-lg-6 px-0 pr-2">
+                                    <div class="row mt-3">
+                                        <div class="col-lg-6 pr-0">
                                             <div class="lookupSearchForm">
                                                 <div class="position-relative">
                                                     <label class="m-1">Element Event</label>
@@ -391,7 +393,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 px-0">
+                                        <div class="col-lg-6">
                                             <div class="lookupSearchForm">
                                                 <div class="position-relative">
                                                     <label class="m-1">Class Name</label>
@@ -402,8 +404,8 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row m-0 mt-3">
-                                        <div class="col-lg-6 px-0 pr-2">
+                                    <div class="row mt-3">
+                                        <div class="col-lg-6 pr-0">
                                             <div class="lookupSearchForm">
                                                 <div class="position-relative">
                                                     <label class="m-1">Column Name</label>
