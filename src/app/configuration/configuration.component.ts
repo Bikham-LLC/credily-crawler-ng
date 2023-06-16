@@ -122,6 +122,7 @@ export class ConfigurationComponent implements OnInit {
     debugger
     this.addStepToggle = true;
     this.loadingIframe = true;
+    this.configurationStepList = [];
     this.closeTaxomonModalButton.nativeElement.click();
     setTimeout( () => {
       this.loadingIframe = false;
@@ -136,6 +137,7 @@ export class ConfigurationComponent implements OnInit {
   // ---------------------------------- add configuration section start --------------------------------
 
   @ViewChild('addConfigStepModalButton') addConfigStepModalButton !:ElementRef;
+  @ViewChild('closeAddStepModal') closeAddStepModal !:ElementRef;
   @ViewChild('addStepForm') addStepForm : any;
   addStepFormInvalid:boolean=false;
   loadingIframe:boolean=false;
@@ -160,36 +162,65 @@ export class ConfigurationComponent implements OnInit {
     this.cofigStepRequest  = new ConfigRequest();
     this.addConfigStepModalButton.nativeElement.click();
     this.getArribute();
+    this.getClassName();
+    this.getCloumnName();
   }
 
   getArribute(){
     for (let i = 0; i < Array(3).length; i++) {
       var temp: { id: any, itemName: any} = { id: '', itemName: '' };
-      temp.id = i;
-      temp.itemName = 'temp ' + i;
+      temp.id = i+1;
+      temp.itemName = 'Attribute ' + i;
       this.attributeList.push(temp);
-      this.classList.push(temp);
-      this.columnList.push(temp);
     }
     this.attributeList = JSON.parse(JSON.stringify(this.attributeList));
+
+  }
+
+  getClassName(){
+    for (let i = 0; i < Array(3).length; i++) {
+      var temp: { id: any, itemName: any} = { id: '', itemName: '' };
+      temp.id = i+5;
+      temp.itemName = 'Class ' + i;
+      this.classList.push(temp);
+    }
     this.classList = JSON.parse(JSON.stringify(this.classList));
+
+  }
+
+  getCloumnName(){
+    for (let i = 0; i < Array(3).length; i++) {
+      var temp: { id: any, itemName: any} = { id: '', itemName: '' };
+      temp.id = i+10;
+      temp.itemName = 'Column ' + i;
+      this.columnList.push(temp);
+    }
     this.columnList = JSON.parse(JSON.stringify(this.columnList));
 
   }
 
   selectCrawlerAttribute(event:any){
+    debugger
+    this.cofigStepRequest.crawlerAttributeId = 0;
     if (event[0] != undefined) {
       this.selectedAttribute = event;
+      this.cofigStepRequest.crawlerAttributeId = event[0].id;
     }
   }
   selectClassName(event:any){
+    debugger
+    this.cofigStepRequest.className = '';
     if (event[0] != undefined) {
       this.selectedClass = event;
+      this.cofigStepRequest.className = event[0].itemName;
     }
   }
   selectColumnName(event:any){
+    debugger
+    this.cofigStepRequest.columnName = '';
     if (event[0] != undefined) {
       this.selectedColumn = event;
+      this.cofigStepRequest.columnName = event[0].itemName;
     }
   }
   onSearch(event: any) {
@@ -198,6 +229,7 @@ export class ConfigurationComponent implements OnInit {
   }
 
   closeAddConfigStepModal(){
+    debugger
     this.attributeList = [];
     this.classList = [];
     this.columnList = [];
@@ -207,14 +239,14 @@ export class ConfigurationComponent implements OnInit {
   }
 
   addConfigurationStep(){
-
+    debugger
     this.addStepFormInvalid = false;
     if(this.addStepForm.invalid){
       this.addStepFormInvalid = true;
       return;
     }
-
-
+    this.configurationStepList.push(this.cofigStepRequest);
+    this.closeAddStepModal.nativeElement.click();
   }
 
   saveConfiguration(){

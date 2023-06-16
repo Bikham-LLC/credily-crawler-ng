@@ -7,6 +7,8 @@ export class Keys{
 
     api_version_one = "/api/v1";
     login = '/auth/login'
+    lookup_config_controller = '/license-lookup-configuration'
     lookup_taxonomy = '/license-lookup-configuration/taxonomy'
+    
     
 }

@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Keys } from '../models/key';
 import { Observable } from 'rxjs';
 import { DatabaseHelper } from '../models/DatabaseHelper';
+import { LicenseLookupConfigRequest } from '../models/LicenseLookupConfigRequest';
 
 @Injectable({
   providedIn: 'root'
@@ -24,6 +25,10 @@ export class LookupTaxonomyService {
     .set('itemsPerPage', databaseHelper.itemsPerPage)
 
     return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.lookup_taxonomy, {params});
+  }
+
+  createConfiguration(config:LicenseLookupConfigRequest): Observable<any> {
+    return this.http.post<any>(this.key.server_url + this.key.api_version_one + this.key.lookup_config_controller, config);
   }
 
 }
