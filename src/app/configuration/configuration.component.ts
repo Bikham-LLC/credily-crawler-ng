@@ -33,6 +33,7 @@ export class ConfigurationComponent implements OnInit {
   selectedTaxonomyIds:number[] = new Array();
   lookupName:string='';
   lookupLink:string='';
+  iframeUrl:string='';
   selectedStateName:string='';
   @ViewChild('lookupModalButton') lookupModalButton !:ElementRef;
 
@@ -190,6 +191,7 @@ export class ConfigurationComponent implements OnInit {
   columnList: any[] = new Array();
 
   openAddConfigModal(){
+    this.iframeUrl = this.lookupLink;
     this.cofigStepRequest  = new ConfigRequest();
     this.addConfigStepModalButton.nativeElement.click();
     this.getArribute();
@@ -328,6 +330,9 @@ export class ConfigurationComponent implements OnInit {
     this.isInvalidConfiguration = false;
     this.lookupTaxonomyService.testConfiguration(this.licenseLookupConfigRequest, this.providerUuid).subscribe(response=>{
       this.testingConfiguration = false;
+      if(response.object!=null){
+        this.iframeUrl = response.object;
+      }
       setTimeout(()=>{
         this.closeUuidModal.nativeElement.click();
         this.dataService.showToast('Valid Configuration.');
