@@ -31,7 +31,7 @@
               <div class="tab-content dashNav-content" id="nav-tabContent">
                 <div class="tab-pane dashNav-pane show active" id="nav-config" role="tabpanel" aria-labelledby="nav-config-tab">
                     <div class="dashNav-paneinner">
-                        <div class="emptyNotif" *ngIf="addStepToggle">
+                        <div class="emptyNotif" *ngIf="!addStepToggle">
                             <div class="emptyNotifinner">
                                 <img src="assets/images/settings.png" alt="">
                                 <button class="btn emptyBtn" data-toggle="modal" data-target="#configModal" (click)="getLookupTaxonomy()">Create Configurtaion</button>
@@ -41,7 +41,7 @@
                         <div class="configMaininfo" *ngIf="addStepToggle">
                             <div class="row">
                                 <div class="col-lg-6">
-                                    <!-- <img src="assets/images/settings.png" alt=""> -->
+                                    <app-circular-loader *ngIf="loadingIframe"></app-circular-loader>
                                     <iframe src="assets/images/settings.png" style="width:100%; height:100vh;" frameborder="0" *ngIf="Constant.EMPTY_STRINGS.includes(lookupLink)"></iframe>
                                     <iframe [src]="lookupLink | safe" style="width:100%; height:100vh;" frameborder="0" *ngIf="!Constant.EMPTY_STRINGS.includes(lookupLink)"></iframe>
                                 </div>
@@ -50,6 +50,14 @@
                                         <h3>New Configuration</h3>
 
                                         <div class="configStepsouter">
+                                            <!-- <div class="empty-notific">
+                                                <div class="empty-notificinner text-center">
+                                                    <div class="empty-notificinnerimg">
+                                                        <img src="assets/images/nodocument.svg" alt="" style="width:40%">
+                                                    </div>
+                                                    <h5>No Step Added.</h5>
+                                                </div>
+                                            </div> -->
                                             <div class="configStepsinner">
                                                 <div class="configSteps">
                                                     <label>Step 1</label>
@@ -170,7 +178,7 @@
                                                     
                                                 </th>
                                                 <th class="tableDead" style="width: 18%;">
-                                                    <p class="mb-0 text-center">Code</p>
+                                                    <p class="mb-0">Code</p>
                                                 </th>
                                                 <th class="tableDead" style="width: 30%;">
                                                     <p class="mb-0">State</p>
@@ -188,7 +196,7 @@
                                                     </div>
                                                 </td>
                                                 <td class="tableData">
-                                                    <p class="mb-0 text-center">{{tax.code}}</p>
+                                                    <p class="mb-0">{{tax.code}}</p>
                                                 </td>
                                                 <td class="tableData">
                                                     <p class="mb-0">{{tax.state}}</p>
@@ -217,8 +225,8 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="closeTaxonomyModal()">Close</button>
-                        <button type="submit" class="btn primaryBtn" data-dismiss="modal" [disabled]="selectedTaxonomyIds.length==0">Save changes</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" #closeTaxomonModalButton (click)="closeTaxonomyModal()">Close</button>
+                        <button type="submit" class="btn primaryBtn" [disabled]="selectedTaxonomyIds.length==0">Save changes</button>
                     </div>
                 </form>
             </div>
@@ -255,7 +263,7 @@
                                             <div class="lookupSearchForm">
                                                 <div class="position-relative">
                                                     <label class="m-1">Lookup Element</label>
-                                                    <input type="url" class="form-control" name="llink" placeholder="Enter Lookup Link" [(ngModel)]="lookupLink" maxlength="200" required>
+                                                    <input type="url" class="form-control" name="llink" placeholder="Enter Lookup Link" [(ngModel)]="cofigStepRequest.lookUpElementDesc" maxlength="200" required>
                                                 </div>
                                             </div>
                                         </div>
@@ -265,7 +273,7 @@
                                             <div class="lookupSearchForm">
                                                 <div class="position-relative">
                                                     <label class="m-1">Lookup Element Event</label>
-                                                    <input type="text" class="form-control" name="lname" placeholder="Enter Lookup Name" [(ngModel)]="lookupName" maxlength="155" required>
+                                                    <input type="text" class="form-control" name="lname" placeholder="Enter Lookup Name" [(ngModel)]="cofigStepRequest.elementEvent" maxlength="155" required>
                                                 </div>
                                             </div>
                                         </div>

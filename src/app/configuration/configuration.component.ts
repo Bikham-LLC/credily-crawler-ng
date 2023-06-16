@@ -31,7 +31,7 @@ export class ConfigurationComponent implements OnInit {
   lookupName:string='';
   lookupLink:string='';
 
-  addStepToggle:boolean=true;
+  addStepToggle:boolean=false;
 
   ngOnInit(): void {
 
@@ -117,9 +117,15 @@ export class ConfigurationComponent implements OnInit {
     
   }
 
+  @ViewChild('closeTaxomonModalButton') closeTaxomonModalButton!:ElementRef;
   saveLookupDetails(){
     debugger
     this.addStepToggle = true;
+    this.loadingIframe = true;
+    this.closeTaxomonModalButton.nativeElement.click();
+    setTimeout( () => {
+      this.loadingIframe = false;
+    }, 1000);
   }
 
   closeTaxonomyModal(){
@@ -132,9 +138,10 @@ export class ConfigurationComponent implements OnInit {
   @ViewChild('addConfigStepModalButton') addConfigStepModalButton !:ElementRef;
   @ViewChild('addStepForm') addStepForm : any;
   addStepFormInvalid:boolean=false;
+  loadingIframe:boolean=false;
 
   licenseLookupConfigRequest : LicenseLookupConfigRequest = new LicenseLookupConfigRequest();
-  addCofigStepRequest : ConfigRequest = new ConfigRequest();
+  cofigStepRequest : ConfigRequest = new ConfigRequest();
   configStepRequestList : ConfigRequest[] = new Array();
 
   dropdownSettingsAttribute!: { singleSelection: boolean; text: string; enableSearchFilter: boolean; autoPosition: boolean };
@@ -150,7 +157,7 @@ export class ConfigurationComponent implements OnInit {
   columnList: any[] = new Array();
 
   openAddConfigModal(){
-    this.addCofigStepRequest  = new ConfigRequest();
+    this.cofigStepRequest  = new ConfigRequest();
     this.addConfigStepModalButton.nativeElement.click();
     this.getArribute();
   }
