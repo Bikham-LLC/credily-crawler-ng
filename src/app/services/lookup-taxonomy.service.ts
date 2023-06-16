@@ -14,11 +14,12 @@ export class LookupTaxonomyService {
 
   key: Keys = new Keys();
 
-  getLookupTaxonomy(databaseHelper:DatabaseHelper): Observable<any> {
+  getLookupTaxonomy(databaseHelper:DatabaseHelper, state:string): Observable<any> {
     if(databaseHelper==undefined || databaseHelper==null){
       databaseHelper = new DatabaseHelper();
     }
     const params = new HttpParams()
+    .set('state', state)
     .set('search', databaseHelper.search)
     .set('searchBy', databaseHelper.searchBy)
     .set('currentPage', databaseHelper.currentPage)

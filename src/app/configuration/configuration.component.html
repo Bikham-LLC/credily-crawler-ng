@@ -244,7 +244,6 @@
                                             <div class="lookupSearchForm">
                                                 <label>Enter Lookup Name</label>
                                                 <div class="position-relative">
-                                                    <!-- <i class="bi bi-search"></i> -->
                                                     <input type="text" class="form-control" name="lname" placeholder="Enter Lookup Name" [(ngModel)]="lookupName" maxlength="155" required>
                                                 </div>
                                             </div>
@@ -279,16 +278,24 @@
                                     <div class="lookupSearch mb-3">
                                         <div class="row mb-3">
                                             <div class="col-lg-6 pr-0">
-                                                <div class="lookupSearchForm">
-                                                    <label>Enter Lookup Name</label>
-                                                    <angular2-multiselect id="attribute" required></angular2-multiselect>
-                                                </div>
+                                                <app-state-dropdown [_updatedStateName]="selectedStateName"
+                                                    [(stateNameProp)]="selectedStateName"
+                                                    [stateNameLabelClass]="'fw-medium'" 
+                                                    [stateCodeLabelClass]="'fw-medium'"
+                                                    [stateNameDynamic]="'State Name'" 
+                                                    [stateCodeDynamic]="'State Code'" 
+                                                    [stateNameClass]="'col-12 fw-semibold'" 
+                                                    [stateCodeClass]="'d-none'"
+                                                    [requiredClass]="'d-none'"
+                                                    [cityClass]="'d-none'" (callFunction)="getLookupTaxonomy()">
+                                                </app-state-dropdown>
                                             </div>
                                             <div class="col-lg-6 ">
                                                 <div class="lookupSearchForm">
-                                                    <label>Enter Lookup Link</label>
+                                                    <label class="pb-1">Search Taxonomy</label>
                                                     <div class="position-relative">
-                                                        <input type="Text" class="form-control" name="llink" placeholder="Search" required>
+                                                        <!-- <i class="bi bi-search"></i> -->
+                                                        <input type="Text" class="form-control" name="searchTaxonomy" placeholder="Search Taxonomy" [(ngModel)]="databaseHelper.search" (keyup.enter)="searchTaxonomy()" >
                                                     </div>
                                                 </div>
                                             </div>

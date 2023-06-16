@@ -30,6 +30,7 @@ export class ConfigurationComponent implements OnInit {
   selectedTaxonomyIds:number[] = new Array();
   lookupName:string='';
   lookupLink:string='';
+  selectedStateName:string='';
   @ViewChild('lookupModalButton') lookupModalButton !:ElementRef;
 
   addStepToggle:boolean=false;
@@ -75,7 +76,7 @@ export class ConfigurationComponent implements OnInit {
   getLookupTaxonomy(){
     debugger
     this.loadingLookupTaxonomy = true;
-    this.lookupTaxonomyService.getLookupTaxonomy(this.databaseHelper).subscribe(resp=>{
+    this.lookupTaxonomyService.getLookupTaxonomy(this.databaseHelper, this.selectedStateName).subscribe(resp=>{
 
       if(resp.status && resp.object!=null){
         this.lookupTaxonomyList = resp.object;
@@ -105,6 +106,11 @@ export class ConfigurationComponent implements OnInit {
       this.getLookupTaxonomy();
     }
   }
+
+  searchTaxonomy(){
+    this.getLookupTaxonomy();
+  }
+
 
   selectTaxonomySingle(index:number){
     debugger

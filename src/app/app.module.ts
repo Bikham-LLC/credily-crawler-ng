@@ -11,6 +11,7 @@ import { CircularLoaderComponent } from './circular-loader/circular-loader.compo
 import { FormsModule } from '@angular/forms';
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
 import { SafePipe } from './pipe/safe.pipe';
+import { StateDropdownComponent } from './state-dropdown/state-dropdown.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { SafePipe } from './pipe/safe.pipe';
     ConfigurationComponent,
     ConfigurationListingComponent,
     CircularLoaderComponent,
-    SafePipe
+    SafePipe,
+    StateDropdownComponent
   ],
   imports: [
     BrowserModule,
