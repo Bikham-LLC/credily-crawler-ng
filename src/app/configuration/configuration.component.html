@@ -285,7 +285,7 @@
                                             <div class="lookupSearchForm">
                                                 <div class="position-relative">
                                                     <label class="m-1">Column Name</label>
-                                                    <angular2-multiselect id="columnName" name="columnName" [data]="columnList" [settings]="dropdownSettingsColumn" [(ngModel)]="selectedColumn" (ngModelChange)="selectColumnName($event)" required>
+                                                    <angular2-multiselect id="columnName" name="columnName" [data]="columnList" [settings]="dropdownSettingsColumn" [(ngModel)]="selectedColumn" (ngModelChange)="selectColumnName($event)" (onOpen)="onOpen($event)" required>
                                                     </angular2-multiselect>
                                                 </div>
                                                 <small *ngIf="addStepForm.submitted && addStepFormInvalid && Constant.EMPTY_STRINGS.includes(cofigStepRequest.columnName)" style="color: red;">Select Column Name!</small>
