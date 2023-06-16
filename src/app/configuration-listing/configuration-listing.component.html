@@ -1,98 +1,128 @@
-<header>
-    <div class="container-fluid">
-        <div class="row justify-content-between">
-            <div class="col-lg-2 px-2">
-                <div class="logo">
-                    <img src="assets/images/logo-white.svg" alt="">
-                </div>
+<div class="container-fluid p-0">
+    <header>
+        <div class="align-items-center d-flex justify-content-between topbar">
+            <div class="logo">
+                <img src="assets/images/logo.svg" alt="" /> 
             </div>
-            
-            <div class="col-lg-2 px-2">
-                <div class="logOut">
-                    <button (click)="logOut()" class="logOutbtn">
-                        <i class="bi bi-power"></i>
-                    </button>
+            <div class="profile-bx">
+                <div class="profiledash">
+                    <div class="dropdown">
+                        <button class="btn userprofilebtn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                            <div class="profile-bx">
+                                <img src="assets/images/user-icon.svg" alt="" />
+                            </div>
+                            Logged In <i class="fa-solid fa-chevron-down"></i>
+                        </button>
+                        <ul class="dropdown-menu userDropdownmenu" aria-labelledby="dropdownMenuButton1">
+                            <div class="bgfilterblur"></div>
+                            <div class="userDropdownmenuinner">
+                                <!-- <div class="userHeader">
+                                    <div class="userProfile">
+                                        <img onerror="this.src='assets/images/user-icon.svg';" [src]="dataService.user.imageUrl?dataService.user.imageUrl:'assets/images/user-icon.svg'" alt="" />
+                                    </div>
+                                </div> -->
+                                <!-- <div class="userProfileInfo">
+                                    <h3>{{dataService.user.name}}</h3>
+                                    <span>{{dataService.user.email}}</span>
+                                </div>
+                                <div class="userProfileLink">
+                                    <a routerLink="/user-edit-profile/edit-profile">
+                                        <img src="assets/images/editprofile/Profile.svg" alt="" /> Edit Profile
+                                    </a>
+                                    <a class="pdependent" routerLink="/user-edit-profile/notification-setting">
+                                        <img src="assets/images/editprofile/Notification.svg" alt="" /> Notification Settings
+                                    </a>
+                                    <a routerLink="/user-edit-profile/change-password">
+                                        <img src="assets/images/editprofile/Lock.svg" alt="" /> Change Password
+                                    </a>
+                                    <a routerLink="../settings/roles-and-security" *ngIf="Constant.ROLE_ENTERPRISE.includes(role)"><i class="bi bi-gear"></i>  Settings</a>
+                                    <a routerLink="../settings/client-users" *ngIf="Constant.ROLE_CLIENT.includes(role)"><i class="bi bi-gear"></i>  Settings</a>
+                                </div> -->
+                                <div class="userLogout">
+                                    <a class="btn primarybtn userLogoutbtn pointer" (click)="logOut()">
+                                        <i class="bi bi-arrow-bar-left"></i> Log out
+                                    </a>
+                                </div>
+                            </div>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</header>
+        <div class="navigation-bar">
+            <div class="navigationitemsmain">
+                    <!-- <button class="btn navigationitem dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Dashboard
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </button> -->
+                    <a href="#!" class="btn navigationitem" routerLinkActive="navActive">
+                        Dashboard
+                    </a>
+                    <a routerLink="/configuration" class="btn navigationitem " routerLinkActive="navActive">
+                        Configuration
+                    </a>
+                    <a href="#!" class="btn navigationitem" routerLinkActive="navActive">
+                        Report
+                    </a>
+            </div>
+        </div>
+    </header>
+</div>
 
 <div class="main">
     <div class="container-fluid">
         <div class="dashboardArea">
-            <nav>
-                <div class="nav nav-tabs dashNav-tabs" id="nav-tab" role="tablist">
-                  <a class="nav-link dashNav-link active" id="nav-config-tab" data-toggle="tab" href="#nav-config" role="tab" aria-controls="nav-config" aria-selected="true">Configuration</a>
-                  <a class="nav-link dashNav-link" id="nav-report-tab" data-toggle="tab" href="#nav-report" role="tab" aria-controls="nav-report" aria-selected="false">Report</a>
-                  <a class="nav-link dashNav-link" id="nav-dashboard-tab" data-toggle="tab" href="#nav-dashboard" role="tab" aria-controls="nav-dashboard" aria-selected="false">Dasboard</a>
+            <div class="dashNav-paneinner table-responsive">
+                <div class="reportListing usertableinner no-wrap">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th class="tableDead text-center" colspan="3">
+                                    <p class="mb-0">Configuration</p>
+                                </th>
+                                <th class="tableDead text-center"> 
+                                    <p class="mb-0">Added By</p>
+                                </th>
+                                <th class="tableDead text-center">
+                                    <p class="mb-0">Status</p>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th class="tableDead" style="width: 5%;">
+                                    <p class="mb-0 text-center">S No.</p>
+                                </th>
+                                <th class="tableDead" style="width: 15%;">
+                                    <p class="mb-0">Lookup Name</p>
+                                </th>
+                                <th class="tableDead" style="width: 40%;">
+                                    <p class="mb-0">Link</p>
+                                </th>
+                                <th style="width: 20%;"></th>
+                                <th style="width: 20%;"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let e of [].constructor(10); let i = index">
+                                <td class="tableData">
+                                    <p class="mb-0 text-center">1</p>
+                                </td>
+                                <td class="tableData">
+                                    <p class="mb-0">CDS</p>
+                                </td>
+                                <td class="tableData lookupLiks">
+                                    <p class="mb-0">www.cds.com</p>
+                                </td>
+                                <td class="tableData text-center">
+                                    <p class="mb-0">Param</p>
+                                </td>
+                                <td class="tableData text-center">
+                                    <p class="mb-0">Active</p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
-              </nav>
-              <div class="tab-content dashNav-content" id="nav-tabContent">
-                <div class="tab-pane dashNav-pane show active" id="nav-config" role="tabpanel" aria-labelledby="nav-config-tab">
-                    <div class="dashNav-paneinner">
-                        <div class="reportListing">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th class="tableDead text-center" colspan="3">
-                                            <p class="mb-0">Configuration</p>
-                                        </th>
-                                        <th class="tableDead text-center"> 
-                                            <p class="mb-0">Added By</p>
-                                        </th>
-                                        <th class="tableDead text-center">
-                                            <p class="mb-0">Status</p>
-                                        </th>
-                                    </tr>
-                                    <tr>
-                                        <th class="tableDead" style="width: 5%;">
-                                            <p class="mb-0 text-center">S No.</p>
-                                        </th>
-                                        <th class="tableDead" style="width: 15%;">
-                                            <p class="mb-0">Lookup Name</p>
-                                        </th>
-                                        <th class="tableDead" style="width: 40%;">
-                                            <p class="mb-0">Link</p>
-                                        </th>
-                                        <th style="width: 20%;"></th>
-                                        <th style="width: 20%;"></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr *ngFor="let e of [].constructor(10); let i = index">
-                                        <td class="tableData">
-                                            <p class="mb-0 text-center">1</p>
-                                        </td>
-                                        <td class="tableData">
-                                            <p class="mb-0">CDS</p>
-                                        </td>
-                                        <td class="tableData lookupLiks">
-                                            <p class="mb-0">www.cds.com</p>
-                                        </td>
-                                        <td class="tableData text-center">
-                                            <p class="mb-0">Param</p>
-                                        </td>
-                                        <td class="tableData text-center">
-                                            <p class="mb-0">Active</p>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-                <div class="tab-pane dashNav-pane" id="nav-report" role="tabpanel" aria-labelledby="nav-report-tab">
-                    <div class="dashNav-paneinner">
-                        Report
-                    </div>
-                </div>
-                <div class="tab-pane dashNav-pane" id="nav-dashboard" role="tabpanel" aria-labelledby="nav-dashboard-tab">
-                    <div class="dashNav-paneinner">
-                        Dashboard
-                    </div>
-                </div>
-              </div>
+            </div>
         </div>
     </div>
 </div>
