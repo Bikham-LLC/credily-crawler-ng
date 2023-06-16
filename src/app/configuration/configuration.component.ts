@@ -27,9 +27,10 @@ export class ConfigurationComponent implements OnInit {
   lookupTaxonomyList:LookupTaxonomy[] = new Array();
   totalLookupTaxonomy : number = 0;
   loadingLookupTaxonomy:boolean = false;
-  selectedTaxonomyIds:number[] = new Array();
+  selectedTaxonomyIds:number[] = new Array(1);
   lookupName:string='';
   lookupLink:string='';
+  @ViewChild('lookupModalButton') lookupModalButton !:ElementRef;
 
   addStepToggle:boolean=false;
 
@@ -63,7 +64,13 @@ export class ConfigurationComponent implements OnInit {
     this._router.navigate(['/auth/login']);
   }
 
+  openLookupModal(){
+    this.lookupModalButton.nativeElement.click();
+    // this.getLookupTaxonomy();
+  }
+
   getLookupTaxonomy(){
+    debugger
     this.loadingLookupTaxonomy = true;
     this.lookupTaxonomyService.getLookupTaxonomy(this.databaseHelper).subscribe(resp=>{
 

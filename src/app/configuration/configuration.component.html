@@ -31,11 +31,11 @@
               <div class="tab-content dashNav-content" id="nav-tabContent">
                 <div class="tab-pane dashNav-pane show active" id="nav-config" role="tabpanel" aria-labelledby="nav-config-tab">
                     <div class="dashNav-paneinner">
-                        
+
                         <div class="emptyNotif" *ngIf="!addStepToggle">
                             <div class="emptyNotifinner">
                                 <img src="assets/images/settings.png" alt="">
-                                <button class="btn emptyBtn" data-toggle="modal" data-target="#configModal" (click)="getLookupTaxonomy()">Create Configurtaion</button>
+                                <button class="btn emptyBtn" (click)="openLookupModal()">Create Configurtaion</button>
                             </div>
                         </div>
 
@@ -112,18 +112,18 @@
 
 
     <!-- Button trigger modal -->
-
-    <button type="button" class="btn btn-primary d-none" data-toggle="modal" data-target="#addConfigStepModal" #addConfigStepModalButton>Launch Modal</button>
+    <button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#configModal" #lookupModalButton>Launch Modal</button>
+    <button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#addConfigStepModal" #addConfigStepModalButton>Launch Modal</button>
   
     <!-- select taxonomy modal -->
-    <div class="modal fade" id="configModal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="configModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-bs-labelledby="exampleModalLabel" aria-bs-hidden="true">
         <div class="modal-dialog configModal">
             <div class="modal-content">
                 <form  #providerHospitalForm="ngForm" ngNativeValidate (ngSubmit)="saveLookupDetails()" >
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">New Configuration</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="closeTaxonomyModal()">
-                            <span aria-hidden="true">&times;</span>
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-bs-label="Close" (click)="closeTaxonomyModal()">
+                            <span aria-bs-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
@@ -217,7 +217,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal" #closeTaxomonModalButton (click)="closeTaxonomyModal()">Close</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" #closeTaxomonModalButton (click)="closeTaxonomyModal()">Close</button>
                         <button type="submit" class="btn primaryBtn" [disabled]="selectedTaxonomyIds.length==0">Save changes</button>
                     </div>
                 </form>
@@ -226,14 +226,14 @@
     </div>
 
     <!-- add configuration step modal -->
-    <div class="modal fade" id="addConfigStepModal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="stepModalLabel" aria-hidden="true">
+    <div class="modal fade" id="addConfigStepModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-bs-labelledby="stepModalLabel" aria-bs-hidden="true">
         <div class="modal-dialog configModal">
             <div class="modal-content">
                 <form  #addStepForm="ngForm" ngNativeValidate (ngSubmit)="addConfigurationStep()" >
                     <div class="modal-header">
                         <h5 class="modal-title" id="stepModalLabel">Add Configuration Step</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" #closeAddStepModal (click)="closeAddConfigStepModal()">
-                            <span aria-hidden="true">&times;</span>
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-bs-label="Close" #closeAddStepModal (click)="closeAddConfigStepModal()">
+                            <span aria-bs-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
