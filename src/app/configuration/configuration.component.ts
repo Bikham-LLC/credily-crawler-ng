@@ -27,7 +27,7 @@ export class ConfigurationComponent implements OnInit {
   lookupTaxonomyList:LookupTaxonomy[] = new Array();
   totalLookupTaxonomy : number = 0;
   loadingLookupTaxonomy:boolean = false;
-  selectedTaxonomyIds:number[] = new Array(1);
+  selectedTaxonomyIds:number[] = new Array();
   lookupName:string='';
   lookupLink:string='';
   @ViewChild('lookupModalButton') lookupModalButton !:ElementRef;
