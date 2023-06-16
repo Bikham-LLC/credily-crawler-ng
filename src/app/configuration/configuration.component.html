@@ -77,10 +77,11 @@
             <div class="dashNav-paneinner">
 
                 <div class="emptyNotif" *ngIf="!addStepToggle">
-                    <div class="emptyNotifinner">
-                        <img src="assets/images/settings.png" alt="">
-                        <button class="btn primarybtn" (click)="openLookupModal()">Create Configuration</button>
-                    </div>
+                        <!-- <img src="assets/images/settings.png" alt=""> -->
+                        <div class="d-flex justify-content-end mb-3">
+                            <button class="btn primarybtn" (click)="openLookupModal()">Create Configuration</button>
+                        </div>
+                    <app-configuration-listing></app-configuration-listing>
                 </div>
 
                 <div class="configMaininfo" *ngIf="addStepToggle">
