@@ -31,4 +31,18 @@ export class LookupTaxonomyService {
     return this.http.post<any>(this.key.server_url + this.key.api_version_one + this.key.lookup_config_controller, config);
   }
 
+  getCrawlerAttribute(): Observable<any> {
+    return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.lookup_crawler_attribute);
+  }
+
+  getClassName(): Observable<any> {
+    return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.lookup_config_controller + "/class");
+  }
+
+  getColumnName(className:string): Observable<any> {
+    const params = new HttpParams()
+    .set('className', className)
+    return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.lookup_config_controller + "/column", {params});
+  }
+
 }

@@ -32,7 +32,7 @@ export class ConfigurationComponent implements OnInit {
   lookupLink:string='';
   @ViewChild('lookupModalButton') lookupModalButton !:ElementRef;
 
-  addStepToggle:boolean=false;
+  addStepToggle:boolean=true;
 
   ngOnInit(): void {
 
@@ -51,11 +51,14 @@ export class ConfigurationComponent implements OnInit {
     this.dropdownSettingsColumn = {
       singleSelection: true,
       text: 'Select Column',
-      enableSearchFilter: true,
-      autoPosition: false
+      enableSearchFilter: false,
+      autoPosition: false,
+      noDataLabel: 'Select Class Name First'
     }
 
     // this.getLookupTaxonomy();
+    this.getArribute();
+    this.getClassName();
 
   }
 
@@ -161,7 +164,7 @@ export class ConfigurationComponent implements OnInit {
   selectedClass: any[] = new Array();
   classList: any[] = new Array();
 
-  dropdownSettingsColumn!: { singleSelection: boolean; text: string; enableSearchFilter: boolean; autoPosition: boolean };
+  dropdownSettingsColumn!: { singleSelection: boolean; text: string; enableSearchFilter: boolean; autoPosition: boolean; noDataLabel: string };
   selectedColumn: any[] = new Array();
   columnList: any[] = new Array();
 
@@ -170,40 +173,36 @@ export class ConfigurationComponent implements OnInit {
     this.addConfigStepModalButton.nativeElement.click();
     this.getArribute();
     this.getClassName();
-    this.getCloumnName();
   }
 
   getArribute(){
-    for (let i = 0; i < Array(3).length; i++) {
-      var temp: { id: any, itemName: any} = { id: '', itemName: '' };
-      temp.id = i+1;
-      temp.itemName = 'Attribute ' + i;
-      this.attributeList.push(temp);
-    }
+    // for (let i = 0; i < Array(3).length; i++) {
+    //   var temp: { id: any, itemName: any} = { id: '', itemName: '' };
+    //   temp.id = i+1;
+    //   temp.itemName = 'Attribute ' + i;
+    //   this.attributeList.push(temp);
+    // }
+
+    this.lookupTaxonomyService.getCrawlerAttribute().subscribe(response=>{
+      this.attributeList = response.object;
+    })
+
     this.attributeList = JSON.parse(JSON.stringify(this.attributeList));
 
   }
 
   getClassName(){
-    for (let i = 0; i < Array(3).length; i++) {
-      var temp: { id: any, itemName: any} = { id: '', itemName: '' };
-      temp.id = i+5;
-      temp.itemName = 'Class ' + i;
-      this.classList.push(temp);
-    }
+    this.lookupTaxonomyService.getClassName().subscribe(response=>{
+      this.classList = response.object;
+    })
     this.classList = JSON.parse(JSON.stringify(this.classList));
-
   }
 
-  getCloumnName(){
-    for (let i = 0; i < Array(3).length; i++) {
-      var temp: { id: any, itemName: any} = { id: '', itemName: '' };
-      temp.id = i+10;
-      temp.itemName = 'Column ' + i;
-      this.columnList.push(temp);
-    }
+  getCloumnName(className:string){
+    this.lookupTaxonomyService.getColumnName(className).subscribe(response=>{
+      this.columnList = response.object;
+    })
     this.columnList = JSON.parse(JSON.stringify(this.columnList));
-
   }
 
   selectCrawlerAttribute(event:any){
@@ -217,9 +216,14 @@ export class ConfigurationComponent implements OnInit {
   selectClassName(event:any){
     debugger
     this.cofigStepRequest.className = '';
+    this.columnList = [];
     if (event[0] != undefined) {
       this.selectedClass = event;
       this.cofigStepRequest.className = event[0].itemName;
+      this.getCloumnName(this.cofigStepRequest.className);
+    }else{
+      this.columnList = [];
+      this.selectedColumn = [];
     }
   }
   selectColumnName(event:any){
@@ -233,6 +237,27 @@ export class ConfigurationComponent implements OnInit {
   onSearch(event: any) {
     debugger
     // this.getTaxonomy(event.target.value);
+  }
+  onOpen(event:any){
+    debugger
+    if(!this.Constant.EMPTY_STRINGS.includes(this.cofigStepRequest.className)){
+      this.dropdownSettingsColumn = {
+        singleSelection: true,
+        text: 'Select Column',
+        enableSearchFilter: true,
+        autoPosition: false,
+        noDataLabel:"No Data Available",
+      };
+    }else{
+      this.dropdownSettingsColumn = {
+        singleSelection: true,
+        text: 'Select Column',
+        enableSearchFilter: false,
+        autoPosition: false,
+        noDataLabel:"Select Class Name First",
+      };
+    }
+    
   }
 
   closeAddConfigStepModal(){
