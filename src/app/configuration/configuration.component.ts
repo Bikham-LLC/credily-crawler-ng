@@ -57,9 +57,9 @@ export class ConfigurationComponent implements OnInit {
       noDataLabel: 'Select Class Name First'
     }
 
-    this.getLookupTaxonomy();
-    this.getArribute();
-    this.getClassName();
+    // this.getLookupTaxonomy();
+    // this.getArribute();
+    // this.getClassName();
 
   }
 
@@ -69,8 +69,13 @@ export class ConfigurationComponent implements OnInit {
   }
 
   openLookupModal(){
+    this.selectedTaxonomyIds = [];
+    this.databaseHelper = new DatabaseHelper();
+    this.lookupLink = '';
+    this.lookupName = '';
+    this.selectedStateName = '';
     this.lookupModalButton.nativeElement.click();
-    // this.getLookupTaxonomy();
+    this.getLookupTaxonomy();
   }
 
   getLookupTaxonomy(){
@@ -105,6 +110,10 @@ export class ConfigurationComponent implements OnInit {
       this.databaseHelper.currentPage = event;
       this.getLookupTaxonomy();
     }
+  }
+
+  selectStateName(){
+    this.getLookupTaxonomy();
   }
 
   searchTaxonomy(){
@@ -147,7 +156,7 @@ export class ConfigurationComponent implements OnInit {
 
   closeTaxonomyModal(){
     this.databaseHelper = new DatabaseHelper();
-    this.selectedTaxonomyIds = [];
+    // this.selectedTaxonomyIds = [];
   }
 
   // ---------------------------------- add configuration section start --------------------------------
@@ -294,8 +303,19 @@ export class ConfigurationComponent implements OnInit {
     this.closeAddStepModal.nativeElement.click();
   }
 
+  providerUuid:string='';
+  @ViewChild('uuidModalButton') uuidModalButton !:ElementRef;
+  @ViewChild('closeUuidModal') closeUuidModal !:ElementRef;
+
+  openUuidModal(){
+    this.uuidModalButton.nativeElement.click();
+  }
+
   testConfiguration(){
     debugger
+
+    // this.closeUuidModal.nativeElement.click();
+
     this.licenseLookupConfigRequest.licenseLookUpName = this.lookupName;
     this.licenseLookupConfigRequest.licenseLookUpLink = this.lookupLink;
     this.licenseLookupConfigRequest.taxonomyIdList = this.selectedTaxonomyIds;
@@ -303,13 +323,17 @@ export class ConfigurationComponent implements OnInit {
     this.licenseLookupConfigRequest.configRequests = this.configurationStepList;
     this.testingConfiguration = true;
     this.isInvalidConfiguration = false;
-    this.lookupTaxonomyService.testConfiguration(this.licenseLookupConfigRequest).subscribe(response=>{
+    this.lookupTaxonomyService.testConfiguration(this.licenseLookupConfigRequest, this.providerUuid).subscribe(response=>{
       this.testingConfiguration = false;
-      this.dataService.showToast('Valid Configuration.');
+      setTimeout(()=>{
+        this.closeUuidModal.nativeElement.click();
+        this.dataService.showToast('Valid Configuration.');
+      },500)
+      
+
     },error=>{
       this.isInvalidConfiguration = true;
       this.testingConfiguration = false;
-      this.dataService.showToast('Invalid Configuration.');
     })
   }
 
@@ -328,7 +352,8 @@ export class ConfigurationComponent implements OnInit {
     if(!this.isInvalidConfiguration){
       this.lookupTaxonomyService.createConfiguration(this.licenseLookupConfigRequest).subscribe(response=>{
         this.savingConfiguration = false;
-        this.dataService.showToast('Configuration Saved Successfully.')
+        this.dataService.showToast('Configuration Saved Successfully.');
+        this.addStepToggle = false;
       },error=>{
         this.savingConfiguration = false;
         this.dataService.showToast(error.error);

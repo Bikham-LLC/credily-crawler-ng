@@ -3,7 +3,7 @@ export class Keys{
     /**
      * Server url key
      */
-    server_url: string = "http://localhost:8080"; 
+    server_url: string = "http://localhost:8081"; 
     // server_url: string = "http://ec2-43-204-22-113.ap-south-1.compute.amazonaws.com:8080"; 
 
     api_version_one = "/api/v1";
