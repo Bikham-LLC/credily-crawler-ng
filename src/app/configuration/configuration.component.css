@@ -1,11 +1,11 @@
-header {
+/* header {
   background-color: #42bebe;
   padding: 12px 14px;
   position: relative;
-}
-.logo img {
+} */
+/* .logo img {
   width: 65%;
-}
+} */
 .logOut {
   text-align: right;
 }
@@ -144,7 +144,7 @@ header {
   background-color: #ffffff;
   padding: 15px;
 }
-.reportListing{
+.reportListing {
   max-height: 450px;
   overflow-y: auto;
 }
@@ -198,3 +198,242 @@ header {
   height: 1rem;
   accent-color: #17a2b8;
 }
+
+/* New CSS */
+header {
+  background-color: #ffffff;
+}
+.enterprisebtn {
+  border: 1px solid #3d3d3d !important;
+  border-radius: 4px;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 20px;
+  color: #3d3d3d !important;
+  box-shadow: none;
+}
+.profile-bx {
+  display: flex;
+  justify-content: end;
+  gap: 15px;
+  align-items: center;
+}
+.enterprisebtn i {
+  margin-left: 8px;
+}
+.topbar {
+  padding: 6px 12px;
+  border-bottom: 1px solid #f2f2f2;
+}
+.userprofilebtn {
+  display: flex;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 20px;
+  color: #3d3d3d !important;
+  box-shadow: none;
+  align-items: center;
+  gap: 10px;
+  background: #fafaf9 !important;
+  border: 1px solid #e8e8e8 !important;
+  border-radius: 4px;
+}
+.sepratonverti {
+  display: block;
+  width: 2px;
+  height: 28px;
+  background-color: #e8e8e8;
+}
+
+.navigationitemsmain {
+  display: flex;
+  padding: 0 0 0;
+}
+
+.navigationitem {
+  gap: 8px;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 18px;
+  display: flex;
+  align-items: center;
+  color: #000000;
+  border: none;
+  border-right: 1px solid #f3f3f3 !important;
+  border-radius: 0;
+  box-shadow: none;
+  border-top: 2px solid transparent;
+  padding: 10px 15px;
+}
+.navigationitem.show,
+.navigationitem.navActive {
+  border-top: 2px solid #1589ee !important;
+  background-color: #e8f3fd;
+}
+.navigationitemmenu {
+  padding: 0;
+  box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.16);
+  border-radius: 4px;
+  border: 0;
+  min-width: 14rem;
+}
+.navigationitemmenu li:last-child .navigationmenuitem {
+  border-bottom: 0px solid #f3f3f3;
+}
+.navigationmenuitem {
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 20px;
+  color: #080707;
+  text-decoration: none;
+  padding: 6px 10px;
+  display: inline-block;
+  width: 100%;
+  border-bottom: 1px solid #f3f3f3;
+}
+.navigationmenuitem:hover {
+  background-color: #1589ee;
+  color: #ffffff;
+  border-color: #1589ee;
+}
+
+.navigationmenuitem.navActive {
+  background-color: #1589ee;
+  color: #ffffff;
+  border-color: #1589ee;
+}
+
+.enterprisedash {
+  min-width: 200px;
+}
+
+.userDropdownmenu {
+  min-width: 10rem;
+  left: -8px !important;
+  top: 40px !important;
+  transform: unset !important;
+  padding: 15px;
+  background: #f8f8f8;
+  box-shadow: 0px 4px 6px -1px rgba(0, 0, 0, 0.1),  0px 2px 4px -2px rgba(0, 0, 0, 0.05);
+  border-radius: 8px;
+  border: none;
+}
+.userHeader {
+  background: #f3f3f3;
+  border-radius: 8px 8px 0px 0px;
+  margin: -15px -15px 0px;
+  padding: 15px 15px 0;
+  position: relative;
+  height: 60px;
+}
+
+.userProfile img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.userProfile {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0px auto 0;
+  position: relative;
+  top: 4px;
+  box-shadow: 0px 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0px 2px 4px -2px rgba(0, 0, 0, 0.05);
+}
+.userProfileInfo h3 {
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 26px;
+  text-align: center;
+  color: #3d3d3d;
+  margin-bottom: 0.3rem;
+}
+
+.userProfileInfo {
+  margin-top: 40px;
+  border-bottom: 1px solid #f3f4f6;
+  margin-bottom: 5px;
+}
+
+.userProfileInfo span {
+  font-weight: 300;
+  font-size: 14px;
+  line-height: 22px;
+  text-align: center;
+  color: #3d3d3d;
+  display: block;
+  margin-bottom: 1rem;
+}
+.userProfileLink a {
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 20px;
+  color: #3d3d3d;
+  text-decoration: none;
+  padding: 10px 14px 10px;
+  border-radius: 6px;
+  transition: 0.2s linear;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.userProfileLink {
+  border-bottom: 1px solid #f3f4f6;
+  margin-bottom: 15px;
+  padding-bottom: 5px;
+}
+.userProfileLink a img {
+  height: 17px;
+  width: 17px;
+}
+.userProfileLink a:hover {
+  color: #0070d2;
+}
+.userLogoutbtn {
+  text-align: center;
+  justify-content: center;
+  padding: 8px 0;
+  font-size: 14px;
+}
+.userLogoutbtn i::before {
+  font-weight: 800 !important;
+}
+.userProfileLink a i {
+  font-size: 17px;
+}
+.bgfilterblur {
+  position: fixed;
+  left: 0px;
+  height: 100%;
+  width: 100%;
+  top: 80px;
+  right: 0;
+  bottom: 0;
+  z-index: -1;
+  backdrop-filter: blur(1px);
+}
+.userDropdownmenuinner {
+  position: relative;
+  z-index: 2;
+}
+
+.navigation-bar {
+  transition: 0.1s linear;
+  background-color: #fff;
+  border-bottom: 1px solid transparent;
+}
+/* .navigation-bar.scroll-add {
+  position: fixed;
+  left: 0;
+  right: 0;
+  z-index: 999;
+  background-color: #fff;
+  width: 100%;
+  top: 0;
+  border-bottom: 1px solid #f1f1f1;
+} */

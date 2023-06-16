@@ -36,17 +36,17 @@ a {
   font-weight: 400;
   box-shadow: none !important;
 }
-.form-control {
+/* .form-control {
   font-size: 14px;
   padding: 20px 10px;
   letter-spacing: 0.3px;
   font-weight: 400;
   box-shadow: none !important;
-}
-.form-control:focus {
+} */
+/* .form-control:focus {
   color: #232323;
   border-color: #42bebe;
-}
+} */
 .pagination {
   margin-bottom: 0px;
 }
@@ -60,7 +60,8 @@ a {
   background-color: #42bebe !important;
   border-color: #42bebe !important;
 }
-.mdlform .form-control {
+.mdlform .form-control,
+.form-control {
   font-weight: 400;
   font-size: 12px;
   line-height: 20px;
@@ -93,8 +94,13 @@ a {
   font-size: 12px;
   line-height: 20px;
 }
-
 .c-btn {
   min-height: 42px !important;
 }
-
+.close {
+  background-color: transparent !important;
+  border: none;
+  padding: 0;
+  line-height: 0;
+  font-size: 22px;
+}
