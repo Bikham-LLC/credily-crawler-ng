@@ -13,6 +13,7 @@ export class Constant{
 	static REFRESH_TOKEN = "refreshToken"
 	static ACCOUNT_UUID = "accountUuid"
 	static USER_NAME = "userName"
+	static USER_EMAIL = "userEmail"
 
 
 }

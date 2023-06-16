@@ -19,7 +19,11 @@ export class LoginComponent implements OnInit {
 
   constructor(private authservice: AuthService,
     private dataService: DataService,
-    private _router: Router) { }
+    private _router: Router) {
+      if(!this.Constant.EMPTY_STRINGS.includes(localStorage.getItem(this.Constant.TOKEN))){
+        this._router.navigate(['/configuration']);
+      }
+     }
 
   ngOnInit(): void {
   }
@@ -41,6 +45,7 @@ export class LoginComponent implements OnInit {
         localStorage.setItem(this.Constant.REFRESH_TOKEN, response.object.refreshToken);
         localStorage.setItem(this.Constant.ACCOUNT_UUID, response.object.accountUuid);
         localStorage.setItem(this.Constant.USER_NAME, response.object.userName);
+        localStorage.setItem(this.Constant.USER_EMAIL, response.object.userEmail);
   
         this._router.navigate(['/configuration']);
       }else{

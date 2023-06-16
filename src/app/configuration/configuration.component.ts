@@ -19,10 +19,13 @@ export class ConfigurationComponent implements OnInit {
     private _router: Router,
     private lookupTaxonomyService:LookupTaxonomyService,
     private dataService:DataService) { 
-
+      if(!this.Constant.EMPTY_STRINGS.includes(localStorage.getItem(this.Constant.USER_NAME))){
+        this.userName = String(localStorage.getItem(this.Constant.USER_NAME));
+      }
   }
 
   readonly Constant = Constant;
+  userName:string='Logged In';
   databaseHelper:DatabaseHelper = new DatabaseHelper();
   lookupTaxonomyList:LookupTaxonomy[] = new Array();
   totalLookupTaxonomy : number = 0;
