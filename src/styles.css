@@ -16,11 +16,15 @@ a {
   text-decoration: none;
 }
 .primaryBtn {
-  background-color: #42bebe;
-  font-size: 14px;
-  color: #fff !important;
-  font-weight: 400;
-  box-shadow: none !important;
+  background: #0070d2 !important;
+  border-radius: 4px;
+  box-shadow: none;
+  color: #ffffff !important;
+  padding: 6px 13px;
+  display: flex;
+  grid-gap: 8px;
+  gap: 8px;
+  align-items: center;
 }
 .secondaryBtn {
   background-color: #cccccc;
@@ -52,4 +56,37 @@ a {
   color: #fff;
   background-color: #42bebe !important;
   border-color: #42bebe !important;
+}
+.mdlform .form-control {
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 20px;
+  color: #000;
+  height: 36px;
+  box-shadow: none !important;
+  background: #f9fafb;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+}
+.usrtblesearch i svg {
+  display: inline-block;
+  height: 14px;
+  position: relative;
+  top: -2px;
+}
+.primarybtn {
+  background: #0070d2 !important;
+  border-radius: 4px;
+  box-shadow: none;
+  color: #ffffff !important;
+  padding: 6px 13px;
+  display: flex;
+  grid-gap: 8px;
+  gap: 8px;
+  align-items: center;
+}
+.btn {
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 20px;
 }
