@@ -142,7 +142,7 @@ export class ConfigurationComponent implements OnInit {
 
   licenseLookupConfigRequest : LicenseLookupConfigRequest = new LicenseLookupConfigRequest();
   cofigStepRequest : ConfigRequest = new ConfigRequest();
-  configStepRequestList : ConfigRequest[] = new Array();
+  configurationStepList : ConfigRequest[] = new Array();
 
   dropdownSettingsAttribute!: { singleSelection: boolean; text: string; enableSearchFilter: boolean; autoPosition: boolean };
   selectedAttribute: any[] = new Array();
@@ -222,7 +222,7 @@ export class ConfigurationComponent implements OnInit {
     this.licenseLookupConfigRequest.licenseLookUpLink = this.lookupLink;
     this.licenseLookupConfigRequest.taxonomyIdList = this.selectedTaxonomyIds;
     this.licenseLookupConfigRequest.userAccountUuid = String(localStorage.getItem(this.Constant.ACCOUNT_UUID));
-    this.licenseLookupConfigRequest.configRequests = this.configStepRequestList;
+    this.licenseLookupConfigRequest.configRequests = this.configurationStepList;
   }
 
 }
