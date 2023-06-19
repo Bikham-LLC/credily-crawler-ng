@@ -7,6 +7,7 @@ import { DataService } from '../services/data.service';
 import { ConfigRequest } from '../models/ConfigRequest';
 import { LicenseLookupConfigRequest } from '../models/LicenseLookupConfigRequest';
 import { Constant } from '../models/Constant';
+import { FormStructure } from '../models/formStructure';
 
 @Component({
   selector: 'app-configuration',
@@ -44,6 +45,12 @@ export class ConfigurationComponent implements OnInit {
     this.dropdownSettingsAttribute = {
       singleSelection: true,
       text: 'Select Attribute',
+      enableSearchFilter: true,
+      autoPosition: false
+    }
+    this.dropdownSettingsEvent = {
+      singleSelection: true,
+      text: 'Select Event',
       enableSearchFilter: true,
       autoPosition: false
     }
@@ -182,6 +189,10 @@ export class ConfigurationComponent implements OnInit {
   selectedAttribute: any[] = new Array();
   attributeList: any[] = new Array();
 
+  dropdownSettingsEvent!: { singleSelection: boolean; text: string; enableSearchFilter: boolean; autoPosition: boolean };
+  selectedEvent: any[] = new Array();
+  EventList: any[] = [{id:'sendKey', itemName:'Send Key'}, {id:'click', itemName:'Click'}]
+
   dropdownSettingsClass!: { singleSelection: boolean; text: string; enableSearchFilter: boolean; autoPosition: boolean };
   selectedClass: any[] = new Array();
   classList: any[] = new Array();
@@ -215,22 +226,19 @@ export class ConfigurationComponent implements OnInit {
   }
 
   getClassName(){
-
-    var temp: { id: any, itemName: any} = { id: 'static', itemName: 'static' };
-    this.classList.push(temp);
-
-    // this.lookupTaxonomyService.getClassName().subscribe(response=>{
-    //   this.classList = response.object;
-    // })
+    this.lookupTaxonomyService.getClassName().subscribe(response=>{
+      if(response.object!=null){
+        this.classList = [];
+        this.selectedClass = [];
+        Object.keys(response.object).forEach((key,index) => {
+          var temp: { id: any, itemName: any} = { id: key, itemName: response.object[key] };
+          this.classList.push(temp);
+        });
+      }
+    })
     this.classList = JSON.parse(JSON.stringify(this.classList));
   }
 
-  getCloumnName(className:string){
-    this.lookupTaxonomyService.getColumnName(className).subscribe(response=>{
-      this.columnList = response.object;
-    })
-    this.columnList = JSON.parse(JSON.stringify(this.columnList));
-  }
 
   selectCrawlerAttribute(event:any){
     debugger
@@ -240,6 +248,16 @@ export class ConfigurationComponent implements OnInit {
       this.cofigStepRequest.crawlerAttributeId = event[0].id;
     }
   }
+
+  selectCrawlerEvent(event:any){
+    debugger
+    this.cofigStepRequest.elementEvent = '';
+    if (event[0] != undefined) {
+      this.selectedEvent = event;
+      this.cofigStepRequest.elementEvent = event[0].id;
+    }
+  }
+
   selectClassName(event:any){
     debugger
     this.cofigStepRequest.className = '';
@@ -247,44 +265,15 @@ export class ConfigurationComponent implements OnInit {
     if (event[0] != undefined) {
       this.selectedClass = event;
       this.cofigStepRequest.className = event[0].itemName;
-      this.getCloumnName(this.cofigStepRequest.className);
+      if(this.cofigStepRequest.className.toLowerCase() != 'static'){
+        this.getPrimaryColumn(this.cofigStepRequest.className);
+        this.appUpdateSubStructureModalButton.nativeElement.click();
+      }
+      
     }else{
       this.columnList = [];
       this.selectedColumn = [];
     }
-  }
-  selectColumnName(event:any){
-    debugger
-    this.cofigStepRequest.columnName = '';
-    if (event[0] != undefined) {
-      this.selectedColumn = event;
-      this.cofigStepRequest.columnName = event[0].itemName;
-    }
-  }
-  onSearch(event: any) {
-    debugger
-    // this.getTaxonomy(event.target.value);
-  }
-  onOpen(event:any){
-    debugger
-    if(!this.Constant.EMPTY_STRINGS.includes(this.cofigStepRequest.className)){
-      this.dropdownSettingsColumn = {
-        singleSelection: true,
-        text: 'Select Column',
-        enableSearchFilter: true,
-        autoPosition: false,
-        noDataLabel:"No Data Available",
-      };
-    }else{
-      this.dropdownSettingsColumn = {
-        singleSelection: true,
-        text: 'Select Column',
-        enableSearchFilter: false,
-        autoPosition: false,
-        noDataLabel:"Select Class Name First",
-      };
-    }
-    
   }
 
   closeAddConfigStepModal(){
@@ -368,5 +357,231 @@ export class ConfigurationComponent implements OnInit {
       })
     }
   }
+
+  //--------------------------------------- Column Name Section -----------------------------------
+
+
+  @ViewChild('subStructureUpdateModalCloseButton') subStructureUpdateModalCloseButton!: ElementRef;
+  @ViewChild('appUpdateSubStructureModalButton') appUpdateSubStructureModalButton!: ElementRef;
+  
+
+
+  openAddStepAndCloseColumn() {
+    this.subStructureUpdateModalCloseButton.nativeElement.click();
+    this.openAddConfigModal();
+  }
+
+  // getCloumnName(className:string){
+  //   this.lookupTaxonomyService.getColumnName(className).subscribe(response=>{
+  //     this.columnList = response.object;
+  //   })
+  //   this.columnList = JSON.parse(JSON.stringify(this.columnList));
+  // }
+
+  // selectColumnName(event:any){
+  //   debugger
+  //   this.cofigStepRequest.columnName = '';
+  //   if (event[0] != undefined) {
+  //     this.selectedColumn = event;
+  //     this.cofigStepRequest.columnName = event[0].itemName;
+  //   }
+  // }
+  
+  // onOpen(event:any){
+  //   debugger
+  //   if(!this.Constant.EMPTY_STRINGS.includes(this.cofigStepRequest.className)){
+  //     this.dropdownSettingsColumn = {
+  //       singleSelection: true,
+  //       text: 'Select Column',
+  //       enableSearchFilter: true,
+  //       autoPosition: false,
+  //       noDataLabel:"No Data Available",
+  //     };
+  //   }else{
+  //     this.dropdownSettingsColumn = {
+  //       singleSelection: true,
+  //       text: 'Select Column',
+  //       enableSearchFilter: false,
+  //       autoPosition: false,
+  //       noDataLabel:"Select Class Name First",
+  //     };
+  //   }
+    
+  // }
+
+
+  columns: { key: '', values: { isSelected: boolean, value: string, key: string, values: { isSelected: boolean, value: string, key: string, class: string }[] }[], isSelected: boolean, type: string }[] = new Array();
+  loadingColumn:boolean=false;
+  getPrimaryColumn(className:string) {
+    debugger
+    this.columns = [];
+    return new Promise((res) => {
+      this.loadingColumn = true;
+      this.lookupTaxonomyService.getColumnName(className).subscribe(response => {
+
+        response.object.forEach((element: any) => {
+
+          Object.keys(element).forEach((k: any) => {
+            var obj: { key: '', values: { isSelected: boolean, value: string, key: string, values: { isSelected: boolean, value: string, key: string, class: string }[] }[], isSelected: false, type: string } = { key: '', values: [], isSelected: false, type: "string" };
+            obj.key = k;
+            if (element[k] instanceof Array) {
+              obj.type = "array";
+              element[k].forEach((element: any) => {
+                var innerObj = { isSelected: false, value: element, key: '', values: [] }
+                obj.values.push(innerObj);
+              });
+
+            } else {
+              obj.type = element[k];
+            }
+            this.columns.push(obj);
+          });
+
+        });
+
+        res(true);
+        this.loadingColumn = false;
+      }, error=>{
+        this.loadingColumn = false;
+      });
+
+
+    });
+
+  }
+
+  selectedNestedColumns: any;
+  selectNestedValue(index: number, innerIndex: number, valueObj: any) {
+    debugger
+    this.subIndexedTab = innerIndex;
+    this.selectedNestedColumns = '';
+    this.selectedNestedsubColumn = '';
+    this.columns[index].values.forEach(element => {
+      element.isSelected = false;
+    });
+    valueObj.isSelected = true;
+    this.selectedNestedColumns = this.columns[index].values[innerIndex].key;
+    this.indexedNestedTab = innerIndex;
+    if (valueObj.type == 'object') {
+      this.getPriSubNestedEntity(valueObj);
+    }
+  }
+
+  indexedTab: number = -1;
+  indexedNestedTab: number = -1;
+  selectedColumns: any;
+  flag:boolean=false;
+  selectedEntity:FormStructure = new FormStructure();
+  selectTab(columnObj: any, index: any) {
+    debugger
+    this.selectedEntity.val = "";
+    this.selectedColumns = "";
+    this.selectedNestedColumns = "";
+    this.columns.forEach(element => {
+      element.isSelected = false;
+    });
+    this.selectedColumns = this.columns[index].key;
+    this.columns[index].isSelected = true;
+    this.flag = false;
+    this.indexedTab = index;
+
+    if (columnObj.type.type == 'object') {
+      this.getNestedPrimaryColumn(columnObj);
+    }
+    if (this.columns[index].values.length == 0) {
+      this.flag = true;
+    }
+  }
+  countLoader:boolean = false;
+  getNestedPrimaryColumn(dataObj: any) {
+    debugger
+    dataObj.values = [];
+    if (dataObj.type.type == 'object') {
+      this.countLoader = true;
+      this.lookupTaxonomyService.getColumnName(dataObj.type.class).subscribe(response => {
+
+        response.object.forEach((element: any) => {
+
+          Object.keys(element).forEach((k: any) => {
+            var obj: { key: '', isSelected: false, type: string, class: string } = { key: '', isSelected: false, type: "string", class: '' };
+            obj.key = k;
+            obj.type = element[k].type;
+            obj.class = element[k].class;
+            dataObj.values.push(obj);
+          });
+
+        });
+        this.countLoader = false;
+        console.log(dataObj);
+      }, (error) => {
+        this.countLoader = false;
+
+      });
+    } else {
+      // structureObj.secVal = dataObj.entity;
+    }
+
+  }
+
+  getPriSubNestedEntity(dataObj: any) {
+    debugger
+    dataObj.values = [];
+    if (dataObj.type == 'object') {
+      this.countLoader = true;
+      this.lookupTaxonomyService.getColumnName(dataObj.class).subscribe(response => {
+
+        response.object.forEach((element: any) => {
+
+          Object.keys(element).forEach((k: any) => {
+            var obj: { key: '', isSelected: false, type: string } = { key: '', isSelected: false, type: "string" };
+            obj.key = k;
+            obj.type = element[k].type;
+            dataObj.values.push(obj);
+          });
+
+        });
+        this.countLoader = false;
+      }, (error) => {
+        this.countLoader = false;
+
+      });
+    } else {
+      // structureObj.secVal = dataObj.entity;
+    }
+
+  }
+
+  subIndexedTab: any;
+  selectedNestedsubColumn: any;
+  selectNestedSubValue(columnId: any, nestedColumnId: any, nestedSubColumnId: any, nestedSubValueObj: any) {
+    this.columns[columnId].values[nestedColumnId].values.forEach(element => {
+      element.isSelected = false;
+    });
+    this.selectedNestedsubColumn = "";
+    nestedSubValueObj.isSelected = true;
+    this.selectedNestedsubColumn = this.columns[columnId].values[nestedColumnId].values[nestedSubColumnId].key;
+  }
+
+
+  
+  addUpdateObj() {
+    debugger
+
+    if (!this.Constant.EMPTY_STRINGS.includes(this.selectedNestedsubColumn)) {
+      this.selectedEntity.val = this.selectedEntity.val + this.selectedColumns + "." + this.selectedNestedColumns + "." + this.selectedNestedsubColumn;
+    } else if (!this.Constant.EMPTY_STRINGS.includes(this.selectedNestedColumns)) {
+      this.selectedEntity.val = this.selectedEntity.val + this.selectedColumns + "." + this.selectedNestedColumns;
+    } else {
+      this.selectedEntity.val = this.selectedEntity.val + this.selectedColumns
+    }
+
+    this.cofigStepRequest.columnName = this.selectedEntity.val;
+    this.configurationStepList.push(this.cofigStepRequest);
+
+    this.subStructureUpdateModalCloseButton.nativeElement.click();
+
+  }
+
+
 
 }
