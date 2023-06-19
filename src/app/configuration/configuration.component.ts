@@ -7,6 +7,7 @@ import { DataService } from '../services/data.service';
 import { ConfigRequest } from '../models/ConfigRequest';
 import { LicenseLookupConfigRequest } from '../models/LicenseLookupConfigRequest';
 import { Constant } from '../models/Constant';
+import { FormStructure } from '../models/formStructure';
 
 @Component({
   selector: 'app-configuration',
@@ -410,11 +411,12 @@ export class ConfigurationComponent implements OnInit {
 
 
   columns: { key: '', values: { isSelected: boolean, value: string, key: string, values: { isSelected: boolean, value: string, key: string, class: string }[] }[], isSelected: boolean, type: string }[] = new Array();
+  loadingColumn:boolean=false;
   getPrimaryColumn(className:string) {
     debugger
     this.columns = [];
     return new Promise((res) => {
-
+      this.loadingColumn = true;
       this.lookupTaxonomyService.getColumnName(className).subscribe(response => {
 
         response.object.forEach((element: any) => {
@@ -436,8 +438,14 @@ export class ConfigurationComponent implements OnInit {
           });
 
         });
+
         res(true);
+        this.loadingColumn = false;
+      }, error=>{
+        this.loadingColumn = false;
       });
+
+
     });
 
   }
@@ -463,7 +471,7 @@ export class ConfigurationComponent implements OnInit {
   indexedNestedTab: number = -1;
   selectedColumns: any;
   flag:boolean=false;
-  selectedEntity:any;
+  selectedEntity:FormStructure = new FormStructure();
   selectTab(columnObj: any, index: any) {
     debugger
     this.selectedEntity.val = "";
@@ -478,8 +486,6 @@ export class ConfigurationComponent implements OnInit {
     this.indexedTab = index;
 
     if (columnObj.type.type == 'object') {
-      // this.name = '';
-      // this.name = "com.credily.crm.entities." + JSON.parse(JSON.stringify(columnObj.key));
       this.getNestedPrimaryColumn(columnObj);
     }
     if (this.columns[index].values.length == 0) {
@@ -561,15 +567,19 @@ export class ConfigurationComponent implements OnInit {
   addUpdateObj() {
     debugger
 
-    if (this.selectedNestedsubColumn != undefined && this.selectedNestedsubColumn != null && this.selectedNestedsubColumn != '') {
+    if (!this.Constant.EMPTY_STRINGS.includes(this.selectedNestedsubColumn)) {
       this.selectedEntity.val = this.selectedEntity.val + this.selectedColumns + "." + this.selectedNestedColumns + "." + this.selectedNestedsubColumn;
-    } else if (this.selectedNestedColumns != undefined && this.selectedNestedColumns != null && this.selectedNestedColumns != '') {
+    } else if (!this.Constant.EMPTY_STRINGS.includes(this.selectedNestedColumns)) {
       this.selectedEntity.val = this.selectedEntity.val + this.selectedColumns + "." + this.selectedNestedColumns;
     } else {
       this.selectedEntity.val = this.selectedEntity.val + this.selectedColumns
     }
 
+    this.cofigStepRequest.columnName = this.selectedEntity.val;
+    this.configurationStepList.push(this.cofigStepRequest);
+
     this.subStructureUpdateModalCloseButton.nativeElement.click();
+
   }
 
 
