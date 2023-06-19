@@ -92,7 +92,7 @@
                                     <div class="configStepsinner">
                                         <div class="configSteps" *ngFor="let step of configurationStepList; let i = index">
                                             <label>Step {{i+1}}</label>
-                                            <p>Crawler Attribute : {{step.crawlerAttributeId}}, Lookup Element : {{step.lookUpElementDesc}}, Element Event : {{step.elementEvent}}, Class Name : {{step.className}}, Column Name : {{step.columnName}}</p>
+                                            <p>Crawler Attribute : {{step.crawlerAttribute}}, Lookup Element : {{step.lookUpElementDesc}}, Element Event : {{step.elementEvent}}, Entity Name : {{step.className}}, <span *ngIf="step.className.toLowerCase()=='static'">Value : {{step.columnName}}</span> <span *ngIf="step.className.toLowerCase()!='static'"> Column Name : {{step.columnName}}</span></p>
                                         </div>
                                     </div>
 
@@ -275,7 +275,7 @@
                             <div class="mldConfigurationinner">
                                 <div class="lookupSearch">
                                     <div class="row">
-                                        <div class="col-lg-6 pr-0">
+                                        <div class="col-lg-6">
                                             <div class="lookupSearchForm">
                                                 <div class="position-relative">
                                                     <label class="m-1">Crawler Attribute</label>
@@ -285,7 +285,7 @@
                                                 <small *ngIf="addStepForm.submitted && addStepFormInvalid && cofigStepRequest.crawlerAttributeId<=0" style="color: red;">Select Crawler Attribute!</small>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6">
+                                        <div class="col-lg-6" *ngIf="cofigStepRequest.crawlerAttributeId!=5 && cofigStepRequest.crawlerAttributeId != 7" >
                                             <div class="lookupSearchForm">
                                                 <div class="position-relative">
                                                     <label class="m-1">Lookup Element</label>
@@ -293,16 +293,50 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="row mt-3">
-                                        <div class="col-lg-6 pr-0">
+
+                                        <div class="col-lg-6">
                                             <div class="lookupSearchForm">
                                                 <div class="position-relative">
-                                                    <label class="m-1">Element Event</label>
-                                                    <input *ngIf="cofigStepRequest.lookUpElementDesc.toLowerCase() == 'delay'" type="text" class="form-control" name="lEvent" placeholder="Enter Element Event" [(ngModel)]="cofigStepRequest.elementEvent" maxlength="55" required >
-                                                    <angular2-multiselect *ngIf="cofigStepRequest.lookUpElementDesc.toLowerCase() != 'delay'" id="className" name="className" [data]="EventList" [settings]="dropdownSettingsEvent" [(ngModel)]="selectedEvent" (ngModelChange)="selectCrawlerEvent($event)" required>
+                                                    <label class="m-1" *ngIf="cofigStepRequest.crawlerAttributeId == 7 ">Delay Time</label>
+                                                    <label class="m-1" *ngIf="cofigStepRequest.crawlerAttributeId != 7">Element Event</label>
+                                                    <angular2-multiselect id="className" name="className" [data]="EventList" [settings]="dropdownSettingsEvent" [(ngModel)]="selectedEvent" (ngModelChange)="selectCrawlerEvent($event)" required>
                                                     </angular2-multiselect>
                                                 </div>
+                                                <small *ngIf="addStepForm.submitted && addStepFormInvalid && Constant.EMPTY_STRINGS.includes(cofigStepRequest.elementEvent)" style="color: red;">Select Event/Delay!</small>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6" *ngIf="cofigStepRequest.crawlerAttributeId != 7">
+                                            <div class="lookupSearchForm">
+                                                <div class="position-relative">
+                                                    <label class="m-1">Entity Name</label>
+                                                    <angular2-multiselect id="className" name="className" [data]="classList" [settings]="dropdownSettingsClass" [(ngModel)]="selectedClass" (ngModelChange)="selectClassName($event)" required>
+                                                    </angular2-multiselect>
+                                                </div>
+                                                <small *ngIf="addStepForm.submitted && addStepFormInvalid && Constant.EMPTY_STRINGS.includes(cofigStepRequest.className)" style="color: red;">Select Class Name!</small>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-6 pr-0" *ngIf="!Constant.EMPTY_STRINGS.includes(cofigStepRequest.className) && cofigStepRequest.className.toLowerCase() == 'static'">
+                                            <div class="lookupSearchForm">
+                                                <div class="position-relative">
+                                                    <label class="m-1">Column Name</label>
+                                                    <input type="text" class="form-control" name="cName1" placeholder="Enter Column Name" [(ngModel)]="cofigStepRequest.columnName" maxlength="155" required>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <!-- <div class="row mt-3">
+                                        <div class="col-lg-6">
+                                            <div class="lookupSearchForm">
+                                                <div class="position-relative">
+                                                    <label class="m-1" *ngIf="cofigStepRequest.crawlerAttributeId == 7 ">Delay Time</label>
+                                                    <label class="m-1" *ngIf="cofigStepRequest.crawlerAttributeId != 7">Element Event</label>
+                                                    <angular2-multiselect id="className" name="className" [data]="EventList" [settings]="dropdownSettingsEvent" [(ngModel)]="selectedEvent" (ngModelChange)="selectCrawlerEvent($event)" required>
+                                                    </angular2-multiselect>
+                                                </div>
+                                                <small *ngIf="addStepForm.submitted && addStepFormInvalid && Constant.EMPTY_STRINGS.includes(cofigStepRequest.elementEvent)" style="color: red;">Select Event/Delay!</small>
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
@@ -325,13 +359,15 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> -->
+                                
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn primaryBtn" [disabled]="Constant.EMPTY_STRINGS.includes(cofigStepRequest.className) || cofigStepRequest.className.toLowerCase() != 'static'">Add Step</button>
+                        <!-- <button type="submit" class="btn primaryBtn" [disabled]="Constant.EMPTY_STRINGS.includes(cofigStepRequest.className) || cofigStepRequest.className.toLowerCase() != 'static'">Add Step</button> -->
+                        <button type="submit" class="btn primaryBtn">Add Step</button>
                     </div>
                 </form>
             </div>
@@ -382,13 +418,13 @@
         <div class="modal-dialog modal-md">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button class="btn btn-primary mt-2 me-0" (click)="openAddConfigModal()">
+                    <button class="btn btn-primary mt-2 me-0" (click)="openAddStepAndCloseColumn()">
                         <i class="ri-arrow-left-s-fill align-bottom"></i> back
                     </button>
                     <h1 class="modal-title fs-5" id="exampleModalLabel"></h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #subStructureUpdateModalCloseButton id="subStructureUpdateModalCloseButton"></button>
                 </div>
-                <div class="modal-body pb-0">
+                <div class="modal-body pb-2">
 
                     <div class="card">
                         <div class="card-header align-items-center d-flex">
@@ -452,8 +488,8 @@
                 </div>
     
                 <div>
-                    <button style="float: right;" type="button" *ngIf="columns.length > 0" (click)="addUpdateObj()" class="mb-3 me-3 m-3 btn btn-primary waves-effect waves-light">
-                        <i class="ri-add-circle-line align-bottom me-2"></i>Add Step
+                    <button style="float: right;" type="button" *ngIf="columns.length > 0" (click)="addUpdateObj()" class="m-2 btn btn-primary waves-effect waves-light">
+                        <i class="ri-add-circle-line align-bottom me-2"></i>Submit
                     </button>
                 </div>
 

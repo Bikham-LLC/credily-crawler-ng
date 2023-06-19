@@ -159,6 +159,7 @@ export class ConfigurationComponent implements OnInit {
     this.addStepToggle = true;
     this.loadingIframe = true;
     this.configurationStepList = [];
+    this.iframeUrl = this.lookupLink;
     this.closeTaxomonModalButton.nativeElement.click();
     setTimeout( () => {
       this.loadingIframe = false;
@@ -191,7 +192,7 @@ export class ConfigurationComponent implements OnInit {
 
   dropdownSettingsEvent!: { singleSelection: boolean; text: string; enableSearchFilter: boolean; autoPosition: boolean };
   selectedEvent: any[] = new Array();
-  EventList: any[] = [{id:'sendKey', itemName:'Send Key'}, {id:'click', itemName:'Click'}]
+  EventList: any[] = [{id:'sendKey', itemName:'Input Value'}, {id:'click', itemName:'Click'}]
 
   dropdownSettingsClass!: { singleSelection: boolean; text: string; enableSearchFilter: boolean; autoPosition: boolean };
   selectedClass: any[] = new Array();
@@ -202,7 +203,13 @@ export class ConfigurationComponent implements OnInit {
   columnList: any[] = new Array();
 
   openAddConfigModal(){
-    this.iframeUrl = this.lookupLink;
+    // this.iframeUrl = this.lookupLink;
+    this.attributeList = [];
+    this.classList = [];
+    this.columnList = [];
+    this.selectedAttribute = [];
+    this.selectedClass = [];
+    this.selectedColumn = [];
     this.cofigStepRequest  = new ConfigRequest();
     this.addConfigStepModalButton.nativeElement.click();
     this.getArribute();
@@ -246,6 +253,29 @@ export class ConfigurationComponent implements OnInit {
     if (event[0] != undefined) {
       this.selectedAttribute = event;
       this.cofigStepRequest.crawlerAttributeId = event[0].id;
+      this.cofigStepRequest.crawlerAttribute = event[0].itemName;
+      this.selectedEvent = [];
+      if(event[0].id==7){
+        this.EventList = [
+          {id:'2', itemName:'2 Second'}, {id:'4', itemName:'4 Second'},
+          {id:'6', itemName:'6 Second'},{id:'8', itemName:'8 Second'},
+          {id:'10', itemName:'10 Second'}
+        ];
+        this.dropdownSettingsEvent = {
+          singleSelection: true,
+          text: 'Select Delay',
+          enableSearchFilter: true,
+          autoPosition: false
+        }
+      }else{
+        this.EventList = [{id:'sendKey', itemName:'Input Value'}, {id:'click', itemName:'Click'}];
+        this.dropdownSettingsEvent = {
+          singleSelection: true,
+          text: 'Select Event',
+          enableSearchFilter: true,
+          autoPosition: false
+        }
+      }
     }
   }
 
@@ -320,7 +350,8 @@ export class ConfigurationComponent implements OnInit {
     this.lookupTaxonomyService.testConfiguration(this.licenseLookupConfigRequest, this.providerUuid).subscribe(response=>{
       this.testingConfiguration = false;
       if(response.object!=null){
-        this.iframeUrl = response.object;
+        // this.iframeUrl = response.object;
+        window.open(response.object, "_blank");
       }
       setTimeout(()=>{
         this.closeUuidModal.nativeElement.click();
@@ -365,50 +396,25 @@ export class ConfigurationComponent implements OnInit {
   @ViewChild('appUpdateSubStructureModalButton') appUpdateSubStructureModalButton!: ElementRef;
   
 
+  // openAddConfigModal(){
+  //   this.iframeUrl = this.lookupLink;
+  //   this.attributeList = [];
+  //   this.classList = [];
+  //   this.columnList = [];
+  //   this.selectedAttribute = [];
+  //   this.selectedClass = [];
+  //   this.selectedColumn = [];
+  //   this.cofigStepRequest  = new ConfigRequest();
+  //   this.addConfigStepModalButton.nativeElement.click();
+  //   this.getArribute();
+  //   this.getClassName();
+  // }
 
   openAddStepAndCloseColumn() {
     this.subStructureUpdateModalCloseButton.nativeElement.click();
-    this.openAddConfigModal();
+    this.addConfigStepModalButton.nativeElement.click();
+    // this.openAddConfigModal();
   }
-
-  // getCloumnName(className:string){
-  //   this.lookupTaxonomyService.getColumnName(className).subscribe(response=>{
-  //     this.columnList = response.object;
-  //   })
-  //   this.columnList = JSON.parse(JSON.stringify(this.columnList));
-  // }
-
-  // selectColumnName(event:any){
-  //   debugger
-  //   this.cofigStepRequest.columnName = '';
-  //   if (event[0] != undefined) {
-  //     this.selectedColumn = event;
-  //     this.cofigStepRequest.columnName = event[0].itemName;
-  //   }
-  // }
-  
-  // onOpen(event:any){
-  //   debugger
-  //   if(!this.Constant.EMPTY_STRINGS.includes(this.cofigStepRequest.className)){
-  //     this.dropdownSettingsColumn = {
-  //       singleSelection: true,
-  //       text: 'Select Column',
-  //       enableSearchFilter: true,
-  //       autoPosition: false,
-  //       noDataLabel:"No Data Available",
-  //     };
-  //   }else{
-  //     this.dropdownSettingsColumn = {
-  //       singleSelection: true,
-  //       text: 'Select Column',
-  //       enableSearchFilter: false,
-  //       autoPosition: false,
-  //       noDataLabel:"Select Class Name First",
-  //     };
-  //   }
-    
-  // }
-
 
   columns: { key: '', values: { isSelected: boolean, value: string, key: string, values: { isSelected: boolean, value: string, key: string, class: string }[] }[], isSelected: boolean, type: string }[] = new Array();
   loadingColumn:boolean=false;
@@ -576,9 +582,9 @@ export class ConfigurationComponent implements OnInit {
     }
 
     this.cofigStepRequest.columnName = this.selectedEntity.val;
-    this.configurationStepList.push(this.cofigStepRequest);
-
-    this.subStructureUpdateModalCloseButton.nativeElement.click();
+    // this.configurationStepList.push(this.cofigStepRequest);
+    this.openAddStepAndCloseColumn();
+    // this.subStructureUpdateModalCloseButton.nativeElement.click();
 
   }
 
