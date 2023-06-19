@@ -1,4 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
+
+@import "~angular2-multiselect-dropdown/themes/default.theme.css";
+
 * {
   margin: 0px;
   padding: 0px;
@@ -16,11 +19,15 @@ a {
   text-decoration: none;
 }
 .primaryBtn {
-  background-color: #42bebe;
-  font-size: 14px;
-  color: #fff !important;
-  font-weight: 400;
-  box-shadow: none !important;
+  background: #0070d2 !important;
+  border-radius: 4px;
+  box-shadow: none;
+  color: #ffffff !important;
+  padding: 6px 13px;
+  display: flex;
+  grid-gap: 8px;
+  gap: 8px;
+  align-items: center;
 }
 .secondaryBtn {
   background-color: #cccccc;
@@ -28,4 +35,161 @@ a {
   color: #444 !important;
   font-weight: 400;
   box-shadow: none !important;
+}
+/* .form-control {
+  font-size: 14px;
+  padding: 20px 10px;
+  letter-spacing: 0.3px;
+  font-weight: 400;
+  box-shadow: none !important;
+} */
+/* .form-control:focus {
+  color: #232323;
+  border-color: #42bebe;
+} */
+.pagination {
+  margin-bottom: 0px;
+}
+.page-link {
+  color: #444;
+  font-size: 12px;
+}
+
+.page-item.active .page-link {
+  z-index: 3;
+  color: #fff;
+  background-color: #0070d2 !important;
+  border-color: #0070d2 !important;
+}
+.mdlform .form-control,
+.form-control {
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 20px;
+  color: #000;
+  height: 36px;
+  box-shadow: none !important;
+  background: #f9fafb;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+}
+.usrtblesearch i svg {
+  display: inline-block;
+  height: 14px;
+  position: relative;
+  top: -2px;
+}
+.primarybtn {
+  background: #0070d2 !important;
+  border-radius: 4px;
+  box-shadow: none;
+  color: #ffffff !important;
+  padding: 6px 13px;
+  display: flex;
+  grid-gap: 8px;
+  gap: 8px;
+  align-items: center;
+}
+.primarycancelbtn {
+  background: #ffffff;
+  border: 1px solid #dddbda !important;
+  border-radius: 4px;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 20px;
+  text-align: center;
+  color: #c23934 !important;
+  padding: 6px 16px;
+}
+.btn {
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 20px;
+}
+.c-btn {
+  min-height: 36px !important;
+  font-weight: 400;
+  font-size: 12px !important;
+  line-height: 20px !important;
+  color: #000 !important;
+  height: 36px;
+  box-shadow: none !important;
+  background: #f9fafb;
+  border: 1px solid #d1d5db;
+  border-radius: 4px !important;
+}
+.close {
+  background-color: transparent !important;
+  border: none;
+  padding: 0;
+  line-height: 0;
+  font-size: 22px;
+}
+.blur-bg-2,
+.modal {
+  -webkit-backdrop-filter: blur(2px);
+  backdrop-filter: blur(2px);
+}
+.modal-content {
+  border-radius: 12px;
+}
+
+.pr-0 {
+  padding-right: 0;
+}
+.pl-0 {
+  padding-left: 0;
+}
+
+.form-group label,
+.lookupSearchForm label {
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 21px;
+  color: #111928;
+  margin-bottom: 5px;
+}
+
+.usertableinner thead {
+  border: 1px solid #fafaf9;
+  border-bottom: 0px !important;
+}
+
+.usertableinner .table th,
+.usertableinner .table td {
+  vertical-align: middle;
+  padding: 7px 7px !important;
+}
+.usertableinner .table th {
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 20px;
+  color: #3e3e3c;
+  background-color: #fafaf9;
+  /* box-shadow: 0px 2px 0px #dddbda; */
+  border-top: 0px;
+  border: 1px solid #ccc;
+  /* padding: 12px 12px; */
+  background-color: #f6f6f6;
+  /* box-shadow: 0px 2px 0px #dddbda; */
+}
+
+.usertableinner tbody {
+  border: 1px solid #f0f0f0;
+  border-top: 0;
+}
+.usertableinner .table td {
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 20px;
+  color: #3e3e3c;
+}
+
+.sr-only {
+  display: none !important;
+}
+
+.currentshowing {
+  font-size: 12px;
+  font-weight: 500;
 }

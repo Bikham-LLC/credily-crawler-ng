@@ -1,26 +1,137 @@
-<header>
-    <div class="container-fluid">
-        <div class="row justify-content-between">
-            <div class="col-lg-2 px-2">
-                <div class="logo">
-                    <img src="assets/images/logo-white.svg" alt="">
-                </div>
+<div class="container-fluid p-0">
+    <header>
+        <div class="align-items-center d-flex justify-content-between topbar">
+            <div class="logo">
+                <img src="assets/images/logo.svg" alt="" /> 
             </div>
-            
-            <div class="col-lg-2 px-2">
-                <div class="logOut">
-                    <button class="logOutbtn">
-                        <i class="bi bi-power"></i>
-                    </button>
+            <div class="profile-bx">
+                <div class="profiledash">
+                    <div class="dropdown">
+                        <button class="btn userprofilebtn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                            <div class="profile-bx">
+                                <img src="assets/images/user-icon.svg" alt="" />
+                            </div>
+                            {{userName}} <i class="fa-solid fa-chevron-down"></i>
+                        </button>
+                        <ul class="dropdown-menu userDropdownmenu" aria-labelledby="dropdownMenuButton1">
+                            <div class="bgfilterblur"></div>
+                            <div class="userDropdownmenuinner">
+                                <!-- <div class="userHeader">
+                                    <div class="userProfile">
+                                        <img onerror="this.src='assets/images/user-icon.svg';" [src]="dataService.user.imageUrl?dataService.user.imageUrl:'assets/images/user-icon.svg'" alt="" />
+                                    </div>
+                                </div> -->
+                                <!-- <div class="userProfileInfo">
+                                    <h3>{{dataService.user.name}}</h3>
+                                    <span>{{dataService.user.email}}</span>
+                                </div>
+                                <div class="userProfileLink">
+                                    <a routerLink="/user-edit-profile/edit-profile">
+                                        <img src="assets/images/editprofile/Profile.svg" alt="" /> Edit Profile
+                                    </a>
+                                    <a class="pdependent" routerLink="/user-edit-profile/notification-setting">
+                                        <img src="assets/images/editprofile/Notification.svg" alt="" /> Notification Settings
+                                    </a>
+                                    <a routerLink="/user-edit-profile/change-password">
+                                        <img src="assets/images/editprofile/Lock.svg" alt="" /> Change Password
+                                    </a>
+                                    <a routerLink="../settings/roles-and-security" *ngIf="Constant.ROLE_ENTERPRISE.includes(role)"><i class="bi bi-gear"></i>  Settings</a>
+                                    <a routerLink="../settings/client-users" *ngIf="Constant.ROLE_CLIENT.includes(role)"><i class="bi bi-gear"></i>  Settings</a>
+                                </div> -->
+                                <div class="userLogout">
+                                    <a class="btn primarybtn userLogoutbtn pointer" (click)="logOut()">
+                                        <i class="bi bi-arrow-bar-left"></i> Log out
+                                    </a>
+                                </div>
+                            </div>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</header>
+        <div class="navigation-bar">
+            <div class="navigationitemsmain">
+                    <!-- <button class="btn navigationitem dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Dashboard
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </button> -->
+                    <a href="#" class="btn navigationitem" routerLinkActive="navActive">
+                        Dashboard
+                    </a>
+                    <a routerLink="/configuration" class="btn navigationitem " routerLinkActive="navActive" (click)="this.addStepToggle = false;">
+                        Configuration
+                    </a>
+                    <a href="#" class="btn navigationitem" routerLinkActive="navActive">
+                        Report
+                    </a>
+            </div>
+        </div>
+    </header>
+</div>
+
 
 <div class="main">
     <div class="container-fluid">
+
         <div class="dashboardArea">
+            <div class="dashNav-paneinner">
+
+                <div class="emptyNotif" *ngIf="!addStepToggle">
+                        <!-- <img src="assets/images/settings.png" alt=""> -->
+                        <div class="d-flex justify-content-end mb-3">
+                            <button class="btn primarybtn" (click)="openLookupModal()">Create Configuration</button>
+                        </div>
+                    <app-configuration-listing></app-configuration-listing>
+                </div>
+
+                <div class="configMaininfo" *ngIf="addStepToggle">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <app-circular-loader *ngIf="loadingIframe"></app-circular-loader>
+                            <iframe src="assets/images/settings.png" style="width:100%; height:100vh;" frameborder="0" *ngIf="Constant.EMPTY_STRINGS.includes(iframeUrl)"></iframe>
+                            <iframe [src]="iframeUrl | safe" style="width:100%; height:100vh;" frameborder="0" *ngIf="!Constant.EMPTY_STRINGS.includes(iframeUrl)"></iframe>
+                        </div>
+                        <div class="col-lg-6 px-2 position-relative">
+                            <div class="configSetupBox">
+                                <h3>New Configuration</h3>
+                                <!-- <div class="float-right" style="float: right;">
+                                    <button class="btn primaryBtn" (click)="openAddConfigModal()">Add Steps</button>
+                                </div> -->
+                                <div class="empty-notific" style="margin-top: 10%;" *ngIf="configurationStepList.length==0">
+                                    <div class="empty-notificinner text-center">
+                                        <div class="empty-notificinnerimg">
+                                            <img src="assets/images/nodocument.svg" alt="" style="width:40%">
+                                        </div>
+                                        <h5>No Step Added.</h5>
+                                        <div class="d-flex justify-content-center mt-4">
+                                            <button class="btn primaryBtn" (click)="openAddConfigModal()">Add Steps</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="configStepsouter" style="margin-top: 10%;" *ngIf="configurationStepList.length>0">
+                                    <div class="d-flex justify-content-end mb-2 mt-4">
+                                        <button class="btn primaryBtn" (click)="openAddConfigModal()">Add Steps</button>
+                                    </div>
+                                    <div class="configStepsinner">
+                                        <div class="configSteps" *ngFor="let step of configurationStepList; let i = index">
+                                            <label>Step {{i+1}}</label>
+                                            <p>Crawler Attribute : {{step.crawlerAttributeId}}, Lookup Element : {{step.lookUpElementDesc}}, Element Event : {{step.elementEvent}}, Class Name : {{step.className}}, Column Name : {{step.columnName}}</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="configAction d-flex justify-content-end align-items-center">
+                                        <button class="btn btn-secondary m-2" [disabled]="testingConfiguration || savingConfiguration" (click)="openUuidModal()">Test Configuration</button>
+                                        <button class="btn primaryBtn" [disabled]="savingConfiguration" (click)="saveConfiguration()">Save Configuration <i class="spinner-border spinner-border-sm" *ngIf="!testingConfiguration && savingConfiguration"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- <div class="dashboardArea">
             <nav>
                 <div class="nav nav-tabs dashNav-tabs" id="nav-tab" role="tablist">
                   <a class="nav-link dashNav-link active" id="nav-config-tab" data-toggle="tab" href="#nav-config" role="tab" aria-controls="nav-config" aria-selected="true">Configuration</a>
@@ -31,48 +142,52 @@
               <div class="tab-content dashNav-content" id="nav-tabContent">
                 <div class="tab-pane dashNav-pane show active" id="nav-config" role="tabpanel" aria-labelledby="nav-config-tab">
                     <div class="dashNav-paneinner">
-                        <div class="emptyNotif">
+
+                        <div class="emptyNotif" *ngIf="!addStepToggle">
                             <div class="emptyNotifinner">
                                 <img src="assets/images/settings.png" alt="">
-                                <button class="btn emptyBtn">Create Configurtaion</button>
+                                <button class="btn emptyBtn" (click)="openLookupModal()">Create Configurtaion</button>
                             </div>
                         </div>
 
-                        <div class="configMaininfo">
+                        <div class="configMaininfo" *ngIf="addStepToggle">
                             <div class="row">
-                                <div class="col-lg-6"></div>
+                                <div class="col-lg-6">
+                                    <app-circular-loader *ngIf="loadingIframe"></app-circular-loader>
+                                    <iframe src="assets/images/settings.png" style="width:100%; height:100vh;" frameborder="0" *ngIf="Constant.EMPTY_STRINGS.includes(lookupLink)"></iframe>
+                                    <iframe [src]="lookupLink | safe" style="width:100%; height:100vh;" frameborder="0" *ngIf="!Constant.EMPTY_STRINGS.includes(lookupLink)"></iframe>
+                                </div>
                                 <div class="col-lg-6 px-2 position-relative">
                                     <div class="configSetupBox">
                                         <h3>New Configuration</h3>
+                                        <div class="float-right">
+                                            <button class="btn primaryBtn" (click)="openAddConfigModal()">Add Steps</button>
+                                        </div>
+                                        <div class="empty-notific" style="margin-top: 20%;" *ngIf="configurationStepList.length==0">
+                                            <div class="empty-notificinner text-center">
+                                                <div class="empty-notificinnerimg">
+                                                    <img src="assets/images/nodocument.svg" alt="" style="width:40%">
+                                                </div>
+                                                <h5>No Step Added.</h5>
+                                            </div>
+                                        </div>
 
-                                        <div class="configStepsouter">
+                                        <div class="configStepsouter" style="margin-top: 20%;" *ngIf="configurationStepList.length>0">
+                                            
                                             <div class="configStepsinner">
-                                                <div class="configSteps">
-                                                    <label>Step 1</label>
-                                                    <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Blanditiis, itaque.</p>
-                                                </div>
-                                                <div class="configSteps">
-                                                    <label>Step 2</label>
-                                                    <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Blanditiis, itaque.</p>
-                                                </div>
-                                                <div class="configSteps">
-                                                    <label>Step 3</label>
-                                                    <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Blanditiis, itaque.</p>
-                                                </div>
-                                                <div class="configSteps">
-                                                    <label>Step 4</label>
-                                                    <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Blanditiis, itaque.</p>
+                                                <div class="configSteps" *ngFor="let step of configurationStepList; let i = index">
+                                                    <label>Step {{i+1}}</label>
+                                                    <p>Crawler Attribute : {{step.crawlerAttributeId}}, Lookup Element : {{step.lookUpElementDesc}}, Element Event : {{step.elementEvent}}, Class Name : {{step.className}}, Column Name : {{step.columnName}}</p>
                                                 </div>
                                             </div>
-                                            <button class="btn primaryBtn">Add Steps</button>
 
                                             <div class="configAction d-flex justify-content-end align-items-center">
                                                 <button class="btn secondaryBtn mr-2">Test Configuration</button>
-                                                <button class="btn primaryBtn">Save Configuration</button>
+                                                <button class="btn primaryBtn">Save Configuration <i class="spinner-border spinner-border-sm"></i></button>
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- <div class="addStepsModal">
+                                    <div class="addStepsModal">
                                         <div class="configSetupBox position-relative">
                                             <div class="closeStepsDiv">
                                                 <button class="closeSteps"><i class="bi bi-x-lg"></i></button>
@@ -86,13 +201,10 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div> -->
+                                    </div>
                                 </div>
                             </div>
                         </div>
-
-
-
                     </div>
                 </div>
                 <div class="tab-pane dashNav-pane" id="nav-report" role="tabpanel" aria-labelledby="nav-report-tab">
@@ -106,6 +218,280 @@
                     </div>
                 </div>
               </div>
+        </div> -->
+    </div>
+
+
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#configModal" #lookupModalButton>Launch Modal</button>
+    <button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#addConfigStepModal" #addConfigStepModalButton>Launch Modal</button>
+    <button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#uuidModal" #uuidModalButton>Launch Modal</button>
+  
+    <!-- select taxonomy modal -->
+    <div class="modal fade" id="configModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-bs-labelledby="exampleModalLabel" aria-bs-hidden="true">
+        <div class="modal-dialog configModal">
+            <div class="modal-content">
+                <form  #providerHospitalForm="ngForm" ngNativeValidate (ngSubmit)="saveLookupDetails()" >
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">New Configuration</h5>
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-bs-label="Close" (click)="closeTaxonomyModal()">
+                            <span aria-bs-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mldConfigurationmain">
+                            <div class="mldConfigurationinner">
+                                <div class="lookupSearch mb-1">
+                                    <div class="row mb-1">
+                                        <div class="col-lg-6 pr-0">
+                                            <div class="lookupSearchForm">
+                                                <label>Enter Lookup Name</label>
+                                                <div class="position-relative">
+                                                    <input type="text" class="form-control" name="lname" placeholder="Enter Lookup Name" [(ngModel)]="lookupName" maxlength="155" required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 ">
+                                            <div class="lookupSearchForm">
+                                                <label>Enter Lookup Link</label>
+                                                <div class="position-relative">
+                                                    <input type="url" class="form-control" name="llink" placeholder="Enter Lookup Link" [(ngModel)]="lookupLink" maxlength="200" required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="usertableinner" >
+                                    <caption class="mb-1">Taxonomy</caption>
+                                    <div class="lookupSearch mb-3">
+                                        <div class="row mb-3">
+                                            <div class="col-lg-6 pr-0">
+                                                <app-state-dropdown [_updatedStateName]="selectedStateName"
+                                                    [(stateNameProp)]="selectedStateName"
+                                                    [stateNameLabelClass]="'fw-medium'" 
+                                                    [stateCodeLabelClass]="'fw-medium'"
+                                                    [stateNameDynamic]="'State Name'" 
+                                                    [stateCodeDynamic]="'State Code'" 
+                                                    [stateNameClass]="'col-12 fw-semibold'" 
+                                                    [stateCodeClass]="'d-none'"
+                                                    [requiredClass]="'d-none'"
+                                                    [cityClass]="'d-none'" (callFunction)="selectStateName()">
+                                                </app-state-dropdown>
+                                            </div>
+                                            <div class="col-lg-6 ">
+                                                <div class="lookupSearchForm">
+                                                    <label class="pb-1">Search Taxonomy</label>
+                                                    <div class="position-relative">
+                                                        <!-- <i class="bi bi-search"></i> -->
+                                                        <input type="Text" class="form-control" name="searchTaxonomy" placeholder="Search Taxonomy" [(ngModel)]="databaseHelper.search" (keyup.enter)="searchTaxonomy()" >
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="reportListing" *ngIf="!loadingLookupTaxonomy && lookupTaxonomyList.length > 0">
+                                        <table class="table table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th class="tableDead" style="width: 2%;">
+                                                        
+                                                    </th>
+                                                    <th class="tableDead" style="width: 18%;">
+                                                        <p class="mb-0">Code</p>
+                                                    </th>
+                                                    <th class="tableDead" style="width: 30%;">
+                                                        <p class="mb-0">State</p>
+                                                    </th>
+                                                    <th class="tableDead" style="width: 50%;">
+                                                        <p class="mb-0">Description</p>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let tax of lookupTaxonomyList; let i = index">
+                                                    <td class="tableData">
+                                                        <div class="text-ceter">
+                                                            <input type="checkbox" class="form-check" [checked]="tax.checked" (click)="selectTaxonomySingle(i)">
+                                                        </div>
+                                                    </td>
+                                                    <td class="tableData">
+                                                        <p class="mb-0">{{tax.code}}</p>
+                                                    </td>
+                                                    <td class="tableData">
+                                                        <p class="mb-0">{{tax.state}}</p>
+                                                    </td>
+                                                    <td class="tableData lookupLiks">
+                                                        <p class="mb-0">{{tax.displayName}}</p>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    
+                                </div>
+
+                                <div class="empty-notific mt-4" *ngIf="!loadingLookupTaxonomy && lookupTaxonomyList.length == 0">
+                                    <div class="empty-notificinner text-center">
+                                        <div class="empty-notificinnerimg">
+                                            <img src="assets/images/nodocument.svg" alt="" style="width:40%">
+                                        </div>
+                                        <h5>No Taxonomy Found.</h5>
+                                    </div>
+                                </div>
+
+                                <div class=" p-5" *ngIf="loadingLookupTaxonomy">
+                                    <app-circular-loader></app-circular-loader>
+                                </div>
+
+                                <div class="row justify-content-center" *ngIf="totalLookupTaxonomy>0">  
+                                    <div class="paginationmain w-100 px-3 mt-2">
+                                        <div class="d-flex align-items-center justify-content-between">
+                                            <p class="currentshowing mb-0">
+                                                Showing <span>{{lookupTaxonomyList.length}}</span> of <span>{{totalLookupTaxonomy}}</span>  
+                                            </p>
+                                            <div class="d-flex justify-content-end">
+                                                <ngb-pagination [collectionSize]="totalLookupTaxonomy" [rotate]="true" (pageChange)="pageChanged($event)" [pageSize]="databaseHelper.itemsPerPage" [(page)]="databaseHelper.currentPage" [maxSize]="5" [boundaryLinks]="true">
+                                                </ngb-pagination>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn primarycancelbtn" style="border-color: #F05252 !important;" 
+                        data-bs-dismiss="modal" #closeTaxomonModalButton (click)="closeTaxonomyModal()">Close</button>
+                        <button type="submit" class="btn primaryBtn" [disabled]="selectedTaxonomyIds.length==0">Save changes</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
+
+    <!-- add configuration step modal -->
+    <div class="modal fade" id="addConfigStepModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-bs-labelledby="stepModalLabel" aria-bs-hidden="true">
+        <div class="modal-dialog configModal">
+            <div class="modal-content">
+                <form  #addStepForm="ngForm" ngNativeValidate (ngSubmit)="addConfigurationStep()" >
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="stepModalLabel">Add Configuration Step</h5>
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-bs-label="Close" #closeAddStepModal (click)="closeAddConfigStepModal()">
+                            <span aria-bs-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mldConfigurationmain">
+                            <div class="mldConfigurationinner">
+                                <div class="lookupSearch">
+                                    <div class="row">
+                                        <div class="col-lg-6 pr-0">
+                                            <div class="lookupSearchForm">
+                                                <div class="position-relative">
+                                                    <label class="m-1">Crawler Attribute</label>
+                                                    <angular2-multiselect id="attribute" name="attribute" [data]="attributeList" [settings]="dropdownSettingsAttribute" [(ngModel)]="selectedAttribute" (ngModelChange)="selectCrawlerAttribute($event)" (keyup)="onSearch($event)" required>
+                                                    </angular2-multiselect>
+                                                </div>
+                                                <small *ngIf="addStepForm.submitted && addStepFormInvalid && cofigStepRequest.crawlerAttributeId<=0" style="color: red;">Select Crawler Attribute!</small>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="lookupSearchForm">
+                                                <div class="position-relative">
+                                                    <label class="m-1">Lookup Element</label>
+                                                    <input type="text" class="form-control" name="lElement" placeholder="Enter Lookup Element" [(ngModel)]="cofigStepRequest.lookUpElementDesc" maxlength="155" required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-3">
+                                        <div class="col-lg-6 pr-0">
+                                            <div class="lookupSearchForm">
+                                                <div class="position-relative">
+                                                    <label class="m-1">Element Event</label>
+                                                    <input type="text" class="form-control" name="lEvent" placeholder="Enter Element Event" [(ngModel)]="cofigStepRequest.elementEvent" maxlength="55" required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="lookupSearchForm">
+                                                <div class="position-relative">
+                                                    <label class="m-1">Entity Name</label>
+                                                    <angular2-multiselect id="className" name="className" [data]="classList" [settings]="dropdownSettingsClass" [(ngModel)]="selectedClass" (ngModelChange)="selectClassName($event)" required>
+                                                    </angular2-multiselect>
+                                                </div>
+                                                <small *ngIf="addStepForm.submitted && addStepFormInvalid && Constant.EMPTY_STRINGS.includes(cofigStepRequest.className)" style="color: red;">Select Class Name!</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-3">
+                                        <div class="col-lg-6 pr-0">
+                                            <div class="lookupSearchForm" *ngIf="!Constant.EMPTY_STRINGS.includes(cofigStepRequest.className) && cofigStepRequest.className!='static'">
+                                                <div class="position-relative">
+                                                    <label class="m-1">Column Name</label>
+                                                    <angular2-multiselect id="columnName" name="columnName" [data]="columnList" [settings]="dropdownSettingsColumn" [(ngModel)]="selectedColumn" (ngModelChange)="selectColumnName($event)" (onOpen)="onOpen($event)" required>
+                                                    </angular2-multiselect>
+                                                </div>
+                                                <small *ngIf="addStepForm.submitted && addStepFormInvalid && Constant.EMPTY_STRINGS.includes(cofigStepRequest.columnName)" style="color: red;">Select Column Name!</small>
+                                            </div>
+                                            <div class="lookupSearchForm" *ngIf="Constant.EMPTY_STRINGS.includes(cofigStepRequest.className) || cofigStepRequest.className=='static'">
+                                                <div class="position-relative">
+                                                    <label class="m-1">Column Name</label>
+                                                    <input type="text" class="form-control" name="cName1" placeholder="Enter Column Name" [(ngModel)]="cofigStepRequest.columnName" maxlength="155" required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn primaryBtn">Add Steps</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- select UUID modal -->
+    <div class="modal fade" id="uuidModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-bs-labelledby="uuidModalLabel" aria-bs-hidden="true">
+        <div class="modal-dialog modal-ls">
+            <div class="modal-content">
+                <form  #providerUuidForm="ngForm" ngNativeValidate (ngSubmit)="testConfiguration()" >
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="uuidModalLabel">New Configuration</h5>
+                        <button type="button" class="close" [disabled]="testingConfiguration" data-bs-dismiss="modal" aria-bs-label="Close" #closeUuidModal (click)="isInvalidConfiguration=false; providerUuid = '' ">
+                            <span aria-bs-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mldConfigurationmain">
+                            <div class="mldConfigurationinner">
+                                <div class="lookupSearch mb-1">
+                                    <div class="row mb-1">
+                                        <div class="col-lg-12 pr-0">
+                                            <div class="lookupSearchForm">
+                                                <label>Enter Provider Uuid</label>
+                                                <div class="position-relative">
+                                                    <input type="text" class="form-control" name="pUuid" placeholder="Enter Provider Uuid" [(ngModel)]="providerUuid" maxlength="155" required>
+                                                </div>
+                                            </div>
+                                            <small *ngIf="isInvalidConfiguration" style="color: red;">Invalid Configuration!</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn primarycancelbtn" style="border-color: #F05252 !important;" [disabled]="testingConfiguration" data-bs-dismiss="modal" (click)=" isInvalidConfiguration=false; providerUuid = '' ">Close</button>
+                        <button type="submit" class="btn primaryBtn" [disabled]="testingConfiguration">Submit <i class="spinner-border spinner-border-sm" *ngIf="testingConfiguration && !savingConfiguration"></i> </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
 </div>
