@@ -16,28 +16,6 @@
                         <ul class="dropdown-menu userDropdownmenu" aria-labelledby="dropdownMenuButton1">
                             <div class="bgfilterblur"></div>
                             <div class="userDropdownmenuinner">
-                                <!-- <div class="userHeader">
-                                    <div class="userProfile">
-                                        <img onerror="this.src='assets/images/user-icon.svg';" [src]="dataService.user.imageUrl?dataService.user.imageUrl:'assets/images/user-icon.svg'" alt="" />
-                                    </div>
-                                </div> -->
-                                <!-- <div class="userProfileInfo">
-                                    <h3>{{dataService.user.name}}</h3>
-                                    <span>{{dataService.user.email}}</span>
-                                </div>
-                                <div class="userProfileLink">
-                                    <a routerLink="/user-edit-profile/edit-profile">
-                                        <img src="assets/images/editprofile/Profile.svg" alt="" /> Edit Profile
-                                    </a>
-                                    <a class="pdependent" routerLink="/user-edit-profile/notification-setting">
-                                        <img src="assets/images/editprofile/Notification.svg" alt="" /> Notification Settings
-                                    </a>
-                                    <a routerLink="/user-edit-profile/change-password">
-                                        <img src="assets/images/editprofile/Lock.svg" alt="" /> Change Password
-                                    </a>
-                                    <a routerLink="../settings/roles-and-security" *ngIf="Constant.ROLE_ENTERPRISE.includes(role)"><i class="bi bi-gear"></i>  Settings</a>
-                                    <a routerLink="../settings/client-users" *ngIf="Constant.ROLE_CLIENT.includes(role)"><i class="bi bi-gear"></i>  Settings</a>
-                                </div> -->
                                 <div class="userLogout">
                                     <a class="btn primarybtn userLogoutbtn pointer" (click)="logOut()">
                                         <i class="bi bi-arrow-bar-left"></i> Log out
@@ -51,10 +29,6 @@
         </div>
         <div class="navigation-bar">
             <div class="navigationitemsmain">
-                    <!-- <button class="btn navigationitem dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Dashboard
-                        <i class="fa-solid fa-chevron-down"></i>
-                    </button> -->
                     <a href="#" class="btn navigationitem" routerLinkActive="navActive">
                         Dashboard
                     </a>
@@ -77,7 +51,6 @@
             <div class="dashNav-paneinner">
 
                 <div class="emptyNotif" *ngIf="!addStepToggle">
-                        <!-- <img src="assets/images/settings.png" alt=""> -->
                         <div class="d-flex justify-content-end mb-3">
                             <button class="btn primarybtn" (click)="openLookupModal()">Create Configuration</button>
                         </div>
@@ -100,9 +73,6 @@
                         <div class="col-lg-6 px-2 position-relative">
                             <div class="configSetupBox">
                                 <h3>New Configuration</h3>
-                                <!-- <div class="float-right" style="float: right;">
-                                    <button class="btn primaryBtn" (click)="openAddConfigModal()">Add Steps</button>
-                                </div> -->
                                 <div class="empty-notific" style="margin-top: 10%;" *ngIf="configurationStepList.length==0">
                                     <div class="empty-notificinner text-center">
                                         <div class="empty-notificinnerimg">
@@ -137,94 +107,6 @@
                 </div>
             </div>
         </div>
-        <!-- <div class="dashboardArea">
-            <nav>
-                <div class="nav nav-tabs dashNav-tabs" id="nav-tab" role="tablist">
-                  <a class="nav-link dashNav-link active" id="nav-config-tab" data-toggle="tab" href="#nav-config" role="tab" aria-controls="nav-config" aria-selected="true">Configuration</a>
-                  <a class="nav-link dashNav-link" id="nav-report-tab" data-toggle="tab" href="#nav-report" role="tab" aria-controls="nav-report" aria-selected="false">Report</a>
-                  <a class="nav-link dashNav-link" id="nav-dashboard-tab" data-toggle="tab" href="#nav-dashboard" role="tab" aria-controls="nav-dashboard" aria-selected="false">Dasboard</a>
-                </div>
-              </nav>
-              <div class="tab-content dashNav-content" id="nav-tabContent">
-                <div class="tab-pane dashNav-pane show active" id="nav-config" role="tabpanel" aria-labelledby="nav-config-tab">
-                    <div class="dashNav-paneinner">
-
-                        <div class="emptyNotif" *ngIf="!addStepToggle">
-                            <div class="emptyNotifinner">
-                                <img src="assets/images/settings.png" alt="">
-                                <button class="btn emptyBtn" (click)="openLookupModal()">Create Configurtaion</button>
-                            </div>
-                        </div>
-
-                        <div class="configMaininfo" *ngIf="addStepToggle">
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <app-circular-loader *ngIf="loadingIframe"></app-circular-loader>
-                                    <iframe src="assets/images/settings.png" style="width:100%; height:100vh;" frameborder="0" *ngIf="Constant.EMPTY_STRINGS.includes(lookupLink)"></iframe>
-                                    <iframe [src]="lookupLink | safe" style="width:100%; height:100vh;" frameborder="0" *ngIf="!Constant.EMPTY_STRINGS.includes(lookupLink)"></iframe>
-                                </div>
-                                <div class="col-lg-6 px-2 position-relative">
-                                    <div class="configSetupBox">
-                                        <h3>New Configuration</h3>
-                                        <div class="float-right">
-                                            <button class="btn primaryBtn" (click)="openAddConfigModal()">Add Steps</button>
-                                        </div>
-                                        <div class="empty-notific" style="margin-top: 20%;" *ngIf="configurationStepList.length==0">
-                                            <div class="empty-notificinner text-center">
-                                                <div class="empty-notificinnerimg">
-                                                    <img src="assets/images/nodocument.svg" alt="" style="width:40%">
-                                                </div>
-                                                <h5>No Step Added.</h5>
-                                            </div>
-                                        </div>
-
-                                        <div class="configStepsouter" style="margin-top: 20%;" *ngIf="configurationStepList.length>0">
-                                            
-                                            <div class="configStepsinner">
-                                                <div class="configSteps" *ngFor="let step of configurationStepList; let i = index">
-                                                    <label>Step {{i+1}}</label>
-                                                    <p>Crawler Attribute : {{step.crawlerAttributeId}}, Lookup Element : {{step.lookUpElementDesc}}, Element Event : {{step.elementEvent}}, Class Name : {{step.className}}, Column Name : {{step.columnName}}</p>
-                                                </div>
-                                            </div>
-
-                                            <div class="configAction d-flex justify-content-end align-items-center">
-                                                <button class="btn secondaryBtn mr-2">Test Configuration</button>
-                                                <button class="btn primaryBtn">Save Configuration <i class="spinner-border spinner-border-sm"></i></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="addStepsModal">
-                                        <div class="configSetupBox position-relative">
-                                            <div class="closeStepsDiv">
-                                                <button class="closeSteps"><i class="bi bi-x-lg"></i></button>
-                                            </div>
-                                            <h3>Add Configuration Step</h3>
-    
-                                            <div class="configStepsouter">
-                                                
-                                                <div class="configAction d-flex justify-content-end align-items-center">
-                                                    <button class="btn primaryBtn">Add Steps</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="tab-pane dashNav-pane" id="nav-report" role="tabpanel" aria-labelledby="nav-report-tab">
-                    <div class="dashNav-paneinner">
-                        Report
-                    </div>
-                </div>
-                <div class="tab-pane dashNav-pane" id="nav-dashboard" role="tabpanel" aria-labelledby="nav-dashboard-tab">
-                    <div class="dashNav-paneinner">
-                        Dashboard
-                    </div>
-                </div>
-              </div>
-        </div> -->
     </div>
 
 
