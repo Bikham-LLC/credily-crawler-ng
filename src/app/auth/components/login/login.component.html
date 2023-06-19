@@ -24,7 +24,7 @@
                             <div class="mdlform form-group usrtblesearch position-relative mb-3">
                                 <label>Email Id<sup>*</sup></label>
                                 <div class="position-relative">
-                                    <input type="text" placeholder="Email" [(ngModel)]="userName" name="userName" class="form-control" minlength="5" maxlength="30" ngModel required/>
+                                    <input type="email" placeholder="Email" [(ngModel)]="userName" name="userName" class="form-control" minlength="5" maxlength="30" ngModel required/>
                                     <!-- <i class="fa-solid fa-magnifying-glass"></i> -->
                                     <i>
                                         <svg width="16" height="14" viewBox="0 0 16 14" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -94,12 +94,14 @@
                             <span class="text-danger" *ngIf="showError">Password did not match</span>
 
                             <div class="login-formsubmit mt-2">
-                                <button type="submit" class="btn primarybtn justify-content-center w-100 py-2">
-                                    <span>Confirm Reset
-                                        <i class="fa fa-solid fa-arrow-right-long"></i>
-                                        <!-- <i class="fa fa-spinner fa-spin"></i> -->
-                                    </span>
-                                </button>
+                                <!-- <button type="submit" class="btn primarybtn justify-content-center w-100 py-2"> -->
+                                    <!-- <span>Confirm Reset
+                                        <i class="bi bi-arrow-right-long"></i>
+                                    </span> -->
+                                    <button type="submit" class="btn primarybtn justify-content-center w-100 py-2" [disabled]="updatePasswordSpinnerToggle" >
+                                        <span>Confirm Reset<i class="spinner-border spinner-border-sm" role="status" *ngIf="updatePasswordSpinnerToggle"></i></span>
+                                    </button>
+                                <!-- </button> -->
                             </div>
                         </form>
                     </div>
@@ -114,7 +116,10 @@
                         <form ngNativeValidate #emailverifyForm="ngForm" (ngSubmit)="verifyOtp()">
                             <input class="form-control" id="partitioned" type="text" name="otpField" ngModel [(ngModel)]="otp" required minlength="6" maxlength="6"/>
                             <div class="mt-3">
-                                <button type="submit" class="btn primarybtn justify-content-center w-100 py-2">Confirm</button>
+                                <!-- <button type="submit" class="btn primarybtn justify-content-center w-100 py-2">Confirm</button> -->
+                                <button type="submit" class="btn primarybtn justify-content-center w-100 py-2" [disabled]="verifyPasswordSpinnerToggle" >
+                                    <span>Confirm<i class="spinner-border spinner-border-sm" role="status" *ngIf="verifyPasswordSpinnerToggle"></i></span>
+                                </button>
                             </div>
                         </form>
                     </div>
