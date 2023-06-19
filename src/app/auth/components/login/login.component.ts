@@ -15,6 +15,7 @@ export class LoginComponent implements OnInit {
   togglePassword:string = "password";
   userName: string = '';
   password: string = '';
+  otp: string ='';
   loginToggle: boolean = false;
 
   constructor(private authservice: AuthService,
@@ -60,6 +61,56 @@ export class LoginComponent implements OnInit {
       }else{
         this.dataService.showToast(error.error);
       }
+    })
+  }
+
+
+  emailVerifyToggle:boolean = false;
+  sendForgetPasswordOtp(){
+    debugger
+    this.emailVerifyToggle = true;
+    this.authservice.getForgetPasswordOTP(this.userName).subscribe(response=>{
+    
+    },error=>{
+      this.dataService.showToast('Something went wrong!');
+      this.emailVerifyToggle = false;
+    })
+  }
+
+  passwordResetFormToggle:boolean = false;
+  verifyOtp(){
+    debugger
+    this.authservice.verifyForgetPasswordOTP(this.userName, this.otp).subscribe(response=>{
+      if(response.status){
+        this.passwordResetFormToggle = true;
+      }
+    },error=>{
+      this.dataService.showToast('Incorrect Otp');
+      this.passwordResetFormToggle = false;
+    })
+  }
+
+  showError: boolean = false;
+  newPassword: string ='';
+  confirmPassword: string ='';
+  checkSamePassword() {
+    if (this.newPassword != this.confirmPassword) {
+      this.showError = true;
+    } else {
+      this.showError = false;
+    }
+  }
+
+  routeToLoginToggle:boolean = false;
+  updateUserPassword(){
+    debugger
+    this.authservice.updateUserPassword(this.userName, this.password, this.newPassword).subscribe(response=>{
+      if(response.status){
+        this.routeToLoginToggle = true;
+      }
+    },(error)=>{
+      // console.log(error);
+      this.routeToLoginToggle = false;
     })
   }
 
