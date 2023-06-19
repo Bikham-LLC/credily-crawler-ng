@@ -239,3 +239,6 @@ img.bottomdots {
   height: 35px;
   box-shadow: none !important;
 }
+.pointerClass{
+  cursor: pointer
+}
