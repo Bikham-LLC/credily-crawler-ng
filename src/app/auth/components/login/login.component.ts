@@ -37,6 +37,26 @@ export class LoginComponent implements OnInit {
     }
   }
 
+  toggleNewPassword:string = "password";
+  toggleNewPasswordField(){
+    if(this.toggleNewPassword == "password"){
+      this.toggleNewPassword = "text"
+    }else{
+      this.toggleNewPassword = "password";
+    }
+  }
+
+  toggleConfirmPassword:string = "password";
+  toggleconfirmPasswordField(){
+    if(this.toggleConfirmPassword == "password"){
+      this.toggleConfirmPassword = "text"
+    }else{
+      this.toggleConfirmPassword = "password";
+    }
+  }
+
+
+
   login() {
     debugger
     this.loginToggle = true;
@@ -78,15 +98,19 @@ export class LoginComponent implements OnInit {
   }
 
   passwordResetFormToggle:boolean = false;
+  verifyPasswordSpinnerToggle: boolean = false;
   verifyOtp(){
     debugger
+    this.verifyPasswordSpinnerToggle = true;
     this.authservice.verifyForgetPasswordOTP(this.userName, this.otp).subscribe(response=>{
       if(response.status){
         this.passwordResetFormToggle = true;
       }
+      this.verifyPasswordSpinnerToggle = false;
     },error=>{
       this.dataService.showToast('Incorrect Otp');
       this.passwordResetFormToggle = false;
+      this.verifyPasswordSpinnerToggle = false;
     })
   }
 
@@ -102,15 +126,19 @@ export class LoginComponent implements OnInit {
   }
 
   routeToLoginToggle:boolean = false;
+  updatePasswordSpinnerToggle:boolean = false;
   updateUserPassword(){
     debugger
+    this.updatePasswordSpinnerToggle = true;
     this.authservice.updateUserPassword(this.userName, this.password, this.newPassword).subscribe(response=>{
       if(response.status){
         this.routeToLoginToggle = true;
       }
+      this.updatePasswordSpinnerToggle = false;
     },(error)=>{
-      // console.log(error);
+      this.dataService.showToast('Something went wrong!');
       this.routeToLoginToggle = false;
+      this.updatePasswordSpinnerToggle = false;
     })
   }
 
