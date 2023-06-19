@@ -84,11 +84,12 @@
                     <app-configuration-listing></app-configuration-listing>
                 </div>
 
-                <div class="configMaininfo" *ngIf="addStepToggle">
+                <div class="configMaininfo" *ngIf="!addStepToggle">
                     <div class="row">
                         <div class="col-lg-6">
                             <app-circular-loader *ngIf="loadingIframe"></app-circular-loader>
-                            <iframe src="assets/images/settings.png" style="width:100%; height:100vh;" frameborder="0" *ngIf="Constant.EMPTY_STRINGS.includes(iframeUrl)"></iframe>
+                            <p *ngIf="Constant.EMPTY_STRINGS.includes(iframeUrl) && !loadingIframe"> Webview Link will open here. </p>
+                            <!-- <iframe src="assets/images/settings.png" style="width:100%; height:100vh;" frameborder="0" *ngIf="Constant.EMPTY_STRINGS.includes(iframeUrl)"></iframe> -->
                             <iframe [src]="iframeUrl | safe" style="width:100%; height:100vh;" frameborder="0" *ngIf="!Constant.EMPTY_STRINGS.includes(iframeUrl)"></iframe>
                         </div>
                         <div class="col-lg-6 px-2 position-relative">
@@ -226,6 +227,7 @@
     <button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#configModal" #lookupModalButton>Launch Modal</button>
     <button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#addConfigStepModal" #addConfigStepModalButton>Launch Modal</button>
     <button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#uuidModal" #uuidModalButton>Launch Modal</button>
+    <button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#appUpdateSubStructureModal" #appUpdateSubStructureModalButton>Launch Modal</button>
   
     <!-- select taxonomy modal -->
     <div class="modal fade" id="configModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-bs-labelledby="exampleModalLabel" aria-bs-hidden="true">
@@ -390,7 +392,7 @@
                                             <div class="lookupSearchForm">
                                                 <div class="position-relative">
                                                     <label class="m-1">Crawler Attribute</label>
-                                                    <angular2-multiselect id="attribute" name="attribute" [data]="attributeList" [settings]="dropdownSettingsAttribute" [(ngModel)]="selectedAttribute" (ngModelChange)="selectCrawlerAttribute($event)" (keyup)="onSearch($event)" required>
+                                                    <angular2-multiselect id="attribute" name="attribute" [data]="attributeList" [settings]="dropdownSettingsAttribute" [(ngModel)]="selectedAttribute" (ngModelChange)="selectCrawlerAttribute($event)" required>
                                                     </angular2-multiselect>
                                                 </div>
                                                 <small *ngIf="addStepForm.submitted && addStepFormInvalid && cofigStepRequest.crawlerAttributeId<=0" style="color: red;">Select Crawler Attribute!</small>
@@ -410,7 +412,9 @@
                                             <div class="lookupSearchForm">
                                                 <div class="position-relative">
                                                     <label class="m-1">Element Event</label>
-                                                    <input type="text" class="form-control" name="lEvent" placeholder="Enter Element Event" [(ngModel)]="cofigStepRequest.elementEvent" maxlength="55" required>
+                                                    <input *ngIf="cofigStepRequest.lookUpElementDesc.toLowerCase() == 'delay'" type="text" class="form-control" name="lEvent" placeholder="Enter Element Event" [(ngModel)]="cofigStepRequest.elementEvent" maxlength="55" required >
+                                                    <angular2-multiselect *ngIf="cofigStepRequest.lookUpElementDesc.toLowerCase() != 'delay'" id="className" name="className" [data]="EventList" [settings]="dropdownSettingsEvent" [(ngModel)]="selectedEvent" (ngModelChange)="selectCrawlerEvent($event)" required>
+                                                    </angular2-multiselect>
                                                 </div>
                                             </div>
                                         </div>
@@ -425,17 +429,9 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row mt-3">
+                                    <div class="row mt-3" *ngIf="!Constant.EMPTY_STRINGS.includes(cofigStepRequest.className) && cofigStepRequest.className.toLowerCase() == 'static'">
                                         <div class="col-lg-6 pr-0">
-                                            <div class="lookupSearchForm" *ngIf="!Constant.EMPTY_STRINGS.includes(cofigStepRequest.className) && cofigStepRequest.className!='static'">
-                                                <div class="position-relative">
-                                                    <label class="m-1">Column Name</label>
-                                                    <angular2-multiselect id="columnName" name="columnName" [data]="columnList" [settings]="dropdownSettingsColumn" [(ngModel)]="selectedColumn" (ngModelChange)="selectColumnName($event)" (onOpen)="onOpen($event)" required>
-                                                    </angular2-multiselect>
-                                                </div>
-                                                <small *ngIf="addStepForm.submitted && addStepFormInvalid && Constant.EMPTY_STRINGS.includes(cofigStepRequest.columnName)" style="color: red;">Select Column Name!</small>
-                                            </div>
-                                            <div class="lookupSearchForm" *ngIf="Constant.EMPTY_STRINGS.includes(cofigStepRequest.className) || cofigStepRequest.className=='static'">
+                                            <div class="lookupSearchForm">
                                                 <div class="position-relative">
                                                     <label class="m-1">Column Name</label>
                                                     <input type="text" class="form-control" name="cName1" placeholder="Enter Column Name" [(ngModel)]="cofigStepRequest.columnName" maxlength="155" required>
@@ -448,7 +444,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn primaryBtn">Add Steps</button>
+                        <button type="submit" class="btn primaryBtn" [disabled]="Constant.EMPTY_STRINGS.includes(cofigStepRequest.className) || cofigStepRequest.className.toLowerCase() != 'static'">Add Steps</button>
                     </div>
                 </form>
             </div>
@@ -493,5 +489,87 @@
             </div>
         </div>
     </div>
+
+    <!-- select column name modal -->
+    <div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="appUpdateSubStructureModal" tabindex="-1" aria-labelledby="appUpdateSubStructureModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button class="btn btn-primary mt-2 me-0" (click)="openAddConfigModal()">
+                        <i class="ri-arrow-left-s-fill align-bottom"></i> back
+                    </button>
+                    <h1 class="modal-title fs-5" id="exampleModalLabel"></h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #subStructureUpdateModalCloseButton id="subStructureUpdateModalCloseButton"></button>
+                </div>
+                <div class="modal-body pb-0">
+
+                    <div class="card">
+                        <div class="card-header align-items-center d-flex">
+                            <h4 class="card-title mb-0 flex-grow-1">Available Columns</h4>
+                        </div>
+                        <div class="card-body">
+
+                            <div class="live-preview" style="max-height: 350px;overflow:scroll">
+                                <div class="list-group">
+                                    <span *ngIf="columns.length == 0" class="text-center">No data available <br>
+                                        (Select Table from Dropdown)
+                                    </span>
+
+                                    <!-- Columns -->
+                                    <button type="button" [ngClass]="{'selectColumn':columnObj.isSelected}" class="list-group-item text-start w-100" aria-current="true" *ngFor="let columnObj of columns;let i=index">
+                                        <a href="javascript:void(0)" style="display: block;" (click)="selectTab(columnObj,i)" class="cursorPointer text-dark">{{i+1}}. {{columnObj.key}}</a>
+                                        <div class="live-preview" style="margin-left: 30px;" *ngIf="indexedTab==i">
+                                            <div class="list-group">
+
+                                                <!-- nested column -->
+                                                <div class="row" *ngFor="let valueObj of columnObj.values;let ii=index">
+                                                    <div class="col-lg-12">
+                                                        <button type="button" [ngClass]="{'selectColumnValue':valueObj.isSelected}" class="list-group-item text-start text-dark w-100"
+                                                            aria-current="true">
+                                                            <a href="javascript:void(0)" style="display: block;" (click)="selectNestedValue(i,ii,valueObj)" class="cursorPointer text-dark">{{i+1}}.{{ii+1}}. {{valueObj.key}}</a>
+
+                                                            <!-- nested sub column -->
+                                                            <div class="live-preview" style="margin-left: 30px;" *ngIf="subIndexedTab==ii">
+                                                                <div class="list-group">
+                    
+                                                                    <div class="row" *ngFor="let subValueObj of valueObj.values;let iii=index">
+                                                                        <div class="col-lg-12">
+                                                                            <button type="button" [ngClass]="{'selectColumnValuesValue':subValueObj.isSelected}" class="list-group-item text-start text-dark w-100"
+                                                                                aria-current="true">
+                                                                                <a href="javascript:void(0)" style="display: block;" (click)="selectNestedSubValue(i,ii,iii,subValueObj)" class="cursorPointer text-dark">{{i+1}}.{{ii+1}}.{{iii+1}}. {{subValueObj.key}}</a>
+                    
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+
+                                                        </button>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </button>
+                                    <!--  -->
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+    
+                <div>
+                    <button style="float: right;" type="button" *ngIf="columns.length > 0" (click)="addUpdateObj()" class="mb-3 me-3 btn btn-primary waves-effect waves-light">
+                        <i class="ri-add-circle-line align-bottom me-2"></i>Add
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
 
 </div>

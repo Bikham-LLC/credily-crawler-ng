@@ -448,3 +448,15 @@ header {
   top: 0;
   border-bottom: 1px solid #f1f1f1;
 } */
+
+.selectColumn {
+  background-color: #c0c0c0e3;
+}
+
+.selectColumnValue {
+  background-color: #b9d3b9;
+}
+
+.selectColumnValuesValue {
+  background-color: #ece6cef7;
+}
