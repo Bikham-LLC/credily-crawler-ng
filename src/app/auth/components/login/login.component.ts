@@ -37,6 +37,26 @@ export class LoginComponent implements OnInit {
     }
   }
 
+  toggleNewPassword:string = "password";
+  toggleNewPasswordField(){
+    if(this.toggleNewPassword == "password"){
+      this.toggleNewPassword = "text"
+    }else{
+      this.toggleNewPassword = "password";
+    }
+  }
+
+  toggleConfirmPassword:string = "password";
+  toggleconfirmPasswordField(){
+    if(this.toggleConfirmPassword == "password"){
+      this.toggleConfirmPassword = "text"
+    }else{
+      this.toggleConfirmPassword = "password";
+    }
+  }
+
+
+
   login() {
     debugger
     this.loginToggle = true;
@@ -109,7 +129,7 @@ export class LoginComponent implements OnInit {
         this.routeToLoginToggle = true;
       }
     },(error)=>{
-      // console.log(error);
+      this.dataService.showToast('Something went wrong!');
       this.routeToLoginToggle = false;
     })
   }
