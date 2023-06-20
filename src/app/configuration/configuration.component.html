@@ -110,9 +110,10 @@
                                     <div class="d-flex justify-content-end mb-2 mt-4">
                                         <button class="btn primaryBtn" (click)="openAddConfigModal()">Add Steps</button>
                                     </div>
-                                    <div class="configStepsinner">
-                                        <div class="configSteps" *ngFor="let step of configurationStepList; let i = index">
-                                            <label>Step {{i+1}}</label>
+                                    <div class="configStepsinner" cdkDropList (cdkDropListDropped)="drop($event)">
+                                        <div class="configSteps example-box position-relative" cdkDrag *ngFor="let step of configurationStepList; let i = index">
+                                            <span class="removeSteps" title="Remove Step" (click)="removeStep(i)"><i class="bi bi-dash-circle-fill"></i></span>
+                                            <label class="me-2 text-center">Step {{i+1}}</label>
                                             <p>Crawler Attribute : {{step.crawlerAttribute}}, Lookup Element : {{step.lookUpElementDesc}}, Element Event : {{step.elementEvent}}, Entity Name : {{step.className}}, <span *ngIf="step.className.toLowerCase()=='static'">Value : {{step.columnName}}</span> <span *ngIf="step.className.toLowerCase()!='static'"> Column Name : {{step.columnName}}</span></p>
                                         </div>
                                     </div>
@@ -141,7 +142,7 @@
     <div class="modal fade" id="configModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-bs-labelledby="exampleModalLabel" aria-bs-hidden="true">
         <div class="modal-dialog configModal">
             <div class="modal-content">
-                <form  #providerHospitalForm="ngForm" ngNativeValidate (ngSubmit)="saveLookupDetails()" >
+                <form  #mapLookupTaxonomyForm="ngForm" ngNativeValidate (ngSubmit)="saveLookupDetails()" >
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">New Configuration</h5>
                         <button type="button" class="close" data-bs-dismiss="modal" aria-bs-label="Close" (click)="closeTaxonomyModal()">
@@ -155,7 +156,7 @@
                                     <div class="row mb-1">
                                         <div class="col-lg-6 pr-0">
                                             <div class="lookupSearchForm">
-                                                <label>Enter Lookup Name</label>
+                                                <label>Enter Lookup Name <sup class="text-danger">*</sup> </label>
                                                 <div class="position-relative">
                                                     <input type="text" class="form-control" name="lname" placeholder="Enter Lookup Name" [(ngModel)]="lookupName" maxlength="155" required>
                                                 </div>
@@ -163,10 +164,20 @@
                                         </div>
                                         <div class="col-lg-6 ">
                                             <div class="lookupSearchForm">
-                                                <label>Enter Lookup Link</label>
+                                                <label>Enter Lookup Link <sup class="text-danger">*</sup> </label>
                                                 <div class="position-relative">
                                                     <input type="url" class="form-control" name="llink" placeholder="Enter Lookup Link" [(ngModel)]="lookupLink" maxlength="200" required>
                                                 </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 ">
+                                            <div class="lookupSearchForm">
+                                                <div class="position-relative">
+                                                    <label class="m-1">Credily Version <sup class="text-danger">*</sup> </label>
+                                                    <angular2-multiselect id="version" name="version" [data]="versionList" [settings]="dropdownSettingsVersion" [(ngModel)]="selectedVersion" (ngModelChange)="selectVersion($event)" required>
+                                                    </angular2-multiselect>
+                                                </div>
+                                                <small *ngIf="mapLookupTaxonomyForm.submitted && Constant.EMPTY_STRINGS.includes(credilyVersion)" style="color: red;">Select Credily Version!</small>
                                             </div>
                                         </div>
                                     </div>
@@ -273,7 +284,7 @@
                     <div class="modal-footer">
                         <button type="button" class="btn primarycancelbtn" style="border-color: #F05252 !important;" 
                         data-bs-dismiss="modal" #closeTaxomonModalButton (click)="closeTaxonomyModal()">Close</button>
-                        <button type="submit" class="btn primaryBtn" [disabled]="selectedTaxonomyIds.length==0">Save changes</button>
+                        <button type="submit" class="btn primaryBtn" [disabled]="selectedTaxonomyIds.length==0 || mapLookupTaxonomyForm.invalid">Save changes</button>
                     </div>
                 </form>
             </div>
@@ -330,10 +341,10 @@
                                             <div class="lookupSearchForm">
                                                 <div class="position-relative">
                                                     <label class="m-1">Entity Name</label>
-                                                    <angular2-multiselect id="entityName" name="entityName" [data]="classList" [settings]="dropdownSettingsClass" [(ngModel)]="selectedClass" (ngModelChange)="selectClassName($event)" required>
+                                                    <angular2-multiselect id="entityName" name="entityName" [data]="classList" [settings]="dropdownSettingsClass" [(ngModel)]="selectedClass" (ngModelChange)="selectClassName($event)">
                                                     </angular2-multiselect>
                                                 </div>
-                                                <small *ngIf="addStepForm.submitted && addStepFormInvalid && Constant.EMPTY_STRINGS.includes(cofigStepRequest.className)" style="color: red;">Select Entity Name!</small>
+                                                <!-- <small *ngIf="addStepForm.submitted && addStepFormInvalid && Constant.EMPTY_STRINGS.includes(cofigStepRequest.className)" style="color: red;">Select Entity Name!</small> -->
                                             </div>
                                         </div>
 
@@ -347,41 +358,6 @@
                                         </div>
 
                                     </div>
-
-                                    <!-- <div class="row mt-3">
-                                        <div class="col-lg-6">
-                                            <div class="lookupSearchForm">
-                                                <div class="position-relative">
-                                                    <label class="m-1" *ngIf="cofigStepRequest.crawlerAttributeId == 7 ">Delay Time</label>
-                                                    <label class="m-1" *ngIf="cofigStepRequest.crawlerAttributeId != 7">Element Event</label>
-                                                    <angular2-multiselect id="className" name="className" [data]="EventList" [settings]="dropdownSettingsEvent" [(ngModel)]="selectedEvent" (ngModelChange)="selectCrawlerEvent($event)" required>
-                                                    </angular2-multiselect>
-                                                </div>
-                                                <small *ngIf="addStepForm.submitted && addStepFormInvalid && Constant.EMPTY_STRINGS.includes(cofigStepRequest.elementEvent)" style="color: red;">Select Event/Delay!</small>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <div class="lookupSearchForm">
-                                                <div class="position-relative">
-                                                    <label class="m-1">Entity Name</label>
-                                                    <angular2-multiselect id="className" name="className" [data]="classList" [settings]="dropdownSettingsClass" [(ngModel)]="selectedClass" (ngModelChange)="selectClassName($event)" required>
-                                                    </angular2-multiselect>
-                                                </div>
-                                                <small *ngIf="addStepForm.submitted && addStepFormInvalid && Constant.EMPTY_STRINGS.includes(cofigStepRequest.className)" style="color: red;">Select Class Name!</small>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row mt-3" *ngIf="!Constant.EMPTY_STRINGS.includes(cofigStepRequest.className) && cofigStepRequest.className.toLowerCase() == 'static'">
-                                        <div class="col-lg-6 pr-0">
-                                            <div class="lookupSearchForm">
-                                                <div class="position-relative">
-                                                    <label class="m-1">Column Name</label>
-                                                    <input type="text" class="form-control" name="cName1" placeholder="Enter Column Name" [(ngModel)]="cofigStepRequest.columnName" maxlength="155" required>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div> -->
-                                
                                 </div>
                             </div>
                         </div>

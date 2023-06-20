@@ -8,6 +8,7 @@ import { ConfigRequest } from '../models/ConfigRequest';
 import { LicenseLookupConfigRequest } from '../models/LicenseLookupConfigRequest';
 import { Constant } from '../models/Constant';
 import { FormStructure } from '../models/formStructure';
+import {CdkDragDrop, CdkDropList, CdkDrag, moveItemInArray} from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-configuration',
@@ -23,6 +24,8 @@ export class ConfigurationComponent implements OnInit {
       if(!this.Constant.EMPTY_STRINGS.includes(localStorage.getItem(this.Constant.USER_NAME))){
         this.userName = String(localStorage.getItem(this.Constant.USER_NAME));
       }
+      
+      this.versionList = [{id:'V2', itemName:'Credily V2'}, {id:'V3', itemName:'Credily V3'}];
   }
 
   readonly Constant = Constant;
@@ -36,6 +39,11 @@ export class ConfigurationComponent implements OnInit {
   lookupLink:string='';
   selectedStateName:string='';
   @ViewChild('lookupModalButton') lookupModalButton !:ElementRef;
+  @ViewChild('mapLookupTaxonomyForm') mapLookupTaxonomyForm : any;
+  credilyVersion:string='';
+  dropdownSettingsVersion !: { singleSelection: boolean; text: string; enableSearchFilter: boolean; autoPosition: boolean };
+  selectedVersion: any[] = new Array();
+  versionList: any[] = new Array();
 
   addStepToggle:boolean=false;
 
@@ -66,11 +74,30 @@ export class ConfigurationComponent implements OnInit {
       autoPosition: false,
       noDataLabel: 'Select Class Name First'
     }
+    this.dropdownSettingsVersion = {
+      singleSelection: true,
+      text: 'Select Version',
+      enableSearchFilter: false,
+      autoPosition: false
+    }
 
-    // this.getLookupTaxonomy();
-    // this.getArribute();
-    // this.getClassName();
+    this.configurationStepList = [
+      {"crawlerAttributeId":1,"crawlerAttribute":"id","lookUpElementDesc":"LicenseNumber","elementEvent":"sendKey","className":"ProviderProfessionalLicense","columnName":"licenseNumber"},
+      {"crawlerAttributeId":1,"crawlerAttribute":"id","lookUpElementDesc":"search","elementEvent":"click","className":"","columnName":""},
+      {"crawlerAttributeId":7,"crawlerAttribute":"delay","lookUpElementDesc":"","elementEvent":"4","className":"","columnName":""},
+      {"crawlerAttributeId":5,"crawlerAttribute":"dynamicText","lookUpElementDesc":"","elementEvent":"click","className":"ProviderProfessionalLicense","columnName":"licenseNumber"},
+      {"crawlerAttributeId":7,"crawlerAttribute":"delay","lookUpElementDesc":"","elementEvent":"4","className":"","columnName":""},
+      {"crawlerAttributeId":4,"crawlerAttribute":"staticText","lookUpElementDesc":"ProgramId","elementEvent":"sendKey","className":"Static","columnName":"Acupuncture"}
+    ];
+  }
 
+  drop(event: CdkDragDrop<any[]>) {
+    debugger
+    moveItemInArray(this.configurationStepList, event.previousIndex, event.currentIndex);
+  }
+
+  removeStep(i:any){
+    this.configurationStepList.splice(i,1);
   }
 
   logOut() {
@@ -80,6 +107,7 @@ export class ConfigurationComponent implements OnInit {
 
   openLookupModal(){
     this.selectedTaxonomyIds = [];
+    this.selectedVersion = [];
     this.databaseHelper = new DatabaseHelper();
     this.lookupLink = '';
     this.lookupName = '';
@@ -87,6 +115,16 @@ export class ConfigurationComponent implements OnInit {
     this.lookupModalButton.nativeElement.click();
     this.getLookupTaxonomy();
   }
+  
+  selectVersion(event:any){
+    debugger
+    this.credilyVersion = '';
+    if (event[0] != undefined) {
+      this.selectedVersion = event;
+      this.credilyVersion = event[0].id;
+    }
+  }
+
 
   getLookupTaxonomy(){
     debugger
@@ -155,6 +193,7 @@ export class ConfigurationComponent implements OnInit {
   @ViewChild('closeTaxomonModalButton') closeTaxomonModalButton!:ElementRef;
   saveLookupDetails(){
     debugger
+
     this.addStepToggle = true;
     this.loadingIframe = true;
     this.configurationStepList = [];
@@ -345,6 +384,7 @@ export class ConfigurationComponent implements OnInit {
 
     // this.closeUuidModal.nativeElement.click();
 
+    this.licenseLookupConfigRequest.version = this.credilyVersion;
     this.licenseLookupConfigRequest.licenseLookUpName = this.lookupName;
     this.licenseLookupConfigRequest.licenseLookUpLink = this.lookupLink;
     this.licenseLookupConfigRequest.taxonomyIdList = this.selectedTaxonomyIds;
@@ -376,6 +416,7 @@ export class ConfigurationComponent implements OnInit {
     
     // await this.testConfiguration();
 
+    this.licenseLookupConfigRequest.version = this.credilyVersion;
     this.licenseLookupConfigRequest.licenseLookUpName = this.lookupName;
     this.licenseLookupConfigRequest.licenseLookUpLink = this.lookupLink;
     this.licenseLookupConfigRequest.taxonomyIdList = this.selectedTaxonomyIds;

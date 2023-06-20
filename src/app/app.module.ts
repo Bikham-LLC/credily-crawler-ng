@@ -13,6 +13,7 @@ import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
 import { SafePipe } from './pipe/safe.pipe';
 import { StateDropdownComponent } from './state-dropdown/state-dropdown.component';
 import { AccountUserComponent } from './account-user/account-user.component';
+import {DragDropModule} from '@angular/cdk/drag-drop';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { AccountUserComponent } from './account-user/account-user.component';
     HttpClientModule,
     FormsModule,
     NgbModule,
-    AngularMultiSelectModule
+    AngularMultiSelectModule,
+    DragDropModule
   ],
   providers: [],
   bootstrap: [AppComponent]
