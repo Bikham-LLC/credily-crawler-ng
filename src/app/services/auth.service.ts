@@ -50,11 +50,11 @@ export class AuthService {
     return this.http.get<any>(this.key.server_url + this.key.api_version_one + "/auth/get-user")
   }
 
-  // updateUserStatus(user : UserAccountRequest): Observable<any> {
-  //   const params = new HttpParams()
-  //   .set('userName', user.userName)
-  //   .set('status', user.status)
+  updateUserStatus(user : UserAccountRequest): Observable<any> {
+    const params = new HttpParams()
+    .set('userName', user.userName)
+    .set('status', user.status)
 
-  //   return this._http.patch<any>(this.Key.host_url+this.Key.enterprise_leader + "/status-update",{},{params});
-  // }
+    return this.http.patch<any>(this.key.server_url+this.key.api_version_one + "/update-user-status",{user},{params});
+  }
 }

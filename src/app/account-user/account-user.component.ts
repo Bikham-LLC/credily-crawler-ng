@@ -46,11 +46,14 @@ export class AccountUserComponent implements OnInit {
     } else {
       user.status = 'ACTIVE';
     }
-    console.log(user.status);
+    this.updateUserStatus(user);
   }
 
   updateUserStatus(user: UserAccountRequest){
-    
+    this.authService.updateUserStatus(user).subscribe(response=>{
+    },error=>{
+      this.dataService.showToast("Something went wrong!");
+    })
   }
 
 

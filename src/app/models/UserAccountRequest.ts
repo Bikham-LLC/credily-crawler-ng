@@ -5,6 +5,6 @@ export class UserAccountRequest{
     userName:string='';
     password:String='';
 
-	createdDate:any;
+	cretedDate:any;
 	status:string = '';
 }
