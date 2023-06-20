@@ -319,7 +319,7 @@ header {
 
 .userDropdownmenu {
   min-width: 10rem;
-  left: -8px !important;
+  left: -120px !important;
   top: 40px !important;
   transform: unset !important;
   padding: 15px;

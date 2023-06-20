@@ -29,6 +29,9 @@ a {
   gap: 8px;
   align-items: center;
 }
+ul li,ol li {
+  list-style: none;
+}
 .secondaryBtn {
   background-color: #cccccc;
   font-size: 14px;

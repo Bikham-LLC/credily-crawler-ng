@@ -1,0 +1,379 @@
+
+<!-- <app-navigation></app-navigation> -->
+<div class="container-fluid mt-4">
+    <div class="row px-1">
+        <div class="px-2 col-lg-3 col-md-4 col-sm-12">
+            <div class="sidenavigation">
+                <h3>Navigation Title</h3>
+                <div class="sidenavigationinner">
+                    <ul class="mb-0">
+                        <li class="sidenavitem ">
+                            <a class="sidenavlink pointer" routerLink="roles-and-security" routerLinkActive="active">
+                                <img src="assets/images/side-icon/profile-1.svg" alt="">
+                                Roles And Security
+                            </a>
+                        </li>
+                        <li class="sidenavitem">
+                            <a class="sidenavlink pointer" routerLink="users-and-controls" routerLinkActive="active" >
+                                
+                                <img src="assets/images/side-icon/profile-2.svg" alt="">
+                                Users And Controls
+                            </a>
+                        </li>
+                        <li class="sidenavitem" >
+                            <a class="sidenavlink pointer" routerLink="client-users" routerLinkActive="active" >
+                                
+                                <img src="assets/images/side-icon/profile-2.svg" alt="">
+                                Users And Controls
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="px-2 col-lg-9 col-md-8 col-sm-12">
+            <div class="container-fluid">
+                <div class="main">
+                  <div class="roletitlemain">
+                    <div class="pagetitle">
+                      <h3>Users</h3>
+                    </div>
+                  </div>
+              
+                  <div class="usertablemain">
+                    <div class="row justify-content-between align-items-center">
+                      <div class="col-lg-4 px-2">
+                        <div class="form-group usrtblesearch position-relative">
+                          <input placeholder="Search User" class="form-control" id="Users" name="UserList"/>
+                          <i class="fa-solid fa-magnifying-glass"></i>
+                        </div>
+                      </div>
+                      <div class="col-lg-3 pl-2 pr-0">
+                        <div class="d-flex justify-content-end align-items-center">
+                          <button type="button" class="btn primarybtn pdependent" style="margin-right: 16px;" (click)="userForm()">
+                            Create New User
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+              
+            
+                    <!-- Empty notification -->
+                    <!-- <div class="empty-notific">
+                      <div class="empty-notificinner">
+              
+                        <img src="assets/images/allexpirable.svg" style="width: 20%;" alt="no data found" />
+                        <h4>No data found</h4>
+                      </div>
+                    </div> -->
+              
+              
+                    <!-- <app-circular-loader *ngIf="fetchingLeader"></app-circular-loader> -->
+                    <div class="usertable mt-3">
+                      <div class="usertableinner table-responsive">
+              
+              
+                        <table class="table">
+                          <thead>
+                            <tr>
+                              <th style="width: 7%">Id</th>
+                              <th style="width: 20%">User Name</th>
+                              <th style="width: 25%">Date</th>
+                              <th style="width: 15%">Status</th>
+                              <th style="width: 20%">Roles</th>
+                              <th style="width: 20%">Action</th>
+                            </tr>
+                          </thead>
+              
+                          <tbody>
+                            <tr >
+                              <td>
+                                <div class="tableinfo">
+                                  <!-- {{i+1}} -->
+                                </div>
+                              </td>
+                              <td>
+                                <div class="tableinfo">
+                                  <!--  <p class="mb-0 pointer" (click)="getEnterpriseLeaderByUuid(leader)">
+                                    <span *ngIf="!Constant.EMPTY_STRINGS.includes(leader.firstName)">{{leader.firstName}} </span>
+                                    <span *ngIf="!Constant.EMPTY_STRINGS.includes(leader.lastName)">{{leader.lastName}}</span>
+                                  </p> -->
+                                </div>
+                              </td>
+                              <td>
+                                <div class="tableinfo">
+                                  <span class="badge-grey">createdDate</span>
+                                </div>
+                              </td>
+              
+                              <td>
+                                <div class="tableinfo">
+                                  <span class="statusactive">status</span>
+                                </div>
+                              </td>
+                              <td>
+                                <div class="tableinfo">
+                                  role
+                                </div>
+                              </td>
+                              <td>
+                                <div class="tableinfo pdependent">
+                                  <div class="customswitch">
+                                    <span class="text-success actiontable">
+                                      <i class="fa-solid fa-pen-to-square"></i>
+                                    </span>
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
+                                      </div>
+                                      <label for="customSwitch" class="pointer position-relative">
+                                        <span></span>
+                                      </label>
+                                  </div>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                        <!--<div class="paginationmain" *ngIf="eLeaders.length>0">
+                       <div class="d-flex align-items-center justify-content-between">
+                          <p class="currentshowing mb-0">
+                            Showing <span>{{eLeaders.length}}</span> of <span>{{totalELeader}}</span>
+                          </p>
+              
+              
+              
+                          <div class="col-lg-6">
+                            <div class="card-body d-flex justify-content-end">
+                              <ngb-pagination class="pagination pagination-separated justify-content-sm-end mb-sm-0"
+                                [collectionSize]="totalELeader" [rotate]="true" (pageChange)="pageChanged($event)"
+                                [pageSize]="databaseHelperUser.itemsPerPage" [(page)]="databaseHelperUser.currentPage" [maxSize]="5"
+                                [boundaryLinks]="true">
+                              </ngb-pagination>
+                            </div>
+                          </div>
+                        </div> 
+                      </div> -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+  
+  
+  
+  <!-- Modals -->
+  <!-- Button trigger modal -->
+  <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#profilEditmodal">
+        Launch demo modal
+      </button>
+       -->
+  <!-- Modal Edit-->
+  <!-- <button type="button" style="display: none;" #userDetailmodalButton id="userDetailmodalButton" data-bs-toggle="modal" data-bs-target="#userDetailmodal"></button>
+  <div class="modal blur-bg-2" id="userDetailmodal" tabindex="-1" aria-labelledby="userDetailmodal" aria-hidden="true">
+  
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content" style="min-height: 500px;" *ngIf="loadingToggle">
+        <app-circular-loader></app-circular-loader>
+      </div>
+      <div class="modal-content" *ngIf="!loadingToggle">
+        <div class="modal-header border-0">
+          <h1 class="modal-title" id="profilEditLabel">{{enterpriseLeader.firstName}} {{enterpriseLeader.lastName}}</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body pt-0">
+          <div class="rolemodalbody">
+            <div class="rolemodalinner">
+              <h3>{{enterpriseLeader.firstName}} ’s Information</h3>
+              <div class="userdetails">
+                <div class="d-flex align-items-center">
+                  <p class="text-end">Mobile : </p>
+                  <p class="text-start">
+                    <span *ngIf="enterpriseLeader.phone != null">{{enterpriseLeader.phone | mask:'(000)-000-0000'}}</span>
+                    <span *ngIf="enterpriseLeader.phone == null">N/A</span>
+                  </p>
+                </div>
+  
+                <div class="d-flex align-items-center">
+                  <p class="text-end">Company Phone : </p>
+                  <p class="text-start">
+                    <span *ngIf="enterpriseLeader.companyPhone != null">{{enterpriseLeader.companyPhone |
+                      mask:'(000)-000-0000'}}</span>
+                    <span *ngIf="enterpriseLeader.companyPhone == null">N/A</span>
+                  </p>
+                </div>
+  
+                <div class="d-flex align-items-center">
+                  <p class="text-end">Extension Number : </p>
+                  <p class="text-start">
+                    <span *ngIf="enterpriseLeader.extensionNumber != null">{{enterpriseLeader.extensionNumber}}</span>
+                    <span *ngIf="enterpriseLeader.extensionNumber == null">N/A</span>
+                  </p>
+                </div>
+  
+                <div class="d-flex align-items-center">
+                  <p class="text-end">E-Mail : </p>
+                  <p class="text-start">
+                    <span *ngIf="enterpriseLeader.email != null">{{enterpriseLeader.email}}</span>
+                    <span *ngIf="enterpriseLeader.email == null">N/A</span>
+                  </p>
+                </div>
+  
+                <div class="d-flex align-items-center">
+                  <p class="text-end">Status : </p>
+                  <p class="text-start">
+                    <span *ngIf="enterpriseLeader.status != null">{{enterpriseLeader.status | titlecase}}</span>
+                    <span *ngIf="enterpriseLeader.status == null">N/A</span>
+                  </p>
+                </div>
+  
+                <div class="d-flex align-items-center">
+                  <p class="text-end">Role : </p>
+                  <p class="text-start">
+                    <span *ngIf="enterpriseLeader.role != null">{{enterpriseLeader.role}}</span>
+                    <span *ngIf="enterpriseLeader.role == null">N/A</span>
+                  </p>
+                </div>
+  
+                <div class="d-flex align-items-center">
+                  <p class="text-end">Title : </p>
+                  <p class="text-start">
+                    <span *ngIf="enterpriseLeader.title != null">{{enterpriseLeader.title}}</span>
+                    <span *ngIf="enterpriseLeader.title == null">N/A</span>
+                  </p>
+                </div>
+  
+                <div class="d-flex align-items-center">
+                  <p class="text-end">About Info : </p>
+                  <p class="text-start">
+                    <span *ngIf="enterpriseLeader.about != null">{{enterpriseLeader.about}}</span>
+                    <span *ngIf="enterpriseLeader.about == null">N/A</span>
+                  </p>
+                </div>
+  
+                <div class="d-flex align-items-center">
+                  <p class="text-end">Timezone : </p>
+                  <p class="text-start">
+                    <span *ngIf="enterpriseLeader.timeZone != null">{{enterpriseLeader.timeZone}}</span>
+                    <span *ngIf="enterpriseLeader.timeZone == null">N/A</span>
+                  </p>
+                </div>
+  
+                <div class="d-flex align-items-center">
+                  <p class="text-end">Lang Code : </p>
+                  <p class="text-start">
+                    <span *ngIf="enterpriseLeader.languageCode != null">{{enterpriseLeader.languageCode}}</span>
+                    <span *ngIf="enterpriseLeader.languageCode == null">N/A</span>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+            <div class="modal-footer border-top-0 pt-0">
+              <button type="button" class="btn primarycancelbtn" data-bs-dismiss="modal">Cancel</button>
+              <button type="button" class="btn primarybtn">Update</button>
+            </div>
+      </div>
+    </div>
+  </div> -->
+  
+  
+  <!-- new user create -->
+  <button type="button" #createUsermodalButton data-bs-toggle="modal" data-bs-target="#createUsermodal"></button>
+    <div class="modal blur-bg-2" id="createUsermodal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="crreateForm" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header border-0">
+            <h1 class="modal-title" id="profilEditLabel">
+                <span>Create</span>
+                <span>Update</span> User
+            </h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form #leaderDetailForm="ngForm" ngNativeValidate >
+            <div class="modal-body pt-0">
+                <div class="rolemodalbody">
+                <div class="rolemodalinner">
+                    <div class="row px-1">
+                    <div class="col-lg-6 col-md-12 px-2">
+                        <div class="mdlform form-group position-relative mb-3">
+                        <label>Full Name<sup>*</sup></label>
+                        <div class="position-relative">
+                            <input type="text" placeholder="Eg: John" class="form-control" name="fname"
+                            required minlength="3" maxlength="55" />
+                        </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-12 px-2">
+                        <div class="mdlform form-group usrtblesearch position-relative mb-3">
+                        <label>Phone<sup>*</sup></label>
+                        <div class="position-relative">
+                            <input type="text" placeholder="10 digit phone number" class="form-control" name="phone"
+                            required mask="(000)-000-0000" minlength="10" maxlength="15" />
+                            <i>
+                            <svg width="17" height="16" viewBox="0 0 17 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                d="M1.48816 0.988155C1.17559 1.30072 1 1.72464 1 2.16667V3C1 9.90333 6.59667 15.5 13.5 15.5H14.3333C14.7754 15.5 15.1993 15.3244 15.5118 15.0118C15.8244 14.6993 16 14.2754 16 13.8333V11.1008C16 10.9259 15.945 10.7553 15.8427 10.6134C15.7404 10.4714 15.596 10.3653 15.43 10.31L11.6858 9.06167C11.4956 8.99841 11.2888 9.0059 11.1036 9.08274C10.9184 9.15958 10.7671 9.30062 10.6775 9.48L9.73583 11.3608C7.69538 10.4389 6.0611 8.80462 5.13917 6.76417L7.02 5.8225C7.19938 5.73288 7.34042 5.58158 7.41726 5.39637C7.4941 5.21116 7.50158 5.00445 7.43833 4.81417L6.19 1.07C6.13475 0.90413 6.02874 0.759836 5.88696 0.657542C5.74519 0.555247 5.57483 0.500133 5.4 0.5H2.66667C2.22464 0.5 1.80072 0.675595 1.48816 0.988155Z"
+                                stroke="#6B7280" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                            </i>
+                        </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-12 px-2">
+                        <div class="mdlform form-group usrtblesearch position-relative mb-3">
+                        <label>Email<sup>*</sup></label>
+                        <div class="position-relative">
+                            <input type="email" autocomplete="false" placeholder="Enter Email" class="form-control" name="email1"
+                            required minlength="3" maxlength="55" />
+                            <i>
+                            <svg width="16" height="14" viewBox="0 0 16 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                d="M0.5 3.66602L7.075 8.04935C7.34888 8.23208 7.67075 8.3296 8 8.3296C8.32925 8.3296 8.65112 8.23208 8.925 8.04935L15.5 3.66602M2.16667 12.8327H13.8333C14.2754 12.8327 14.6993 12.6571 15.0118 12.3445C15.3244 12.032 15.5 11.608 15.5 11.166V2.83268C15.5 2.39065 15.3244 1.96673 15.0118 1.65417C14.6993 1.34161 14.2754 1.16602 13.8333 1.16602H2.16667C1.72464 1.16602 1.30072 1.34161 0.988155 1.65417C0.675595 1.96673 0.5 2.39065 0.5 2.83268V11.166C0.5 11.608 0.675595 12.032 0.988155 12.3445C1.30072 12.6571 1.72464 12.8327 2.16667 12.8327Z"
+                                stroke="#6B7280" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                            </i>
+                        </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-12 px-2" >
+                        <div class="mdlform form-group usrtblesearch position-relative mb-3">
+                        <label>Password<sup>*</sup></label>
+                        <div class="position-relative" >
+                            <input type="password" autocomplete="false" placeholder="Enter password" class="form-control" name="password1"
+                            required minlength="5" maxlength="15" />
+                            <i>
+                            <svg width="14" height="18" viewBox="0 0 14 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                d="M6.99967 0.666016C9.2403 0.666016 11.0679 2.4346 11.1625 4.65194L11.1663 4.83268V7.33268C12.5471 7.33268 13.6663 8.45197 13.6663 9.83268V14.8327C13.6663 16.2134 12.5471 17.3327 11.1663 17.3327H2.83301C1.4523 17.3327 0.333008 16.2134 0.333008 14.8327V9.83268C0.333008 8.45197 1.4523 7.33268 2.83301 7.33268V4.83268C2.83301 2.5315 4.69849 0.666016 6.99967 0.666016ZM11.1663 8.99935H2.83301C2.37277 8.99935 1.99967 9.37245 1.99967 9.83268V14.8327C1.99967 15.2929 2.37277 15.666 2.83301 15.666H11.1663C11.6266 15.666 11.9997 15.2929 11.9997 14.8327V9.83268C11.9997 9.37245 11.6266 8.99935 11.1663 8.99935ZM7.14657 2.33693L6.99967 2.33268C5.66827 2.33268 4.57996 3.37345 4.50392 4.68579L4.49967 4.83268V7.33268H9.49967V4.83268C9.49967 3.50128 8.45891 2.41296 7.14657 2.33693L6.99967 2.33268L7.14657 2.33693Z"
+                                fill="#6B7280" />
+                            </svg>
+                            </i>
+                        </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+            <div class="modal-footer border-top-0 pt-0">
+                <button type="button" class="btn primarycancelbtn" #closeLeaderModel data-bs-dismiss="modal"
+                >Cancel</button>
+                <!-- <button type="submit" class="btn primarybtn" (click)="createLeader()">create</button> -->
+                <button type="submit" class="btn primarybtn">
+                <span>Create</span>
+                <span>Update</span> 
+                <i class="fa fa-spinner fa-spin"></i></button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
