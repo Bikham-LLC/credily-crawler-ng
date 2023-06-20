@@ -8,6 +8,7 @@ import { ConfigRequest } from '../models/ConfigRequest';
 import { LicenseLookupConfigRequest } from '../models/LicenseLookupConfigRequest';
 import { Constant } from '../models/Constant';
 import { FormStructure } from '../models/formStructure';
+import {CdkDragDrop, CdkDropList, CdkDrag, moveItemInArray} from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-configuration',
@@ -80,6 +81,23 @@ export class ConfigurationComponent implements OnInit {
       autoPosition: false
     }
 
+    this.configurationStepList = [
+      {"crawlerAttributeId":1,"crawlerAttribute":"id","lookUpElementDesc":"LicenseNumber","elementEvent":"sendKey","className":"ProviderProfessionalLicense","columnName":"licenseNumber"},
+      {"crawlerAttributeId":1,"crawlerAttribute":"id","lookUpElementDesc":"search","elementEvent":"click","className":"","columnName":""},
+      {"crawlerAttributeId":7,"crawlerAttribute":"delay","lookUpElementDesc":"","elementEvent":"4","className":"","columnName":""},
+      {"crawlerAttributeId":5,"crawlerAttribute":"dynamicText","lookUpElementDesc":"","elementEvent":"click","className":"ProviderProfessionalLicense","columnName":"licenseNumber"},
+      {"crawlerAttributeId":7,"crawlerAttribute":"delay","lookUpElementDesc":"","elementEvent":"4","className":"","columnName":""},
+      {"crawlerAttributeId":4,"crawlerAttribute":"staticText","lookUpElementDesc":"ProgramId","elementEvent":"sendKey","className":"Static","columnName":"Acupuncture"}
+    ];
+  }
+
+  drop(event: CdkDragDrop<any[]>) {
+    debugger
+    moveItemInArray(this.configurationStepList, event.previousIndex, event.currentIndex);
+  }
+
+  removeStep(i:any){
+    this.configurationStepList.splice(i,1);
   }
 
   logOut() {

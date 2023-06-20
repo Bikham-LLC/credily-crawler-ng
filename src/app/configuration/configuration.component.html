@@ -110,9 +110,10 @@
                                     <div class="d-flex justify-content-end mb-2 mt-4">
                                         <button class="btn primaryBtn" (click)="openAddConfigModal()">Add Steps</button>
                                     </div>
-                                    <div class="configStepsinner">
-                                        <div class="configSteps" *ngFor="let step of configurationStepList; let i = index">
-                                            <label>Step {{i+1}}</label>
+                                    <div class="configStepsinner" cdkDropList (cdkDropListDropped)="drop($event)">
+                                        <div class="configSteps example-box position-relative" cdkDrag *ngFor="let step of configurationStepList; let i = index">
+                                            <span class="removeSteps" title="Remove Step" (click)="removeStep(i)"><i class="bi bi-dash-circle-fill"></i></span>
+                                            <label class="me-2 text-center">Step {{i+1}}</label>
                                             <p>Crawler Attribute : {{step.crawlerAttribute}}, Lookup Element : {{step.lookUpElementDesc}}, Element Event : {{step.elementEvent}}, Entity Name : {{step.className}}, <span *ngIf="step.className.toLowerCase()=='static'">Value : {{step.columnName}}</span> <span *ngIf="step.className.toLowerCase()!='static'"> Column Name : {{step.columnName}}</span></p>
                                         </div>
                                     </div>
