@@ -23,6 +23,7 @@ export class ConfigurationComponent implements OnInit {
       if(!this.Constant.EMPTY_STRINGS.includes(localStorage.getItem(this.Constant.USER_NAME))){
         this.userName = String(localStorage.getItem(this.Constant.USER_NAME));
       }
+      
       this.versionList = [{id:'V2', itemName:'Credily V2'}, {id:'V3', itemName:'Credily V3'}];
   }
 
