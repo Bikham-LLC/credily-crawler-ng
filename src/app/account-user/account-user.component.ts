@@ -33,12 +33,15 @@ export class AccountUserComponent implements OnInit {
 
   totalAccountCount:number=0;
   userAccountList : UserAccountRequest[] = [];
+  loadingUser:boolean = false;
   getAllUser(){
+    this.loadingUser = true;
     this.authService.getAllUser(this.userDatabaseHelper.search, this.userDatabaseHelper.currentPage,this.userDatabaseHelper.itemsPerPage).subscribe(response=>{
       this.userAccountList = response.dtoList;
       this.totalAccountCount = response.totalAccount;
-
+      this.loadingUser = false;
     },error=>{
+      this.loadingUser = false;
     })
   }
 

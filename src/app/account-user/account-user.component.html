@@ -31,7 +31,7 @@
                     <div class="row justify-content-between align-items-center">
                       <div class="col-lg-4 px-2">
                         <div class="form-group usrtblesearch position-relative">
-                          <input placeholder="Search User" class="form-control" id="Users" name="User" [(ngModel)]="userDatabaseHelper.search" (keyup)="getAllUser()"/>
+                          <input placeholder="Search User" class="form-control" id="Users" name="User"  [disabled]="userAccountList.length==0" [(ngModel)]="userDatabaseHelper.search" (keyup)="getAllUser()"/>
                           <i class="fa-solid fa-magnifying-glass"></i>
                         </div>
                       </div>
@@ -46,17 +46,18 @@
               
             
                     <!-- Empty notification -->
-                    <!-- <div class="empty-notific">
+                    <div class="empty-notific text-center mt-5" *ngIf="!loadingUser && userAccountList.length==0">
                       <div class="empty-notificinner">
               
-                        <img src="assets/images/allexpirable.svg" style="width: 20%;" alt="no data found" />
-                        <h4>No data found</h4>
+                        <img src="assets/images/allexpirable.svg" style="width: 30%;" alt="no data found" />
+                        <h6 class="m-3 ps-5">No data found</h6>
                       </div>
-                    </div> -->
+                    </div>
               
               
-                    <!-- <app-circular-loader *ngIf="fetchingLeader"></app-circular-loader> -->
-                    <div class="usertable mt-3">
+                    <app-circular-loader *ngIf="loadingUser"></app-circular-loader>
+
+                    <div class="usertable mt-3" *ngIf="!loadingUser && userAccountList.length!=0">
                       <div class="usertableinner table-responsive">
               
               
@@ -116,7 +117,7 @@
                           </tbody>
                         </table>
                       </div>
-                      <div class="paginationmain">
+                      <div class="paginationmain" *ngIf="totalAccountCount>userAccountList.length"> 
                        <div class="d-flex align-items-center justify-content-between">
                           <p class="currentshowing mb-0">
                             Showing <span>{{userAccountList.length}}</span> of <span>{{totalAccountCount}}</span>
