@@ -37,6 +37,8 @@ export class ConfigurationComponent implements OnInit {
   lookupLink:string='';
   selectedStateName:string='';
   @ViewChild('lookupModalButton') lookupModalButton !:ElementRef;
+  @ViewChild('mapLookupTaxonomyForm') mapLookupTaxonomyForm : any;
+  credilyVersion:string='';
   dropdownSettingsVersion !: { singleSelection: boolean; text: string; enableSearchFilter: boolean; autoPosition: boolean };
   selectedVersion: any[] = new Array();
   versionList: any[] = new Array();
@@ -86,6 +88,7 @@ export class ConfigurationComponent implements OnInit {
 
   openLookupModal(){
     this.selectedTaxonomyIds = [];
+    this.selectedVersion = [];
     this.databaseHelper = new DatabaseHelper();
     this.lookupLink = '';
     this.lookupName = '';
@@ -96,10 +99,10 @@ export class ConfigurationComponent implements OnInit {
   
   selectVersion(event:any){
     debugger
-    this.cofigStepRequest.version = '';
+    this.credilyVersion = '';
     if (event[0] != undefined) {
       this.selectedVersion = event;
-      this.cofigStepRequest.version = event[0].id;
+      this.credilyVersion = event[0].id;
     }
   }
 
@@ -171,6 +174,11 @@ export class ConfigurationComponent implements OnInit {
   @ViewChild('closeTaxomonModalButton') closeTaxomonModalButton!:ElementRef;
   saveLookupDetails(){
     debugger
+
+    if(this.Constant.EMPTY_STRINGS.includes(this.credilyVersion)){
+      return;
+    }
+
     this.addStepToggle = true;
     this.loadingIframe = true;
     this.configurationStepList = [];
@@ -361,6 +369,7 @@ export class ConfigurationComponent implements OnInit {
 
     // this.closeUuidModal.nativeElement.click();
 
+    this.licenseLookupConfigRequest.version = this.credilyVersion;
     this.licenseLookupConfigRequest.licenseLookUpName = this.lookupName;
     this.licenseLookupConfigRequest.licenseLookUpLink = this.lookupLink;
     this.licenseLookupConfigRequest.taxonomyIdList = this.selectedTaxonomyIds;
@@ -392,6 +401,7 @@ export class ConfigurationComponent implements OnInit {
     
     // await this.testConfiguration();
 
+    this.licenseLookupConfigRequest.version = this.credilyVersion;
     this.licenseLookupConfigRequest.licenseLookUpName = this.lookupName;
     this.licenseLookupConfigRequest.licenseLookUpLink = this.lookupLink;
     this.licenseLookupConfigRequest.taxonomyIdList = this.selectedTaxonomyIds;

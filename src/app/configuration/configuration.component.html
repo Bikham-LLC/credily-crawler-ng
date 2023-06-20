@@ -141,7 +141,7 @@
     <div class="modal fade" id="configModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-bs-labelledby="exampleModalLabel" aria-bs-hidden="true">
         <div class="modal-dialog configModal">
             <div class="modal-content">
-                <form  #providerHospitalForm="ngForm" ngNativeValidate (ngSubmit)="saveLookupDetails()" >
+                <form  #mapLookupTaxonomyForm="ngForm" ngNativeValidate (ngSubmit)="saveLookupDetails()" >
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">New Configuration</h5>
                         <button type="button" class="close" data-bs-dismiss="modal" aria-bs-label="Close" (click)="closeTaxonomyModal()">
@@ -176,18 +176,9 @@
                                                     <angular2-multiselect id="version" name="version" [data]="versionList" [settings]="dropdownSettingsVersion" [(ngModel)]="selectedVersion" (ngModelChange)="selectVersion($event)" required>
                                                     </angular2-multiselect>
                                                 </div>
+                                                <small *ngIf="mapLookupTaxonomyForm.submitted && Constant.EMPTY_STRINGS.includes(credilyVersion)" style="color: red;">Select Credily Version!</small>
                                             </div>
                                         </div>
-                                        <!-- <div class="col-lg-6">
-                                            <div class="lookupSearchForm">
-                                                <div class="position-relative">
-                                                    <label class="m-1">Crawler Attribute</label>
-                                                    <angular2-multiselect id="attribute" name="attribute" [data]="attributeList" [settings]="dropdownSettingsAttribute" [(ngModel)]="selectedAttribute" (ngModelChange)="selectCrawlerAttribute($event)" required>
-                                                    </angular2-multiselect>
-                                                </div>
-                                                <small *ngIf="addStepForm.submitted && addStepFormInvalid && cofigStepRequest.crawlerAttributeId<=0" style="color: red;">Select Crawler Attribute!</small>
-                                            </div>
-                                        </div> -->
                                     </div>
                                 </div>
                                 

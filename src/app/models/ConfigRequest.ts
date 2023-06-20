@@ -5,6 +5,4 @@ export class ConfigRequest{
     elementEvent : string = '';
     className : string = '';
     columnName : string = '';
-    version : string = '';
-    providerUuid:string = '';
 }
