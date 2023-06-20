@@ -73,14 +73,14 @@
         <div class="dashboardArea">
             <div class="dashNav-paneinner">
 
-                <div class="emptyNotif" *ngIf="addStepToggle">
+                <div class="emptyNotif" *ngIf="!addStepToggle">
                         <div class="d-flex justify-content-end mb-3">
                             <button class="btn primarybtn" (click)="openLookupModal()">Create Configuration</button>
                         </div>
                     <app-configuration-listing></app-configuration-listing>
                 </div>
 
-                <div class="configMaininfo" *ngIf="!addStepToggle">
+                <div class="configMaininfo" *ngIf="addStepToggle">
                     <div class="row">
                         <div class="col-lg-6">
                             <app-circular-loader *ngIf="loadingIframe"></app-circular-loader>
