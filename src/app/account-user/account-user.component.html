@@ -7,21 +7,8 @@
                 <h3>Navigation Title</h3>
                 <div class="sidenavigationinner">
                     <ul class="mb-0">
-                        <li class="sidenavitem ">
-                            <a class="sidenavlink pointer" routerLink="roles-and-security" routerLinkActive="active">
-                                <img src="assets/images/side-icon/profile-1.svg" alt="">
-                                Roles And Security
-                            </a>
-                        </li>
                         <li class="sidenavitem">
                             <a class="sidenavlink pointer" routerLink="users-and-controls" routerLinkActive="active" >
-                                
-                                <img src="assets/images/side-icon/profile-2.svg" alt="">
-                                Users And Controls
-                            </a>
-                        </li>
-                        <li class="sidenavitem" >
-                            <a class="sidenavlink pointer" routerLink="client-users" routerLinkActive="active" >
                                 
                                 <img src="assets/images/side-icon/profile-2.svg" alt="">
                                 Users And Controls
@@ -78,82 +65,90 @@
                             <tr>
                               <th style="width: 7%">Id</th>
                               <th style="width: 20%">User Name</th>
+                              <th style="width: 20%">Email</th>
                               <th style="width: 25%">Date</th>
                               <th style="width: 15%">Status</th>
-                              <th style="width: 20%">Roles</th>
                               <th style="width: 20%">Action</th>
                             </tr>
                           </thead>
               
                           <tbody>
-                            <tr >
+                            <tr *ngFor="let user of userAccountList; let i = index" >
                               <td>
                                 <div class="tableinfo">
-                                  <!-- {{i+1}} -->
+                                  {{i+1}}
                                 </div>
                               </td>
                               <td>
                                 <div class="tableinfo">
-                                  <!--  <p class="mb-0 pointer" (click)="getEnterpriseLeaderByUuid(leader)">
-                                    <span *ngIf="!Constant.EMPTY_STRINGS.includes(leader.firstName)">{{leader.firstName}} </span>
-                                    <span *ngIf="!Constant.EMPTY_STRINGS.includes(leader.lastName)">{{leader.lastName}}</span>
-                                  </p> -->
+                                  <span>{{user.fullName}}</span>
                                 </div>
                               </td>
                               <td>
                                 <div class="tableinfo">
-                                  <span class="badge-grey">createdDate</span>
+                                  <span>{{user.userName}}</span>
+                                </div>
+                              </td>
+                              <td>
+                                <div class="tableinfo">
+                                  <span class="badge-grey">{{user.createdDate | date:'MM-dd-yyyy hh:mm:ss a' : 'EST'}} (EST)</span>
                                 </div>
                               </td>
               
                               <td>
                                 <div class="tableinfo">
-                                  <span class="statusactive">status</span>
-                                </div>
-                              </td>
-                              <td>
-                                <div class="tableinfo">
-                                  role
+                                  <span class="statusactive">{{user.status}}</span>
                                 </div>
                               </td>
                               <td>
                                 <div class="tableinfo pdependent">
                                   <div class="customswitch">
-                                    <span class="text-success actiontable">
-                                      <i class="fa-solid fa-pen-to-square"></i>
-                                    </span>
                                     <div class="form-check form-switch">
-                                        <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
+                                        <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault{{i}}" [checked]="user.status == 'ACTIVE'" (click)="changeUserStatus(user)">
                                       </div>
-                                      <label for="customSwitch" class="pointer position-relative">
+                                      <label for="customSwitch{{i}}" class="pointer position-relative">
                                         <span></span>
                                       </label>
                                   </div>
                                 </div>
                               </td>
+                              <!-- <td>
+                                <div class="tableinfo pdependent">
+                                  <div class="customswitch">
+                                    <span class="text-success actiontable" (click)="editLeader(leader)">
+                                      <i class="fa-solid fa-pen-to-square"></i>
+                                    </span>
+                                    <input type="checkbox" [checked]="leader.status == 'ACTIVE'" (click)="changeILeaderStatus(leader)"
+                                      id="customSwitch{{i}}" class="d-none">
+                                    <label for="customSwitch{{i}}" class="pointer position-relative">
+                                      <span></span>
+                                    </label>
+                                  </div>
+                                </div>
+                              </td> -->
                             </tr>
                           </tbody>
                         </table>
                       </div>
-                        <!--<div class="paginationmain" *ngIf="eLeaders.length>0">
+                      <div class="paginationmain">
                        <div class="d-flex align-items-center justify-content-between">
                           <p class="currentshowing mb-0">
-                            Showing <span>{{eLeaders.length}}</span> of <span>{{totalELeader}}</span>
+                            Showing <span>10</span> of <span>10</span>
                           </p>
               
               
               
                           <div class="col-lg-6">
                             <div class="card-body d-flex justify-content-end">
-                              <ngb-pagination class="pagination pagination-separated justify-content-sm-end mb-sm-0"
+                              <!-- <ngb-pagination class="pagination pagination-separated justify-content-sm-end mb-sm-0"
                                 [collectionSize]="totalELeader" [rotate]="true" (pageChange)="pageChanged($event)"
                                 [pageSize]="databaseHelperUser.itemsPerPage" [(page)]="databaseHelperUser.currentPage" [maxSize]="5"
                                 [boundaryLinks]="true">
-                              </ngb-pagination>
+                              </ngb-pagination> -->
                             </div>
                           </div>
                         </div> 
-                      </div> -->
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -161,130 +156,6 @@
         </div>
     </div>
 </div>
-
-
-
-
-
-  
-  
-  
-  <!-- Modals -->
-  <!-- Button trigger modal -->
-  <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#profilEditmodal">
-        Launch demo modal
-      </button>
-       -->
-  <!-- Modal Edit-->
-  <!-- <button type="button" style="display: none;" #userDetailmodalButton id="userDetailmodalButton" data-bs-toggle="modal" data-bs-target="#userDetailmodal"></button>
-  <div class="modal blur-bg-2" id="userDetailmodal" tabindex="-1" aria-labelledby="userDetailmodal" aria-hidden="true">
-  
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content" style="min-height: 500px;" *ngIf="loadingToggle">
-        <app-circular-loader></app-circular-loader>
-      </div>
-      <div class="modal-content" *ngIf="!loadingToggle">
-        <div class="modal-header border-0">
-          <h1 class="modal-title" id="profilEditLabel">{{enterpriseLeader.firstName}} {{enterpriseLeader.lastName}}</h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body pt-0">
-          <div class="rolemodalbody">
-            <div class="rolemodalinner">
-              <h3>{{enterpriseLeader.firstName}} ’s Information</h3>
-              <div class="userdetails">
-                <div class="d-flex align-items-center">
-                  <p class="text-end">Mobile : </p>
-                  <p class="text-start">
-                    <span *ngIf="enterpriseLeader.phone != null">{{enterpriseLeader.phone | mask:'(000)-000-0000'}}</span>
-                    <span *ngIf="enterpriseLeader.phone == null">N/A</span>
-                  </p>
-                </div>
-  
-                <div class="d-flex align-items-center">
-                  <p class="text-end">Company Phone : </p>
-                  <p class="text-start">
-                    <span *ngIf="enterpriseLeader.companyPhone != null">{{enterpriseLeader.companyPhone |
-                      mask:'(000)-000-0000'}}</span>
-                    <span *ngIf="enterpriseLeader.companyPhone == null">N/A</span>
-                  </p>
-                </div>
-  
-                <div class="d-flex align-items-center">
-                  <p class="text-end">Extension Number : </p>
-                  <p class="text-start">
-                    <span *ngIf="enterpriseLeader.extensionNumber != null">{{enterpriseLeader.extensionNumber}}</span>
-                    <span *ngIf="enterpriseLeader.extensionNumber == null">N/A</span>
-                  </p>
-                </div>
-  
-                <div class="d-flex align-items-center">
-                  <p class="text-end">E-Mail : </p>
-                  <p class="text-start">
-                    <span *ngIf="enterpriseLeader.email != null">{{enterpriseLeader.email}}</span>
-                    <span *ngIf="enterpriseLeader.email == null">N/A</span>
-                  </p>
-                </div>
-  
-                <div class="d-flex align-items-center">
-                  <p class="text-end">Status : </p>
-                  <p class="text-start">
-                    <span *ngIf="enterpriseLeader.status != null">{{enterpriseLeader.status | titlecase}}</span>
-                    <span *ngIf="enterpriseLeader.status == null">N/A</span>
-                  </p>
-                </div>
-  
-                <div class="d-flex align-items-center">
-                  <p class="text-end">Role : </p>
-                  <p class="text-start">
-                    <span *ngIf="enterpriseLeader.role != null">{{enterpriseLeader.role}}</span>
-                    <span *ngIf="enterpriseLeader.role == null">N/A</span>
-                  </p>
-                </div>
-  
-                <div class="d-flex align-items-center">
-                  <p class="text-end">Title : </p>
-                  <p class="text-start">
-                    <span *ngIf="enterpriseLeader.title != null">{{enterpriseLeader.title}}</span>
-                    <span *ngIf="enterpriseLeader.title == null">N/A</span>
-                  </p>
-                </div>
-  
-                <div class="d-flex align-items-center">
-                  <p class="text-end">About Info : </p>
-                  <p class="text-start">
-                    <span *ngIf="enterpriseLeader.about != null">{{enterpriseLeader.about}}</span>
-                    <span *ngIf="enterpriseLeader.about == null">N/A</span>
-                  </p>
-                </div>
-  
-                <div class="d-flex align-items-center">
-                  <p class="text-end">Timezone : </p>
-                  <p class="text-start">
-                    <span *ngIf="enterpriseLeader.timeZone != null">{{enterpriseLeader.timeZone}}</span>
-                    <span *ngIf="enterpriseLeader.timeZone == null">N/A</span>
-                  </p>
-                </div>
-  
-                <div class="d-flex align-items-center">
-                  <p class="text-end">Lang Code : </p>
-                  <p class="text-start">
-                    <span *ngIf="enterpriseLeader.languageCode != null">{{enterpriseLeader.languageCode}}</span>
-                    <span *ngIf="enterpriseLeader.languageCode == null">N/A</span>
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-            <div class="modal-footer border-top-0 pt-0">
-              <button type="button" class="btn primarycancelbtn" data-bs-dismiss="modal">Cancel</button>
-              <button type="button" class="btn primarybtn">Update</button>
-            </div>
-      </div>
-    </div>
-  </div> -->
-  
   
   <!-- new user create -->
   <button type="button" #createUsermodalButton data-bs-toggle="modal" data-bs-target="#createUsermodal"></button>
@@ -293,8 +164,8 @@
         <div class="modal-content">
             <div class="modal-header border-0">
             <h1 class="modal-title" id="profilEditLabel">
-                <span>Create</span>
-                <span>Update</span> User
+                <span>Create User</span>
+                <!-- <span>Update</span> User -->
             </h1>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -307,8 +178,7 @@
                         <div class="mdlform form-group position-relative mb-3">
                         <label>Full Name<sup>*</sup></label>
                         <div class="position-relative">
-                            <input type="text" placeholder="Eg: John" class="form-control" name="fname"
-                            required minlength="3" maxlength="55" />
+                            <input type="text" placeholder="Eg: John" class="form-control" name="fname" [(ngModel)]="userAccountRequest.fullName" minlength="3" maxlength="55" required/>
                         </div>
                         </div>
                     </div>
@@ -316,8 +186,7 @@
                         <div class="mdlform form-group usrtblesearch position-relative mb-3">
                         <label>Phone<sup>*</sup></label>
                         <div class="position-relative">
-                            <input type="text" placeholder="10 digit phone number" class="form-control" name="phone"
-                            required mask="(000)-000-0000" minlength="10" maxlength="15" />
+                            <input type="text" placeholder="10 digit phone number" class="form-control" name="phone" [(ngModel)]="userAccountRequest.phone" required mask="(000)-000-0000" minlength="10" maxlength="10" />
                             <i>
                             <svg width="17" height="16" viewBox="0 0 17 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path
@@ -332,8 +201,7 @@
                         <div class="mdlform form-group usrtblesearch position-relative mb-3">
                         <label>Email<sup>*</sup></label>
                         <div class="position-relative">
-                            <input type="email" autocomplete="false" placeholder="Enter Email" class="form-control" name="email1"
-                            required minlength="3" maxlength="55" />
+                            <input type="email" autocomplete="false" placeholder="Enter Email" class="form-control" name="email1" [(ngModel)]="userAccountRequest.userName" required minlength="3" maxlength="55" />
                             <i>
                             <svg width="16" height="14" viewBox="0 0 16 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path
@@ -348,8 +216,7 @@
                         <div class="mdlform form-group usrtblesearch position-relative mb-3">
                         <label>Password<sup>*</sup></label>
                         <div class="position-relative" >
-                            <input type="password" autocomplete="false" placeholder="Enter password" class="form-control" name="password1"
-                            required minlength="5" maxlength="15" />
+                            <input type="password" autocomplete="false" placeholder="Enter password" class="form-control" name="password1" [(ngModel)]="userAccountRequest.password" required minlength="5" maxlength="15" />
                             <i>
                             <svg width="14" height="18" viewBox="0 0 14 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path fill-rule="evenodd" clip-rule="evenodd"
@@ -368,9 +235,9 @@
                 <button type="button" class="btn primarycancelbtn" #closeLeaderModel data-bs-dismiss="modal"
                 >Cancel</button>
                 <!-- <button type="submit" class="btn primarybtn" (click)="createLeader()">create</button> -->
-                <button type="submit" class="btn primarybtn">
+                <button type="submit" class="btn primarybtn" (click)="createUser()">
                 <span>Create</span>
-                <span>Update</span> 
+                <!-- <span>Update</span>  -->
                 <i class="fa fa-spinner fa-spin"></i></button>
             </div>
             </form>
