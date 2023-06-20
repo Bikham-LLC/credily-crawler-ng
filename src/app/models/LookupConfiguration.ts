@@ -3,4 +3,5 @@ export class LookupConfiguration{
     lookupName:string='';
     lookupLink:string='';
     addedBy:string='';
+    version:string='';
 }
