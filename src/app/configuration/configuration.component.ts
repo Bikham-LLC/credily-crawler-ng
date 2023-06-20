@@ -34,7 +34,6 @@ export class ConfigurationComponent implements OnInit {
   selectedTaxonomyIds:number[] = new Array();
   lookupName:string='';
   lookupLink:string='';
-  iframeUrl:string='';
   selectedStateName:string='';
   @ViewChild('lookupModalButton') lookupModalButton !:ElementRef;
 
@@ -159,7 +158,6 @@ export class ConfigurationComponent implements OnInit {
     this.addStepToggle = true;
     this.loadingIframe = true;
     this.configurationStepList = [];
-    this.iframeUrl = this.lookupLink;
     this.closeTaxomonModalButton.nativeElement.click();
     setTimeout( () => {
       this.loadingIframe = false;
