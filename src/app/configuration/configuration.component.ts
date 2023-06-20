@@ -23,6 +23,7 @@ export class ConfigurationComponent implements OnInit {
       if(!this.Constant.EMPTY_STRINGS.includes(localStorage.getItem(this.Constant.USER_NAME))){
         this.userName = String(localStorage.getItem(this.Constant.USER_NAME));
       }
+      this.versionList = [{id:'V2', itemName:'Credily V2'}, {id:'V3', itemName:'Credily V3'}];
   }
 
   readonly Constant = Constant;
@@ -36,6 +37,9 @@ export class ConfigurationComponent implements OnInit {
   lookupLink:string='';
   selectedStateName:string='';
   @ViewChild('lookupModalButton') lookupModalButton !:ElementRef;
+  dropdownSettingsVersion !: { singleSelection: boolean; text: string; enableSearchFilter: boolean; autoPosition: boolean };
+  selectedVersion: any[] = new Array();
+  versionList: any[] = new Array();
 
   addStepToggle:boolean=false;
 
@@ -66,10 +70,12 @@ export class ConfigurationComponent implements OnInit {
       autoPosition: false,
       noDataLabel: 'Select Class Name First'
     }
-
-    // this.getLookupTaxonomy();
-    // this.getArribute();
-    // this.getClassName();
+    this.dropdownSettingsVersion = {
+      singleSelection: true,
+      text: 'Select Version',
+      enableSearchFilter: false,
+      autoPosition: false
+    }
 
   }
 
@@ -87,6 +93,16 @@ export class ConfigurationComponent implements OnInit {
     this.lookupModalButton.nativeElement.click();
     this.getLookupTaxonomy();
   }
+  
+  selectVersion(event:any){
+    debugger
+    this.cofigStepRequest.version = '';
+    if (event[0] != undefined) {
+      this.selectedVersion = event;
+      this.cofigStepRequest.version = event[0].id;
+    }
+  }
+
 
   getLookupTaxonomy(){
     debugger
