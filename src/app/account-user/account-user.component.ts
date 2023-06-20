@@ -20,14 +20,21 @@ export class AccountUserComponent implements OnInit {
 
   @ViewChild('createUsermodalButton') createUsermodalButton! :ElementRef;
   userForm(){
+    // this.userAccountRequest  = new UserAccountRequest();
     this.createUsermodalButton.nativeElement.click();
   }
 
   userAccountRequest :UserAccountRequest = new UserAccountRequest();
+  creatingUser:boolean=false;
+  @ViewChild('closeLeaderModel') closeLeaderModel !: ElementRef;
   createUser(){
+    this.creatingUser = true;
     this.authService.createUser(this.userAccountRequest).subscribe(response=>{
+      this.creatingUser = false;
       this.getAllUser();
+      this.closeLeaderModel.nativeElement.click();
     },error=>{
+      this.creatingUser = false;
     })
   }
 

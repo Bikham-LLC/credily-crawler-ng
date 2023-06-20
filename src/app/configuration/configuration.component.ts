@@ -80,15 +80,6 @@ export class ConfigurationComponent implements OnInit {
       enableSearchFilter: false,
       autoPosition: false
     }
-
-    // this.configurationStepList = [
-    //   {"crawlerAttributeId":1,"crawlerAttribute":"id","lookUpElementDesc":"LicenseNumber","elementEvent":"sendKey","className":"ProviderProfessionalLicense","columnName":"licenseNumber"},
-    //   {"crawlerAttributeId":1,"crawlerAttribute":"id","lookUpElementDesc":"search","elementEvent":"click","className":"","columnName":""},
-    //   {"crawlerAttributeId":7,"crawlerAttribute":"delay","lookUpElementDesc":"","elementEvent":"4","className":"","columnName":""},
-    //   {"crawlerAttributeId":5,"crawlerAttribute":"dynamicText","lookUpElementDesc":"","elementEvent":"click","className":"ProviderProfessionalLicense","columnName":"licenseNumber"},
-    //   {"crawlerAttributeId":7,"crawlerAttribute":"delay","lookUpElementDesc":"","elementEvent":"4","className":"","columnName":""},
-    //   {"crawlerAttributeId":4,"crawlerAttribute":"staticText","lookUpElementDesc":"ProgramId","elementEvent":"sendKey","className":"Static","columnName":"Acupuncture"}
-    // ];
   }
 
   drop(event: CdkDragDrop<any[]>) {
