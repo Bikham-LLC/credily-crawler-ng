@@ -208,10 +208,19 @@ export class ConfigurationComponent implements OnInit {
     this.selectedAttribute = [];
     this.selectedClass = [];
     this.selectedColumn = [];
+    this.selectedEvent = [];
+    this.EventList = [];
     this.cofigStepRequest  = new ConfigRequest();
     this.addConfigStepModalButton.nativeElement.click();
     this.getArribute();
     this.getClassName();
+    this.EventList = [{id:'sendKey', itemName:'Input Value'}, {id:'click', itemName:'Click'}];
+    this.dropdownSettingsEvent = {
+      singleSelection: true,
+      text: 'Select Event',
+      enableSearchFilter: true,
+      autoPosition: false
+    }
   }
 
   getArribute(){
@@ -304,16 +313,6 @@ export class ConfigurationComponent implements OnInit {
     }
   }
 
-  closeAddConfigStepModal(){
-    debugger
-    this.attributeList = [];
-    this.classList = [];
-    this.columnList = [];
-    this.selectedAttribute = [];
-    this.selectedClass = [];
-    this.selectedColumn = [];
-  }
-
   addConfigurationStep(){
     debugger
     this.addStepFormInvalid = false;
@@ -323,6 +322,14 @@ export class ConfigurationComponent implements OnInit {
     }
     this.configurationStepList.push(this.cofigStepRequest);
     this.closeAddStepModal.nativeElement.click();
+    // this.attributeList = [];
+    // this.classList = [];
+    // this.columnList = [];
+    // this.selectedAttribute = [];
+    // this.selectedClass = [];
+    // this.selectedColumn = [];
+    // this.selectedEvent = [];
+    // this.EventList = [];
   }
 
   providerUuid:string='';
