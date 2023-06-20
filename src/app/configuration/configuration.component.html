@@ -330,10 +330,10 @@
                                             <div class="lookupSearchForm">
                                                 <div class="position-relative">
                                                     <label class="m-1">Entity Name</label>
-                                                    <angular2-multiselect id="className" name="className" [data]="classList" [settings]="dropdownSettingsClass" [(ngModel)]="selectedClass" (ngModelChange)="selectClassName($event)" required>
+                                                    <angular2-multiselect id="entityName" name="entityName" [data]="classList" [settings]="dropdownSettingsClass" [(ngModel)]="selectedClass" (ngModelChange)="selectClassName($event)" required>
                                                     </angular2-multiselect>
                                                 </div>
-                                                <small *ngIf="addStepForm.submitted && addStepFormInvalid && Constant.EMPTY_STRINGS.includes(cofigStepRequest.className)" style="color: red;">Select Class Name!</small>
+                                                <small *ngIf="addStepForm.submitted && addStepFormInvalid && Constant.EMPTY_STRINGS.includes(cofigStepRequest.className)" style="color: red;">Select Entity Name!</small>
                                             </div>
                                         </div>
 
