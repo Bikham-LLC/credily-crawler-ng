@@ -31,7 +31,7 @@
                     <div class="row justify-content-between align-items-center">
                       <div class="col-lg-4 px-2">
                         <div class="form-group usrtblesearch position-relative">
-                          <input placeholder="Search User" class="form-control" id="Users" name="UserList"/>
+                          <input placeholder="Search User" class="form-control" id="Users" name="User" [(ngModel)]="userDatabaseHelper.search" (keyup)="getAllUser()"/>
                           <i class="fa-solid fa-magnifying-glass"></i>
                         </div>
                       </div>
@@ -97,35 +97,21 @@
               
                               <td>
                                 <div class="tableinfo">
-                                  <span class="statusactive">{{user.status}}</span>
+                                  <span class="statusactive">{{user.status | titlecase}}</span>
                                 </div>
                               </td>
                               <td>
                                 <div class="tableinfo pdependent">
                                   <div class="customswitch">
                                     <div class="form-check form-switch">
-                                        <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault{{i}}" [checked]="user.status == 'ACTIVE'" (click)="changeUserStatus(user)">
+                                        <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault{{i}}" [checked]="user.status.toLowerCase() == 'active'" (click)="changeUserStatus(user)">
                                       </div>
-                                      <label for="customSwitch{{i}}" class="pointer position-relative">
+                                      <label for="customSwitch{{i}}" class="d-none" class="pointer position-relative">
                                         <span></span>
                                       </label>
                                   </div>
                                 </div>
                               </td>
-                              <!-- <td>
-                                <div class="tableinfo pdependent">
-                                  <div class="customswitch">
-                                    <span class="text-success actiontable" (click)="editLeader(leader)">
-                                      <i class="fa-solid fa-pen-to-square"></i>
-                                    </span>
-                                    <input type="checkbox" [checked]="leader.status == 'ACTIVE'" (click)="changeILeaderStatus(leader)"
-                                      id="customSwitch{{i}}" class="d-none">
-                                    <label for="customSwitch{{i}}" class="pointer position-relative">
-                                      <span></span>
-                                    </label>
-                                  </div>
-                                </div>
-                              </td> -->
                             </tr>
                           </tbody>
                         </table>
@@ -133,18 +119,15 @@
                       <div class="paginationmain">
                        <div class="d-flex align-items-center justify-content-between">
                           <p class="currentshowing mb-0">
-                            Showing <span>10</span> of <span>10</span>
+                            Showing <span>{{userAccountList.length}}</span> of <span>{{totalAccountCount}}</span>
                           </p>
-              
-              
-              
                           <div class="col-lg-6">
                             <div class="card-body d-flex justify-content-end">
-                              <!-- <ngb-pagination class="pagination pagination-separated justify-content-sm-end mb-sm-0"
-                                [collectionSize]="totalELeader" [rotate]="true" (pageChange)="pageChanged($event)"
-                                [pageSize]="databaseHelperUser.itemsPerPage" [(page)]="databaseHelperUser.currentPage" [maxSize]="5"
+                              <ngb-pagination class="pagination pagination-separated justify-content-sm-end mb-sm-0"
+                                [collectionSize]="totalAccountCount" [rotate]="true" (pageChange)="pageChanged($event)"
+                                [pageSize]="userDatabaseHelper.itemsPerPage" [(page)]="userDatabaseHelper.currentPage" [maxSize]="5"
                                 [boundaryLinks]="true">
-                              </ngb-pagination> -->
+                              </ngb-pagination>
                             </div>
                           </div>
                         </div> 
