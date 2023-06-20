@@ -194,10 +194,6 @@ export class ConfigurationComponent implements OnInit {
   saveLookupDetails(){
     debugger
 
-    if(this.Constant.EMPTY_STRINGS.includes(this.credilyVersion)){
-      return;
-    }
-
     this.addStepToggle = true;
     this.loadingIframe = true;
     this.configurationStepList = [];

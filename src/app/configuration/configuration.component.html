@@ -156,7 +156,7 @@
                                     <div class="row mb-1">
                                         <div class="col-lg-6 pr-0">
                                             <div class="lookupSearchForm">
-                                                <label>Enter Lookup Name</label>
+                                                <label>Enter Lookup Name <sup class="text-danger">*</sup> </label>
                                                 <div class="position-relative">
                                                     <input type="text" class="form-control" name="lname" placeholder="Enter Lookup Name" [(ngModel)]="lookupName" maxlength="155" required>
                                                 </div>
@@ -164,7 +164,7 @@
                                         </div>
                                         <div class="col-lg-6 ">
                                             <div class="lookupSearchForm">
-                                                <label>Enter Lookup Link</label>
+                                                <label>Enter Lookup Link <sup class="text-danger">*</sup> </label>
                                                 <div class="position-relative">
                                                     <input type="url" class="form-control" name="llink" placeholder="Enter Lookup Link" [(ngModel)]="lookupLink" maxlength="200" required>
                                                 </div>
@@ -173,7 +173,7 @@
                                         <div class="col-lg-6 ">
                                             <div class="lookupSearchForm">
                                                 <div class="position-relative">
-                                                    <label class="m-1">Credily Version</label>
+                                                    <label class="m-1">Credily Version <sup class="text-danger">*</sup> </label>
                                                     <angular2-multiselect id="version" name="version" [data]="versionList" [settings]="dropdownSettingsVersion" [(ngModel)]="selectedVersion" (ngModelChange)="selectVersion($event)" required>
                                                     </angular2-multiselect>
                                                 </div>
@@ -284,7 +284,7 @@
                     <div class="modal-footer">
                         <button type="button" class="btn primarycancelbtn" style="border-color: #F05252 !important;" 
                         data-bs-dismiss="modal" #closeTaxomonModalButton (click)="closeTaxonomyModal()">Close</button>
-                        <button type="submit" class="btn primaryBtn" [disabled]="selectedTaxonomyIds.length==0">Save changes</button>
+                        <button type="submit" class="btn primaryBtn" [disabled]="selectedTaxonomyIds.length==0 || mapLookupTaxonomyForm.invalid">Save changes</button>
                     </div>
                 </form>
             </div>
