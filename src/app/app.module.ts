@@ -12,6 +12,7 @@ import { FormsModule } from '@angular/forms';
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
 import { SafePipe } from './pipe/safe.pipe';
 import { StateDropdownComponent } from './state-dropdown/state-dropdown.component';
+import { AccountUserComponent } from './account-user/account-user.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { StateDropdownComponent } from './state-dropdown/state-dropdown.componen
     ConfigurationListingComponent,
     CircularLoaderComponent,
     SafePipe,
-    StateDropdownComponent
+    StateDropdownComponent,
+    AccountUserComponent
   ],
   imports: [
     BrowserModule,

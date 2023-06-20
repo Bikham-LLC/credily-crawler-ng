@@ -583,5 +583,4 @@ export class ConfigurationComponent implements OnInit {
   }
 
 
-
 }
