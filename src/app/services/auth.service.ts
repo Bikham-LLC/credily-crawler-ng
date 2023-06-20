@@ -46,15 +46,19 @@ export class AuthService {
     return this.http.post<any>(this.key.server_url + this.key.api_version_one + "/auth/create", userAccountRequest);
   }
 
-  getAllUser(): Observable<any>{
-    return this.http.get<any>(this.key.server_url + this.key.api_version_one + "/auth/get-user")
+  getAllUser(search:any, currentPage:any, itemsPerPage:any): Observable<any>{
+    const params = new HttpParams()
+    .set('tag', search)
+    .set('currentPage', currentPage)
+    .set('itemsPerPage', itemsPerPage)
+
+    return this.http.get<any>(this.key.server_url + this.key.api_version_one + "/auth/get-user" , {params})
   }
 
   updateUserStatus(user : UserAccountRequest): Observable<any> {
     const params = new HttpParams()
     .set('userName', user.userName)
-    .set('status', user.status)
 
-    return this.http.patch<any>(this.key.server_url+this.key.api_version_one + "/update-user-status",{user},{params});
+    return this.http.patch<any>(this.key.server_url+this.key.api_version_one + "/auth/update-user-status",{},{params});
   }
 }

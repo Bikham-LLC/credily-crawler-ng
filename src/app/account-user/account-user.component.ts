@@ -2,6 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { DataService } from '../services/data.service';
 import { AuthService } from '../services/auth.service';
 import { UserAccountRequest } from '../models/UserAccountRequest';
+import { DatabaseHelper } from '../models/DatabaseHelper';
 
 @Component({
   selector: 'app-account-user',
@@ -25,26 +26,27 @@ export class AccountUserComponent implements OnInit {
   userAccountRequest :UserAccountRequest = new UserAccountRequest();
   createUser(){
     this.authService.createUser(this.userAccountRequest).subscribe(response=>{
-
+      this.getAllUser();
     },error=>{
-      this.dataService.showToast("Something went wrong!");
     })
   }
 
+  totalAccountCount:number=0;
   userAccountList : UserAccountRequest[] = [];
   getAllUser(){
-    this.authService.getAllUser().subscribe(response=>{
-      this.userAccountList = response;
+    this.authService.getAllUser(this.userDatabaseHelper.search, this.userDatabaseHelper.currentPage,this.userDatabaseHelper.itemsPerPage).subscribe(response=>{
+      this.userAccountList = response.dtoList;
+      this.totalAccountCount = response.totalAccount;
+
     },error=>{
-      this.dataService.showToast("Something went wrong!");
     })
   }
 
   changeUserStatus(user: UserAccountRequest){
-    if (user.status == 'ACTIVE') {
-      user.status = 'INACTIVE';
+    if (user.status == 'Active') {
+      user.status = 'Inactive';
     } else {
-      user.status = 'ACTIVE';
+      user.status = 'Active';
     }
     this.updateUserStatus(user);
   }
@@ -52,9 +54,15 @@ export class AccountUserComponent implements OnInit {
   updateUserStatus(user: UserAccountRequest){
     this.authService.updateUserStatus(user).subscribe(response=>{
     },error=>{
-      this.dataService.showToast("Something went wrong!");
     })
   }
 
-
+  userDatabaseHelper: DatabaseHelper = new DatabaseHelper();
+  pageChanged(event:any){
+    if(event!=this.userDatabaseHelper.currentPage){
+      this.userDatabaseHelper.currentPage = event;
+      this.getAllUser();
+    }
+  }
+   
 }
