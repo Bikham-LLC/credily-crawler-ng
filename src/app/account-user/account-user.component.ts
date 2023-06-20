@@ -20,7 +20,7 @@ export class AccountUserComponent implements OnInit {
 
   @ViewChild('createUsermodalButton') createUsermodalButton! :ElementRef;
   userForm(){
-    // this.userAccountRequest  = new UserAccountRequest();
+    this.userAccountRequest  = new UserAccountRequest();
     this.createUsermodalButton.nativeElement.click();
   }
 

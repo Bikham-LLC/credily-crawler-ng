@@ -31,7 +31,7 @@
                     <div class="row justify-content-between align-items-center">
                       <div class="col-lg-4 px-2">
                         <div class="form-group usrtblesearch position-relative">
-                          <input placeholder="Search User" class="form-control" id="Users" name="User"  [disabled]="userAccountList.length==0" [(ngModel)]="userDatabaseHelper.search" (keyup)="getAllUser()"/>
+                          <input placeholder="Search User" class="form-control" id="Users" name="User" [(ngModel)]="userDatabaseHelper.search" (keyup)="getAllUser()"/>
                           <i class="fa-solid fa-magnifying-glass"></i>
                         </div>
                       </div>
