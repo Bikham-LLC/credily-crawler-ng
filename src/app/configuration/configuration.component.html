@@ -143,7 +143,7 @@
                                         <div class="configSteps example-box position-relative" cdkDrag *ngFor="let step of configurationStepList; let i = index">
                                             <span class="removeSteps" title="Remove Step" (click)="removeStep(i)"><i class="bi bi-dash-circle-fill"></i></span>
                                             <label class="me-2 text-center">Step {{i+1}}</label>
-                                            <p>Crawler Attribute : {{step.crawlerAttribute}}, Lookup Element : {{step.lookUpElementDesc}}, Element Event : {{step.elementEvent}}, Entity Name : {{step.className}}, <span *ngIf="step.className.toLowerCase()=='static'">Value : {{step.columnName}}</span> <span *ngIf="step.className.toLowerCase()!='static'"> Column Name : {{step.columnName}}</span></p>
+                                            <p>Crawler Attribute : {{step.crawlerAttribute}}, Lookup Element : {{step.lookUpElementDesc}}, Element Event : {{step.elementEvent}}, Entity Name : {{step.className}}, <span *ngIf="!Constant.EMPTY_STRINGS.includes(step.className) && step.className.toLowerCase()=='static'">Value : {{step.columnName}}</span> <span *ngIf=" (!Constant.EMPTY_STRINGS.includes(step.className) && step.className.toLowerCase()!='static') || Constant.EMPTY_STRINGS.includes(step.className)"> Column Name : {{step.columnName}}</span></p>
                                         </div>
                                     </div>
 

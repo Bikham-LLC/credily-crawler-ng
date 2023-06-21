@@ -469,6 +469,7 @@ export class ConfigurationComponent implements OnInit {
           this.dataService.showToast('Configuration Saved Successfully.');
           this.addStepToggle = false;
           this.selectedLookupConfigId = 0;
+          this.getConfiguration();
         },error=>{
           this.savingConfiguration = false;
           this.dataService.showToast(error.error);
@@ -479,6 +480,7 @@ export class ConfigurationComponent implements OnInit {
           this.dataService.showToast('Configuration Saved Successfully.');
           this.addStepToggle = false;
           this.selectedLookupConfigId = 0;
+          this.getConfiguration();
         },error=>{
           this.savingConfiguration = false;
           this.dataService.showToast(error.error);
@@ -678,9 +680,11 @@ export class ConfigurationComponent implements OnInit {
     if(config.version=='V2'){
       var temp: { id: any, itemName: any} = { id: 'V2', itemName: 'Credily V2' };
       this.selectedVersion.push(temp);
+      this.credilyVersion = 'V2';
     }else{
       var temp: { id: any, itemName: any} = { id: 'V3', itemName: 'Credily V3' };
       this.selectedVersion.push(temp);
+      this.credilyVersion = 'V3';
     }
     this.selectedTaxonomyIds = config.taxonomyId;
     this.getLookupTaxonomy();
