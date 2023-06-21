@@ -211,20 +211,26 @@ export class ConfigurationComponent implements OnInit {
   }
 
   @ViewChild('closeTaxomonModalButton') closeTaxomonModalButton!:ElementRef;
-  saveLookupDetails(){
+  @ViewChild('clickIframeButton') clickIframeButton!:ElementRef;
+  setText:any;
+  saveLookupDetailsAndToggleAddStep(){
     debugger
 
     this.addStepToggle = true;
-    this.loadingIframe = true;
     this.configurationStepList = [];
     this.closeTaxomonModalButton.nativeElement.click();
-    // this.loadSite(this.lookupLink);
+    setTimeout(()=>{
+      this.clickIframeButton.nativeElement.click();
+    },500)
+    
+    this.setText = this.lookupLink.split('//')[1];
   }
 
   src !: SafeResourceUrl;
-  loadSite(e:any) {
+  loadSite(lookupUrl:any) {
+    debugger
     this.loadingIframe = true;
-    this.src = this.sanitizer.bypassSecurityTrustResourceUrl('https://' + e.target.textContent);
+    this.src = this.sanitizer.bypassSecurityTrustResourceUrl('https://' + lookupUrl.target.textContent);
   }
 
   onLoad(){

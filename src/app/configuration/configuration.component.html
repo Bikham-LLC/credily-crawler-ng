@@ -99,7 +99,7 @@
 
                         <div class="col-lg-6">
 
-                            <a (click)="loadSite($event)">css-tricks.com</a> | <a (click)="loadSite($event)">alligator.io</a>
+                            <a class="d-none" #clickIframeButton (click)="loadSite($event)">{{setText}}</a>
 
                             <div class="position-relative">
                                 <div class="loaderSpin"  *ngIf="loadingIframe">
@@ -170,7 +170,7 @@
     <div class="modal fade" id="configModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-bs-labelledby="exampleModalLabel" aria-bs-hidden="true">
         <div class="modal-dialog configModal">
             <div class="modal-content">
-                <form  #mapLookupTaxonomyForm="ngForm" ngNativeValidate (ngSubmit)="saveLookupDetails()" >
+                <form  #mapLookupTaxonomyForm="ngForm" ngNativeValidate (ngSubmit)="saveLookupDetailsAndToggleAddStep()" >
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">New Configuration</h5>
                         <button type="button" class="close" data-bs-dismiss="modal" aria-bs-label="Close" (click)="closeTaxonomyModal()">
