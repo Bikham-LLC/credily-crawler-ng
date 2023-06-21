@@ -647,6 +647,24 @@ export class ConfigurationComponent implements OnInit {
     // this.subStructureUpdateModalCloseButton.nativeElement.click();
 
   }
+  
+  openEditModel(config:LookupConfiguration){
+    this.lookupName = config.lookupName;
+    this.lookupLink = config.lookupLink;
+    this.selectedVersion = [];
+    if(config.version=='V2'){
+      var temp: { id: any, itemName: any} = { id: 'V2', itemName: 'Credily V2' };
+      this.selectedVersion.push(temp);
+    }else{
+      var temp: { id: any, itemName: any} = { id: 'V3', itemName: 'Credily V3' };
+      this.selectedVersion.push(temp);
+    }
+    this.selectedTaxonomyIds = config.taxonomyId;
+    this.getLookupTaxonomy();
+
+    this.lookupModalButton.nativeElement.click();
+  }
+
 
 
 }
