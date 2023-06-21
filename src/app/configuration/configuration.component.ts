@@ -435,7 +435,7 @@ export class ConfigurationComponent implements OnInit {
       }
       setTimeout(()=>{
         this.closeUuidModal.nativeElement.click();
-        this.dataService.showToast('Valid Configuration.');
+        this.dataService.showToast('Valid Configuration.', 'success');
       },500)
       
 

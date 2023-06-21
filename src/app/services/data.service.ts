@@ -8,11 +8,11 @@ export class DataService {
 
   constructor() { }
 
-  showToast(msg: any, type = 'dark') {
+  showToast(msg: any, type = 'dark', duration = 5000) {
     Toastnotify.create({
       text: msg,
       type: type,
-      duration: 5000,
+      duration: duration,
     });
   }
 }
