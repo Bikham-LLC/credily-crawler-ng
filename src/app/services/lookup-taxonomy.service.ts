@@ -14,11 +14,12 @@ export class LookupTaxonomyService {
 
   key: Keys = new Keys();
 
-  getLookupTaxonomy(databaseHelper:DatabaseHelper, state:string): Observable<any> {
+  getLookupTaxonomy(databaseHelper:DatabaseHelper, state:string, link:string): Observable<any> {
     if(databaseHelper==undefined || databaseHelper==null){
       databaseHelper = new DatabaseHelper();
     }
     const params = new HttpParams()
+    .set('link', link)
     .set('state', state)
     .set('search', databaseHelper.search)
     .set('searchBy', databaseHelper.searchBy)
@@ -26,6 +27,12 @@ export class LookupTaxonomyService {
     .set('itemsPerPage', databaseHelper.itemsPerPage)
 
     return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.lookup_taxonomy, {params});
+  }
+
+  getLinkTaxonomyIds(link:string): Observable<any> {
+    const params = new HttpParams()
+    .set('link', link)
+    return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.lookup_config_controller+'/taxonomy-ids', {params});
   }
 
   testConfiguration(config:LicenseLookupConfigRequest, providerUuid:string): Observable<any> {

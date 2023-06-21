@@ -157,6 +157,7 @@ export class ConfigurationComponent implements OnInit {
     if (event[0] != undefined) {
       this.selectedTaxonomyLink = event;
       this.lookupLink = event[0].id;
+      this.getTaxonomyByLookupLink(this.lookupLink);
     }
   }
   
@@ -183,6 +184,7 @@ export class ConfigurationComponent implements OnInit {
         this.selectedTaxonomyLink = [];
         var temp: { id: any, itemName: any} = { id: this.lookupLink, itemName: this.lookupLink };
         this.selectedTaxonomyLink.push(temp);
+        this.getTaxonomyByLookupLink(this.lookupLink);
       }
     })
 
@@ -198,7 +200,7 @@ export class ConfigurationComponent implements OnInit {
   getLookupTaxonomy(){
     debugger
     this.loadingLookupTaxonomy = true;
-    this.lookupTaxonomyService.getLookupTaxonomy(this.databaseHelper, this.selectedStateName).subscribe(resp=>{
+    this.lookupTaxonomyService.getLookupTaxonomy(this.databaseHelper, this.selectedStateName, '').subscribe(resp=>{
 
       if(resp.status && resp.object!=null){
         this.lookupTaxonomyList = resp.object;
@@ -220,6 +222,25 @@ export class ConfigurationComponent implements OnInit {
     })
   }
 
+  getTaxonomyByLookupLink(lookupLink:string){
+    debugger
+    this.selectedTaxonomyIds = [];
+    this.lookupTaxonomyService.getLinkTaxonomyIds(lookupLink).subscribe(resp=>{
+      if(resp.status && resp.object!=null){
+        this.selectedTaxonomyIds = resp.object;
+        if(this.selectedTaxonomyIds.length>0){
+          this.lookupTaxonomyList.forEach(x=>{
+            if(this.selectedTaxonomyIds.includes(x.id)){
+              x.checked = true;
+            }
+          })
+        }
+      }
+    },error=>{
+      // this.dataService.showToast(error.error);
+    })
+  }
+
   pageChanged(event: any) {
     if (event != this.databaseHelper.currentPage) {
       this.databaseHelper.currentPage = event;
@@ -228,10 +249,12 @@ export class ConfigurationComponent implements OnInit {
   }
 
   selectStateName(){
+    this.databaseHelper.currentPage = 1;
     this.getLookupTaxonomy();
   }
 
   searchTaxonomy(){
+    this.databaseHelper.currentPage = 1;
     this.getLookupTaxonomy();
   }
 
