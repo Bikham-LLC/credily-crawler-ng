@@ -9,6 +9,7 @@
 .logOut {
   text-align: right;
 }
+
 .logOutbtn {
   background-color: transparent;
   color: #fff;
@@ -17,6 +18,7 @@
   padding: 0;
   line-height: 0;
 }
+
 .logOutbtn i::before {
   font-weight: 900 !important;
 }
@@ -24,37 +26,44 @@
 .main {
   padding: 1rem 0rem 1rem;
 }
+
 .dashNav-link.active {
   color: #fff !important;
   background-color: #0070d2 !important;
   border-color: #0070d2 !important;
 }
+
 .nav-tabs .nav-link {
   border: 1px solid transparent !important;
   font-size: 14px;
   color: #444;
 }
+
 .dashNav-content {
   border: 1px solid #dee2e6;
   padding: 14px;
   border-radius: 0px 0px 5px 5px;
   border-top: 0px;
 }
-.dashboardArea{
+
+.dashboardArea {
   border: 1px solid #e6e6e6;
   padding: 1rem 1rem 1rem;
   border-radius: 5px;
 }
+
 .emptyNotifinner {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 }
+
 .emptyNotifinner img {
   width: 10%;
   margin-bottom: 1rem;
 }
+
 .emptyBtn {
   background-color: #42bebe;
   font-size: 14px;
@@ -62,15 +71,18 @@
   font-weight: 400;
   box-shadow: none !important;
 }
+
 .configSetupBox {
   padding: 1rem 1rem 1rem;
 }
-.configSetupBox > h3 {
+
+.configSetupBox>h3 {
   text-align: center;
   font-size: 28px;
   font-weight: 500;
   margin-bottom: 3rem;
 }
+
 .configStepsinner {
   position: relative;
   padding: 0 0 0 1.5rem;
@@ -78,9 +90,11 @@
   max-height: 550px;
   overflow-y: auto;
 }
+
 .configAction {
   margin-top: 2rem;
 }
+
 .configStepsinner {
   position: relative;
   padding: 0 0 0 1.5rem;
@@ -89,6 +103,7 @@
   overflow-y: auto;
   margin-bottom: 2rem;
 }
+
 .configSteps label {
   font-size: 12px;
   background-color: #e7e7e7;
@@ -105,14 +120,17 @@
   border-radius: 5px;
   padding: 10px 10px;
 }
+
 .configSteps:last-child {
   margin-bottom: 0rem;
 }
+
 .configSteps p {
   margin-bottom: 0;
   font-size: 12px;
   font-weight: 400;
 }
+
 .configSteps::before {
   content: "";
   position: absolute;
@@ -137,9 +155,11 @@
   box-shadow: none !important;
   outline: none !important;
 }
+
 .closeSteps i::before {
   font-weight: 900 !important;
 }
+
 .addStepsModal {
   position: absolute;
   top: 0;
@@ -149,15 +169,18 @@
   background-color: #ffffff;
   padding: 15px;
 }
+
 .reportListing {
   max-height: 350px;
   overflow-y: auto;
 }
+
 .reportListing .table thead th {
   position: sticky;
   top: -1px;
   z-index: 5;
 }
+
 /* .reportListing .table thead th {
   border-top: 0px;
   border: 1px solid #ccc;
@@ -191,6 +214,7 @@
 .configModal {
   max-width: 800px;
 }
+
 .lookupSearchForm i.bi.bi-search {
   position: absolute;
   left: 11px;
@@ -198,6 +222,7 @@
   font-size: 16px;
   color: #727272;
 }
+
 /* 
 .lookupSearchForm input{
   padding-left: 40px !important;
@@ -213,6 +238,7 @@
 header {
   background-color: #ffffff;
 }
+
 .enterprisebtn {
   border: 1px solid #3d3d3d !important;
   border-radius: 4px;
@@ -222,19 +248,23 @@ header {
   color: #3d3d3d !important;
   box-shadow: none;
 }
+
 .profile-bx {
   display: flex;
   justify-content: end;
   gap: 15px;
   align-items: center;
 }
+
 .enterprisebtn i {
   margin-left: 8px;
 }
+
 .topbar {
   padding: 6px 12px;
   border-bottom: 1px solid #f2f2f2;
 }
+
 .userprofilebtn {
   display: flex;
   font-weight: 500;
@@ -248,6 +278,7 @@ header {
   border: 1px solid #e8e8e8 !important;
   border-radius: 4px;
 }
+
 .sepratonverti {
   display: block;
   width: 2px;
@@ -275,11 +306,13 @@ header {
   border-top: 2px solid transparent;
   padding: 10px 15px;
 }
+
 .navigationitem.show,
 .navigationitem.navActive {
   border-top: 2px solid #1589ee !important;
   background-color: #e8f3fd;
 }
+
 .navigationitemmenu {
   padding: 0;
   box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.16);
@@ -287,9 +320,11 @@ header {
   border: 0;
   min-width: 14rem;
 }
+
 .navigationitemmenu li:last-child .navigationmenuitem {
   border-bottom: 0px solid #f3f3f3;
 }
+
 .navigationmenuitem {
   font-weight: 400;
   font-size: 12px;
@@ -301,6 +336,7 @@ header {
   width: 100%;
   border-bottom: 1px solid #f3f3f3;
 }
+
 .navigationmenuitem:hover {
   background-color: #1589ee;
   color: #ffffff;
@@ -329,6 +365,7 @@ header {
   border-radius: 8px;
   border: none;
 }
+
 .userHeader {
   background: #f3f3f3;
   border-radius: 8px 8px 0px 0px;
@@ -343,6 +380,7 @@ header {
   height: 100%;
   object-fit: cover;
 }
+
 .userProfile {
   width: 70px;
   height: 70px;
@@ -356,6 +394,7 @@ header {
   box-shadow: 0px 4px 6px -1px rgba(0, 0, 0, 0.1),
     0px 2px 4px -2px rgba(0, 0, 0, 0.05);
 }
+
 .userProfileInfo h3 {
   font-weight: 600;
   font-size: 18px;
@@ -380,6 +419,7 @@ header {
   display: block;
   margin-bottom: 1rem;
 }
+
 .userProfileLink a {
   font-weight: 500;
   font-size: 14px;
@@ -393,30 +433,37 @@ header {
   align-items: center;
   gap: 10px;
 }
+
 .userProfileLink {
   border-bottom: 1px solid #f3f4f6;
   margin-bottom: 15px;
   padding-bottom: 5px;
 }
+
 .userProfileLink a img {
   height: 17px;
   width: 17px;
 }
+
 .userProfileLink a:hover {
   color: #0070d2;
 }
+
 .userLogoutbtn {
   text-align: center;
   justify-content: center;
   padding: 8px 0;
   font-size: 14px;
 }
+
 .userLogoutbtn i::before {
   font-weight: 800 !important;
 }
+
 .userProfileLink a i {
   font-size: 17px;
 }
+
 .bgfilterblur {
   position: fixed;
   left: 0px;
@@ -428,6 +475,7 @@ header {
   z-index: -1;
   backdrop-filter: blur(1px);
 }
+
 .userDropdownmenuinner {
   position: relative;
   z-index: 2;
@@ -438,6 +486,7 @@ header {
   background-color: #fff;
   border-bottom: 1px solid transparent;
 }
+
 /* .navigation-bar.scroll-add {
   position: fixed;
   left: 0;
@@ -490,8 +539,8 @@ header {
   box-sizing: border-box;
   border-radius: 4px;
   box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
-              0 8px 10px 1px rgba(0, 0, 0, 0.14),
-              0 3px 14px 2px rgba(0, 0, 0, 0.12);
+    0 8px 10px 1px rgba(0, 0, 0, 0.14),
+    0 3px 14px 2px rgba(0, 0, 0, 0.12);
 }
 
 .cdk-drag-placeholder {
@@ -518,4 +567,87 @@ span.removeSteps {
   top: 1px;
   cursor: pointer;
   transition: 0.1s linear;
+}
+
+/* loader css */
+/* nav {
+  font-size: 1.5rem;
+  height: 3rem;
+  line-height: 3rem;
+  background-color: #eee;
+  padding: 0 1rem;
+}
+
+a {
+  padding: 0 2rem;
+}
+
+.mask {
+  position: absolute;
+  width: 100%;
+  height: calc(100% - 3.25rem);
+  top: 3rem;
+  background-color: rgba(255,255,255,0.5);
+  text-align: center;
+}
+.mask > .pei-spinner::before {
+font-size: 8rem;
+  margin-top: 300px;
+}
+
+iframe {
+  width: 100%;
+  height: calc(100% - 3.25rem);
+  border: 0;
+}
+
+.pei {
+  display: inline-block;
+  position: relative;
+  font-style: normal;
+  font-family: Arial;
+}
+
+.pei-spinner::before {
+  content: "";
+  vertical-align: text-bottom;
+  display: inline-block;
+  box-sizing: border-box;
+  width: 1em;
+  height: 1em;
+  border: 0.1em solid rgba(217, 83, 79, 0.8);
+  border-right-color: transparent;
+  border-radius: 0.625em;
+  animation: pei-infinite-spinning .75s linear infinite;
+}
+
+@keyframes pei-infinite-spinning {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+} */
+.loaderSpin {
+  position: absolute;
+  left: 0;
+  top: 0;
+  background-color: #ffffffb8;
+  right: 0;
+  bottom: 0;
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.loaderSpin .spinner-border {
+  --bs-spinner-width: 5rem;
+  --bs-spinner-height: 5rem;
+  --bs-spinner-vertical-align: -0.125em;
+  --bs-spinner-border-width: 0.45em;
+  --bs-spinner-animation-speed: 0.75s;
+  --bs-spinner-animation-name: spinner-border;
+  border: var(--bs-spinner-border-width) solid currentcolor;
+  border-right-color: transparent;
 }

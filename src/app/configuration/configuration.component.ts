@@ -9,6 +9,7 @@ import { LicenseLookupConfigRequest } from '../models/LicenseLookupConfigRequest
 import { Constant } from '../models/Constant';
 import { FormStructure } from '../models/formStructure';
 import {CdkDragDrop, CdkDropList, CdkDrag, moveItemInArray} from '@angular/cdk/drag-drop';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-configuration',
@@ -19,6 +20,7 @@ export class ConfigurationComponent implements OnInit {
 
   constructor(
     private _router: Router,
+    private sanitizer: DomSanitizer,
     private lookupTaxonomyService:LookupTaxonomyService,
     private dataService:DataService) { 
       // if(!this.Constant.EMPTY_STRINGS.includes(localStorage.getItem(this.Constant.USER_NAME))){
@@ -188,9 +190,17 @@ export class ConfigurationComponent implements OnInit {
     this.loadingIframe = true;
     this.configurationStepList = [];
     this.closeTaxomonModalButton.nativeElement.click();
+    // this.loadSite(this.lookupLink);
   }
 
-  iframeLoaded(){
+  src !: SafeResourceUrl;
+  loadSite(e:any) {
+    this.loadingIframe = true;
+    this.src = this.sanitizer.bypassSecurityTrustResourceUrl('https://' + e.target.textContent);
+  }
+
+  onLoad(){
+    debugger
     this.loadingIframe = false;
   }
 
