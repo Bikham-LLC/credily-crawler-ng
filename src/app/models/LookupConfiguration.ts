@@ -4,4 +4,5 @@ export class LookupConfiguration{
     lookupLink:string='';
     addedBy:string='';
     version:string='';
+    taxonomyId:any;
 }
