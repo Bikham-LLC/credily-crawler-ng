@@ -723,4 +723,26 @@ export class ConfigurationComponent implements OnInit {
     })
   }
 
+  @ViewChild('replicateModalButton') replicateModalButton! : ElementRef;
+  @ViewChild('replicateModalCloseButton') replicateModalCloseButton!: ElementRef;
+  replicateConfig(id:number){
+    this.selectedLookupConfigId = id;
+    this.selectedVersion = [];
+    this.credilyVersion = '';
+    this.replicateModalButton.nativeElement.click();
+  }
+
+  replicatingConfig:boolean = false;
+  replicateLookupConfig(){
+    this.replicatingConfig = true;
+    this.lookupTaxonomyService.replicateLookupConfig(String(localStorage.getItem(this.Constant.ACCOUNT_UUID)), this.credilyVersion, this.selectedLookupConfigId).subscribe(response=>{
+      this.replicatingConfig = false;
+      this.getConfiguration();
+      setTimeout(()=>{
+        this.replicateModalCloseButton.nativeElement.click();
+      }, 500)
+    },error=>{
+      this.replicatingConfig = false;
+    })
+  }
 }

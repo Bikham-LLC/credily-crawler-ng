@@ -47,7 +47,7 @@ export class LookupTaxonomyService {
     .set('accountUuid', accountUuid)
     .set('version', version)
     .set('configId', configId)
-    return this.http.post<any>(this.key.server_url + this.key.api_version_one + this.key.lookup_config_controller + "/replicate", {params});
+    return this.http.post<any>(this.key.server_url + this.key.api_version_one + this.key.lookup_config_controller + "/replicate",{}, {params});
   }
 
   getConfiguration(databaseHelper:DatabaseHelper): Observable<any> {
