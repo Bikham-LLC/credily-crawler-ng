@@ -116,7 +116,6 @@ export class ConfigurationComponent implements OnInit {
     }
   }
 
-
   getLookupTaxonomy(){
     debugger
     this.loadingLookupTaxonomy = true;
