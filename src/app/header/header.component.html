@@ -1,0 +1,58 @@
+<div class="container-fluid p-0">
+    <header>
+        <div class="align-items-center d-flex justify-content-between topbar">
+            <div class="logo">
+                <img src="assets/images/logo.svg" alt="" /> 
+            </div>
+            <div class="profile-bx">
+                <div class="profiledash">
+                    <div class="dropdown">
+                        <button class="btn userprofilebtn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                            <div class="profile-bx">
+                                <img src="assets/images/user-icon.svg" alt="" />
+                            </div>
+                            {{userName}} <i class="fa-solid fa-chevron-down"></i>
+                        </button>
+                        <ul class="dropdown-menu userDropdownmenu" aria-labelledby="dropdownMenuButton1">
+                            <div class="bgfilterblur"></div>
+                            <div class="userDropdownmenuinner">
+                                <div class="userHeader">
+                                    <div class="userProfile">
+                                        <img src="assets/images/user-icon.svg" alt="" />
+                                    </div>
+                                </div>
+                                <div class="userProfileInfo">
+                                    <h3>{{userName}}</h3>
+                                </div>
+                                <div class="userProfileLink">
+                                    <a  routerLink="/account-user" routerLinkActive="active"><i class="bi bi-gear"></i>  Settings</a>
+                                </div>
+                                <div class="userLogout">
+                                    <a class="btn primarybtn userLogoutbtn pointer" (click)="logOut()">
+                                        <i class="bi bi-arrow-bar-left"></i> Log out
+                                    </a>
+                                </div>
+                               
+                            </div>
+                            
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="navigation-bar">
+            <div class="navigationitemsmain">
+                    <a href="#" class="btn navigationitem" routerLinkActive="navActive">
+                        Dashboard
+                    </a>
+                    <a routerLink="/configuration" class="btn navigationitem " routerLinkActive="navActive">
+                        <!-- (click)="this.addStepToggle = false; -->
+                        Configuration
+                    </a>
+                    <a href="#" class="btn navigationitem" routerLinkActive="navActive">
+                        Report
+                    </a>
+            </div>
+        </div>
+    </header>
+</div>

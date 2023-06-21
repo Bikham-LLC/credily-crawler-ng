@@ -14,6 +14,7 @@ import { SafePipe } from './pipe/safe.pipe';
 import { StateDropdownComponent } from './state-dropdown/state-dropdown.component';
 import { AccountUserComponent } from './account-user/account-user.component';
 import {DragDropModule} from '@angular/cdk/drag-drop';
+import { HeaderComponent } from './header/header.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import {DragDropModule} from '@angular/cdk/drag-drop';
     CircularLoaderComponent,
     SafePipe,
     StateDropdownComponent,
-    AccountUserComponent
+    AccountUserComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,
