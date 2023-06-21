@@ -569,66 +569,6 @@ span.removeSteps {
   transition: 0.1s linear;
 }
 
-/* loader css */
-/* nav {
-  font-size: 1.5rem;
-  height: 3rem;
-  line-height: 3rem;
-  background-color: #eee;
-  padding: 0 1rem;
-}
-
-a {
-  padding: 0 2rem;
-}
-
-.mask {
-  position: absolute;
-  width: 100%;
-  height: calc(100% - 3.25rem);
-  top: 3rem;
-  background-color: rgba(255,255,255,0.5);
-  text-align: center;
-}
-.mask > .pei-spinner::before {
-font-size: 8rem;
-  margin-top: 300px;
-}
-
-iframe {
-  width: 100%;
-  height: calc(100% - 3.25rem);
-  border: 0;
-}
-
-.pei {
-  display: inline-block;
-  position: relative;
-  font-style: normal;
-  font-family: Arial;
-}
-
-.pei-spinner::before {
-  content: "";
-  vertical-align: text-bottom;
-  display: inline-block;
-  box-sizing: border-box;
-  width: 1em;
-  height: 1em;
-  border: 0.1em solid rgba(217, 83, 79, 0.8);
-  border-right-color: transparent;
-  border-radius: 0.625em;
-  animation: pei-infinite-spinning .75s linear infinite;
-}
-
-@keyframes pei-infinite-spinning {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-} */
 .loaderSpin {
   position: absolute;
   left: 0;
