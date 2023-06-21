@@ -193,10 +193,16 @@
                                         </div>
                                         <div class="col-lg-6 ">
                                             <div class="lookupSearchForm">
-                                                <label>Enter Lookup Link <sup class="text-danger">*</sup> </label>
+                                                <!-- <label>Enter Lookup Link <sup class="text-danger">*</sup> </label>
                                                 <div class="position-relative">
                                                     <input type="url" class="form-control" name="llink" placeholder="Enter Lookup Link" [(ngModel)]="lookupLink" maxlength="200" required>
+                                                </div> -->
+                                                <div class="position-relative">
+                                                    <label class="m-1">Lookup Link <sup class="text-danger">*</sup> </label>
+                                                    <angular2-multiselect id="taxoLink" name="taxoLink" [data]="taxonomyLinkList" [settings]="dropdownSettingsTaxonomyLink" [(ngModel)]="selectedTaxonomyLink" (ngModelChange)="selectTaxonomyLink($event)" (keyup)="onSearchLink($event)" required>
+                                                    </angular2-multiselect>
                                                 </div>
+                                                <small *ngIf="mapLookupTaxonomyForm.submitted && Constant.EMPTY_STRINGS.includes(lookupLink)" style="color: red;">Select Link!</small>
                                             </div>
                                         </div>
                                         <div class="col-lg-6 ">

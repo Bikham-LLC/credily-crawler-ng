@@ -41,9 +41,15 @@ export class ConfigurationComponent implements OnInit {
   lookupName:string='';
   lookupLink:string='';
   selectedStateName:string='';
+  credilyVersion:string='';
   @ViewChild('lookupModalButton') lookupModalButton !:ElementRef;
   @ViewChild('mapLookupTaxonomyForm') mapLookupTaxonomyForm : any;
-  credilyVersion:string='';
+  
+
+  dropdownSettingsTaxonomyLink !: { singleSelection: boolean; text: string; enableSearchFilter: boolean; autoPosition: boolean };
+  selectedTaxonomyLink: any[] = new Array();
+  taxonomyLinkList: any[] = new Array();
+
   dropdownSettingsVersion !: { singleSelection: boolean; text: string; enableSearchFilter: boolean; autoPosition: boolean };
   selectedVersion: any[] = new Array();
   versionList: any[] = new Array();
@@ -81,6 +87,12 @@ export class ConfigurationComponent implements OnInit {
       singleSelection: true,
       text: 'Select Version',
       enableSearchFilter: false,
+      autoPosition: false
+    }
+    this.dropdownSettingsTaxonomyLink = {
+      singleSelection: true,
+      text: 'Select Link',
+      enableSearchFilter: true,
       autoPosition: false
     }
 
@@ -128,6 +140,7 @@ export class ConfigurationComponent implements OnInit {
 
   openLookupModal(){
     this.selectedTaxonomyIds = [];
+    this.selectedTaxonomyLink = [];
     this.selectedVersion = [];
     this.databaseHelper = new DatabaseHelper();
     this.lookupLink = '';
@@ -135,6 +148,16 @@ export class ConfigurationComponent implements OnInit {
     this.selectedStateName = '';
     this.lookupModalButton.nativeElement.click();
     this.getLookupTaxonomy();
+    this.getTaxonomyLink('');
+  }
+
+  selectTaxonomyLink(event:any){
+    debugger
+    this.lookupLink = '';
+    if (event[0] != undefined) {
+      this.selectedTaxonomyLink = event;
+      this.lookupLink = event[0].id;
+    }
   }
   
   selectVersion(event:any){
@@ -144,6 +167,27 @@ export class ConfigurationComponent implements OnInit {
       this.selectedVersion = event;
       this.credilyVersion = event[0].id;
     }
+  }
+
+  getTaxonomyLink(search:string){
+
+    this.lookupTaxonomyService.getTaxonomyLink(search).subscribe(response=>{
+      if(response.object!=null){
+        this.taxonomyLinkList = [];
+        response.object.forEach((element:any)=>{
+          var temp: { id: any, itemName: any} = { id: element, itemName: element };
+          this.taxonomyLinkList.push(temp);
+        })
+      }
+    })
+
+    this.taxonomyLinkList = JSON.parse(JSON.stringify(this.taxonomyLinkList));
+
+  }
+
+  onSearchLink(event: any) {
+    debugger
+    this.getTaxonomyLink(event.target.value);
   }
 
   getLookupTaxonomy(){
@@ -162,8 +206,6 @@ export class ConfigurationComponent implements OnInit {
             }
           })
         }
-        
-
       }
 
       this.loadingLookupTaxonomy = false;
@@ -676,6 +718,11 @@ export class ConfigurationComponent implements OnInit {
     this.selectedLookupConfigId = config.id;
     this.lookupName = config.lookupName;
     this.lookupLink = config.lookupLink;
+
+    this.selectedTaxonomyLink = [];
+    var temp: { id: any, itemName: any} = { id: config.lookupLink, itemName: config.lookupLink };
+    this.selectedTaxonomyLink.push(temp);
+
     this.selectedVersion = [];
     if(config.version=='V2'){
       var temp: { id: any, itemName: any} = { id: 'V2', itemName: 'Credily V2' };
