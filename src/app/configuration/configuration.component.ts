@@ -715,15 +715,15 @@ export class ConfigurationComponent implements OnInit {
   confirmDeleteConfiguration(){
     debugger
     this.configList.splice(this.deletedIndex, 1);
-    this.deletingConfguration = true;
-    this.lookupTaxonomyService.deleteConfiguration(this.deletedId).subscribe(response=>{
-      // if(response.status){
-      //   this.configList.splice(this.deletedIndex, 1);
-      // }
-      this.deletingConfguration = false;
-    },error=>{
-      this.deletingConfguration = false;
-    })
+    // this.deletingConfguration = true;
+    // this.lookupTaxonomyService.deleteConfiguration(this.deletedId).subscribe(response=>{
+    //   // if(response.status){
+    //   //   this.configList.splice(this.deletedIndex, 1);
+    //   // }
+    //   this.deletingConfguration = false;
+    // },error=>{
+    //   this.deletingConfguration = false;
+    // })
   }
 
 }
