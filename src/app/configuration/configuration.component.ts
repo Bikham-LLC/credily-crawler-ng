@@ -179,6 +179,11 @@ export class ConfigurationComponent implements OnInit {
           this.taxonomyLinkList.push(temp);
         })
       }
+      if(!this.Constant.EMPTY_STRINGS.includes(this.lookupLink)){
+        this.selectedTaxonomyLink = [];
+        var temp: { id: any, itemName: any} = { id: this.lookupLink, itemName: this.lookupLink };
+        this.selectedTaxonomyLink.push(temp);
+      }
     })
 
     this.taxonomyLinkList = JSON.parse(JSON.stringify(this.taxonomyLinkList));
@@ -718,11 +723,7 @@ export class ConfigurationComponent implements OnInit {
     this.selectedLookupConfigId = config.id;
     this.lookupName = config.lookupName;
     this.lookupLink = config.lookupLink;
-
     this.selectedTaxonomyLink = [];
-    var temp: { id: any, itemName: any} = { id: config.lookupLink, itemName: config.lookupLink };
-    this.selectedTaxonomyLink.push(temp);
-
     this.selectedVersion = [];
     if(config.version=='V2'){
       var temp: { id: any, itemName: any} = { id: 'V2', itemName: 'Credily V2' };
@@ -735,6 +736,7 @@ export class ConfigurationComponent implements OnInit {
     }
     this.selectedTaxonomyIds = config.taxonomyId;
     this.getLookupTaxonomy();
+    this.getTaxonomyLink('');
 
     this.lookupModalButton.nativeElement.click();
   }

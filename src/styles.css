@@ -120,6 +120,7 @@ ul li,ol li {
   background: #f9fafb;
   border: 1px solid #d1d5db;
   border-radius: 4px !important;
+  overflow-x: auto !important;
 }
 .close {
   background-color: transparent !important;
