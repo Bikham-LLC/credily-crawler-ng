@@ -548,5 +548,31 @@
         </div>
     </div>  
 
+    <button type="button" class="d-none" id="replicateModalButton" #deleteModalButton data-bs-toggle="modal" data-bs-target= "#replicateModal"></button>
+    <div class="modal blur-bg-2" id="replicateModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="profilCreatemodal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body text-center">
+                    <div class="lookupSearchForm">
+                        <div class="position-relative">
+                            <label class="m-1">Credily Version <sup class="text-danger">*</sup> </label>
+                            <angular2-multiselect id="version" name="version" [data]="versionList" [settings]="dropdownSettingsVersion" [(ngModel)]="selectedVersion" (ngModelChange)="selectVersion($event)" required>
+                            </angular2-multiselect>
+                        </div>
+                        <!-- <small *ngIf="mapLookupTaxonomyForm.submitted && Constant.EMPTY_STRINGS.includes(credilyVersion)" style="color: red;">Select Credily Version!</small> -->
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="button" data-bs-dismiss="modal" class="btn btn-primary" [disabled]="Constant.EMPTY_STRINGS.includes(credilyVersion)">
+                        Replicate
+                    </button>
+                    <button type="button" class="btn btnmarkcancel" data-bs-dismiss="modal" #replicateModalCloseButton>
+                        Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>  
+
 
 </div>
