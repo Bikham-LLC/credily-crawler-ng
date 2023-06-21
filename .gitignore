@@ -3,8 +3,5 @@ packege-lock.json
 dist
 package-lock.json
 .DS_Store
-./.DS_Store
-/.DS_Store
-../.DS_Store
-*/.DS_Store
 .angular
+*.DS_Store
