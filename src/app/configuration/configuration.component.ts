@@ -188,9 +188,10 @@ export class ConfigurationComponent implements OnInit {
     this.loadingIframe = true;
     this.configurationStepList = [];
     this.closeTaxomonModalButton.nativeElement.click();
-    setTimeout( () => {
-      this.loadingIframe = false;
-    }, 1000);
+  }
+
+  iframeLoaded(){
+    this.loadingIframe = false;
   }
 
   closeTaxonomyModal(){
