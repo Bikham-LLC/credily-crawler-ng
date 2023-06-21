@@ -701,14 +701,28 @@ export class ConfigurationComponent implements OnInit {
     })
   }
 
+  @ViewChild('deleteModalButton') deleteModalButton!:ElementRef;
+  deletedId:number=0;
+  deletedIndex:number=0;
   deleteConfiguration(id:number, i:any){
     debugger
-    this.lookupTaxonomyService.deleteConfiguration(id).subscribe(response=>{
-      if(response.status){
-        this.configList.splice(i, 1);
-      }
-    },error=>{
+    this.deletedId = id;
+    this.deletedIndex = i;
+    this.deleteModalButton.nativeElement.click();
+  }
 
+  deletingConfguration:boolean=false;
+  confirmDeleteConfiguration(){
+    debugger
+    this.configList.splice(this.deletedIndex, 1);
+    this.deletingConfguration = true;
+    this.lookupTaxonomyService.deleteConfiguration(this.deletedId).subscribe(response=>{
+      // if(response.status){
+      //   this.configList.splice(this.deletedIndex, 1);
+      // }
+      this.deletingConfguration = false;
+    },error=>{
+      this.deletingConfguration = false;
     })
   }
 
