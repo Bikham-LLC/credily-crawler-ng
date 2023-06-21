@@ -38,6 +38,10 @@ export class LookupTaxonomyService {
     return this.http.post<any>(this.key.server_url + this.key.api_version_one + this.key.lookup_config_controller, config);
   }
 
+  updateConfiguration(config:LicenseLookupConfigRequest): Observable<any> {
+    return this.http.patch<any>(this.key.server_url + this.key.api_version_one + this.key.lookup_config_controller, config);
+  }
+
   getConfiguration(databaseHelper:DatabaseHelper): Observable<any> {
     if(databaseHelper==undefined || databaseHelper==null){
       databaseHelper = new DatabaseHelper();
@@ -62,6 +66,17 @@ export class LookupTaxonomyService {
     const params = new HttpParams()
     .set('className', className)
     return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.lookup_config_controller + "/column", {params});
+  }
+  getCrawlerAttrMap(id:any): Observable<any>{
+    const params = new HttpParams()
+    .set('id', id)
+    return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.lookup_config_controller + "/att-map", {params});
+  }
+
+  deleteConfiguration(lookupConfigId:any): Observable<any>{
+    const params = new HttpParams()
+    .set('lookupConfigId', lookupConfigId)
+    return this.http.delete<any>(this.key.server_url + this.key.api_version_one + this.key.lookup_config_controller, {params});
   }
 
 }

@@ -70,8 +70,8 @@
                                                 <p class="mb-0">{{config.addedBy}}</p>
                                             </td>
                                             <td class="tableData text-center">
-                                                <i class="bi bi-pen" (click)="openEditModel(config)"></i>
-                                                
+                                                <i class="bi bi-pen" style="cursor: pointer;" (click)="openEditModel(config)"></i>
+                                                <i class="bi bi-trash ms-2" style="cursor: pointer;" (click)="deleteConfiguration(config.id, i)"></i>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -513,7 +513,7 @@
                 </div>
     
                 <div>
-                    <button style="float: right;" type="button" *ngIf="columns.length > 0" (click)="addUpdateObj()" class="m-2 btn btn-primary waves-effect waves-light">
+                    <button style="float: right;" type="button" *ngIf="columns.length > 0" (click)="addCloumnNameObj()" class="m-2 btn btn-primary waves-effect waves-light">
                         <i class="ri-add-circle-line align-bottom me-2"></i>Submit
                     </button>
                 </div>

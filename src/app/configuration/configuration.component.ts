@@ -213,6 +213,7 @@ export class ConfigurationComponent implements OnInit {
   @ViewChild('closeTaxomonModalButton') closeTaxomonModalButton!:ElementRef;
   @ViewChild('clickIframeButton') clickIframeButton!:ElementRef;
   setText:any;
+  crawlerConfigRequest:ConfigRequest = new ConfigRequest();
   saveLookupDetailsAndToggleAddStep(){
     debugger
 
@@ -224,6 +225,11 @@ export class ConfigurationComponent implements OnInit {
     },500)
     
     this.setText = this.lookupLink.split('//')[1];
+    
+    if(this.selectedLookupConfigId>0){
+      this.getCrawlerAttrMap(this.selectedLookupConfigId);
+      
+    }
   }
 
   src !: SafeResourceUrl;
@@ -445,28 +451,39 @@ export class ConfigurationComponent implements OnInit {
     })
   }
 
-  async saveConfiguration(){
+  saveConfiguration(){
     debugger
     this.savingConfiguration = true;
-    
-    // await this.testConfiguration();
-
     this.licenseLookupConfigRequest.version = this.credilyVersion;
     this.licenseLookupConfigRequest.licenseLookUpName = this.lookupName;
     this.licenseLookupConfigRequest.licenseLookUpLink = this.lookupLink;
     this.licenseLookupConfigRequest.taxonomyIdList = this.selectedTaxonomyIds;
     this.licenseLookupConfigRequest.userAccountUuid = String(localStorage.getItem(this.Constant.ACCOUNT_UUID));
     this.licenseLookupConfigRequest.configRequests = this.configurationStepList;
-
+    this.licenseLookupConfigRequest.lookupConfigId = this.selectedLookupConfigId;
     if(!this.isInvalidConfiguration){
-      this.lookupTaxonomyService.createConfiguration(this.licenseLookupConfigRequest).subscribe(response=>{
-        this.savingConfiguration = false;
-        this.dataService.showToast('Configuration Saved Successfully.');
-        this.addStepToggle = false;
-      },error=>{
-        this.savingConfiguration = false;
-        this.dataService.showToast(error.error);
-      })
+
+      if(this.selectedLookupConfigId>0){
+        this.lookupTaxonomyService.updateConfiguration(this.licenseLookupConfigRequest).subscribe(response=>{
+          this.savingConfiguration = false;
+          this.dataService.showToast('Configuration Saved Successfully.');
+          this.addStepToggle = false;
+          this.selectedLookupConfigId = 0;
+        },error=>{
+          this.savingConfiguration = false;
+          this.dataService.showToast(error.error);
+        })
+      }else{
+        this.lookupTaxonomyService.createConfiguration(this.licenseLookupConfigRequest).subscribe(response=>{
+          this.savingConfiguration = false;
+          this.dataService.showToast('Configuration Saved Successfully.');
+          this.addStepToggle = false;
+          this.selectedLookupConfigId = 0;
+        },error=>{
+          this.savingConfiguration = false;
+          this.dataService.showToast(error.error);
+        })
+      }
     }
   }
 
@@ -636,7 +653,7 @@ export class ConfigurationComponent implements OnInit {
 
 
   
-  addUpdateObj() {
+  addCloumnNameObj() {
     debugger
 
     if (!this.Constant.EMPTY_STRINGS.includes(this.selectedNestedsubColumn)) {
@@ -646,15 +663,15 @@ export class ConfigurationComponent implements OnInit {
     } else {
       this.selectedEntity.val = this.selectedEntity.val + this.selectedColumns
     }
-
     this.cofigStepRequest.columnName = this.selectedEntity.val;
-    // this.configurationStepList.push(this.cofigStepRequest);
     this.openAddStepAndCloseColumn();
-    // this.subStructureUpdateModalCloseButton.nativeElement.click();
-
   }
   
+
+
+  selectedLookupConfigId:number=0;
   openEditModel(config:LookupConfiguration){
+    this.selectedLookupConfigId = config.id;
     this.lookupName = config.lookupName;
     this.lookupLink = config.lookupLink;
     this.selectedVersion = [];
@@ -671,6 +688,28 @@ export class ConfigurationComponent implements OnInit {
     this.lookupModalButton.nativeElement.click();
   }
 
+  loadingConfgurationStep:boolean=false;
+  getCrawlerAttrMap(id:any){
+    this.loadingConfgurationStep = true;
+    this.lookupTaxonomyService.getCrawlerAttrMap(id).subscribe(response=>{
+      if(response.status && response.object!=null){
+        this.configurationStepList = response.object;
+      }
+      this.loadingConfgurationStep = false;
+    },error=>{
+      this.loadingConfgurationStep = false;
+    })
+  }
 
+  deleteConfiguration(id:number, i:any){
+    debugger
+    this.lookupTaxonomyService.deleteConfiguration(id).subscribe(response=>{
+      if(response.status){
+        this.configList.splice(i, 1);
+      }
+    },error=>{
+
+    })
+  }
 
 }
