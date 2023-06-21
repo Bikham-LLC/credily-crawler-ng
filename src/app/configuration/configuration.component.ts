@@ -470,21 +470,6 @@ export class ConfigurationComponent implements OnInit {
   @ViewChild('subStructureUpdateModalCloseButton') subStructureUpdateModalCloseButton!: ElementRef;
   @ViewChild('appUpdateSubStructureModalButton') appUpdateSubStructureModalButton!: ElementRef;
   
-
-  // openAddConfigModal(){
-  //   this.iframeUrl = this.lookupLink;
-  //   this.attributeList = [];
-  //   this.classList = [];
-  //   this.columnList = [];
-  //   this.selectedAttribute = [];
-  //   this.selectedClass = [];
-  //   this.selectedColumn = [];
-  //   this.cofigStepRequest  = new ConfigRequest();
-  //   this.addConfigStepModalButton.nativeElement.click();
-  //   this.getArribute();
-  //   this.getClassName();
-  // }
-
   openAddStepAndCloseColumn() {
     this.subStructureUpdateModalCloseButton.nativeElement.click();
     this.addConfigStepModalButton.nativeElement.click();
