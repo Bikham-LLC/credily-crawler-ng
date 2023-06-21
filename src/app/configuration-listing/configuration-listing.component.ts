@@ -22,10 +22,10 @@ export class ConfigurationListingComponent implements OnInit {
   loadingConfiguration:boolean=true;
   configList:LookupConfiguration[] = new Array();
   totalConfiguration:number=0;
-  databaseHelper:DatabaseHelper = new DatabaseHelper();
+  configDatabaseHelper:DatabaseHelper = new DatabaseHelper();
   getConfiguration(){
     this.loadingConfiguration = true;
-    this.lookupTaxonomyService.getConfiguration(this.databaseHelper).subscribe(response=>{
+    this.lookupTaxonomyService.getConfiguration(this.configDatabaseHelper).subscribe(response=>{
       if(response.status && response.object!=null){
         this.configList = response.object;
         this.totalConfiguration = response.totalItems;
@@ -38,8 +38,8 @@ export class ConfigurationListingComponent implements OnInit {
   }
 
   pageChanged(event: any) {
-    if (event != this.databaseHelper.currentPage) {
-      this.databaseHelper.currentPage = event;
+    if (event != this.configDatabaseHelper.currentPage) {
+      this.configDatabaseHelper.currentPage = event;
       this.getConfiguration();
     }
   }

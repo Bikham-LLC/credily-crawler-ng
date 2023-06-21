@@ -43,7 +43,7 @@
             <tbody>
                 <tr *ngFor="let config of configList; let i = index">
                     <td class="tableData">
-                        <p class="mb-0 text-center">{{ databaseHelper.currentPage * (i+1)}}</p>
+                        <p class="mb-0 text-center">{{ configDatabaseHelper.currentPage * (i+1)}}</p>
                     </td>
                     <td class="tableData">
                         <p class="mb-0">{{config.lookupName}}</p>
@@ -65,14 +65,14 @@
             </tbody>
         </table>
     </div>
-    <div class="row justify-content-center" *ngIf="totalConfiguration>databaseHelper.itemsPerPage">  
+    <div class="row justify-content-center" *ngIf="totalConfiguration>configDatabaseHelper.itemsPerPage">  
         <div class="paginationmain w-100 px-3 mt-2">
             <div class="d-flex align-items-center justify-content-between">
                 <p class="currentshowing mb-0">
                     Showing <span>{{configList.length}}</span> of <span>{{totalConfiguration}}</span>  
                 </p>
                 <div class="d-flex justify-content-end">
-                    <ngb-pagination [collectionSize]="totalConfiguration" [rotate]="true" (pageChange)="pageChanged($event)" [pageSize]="databaseHelper.itemsPerPage" [(page)]="databaseHelper.currentPage" [maxSize]="5" [boundaryLinks]="true">
+                    <ngb-pagination [collectionSize]="totalConfiguration" [rotate]="true" (pageChange)="pageChanged($event)" [pageSize]="configDatabaseHelper.itemsPerPage" [(page)]="configDatabaseHelper.currentPage" [maxSize]="5" [boundaryLinks]="true">
                     </ngb-pagination>
                 </div>
             </div>

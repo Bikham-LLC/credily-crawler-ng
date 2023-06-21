@@ -10,6 +10,7 @@ import { Constant } from '../models/Constant';
 import { FormStructure } from '../models/formStructure';
 import {CdkDragDrop, CdkDropList, CdkDrag, moveItemInArray} from '@angular/cdk/drag-drop';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { LookupConfiguration } from '../models/LookupConfiguration';
 
 @Component({
   selector: 'app-configuration',
@@ -82,6 +83,8 @@ export class ConfigurationComponent implements OnInit {
       enableSearchFilter: false,
       autoPosition: false
     }
+
+    this.getConfiguration();
   }
 
   drop(event: CdkDragDrop<any[]>) {
@@ -96,6 +99,31 @@ export class ConfigurationComponent implements OnInit {
   logOut() {
     localStorage.clear();
     this._router.navigate(['/auth/login']);
+  }
+
+  loadingConfiguration:boolean=false;
+  configList:LookupConfiguration[] = new Array();
+  totalConfiguration:number=0;
+  configDatabaseHelper:DatabaseHelper = new DatabaseHelper();
+  getConfiguration(){
+    this.loadingConfiguration = true;
+    this.lookupTaxonomyService.getConfiguration(this.configDatabaseHelper).subscribe(response=>{
+      if(response.status && response.object!=null){
+        this.configList = response.object;
+        this.totalConfiguration = response.totalItems;
+      }
+      this.loadingConfiguration = false;
+    },error=>{
+      this.loadingConfiguration = false;
+      this.dataService.showToast(error.error);
+    })
+  }
+
+  configPageChanged(event: any) {
+    if (event != this.configDatabaseHelper.currentPage) {
+      this.configDatabaseHelper.currentPage = event;
+      this.getConfiguration();
+    }
   }
 
   openLookupModal(){

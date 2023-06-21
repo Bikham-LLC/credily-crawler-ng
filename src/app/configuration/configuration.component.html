@@ -68,7 +68,88 @@
                         <div class="d-flex justify-content-end mb-3">
                             <button class="btn primarybtn" (click)="openLookupModal()">Create Configuration</button>
                         </div>
-                    <app-configuration-listing></app-configuration-listing>
+                        <div class="dashNav-paneinner table-responsive">
+                            <div class="empty-notific mt-4" *ngIf="!loadingConfiguration && configList.length == 0">
+                                <div class="empty-notificinner text-center">
+                                    <div class="empty-notificinnerimg">
+                                        <img src="assets/images/nodocument.svg" alt="" style="width:30%">
+                                    </div>
+                                    <h5>No Configuration Found.</h5>
+                                </div>
+                            </div>
+                        
+                            <div class=" p-5" *ngIf="loadingConfiguration">
+                                <app-circular-loader></app-circular-loader>
+                            </div>
+                            <div class="reportListing usertableinner no-wrap" *ngIf="!loadingConfiguration && configList.length > 0">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th class="tableDead text-center" colspan="4">
+                                                <p class="mb-0">Configuration</p>
+                                            </th>
+                                            <th class="tableDead text-center"> 
+                                                <p class="mb-0">Added By</p>
+                                            </th>
+                                            <th class="tableDead text-center">
+                                                <p class="mb-0">Action</p>
+                                            </th>
+                                        </tr>
+                                        <tr>
+                                            <th class="tableDead" style="width: 5%;">
+                                                <p class="mb-0 text-center">S No.</p>
+                                            </th>
+                                            <th class="tableDead" style="width: 15%;">
+                                                <p class="mb-0">Lookup Name</p>
+                                            </th>
+                                            <th class="tableDead" style="width: 40%;">
+                                                <p class="mb-0">Link</p>
+                                            </th>
+                                            <th style="width: 10%;">Version</th>
+                                            <th style="width: 20%;"></th>
+                                            <th style="width: 20%;"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let config of configList; let i = index">
+                                            <td class="tableData">
+                                                <p class="mb-0 text-center">{{ configDatabaseHelper.currentPage * (i+1)}}</p>
+                                            </td>
+                                            <td class="tableData">
+                                                <p class="mb-0">{{config.lookupName}}</p>
+                                            </td>
+                                            <td class="tableData lookupLiks">
+                                                <p class="mb-0">{{config.lookupLink}}</p>
+                                            </td>
+                                            <td class="tableData lookupLiks">
+                                                <p class="mb-0">{{config.version}}</p>
+                                            </td>
+                                            <td class="tableData text-center">
+                                                <p class="mb-0">{{config.addedBy}}</p>
+                                            </td>
+                                            <td class="tableData text-center">
+                                                <i class="bi bi-pen"></i>
+                                                
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="row justify-content-center" *ngIf="totalConfiguration>configDatabaseHelper.itemsPerPage">  
+                                <div class="paginationmain w-100 px-3 mt-2">
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <p class="currentshowing mb-0">
+                                            Showing <span>{{configList.length}}</span> of <span>{{totalConfiguration}}</span>  
+                                        </p>
+                                        <div class="d-flex justify-content-end">
+                                            <ngb-pagination [collectionSize]="totalConfiguration" [rotate]="true" (pageChange)="configPageChanged($event)" [pageSize]="configDatabaseHelper.itemsPerPage" [(page)]="configDatabaseHelper.currentPage" [maxSize]="5" [boundaryLinks]="true">
+                                            </ngb-pagination>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <!-- <app-configuration-listing></app-configuration-listing> -->
                 </div>
 
                 <div class="configMaininfo" *ngIf="addStepToggle">
