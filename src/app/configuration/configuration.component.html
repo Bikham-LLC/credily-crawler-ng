@@ -259,10 +259,10 @@
                                                         </div>
 
                                                         <div class="mppedBtninner d-flex align-items-center">
-                                                            <p class="mb-0 mppedBtn mpactive">
+                                                            <p class="mb-0 mppedBtn" [ngClass]="{'mpactive':type=='mapped'}" (click)="getMappedTaxonomy('mapped')">
                                                                 Mapped
                                                             </p>
-                                                            <p class="mb-0 mppedBtn">
+                                                            <p class="mb-0 mppedBtn" [ngClass]="{'mpactive':type != 'mapped'}" (click)="getMappedTaxonomy('unmapped')">
                                                                 Unmapped
                                                             </p>
                                                         </div>
