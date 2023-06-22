@@ -46,7 +46,7 @@ export class ConfigurationComponent implements OnInit {
   @ViewChild('mapLookupTaxonomyForm') mapLookupTaxonomyForm : any;
   
 
-  dropdownSettingsTaxonomyLink !: { singleSelection: boolean; text: string; enableSearchFilter: boolean; autoPosition: boolean };
+  dropdownSettingsTaxonomyLink !: { singleSelection: boolean; text: string; enableSearchFilter: boolean; autoPosition: boolean; searchPlaceholderText :string; };
   selectedTaxonomyLink: any[] = new Array();
   taxonomyLinkList: any[] = new Array();
 
@@ -91,9 +91,10 @@ export class ConfigurationComponent implements OnInit {
     }
     this.dropdownSettingsTaxonomyLink = {
       singleSelection: true,
-      text: 'Select Link',
+      text: 'Select Lookup Link',
       enableSearchFilter: true,
-      autoPosition: false
+      autoPosition: false,
+      searchPlaceholderText : 'Search By Lookup Name'
     }
 
     this.getConfiguration();
@@ -146,6 +147,8 @@ export class ConfigurationComponent implements OnInit {
     this.lookupLink = '';
     this.lookupName = '';
     this.selectedStateName = '';
+    this.configurationStepList = [];
+    this.selectedLookupConfigId = 0;
     this.lookupModalButton.nativeElement.click();
     this.getLookupTaxonomy();
     this.getTaxonomyLink('');
