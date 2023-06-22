@@ -150,17 +150,20 @@ export class ConfigurationComponent implements OnInit {
     this.configurationStepList = [];
     this.selectedLookupConfigId = 0;
     this.lookupModalButton.nativeElement.click();
-    this.getLookupTaxonomy();
+    // this.getLookupTaxonomy();
     this.getTaxonomyLink('');
   }
 
   selectTaxonomyLink(event:any){
     debugger
     this.lookupLink = '';
+    this.selectedTaxonomyIds = [];
     if (event[0] != undefined) {
       this.selectedTaxonomyLink = event;
       this.lookupLink = event[0].id;
       this.getTaxonomyByLookupLink(this.lookupLink);
+    }else{
+      this.getMappedTaxonomy(this.type);
     }
   }
   
@@ -199,32 +202,6 @@ export class ConfigurationComponent implements OnInit {
     debugger
     this.getTaxonomyLink(event.target.value);
   }
-
-  getLookupTaxonomy(){
-    debugger
-    this.loadingLookupTaxonomy = true;
-    this.lookupTaxonomyService.getLookupTaxonomy(this.databaseHelper, this.selectedStateName, '').subscribe(resp=>{
-
-      if(resp.status && resp.object!=null){
-        this.lookupTaxonomyList = resp.object;
-        this.totalLookupTaxonomy = resp.totalItems;
-
-        if(this.selectedTaxonomyIds.length>0){
-          this.lookupTaxonomyList.forEach(x=>{
-            if(this.selectedTaxonomyIds.includes(x.id)){
-              x.checked = true;
-            }
-          })
-        }
-      }
-
-      this.loadingLookupTaxonomy = false;
-    },error=>{
-      this.loadingLookupTaxonomy = false;
-      this.dataService.showToast(error.error);
-    })
-  }
-
   getTaxonomyByLookupLink(lookupLink:string){
     debugger
     this.selectedTaxonomyIds = [];
@@ -237,6 +214,7 @@ export class ConfigurationComponent implements OnInit {
               x.checked = true;
             }
           })
+          this.getMappedTaxonomy(this.type);
         }
       }
     },error=>{
@@ -247,18 +225,18 @@ export class ConfigurationComponent implements OnInit {
   pageChanged(event: any) {
     if (event != this.databaseHelper.currentPage) {
       this.databaseHelper.currentPage = event;
-      this.getLookupTaxonomy();
+      this.getMappedTaxonomy(this.type);
     }
   }
 
   selectStateName(){
     this.databaseHelper.currentPage = 1;
-    this.getLookupTaxonomy();
+    this.getMappedTaxonomy(this.type);
   }
 
   searchTaxonomy(){
     this.databaseHelper.currentPage = 1;
-    this.getLookupTaxonomy();
+    this.getMappedTaxonomy(this.type);
   }
 
 
@@ -272,14 +250,17 @@ export class ConfigurationComponent implements OnInit {
     if(this.lookupTaxonomyList[index].checked){
       var i = this.selectedTaxonomyIds.findIndex(x=>x==this.lookupTaxonomyList[index].id);
       if(i>-1){
-        this.selectedTaxonomyIds.splice(1, i);
+        this.selectedTaxonomyIds.splice(i, 1);
       }
-
     }else{
       this.selectedTaxonomyIds.push(this.lookupTaxonomyList[index].id);
     }
 
-    this.lookupTaxonomyList[index].checked = !this.lookupTaxonomyList[index].checked;
+    this.lookupTaxonomyList.splice(index, 1);
+
+    this.totalLookupTaxonomy --;
+
+    // this.lookupTaxonomyList[index].checked = !this.lookupTaxonomyList[index].checked;
     
   }
 
@@ -761,7 +742,7 @@ export class ConfigurationComponent implements OnInit {
       this.credilyVersion = 'V3';
     }
     this.selectedTaxonomyIds = config.taxonomyId;
-    this.getLookupTaxonomy();
+    // this.getLookupTaxonomy();
     this.getTaxonomyLink('');
 
     this.lookupModalButton.nativeElement.click();
@@ -824,4 +805,28 @@ export class ConfigurationComponent implements OnInit {
       this.replicatingConfig = false;
     })
   }
+
+  ids : number[] = new Array;
+  type:string='mapped';
+  getMappedTaxonomy(type:string){
+    this.type = type;
+    if(type == 'mapped' && this.selectedTaxonomyIds.length == 0){
+      this.lookupTaxonomyList = [];
+      return;
+    }
+    this.loadingLookupTaxonomy = true;
+    this.lookupTaxonomyService.getMappedTaxonomy(this.selectedTaxonomyIds , type , this.selectedStateName , this.databaseHelper).subscribe(response=>{
+      this.lookupTaxonomyList = response.object;
+      this.totalLookupTaxonomy = response.totalItems;
+      if(type == 'mapped'){
+        this.lookupTaxonomyList.forEach(l=>{
+            l.checked = true;
+        })
+      }
+      this.loadingLookupTaxonomy = false;
+    },error=>{
+      this.loadingLookupTaxonomy = false;
+    })
+  }
+
 }
