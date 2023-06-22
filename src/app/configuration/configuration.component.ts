@@ -202,32 +202,6 @@ export class ConfigurationComponent implements OnInit {
     debugger
     this.getTaxonomyLink(event.target.value);
   }
-
-  // getLookupTaxonomy(){
-  //   debugger
-  //   this.loadingLookupTaxonomy = true;
-  //   this.lookupTaxonomyService.getLookupTaxonomy(this.databaseHelper, this.selectedStateName, '').subscribe(resp=>{
-
-  //     if(resp.status && resp.object!=null){
-  //       this.lookupTaxonomyList = resp.object;
-  //       this.totalLookupTaxonomy = resp.totalItems;
-
-  //       if(this.selectedTaxonomyIds.length>0){
-  //         this.lookupTaxonomyList.forEach(x=>{
-  //           if(this.selectedTaxonomyIds.includes(x.id)){
-  //             x.checked = true;
-  //           }
-  //         })
-  //       }
-  //     }
-
-  //     this.loadingLookupTaxonomy = false;
-  //   },error=>{
-  //     this.loadingLookupTaxonomy = false;
-  //     this.dataService.showToast(error.error);
-  //   })
-  // }
-
   getTaxonomyByLookupLink(lookupLink:string){
     debugger
     this.selectedTaxonomyIds = [];
