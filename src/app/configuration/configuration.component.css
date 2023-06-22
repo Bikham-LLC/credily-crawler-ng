@@ -73,14 +73,14 @@
 }
 
 .configSetupBox {
-  padding: 1rem 1rem 1rem;
+  padding: 0rem 0.5rem 1rem 1rem;
 }
 
-.configSetupBox>h3 {
+.configSetupBox h3 {
   text-align: center;
-  font-size: 28px;
+  font-size: 20px;
   font-weight: 500;
-  margin-bottom: 3rem;
+  margin-bottom: 0rem;
 }
 
 .configStepsinner {
@@ -106,11 +106,11 @@
 
 .configSteps label {
   font-size: 12px;
-  background-color: #e7e7e7;
+  background-color: #1471d2;
   padding: 2px 8px;
   border-radius: 5px;
-  font-weight: 500;
-  color: #111;
+  font-weight: 400;
+  color: #fff;
 }
 
 .configSteps {
@@ -171,7 +171,7 @@
 }
 
 .reportListing {
-  max-height: 350px;
+  max-height: 450px;
   overflow-y: auto;
 }
 
@@ -523,7 +523,7 @@ header {
 
 .example-box {
   padding: 20px 10px;
-  border-bottom: solid 1px #ccc;
+  /* border-bottom: solid 1px #ccc; */
   color: rgba(0, 0, 0, 0.87);
   display: flex;
   flex-direction: row;
@@ -539,8 +539,7 @@ header {
   box-sizing: border-box;
   border-radius: 4px;
   box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
-    0 8px 10px 1px rgba(0, 0, 0, 0.14),
-    0 3px 14px 2px rgba(0, 0, 0, 0.12);
+    0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12);
 }
 
 .cdk-drag-placeholder {
@@ -607,3 +606,13 @@ span.removeSteps {
 }
 
 /* delete model button css end */
+.lookupSearchForm {
+  margin-bottom: 0.5rem;
+}
+.selected-list .c-angle-down,
+.selected-list .c-angle-up {
+  top: 40% !important;
+}
+.configStepsouter {
+  margin-top: 1.5rem;
+}

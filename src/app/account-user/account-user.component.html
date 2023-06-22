@@ -8,8 +8,7 @@
                 <div class="sidenavigationinner">
                     <ul class="mb-0">
                         <li class="sidenavitem">
-                            <a class="sidenavlink pointer" routerLink="users-and-controls" routerLinkActive="active" >
-                                
+                            <a class="sidenavlink pointer" routerLink="/account-user" routerLinkActive="active" >
                                 <img src="assets/images/side-icon/profile-2.svg" alt="">
                                 Users And Controls
                             </a>
@@ -32,7 +31,8 @@
                       <div class="col-lg-4 px-2">
                         <div class="form-group usrtblesearch position-relative">
                           <input placeholder="Search User" class="form-control" id="Users" name="User" [(ngModel)]="userDatabaseHelper.search" (keyup)="getAllUser()"/>
-                          <i class="fa-solid fa-magnifying-glass"></i>
+                          <!-- <i class="fa-solid fa-magnifying-glass"></i> -->
+                          <i class="bi bi-search"></i>
                         </div>
                       </div>
                       <div class="col-lg-3 pl-2 pr-0">
@@ -104,12 +104,12 @@
                               <td>
                                 <div class="tableinfo pdependent">
                                   <div class="customswitch">
-                                    <div class="form-check form-switch">
-                                        <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault{{i}}" [checked]="user.status.toLowerCase() == 'active'" (click)="changeUserStatus(user)">
-                                      </div>
-                                      <label for="customSwitch{{i}}" class="d-none" class="pointer position-relative">
-                                        <span></span>
-                                      </label>
+                                    <!-- <div class="form-check form-switch"> -->
+                                        <input class="form-check-input d-none" type="checkbox" id="flexSwitchCheckDefault{{i}}" [checked]="user.status.toLowerCase() == 'active'" (click)="changeUserStatus(user)">
+                                        <label for="flexSwitchCheckDefault{{i}}" class="d-none" class="pointer position-relative">
+                                          <span></span>
+                                        </label>
+                                      <!-- </div> -->
                                   </div>
                                 </div>
                               </td>
@@ -142,7 +142,7 @@
 </div>
   
   <!-- new user create -->
-  <button type="button" #createUsermodalButton data-bs-toggle="modal" data-bs-target="#createUsermodal"></button>
+  <button type="button" #createUsermodalButton class="d-none" data-bs-toggle="modal" data-bs-target="#createUsermodal"></button>
     <div class="modal blur-bg-2" id="createUsermodal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="crreateForm" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
@@ -215,7 +215,7 @@
                   </div>
               </div>
               <div class="modal-footer border-top-0 pt-0">
-                  <button type="button" class="btn primarycancelbtn" #closeLeaderModel data-bs-dismiss="modal">Cancel</button>
+                  <button type="button" class="btn primarycancelbtn" #closeLeaderModel data-bs-dismiss="modal" style="border-color: #F05252 !important;">Cancel</button>
                   <button type="submit" class="btn primarybtn">
                     <span>Create <i class="spinner-border spinner-border-sm" role="status" *ngIf="creatingUser"></i></span>
                   </button>
