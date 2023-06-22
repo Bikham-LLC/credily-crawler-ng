@@ -156,7 +156,7 @@ ol li {
   font-weight: 500;
   font-size: 14px;
   line-height: 21px;
-  color: #111928;
+  color: #333333;
   margin-bottom: 5px;
 }
 
@@ -254,4 +254,52 @@ ol li {
   text-align: center;
   color: #03543f;
   padding: 3px 14px;
+}
+.selected-list .c-angle-down,
+.selected-list .c-angle-up {
+  top: 40% !important;
+}
+label.form-label.labelCls {
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 21px;
+  color: #111928;
+  margin-bottom: 9px;
+}
+.dropdown-list.tagToBody {
+  position: absolute !important;
+  left: 0 !important;
+  top: 40px !important;
+}
+.tlbctnbtnsinner p {
+  padding: 5px 10px 5px;
+  background: #04844b;
+  border-radius: 6px;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 20px;
+  display: flex;
+  align-items: center;
+  grid-gap: 10px;
+  gap: 10px;
+}
+
+.tlbctnbtnsinner p {
+  padding: 5px 10px 5px;
+  background: #04844b;
+  border-radius: 6px;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 20px;
+  display: flex;
+  align-items: center;
+  grid-gap: 10px;
+  gap: 10px;
+}
+.bg-success {
+  background-color: #04844b !important;
+}
+.bg-warning {
+  /* background-color: #ffff00 !important; */
+  background-color: #ffb75d !important;
 }

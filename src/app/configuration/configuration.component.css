@@ -616,3 +616,56 @@ span.removeSteps {
 .configStepsouter {
   margin-top: 1.5rem;
 }
+.taxonomyaccBtn {
+  padding: 14px 14px;
+  font-size: 14px;
+  font-weight: 500;
+  box-shadow: none !important;
+  color: #333 !important;
+  background-color: #eaeaea !important;
+}
+.taxonomyaccBtn::after {
+  width: 1rem;
+  height: 1rem;
+  background-size: 1rem;
+  filter: brightness(0);
+}
+
+.accordion-button:not(.collapsed) {
+  border-bottom: var(--bs-accordion-border-width) solid
+    var(--bs-accordion-border-color);
+}
+
+.taxonomyCollapse .accordion-body {
+  padding: 15px 15px;
+}
+
+.lookupSearchbdr {
+  border-bottom: 1px solid #f1f1f1;
+  margin-bottom: 1rem;
+}
+.mldConfigurationinner > .lookupSearch {
+  border-bottom: 1px solid #f1f1f1;
+  margin-bottom: 1rem !important;
+}
+.tlbctnbtnsinner {
+  margin-bottom: 1rem;
+  gap: 5px;
+}
+.mppedBtninner {
+  margin-bottom: 1rem;
+}
+.mppedBtn {
+  background-color: #f1f1f1;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  margin-right: 5px;
+  transition: 0.1s linear;
+  cursor: pointer;
+}
+.mpactive {
+  background-color: #0070d2;
+  color: #ffffff;
+}

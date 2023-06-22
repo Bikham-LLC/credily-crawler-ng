@@ -186,16 +186,26 @@
                                     <div class="row mb-1">
                                         <div class="col-lg-6 pr-0">
                                             <div class="lookupSearchForm">
+                                                <div class="position-relative">
+                                                    <label class="">Credily Version <sup class="text-danger">*</sup> </label>
+                                                    <angular2-multiselect id="version" name="version" [data]="versionList" [settings]="dropdownSettingsVersion" [(ngModel)]="selectedVersion" (ngModelChange)="selectVersion($event)" required>
+                                                    </angular2-multiselect>
+                                                </div>
+                                                <small *ngIf="mapLookupTaxonomyForm.submitted && Constant.EMPTY_STRINGS.includes(credilyVersion)" style="color: red;">Select Credily Version!</small>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="lookupSearchForm">
                                                 <label>Configuration Name <sup class="text-danger">*</sup> </label>
                                                 <div class="position-relative">
                                                     <input type="text" class="form-control" name="lname" placeholder="Enter Configuration Name" [(ngModel)]="lookupName" maxlength="155" required>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 ">
+                                        <div class="col-lg-12 ">
                                             <div class="lookupSearchForm">
                                                 <div class="position-relative">
-                                                    <label class="m-1">Lookup Link <sup class="text-danger">*</sup> </label>
+                                                    <label>Lookup Link <sup class="text-danger">*</sup> </label>
                                                     <angular2-multiselect id="taxoLink" name="taxoLink" [data]="taxonomyLinkList" 
                                                     [settings]="dropdownSettingsTaxonomyLink" [(ngModel)]="selectedTaxonomyLink" 
                                                     (ngModelChange)="selectTaxonomyLink($event)" (keyup)="onSearchLink($event)" required>
@@ -204,114 +214,135 @@
                                                 <small *ngIf="mapLookupTaxonomyForm.submitted && Constant.EMPTY_STRINGS.includes(lookupLink)" style="color: red;">Select Link!</small>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 ">
-                                            <div class="lookupSearchForm">
-                                                <div class="position-relative">
-                                                    <label class="m-1">Credily Version <sup class="text-danger">*</sup> </label>
-                                                    <angular2-multiselect id="version" name="version" [data]="versionList" [settings]="dropdownSettingsVersion" [(ngModel)]="selectedVersion" (ngModelChange)="selectVersion($event)" required>
-                                                    </angular2-multiselect>
-                                                </div>
-                                                <small *ngIf="mapLookupTaxonomyForm.submitted && Constant.EMPTY_STRINGS.includes(credilyVersion)" style="color: red;">Select Credily Version!</small>
-                                            </div>
-                                        </div>
+                                        
                                     </div>
                                 </div>
                                 
-                                <div class="usertableinner" >
-                                    <caption class="mb-1">Taxonomy</caption>
-                                    <div class="lookupSearch mb-3">
-                                        <div class="row mb-3">
-                                            <div class="col-lg-6 pr-0">
-                                                <app-state-dropdown [_updatedStateName]="selectedStateName"
-                                                    [(stateNameProp)]="selectedStateName"
-                                                    [stateNameLabelClass]="'fw-medium'" 
-                                                    [stateCodeLabelClass]="'fw-medium'"
-                                                    [stateNameDynamic]="'State Name'" 
-                                                    [stateCodeDynamic]="'State Code'" 
-                                                    [stateNameClass]="'col-12 fw-semibold'" 
-                                                    [stateCodeClass]="'d-none'"
-                                                    [requiredClass]="'d-none'"
-                                                    [cityClass]="'d-none'" (callFunction)="selectStateName()">
-                                                </app-state-dropdown>
-                                            </div>
-                                            <div class="col-lg-6 ">
-                                                <div class="lookupSearchForm">
-                                                    <label class="pb-1">Search Taxonomy</label>
-                                                    <div class="position-relative">
-                                                        <!-- <i class="bi bi-search"></i> -->
-                                                        <input type="Text" class="form-control" name="searchTaxonomy" placeholder="Search Taxonomy" [(ngModel)]="databaseHelper.search" (keyup.enter)="searchTaxonomy()" >
+                                <div class="taxonomyCollapse">
+                                    <div class="taxonomyCollapseInner">
+                                        <div class="accordion" id="accordionExample">
+                                            <div class="accordion-item">
+                                              <div class="taxonomyaccHeader accordion-header" id="headingOne">
+                                                <button class="taxonomyaccBtn accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                                    Taxonomy 
+                                                </button>
+                                              </div>
+                                              <div id="collapseOne" class="taxonomyCollapse accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                                                <div class="accordion-body">
+                                                    <div class="usertableinner" >
+                                                        <!-- <caption class="mb-1">Taxonomy</caption> -->
+                                                        <div class="lookupSearch lookupSearchbdr">
+                                                            <div class="row">
+                                                                <div class="col-lg-6 pr-0">
+                                                                    <app-state-dropdown [_updatedStateName]="selectedStateName"
+                                                                        [(stateNameProp)]="selectedStateName"
+                                                                        [stateNameLabelClass]="'labelCls'" 
+                                                                        [stateCodeLabelClass]="'labelCls'"
+                                                                        [stateNameDynamic]="'State Name'" 
+                                                                        [stateCodeDynamic]="'State Code'" 
+                                                                        [stateNameClass]="'col-12 labelCls'" 
+                                                                        [stateCodeClass]="'d-none'"
+                                                                        [requiredClass]="'d-none'"
+                                                                        [cityClass]="'d-none'" (callFunction)="selectStateName()">
+                                                                    </app-state-dropdown>
+                                                                </div>
+                                                                <div class="col-lg-6 ">
+                                                                    <div class="lookupSearchForm">
+                                                                        <label class="pb-1">Search Taxonomy</label>
+                                                                        <div class="position-relative">
+                                                                            <!-- <i class="bi bi-search"></i> -->
+                                                                            <input type="Text" class="form-control" name="searchTaxonomy" placeholder="Search Taxonomy" [(ngModel)]="databaseHelper.search" (keyup.enter)="searchTaxonomy()" >
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="mppedBtninner d-flex align-items-center">
+                                                            <p class="mb-0 mppedBtn mpactive">
+                                                                Mapped
+                                                            </p>
+                                                            <p class="mb-0 mppedBtn">
+                                                                Unmapped
+                                                            </p>
+                                                        </div>
+                                                        
+
+
+                                                        <div class="reportListing" *ngIf="!loadingLookupTaxonomy && lookupTaxonomyList.length > 0" style="max-height: 250px;">
+                                                            <table class="table table-hover">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th class="tableDead" style="width: 2%;">
+                                                                            
+                                                                        </th>
+                                                                        <th class="tableDead" style="width: 18%;">
+                                                                            <p class="mb-0">Code</p>
+                                                                        </th>
+                                                                        <th class="tableDead" style="width: 30%;">
+                                                                            <p class="mb-0">State</p>
+                                                                        </th>
+                                                                        <th class="tableDead" style="width: 50%;">
+                                                                            <p class="mb-0">Description</p>
+                                                                        </th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr *ngFor="let tax of lookupTaxonomyList; let i = index">
+                                                                        <td class="tableData">
+                                                                            <div class="text-ceter">
+                                                                                <input type="checkbox" class="form-check" [checked]="tax.checked" (click)="selectTaxonomySingle(i)">
+                                                                            </div>
+                                                                        </td>
+                                                                        <td class="tableData">
+                                                                            <p class="mb-0">{{tax.code}}</p>
+                                                                        </td>
+                                                                        <td class="tableData">
+                                                                            <p class="mb-0">{{tax.state}}</p>
+                                                                        </td>
+                                                                        <td class="tableData lookupLiks">
+                                                                            <p class="mb-0">{{tax.displayName}}</p>
+                                                                        </td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                        
+                                                    </div>
+                    
+                                                    <div class="empty-notific mt-4" *ngIf="!loadingLookupTaxonomy && lookupTaxonomyList.length == 0">
+                                                        <div class="empty-notificinner text-center">
+                                                            <div class="empty-notificinnerimg">
+                                                                <img src="assets/images/nodocument.svg" alt="" style="width:40%">
+                                                            </div>
+                                                            <h5>No Taxonomy Found.</h5>
+                                                        </div>
+                                                    </div>
+                    
+                                                    <div class="p-5" *ngIf="loadingLookupTaxonomy">
+                                                        <app-circular-loader></app-circular-loader>
+                                                    </div>
+                    
+                                                    <div class="row justify-content-center" *ngIf="totalLookupTaxonomy>0">  
+                                                        <div class="paginationmain w-100 px-3 mt-2">
+                                                            <div class="d-flex align-items-center justify-content-between">
+                                                                <p class="currentshowing mb-0">
+                                                                    Showing <span>{{lookupTaxonomyList.length}}</span> of <span>{{totalLookupTaxonomy}}</span>  
+                                                                </p>
+                                                                <div class="d-flex justify-content-end">
+                                                                    <ngb-pagination [collectionSize]="totalLookupTaxonomy" [rotate]="true" (pageChange)="pageChanged($event)" [pageSize]="databaseHelper.itemsPerPage" [(page)]="databaseHelper.currentPage" [maxSize]="5" [boundaryLinks]="true">
+                                                                    </ngb-pagination>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
+                                              </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                    <div class="reportListing" *ngIf="!loadingLookupTaxonomy && lookupTaxonomyList.length > 0">
-                                        <table class="table table-hover">
-                                            <thead>
-                                                <tr>
-                                                    <th class="tableDead" style="width: 2%;">
-                                                        
-                                                    </th>
-                                                    <th class="tableDead" style="width: 18%;">
-                                                        <p class="mb-0">Code</p>
-                                                    </th>
-                                                    <th class="tableDead" style="width: 30%;">
-                                                        <p class="mb-0">State</p>
-                                                    </th>
-                                                    <th class="tableDead" style="width: 50%;">
-                                                        <p class="mb-0">Description</p>
-                                                    </th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr *ngFor="let tax of lookupTaxonomyList; let i = index">
-                                                    <td class="tableData">
-                                                        <div class="text-ceter">
-                                                            <input type="checkbox" class="form-check" [checked]="tax.checked" (click)="selectTaxonomySingle(i)">
-                                                        </div>
-                                                    </td>
-                                                    <td class="tableData">
-                                                        <p class="mb-0">{{tax.code}}</p>
-                                                    </td>
-                                                    <td class="tableData">
-                                                        <p class="mb-0">{{tax.state}}</p>
-                                                    </td>
-                                                    <td class="tableData lookupLiks">
-                                                        <p class="mb-0">{{tax.displayName}}</p>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                    
-                                </div>
-
-                                <div class="empty-notific mt-4" *ngIf="!loadingLookupTaxonomy && lookupTaxonomyList.length == 0">
-                                    <div class="empty-notificinner text-center">
-                                        <div class="empty-notificinnerimg">
-                                            <img src="assets/images/nodocument.svg" alt="" style="width:40%">
-                                        </div>
-                                        <h5>No Taxonomy Found.</h5>
+                                          </div>
                                     </div>
                                 </div>
 
-                                <div class=" p-5" *ngIf="loadingLookupTaxonomy">
-                                    <app-circular-loader></app-circular-loader>
-                                </div>
-
-                                <div class="row justify-content-center" *ngIf="totalLookupTaxonomy>0">  
-                                    <div class="paginationmain w-100 px-3 mt-2">
-                                        <div class="d-flex align-items-center justify-content-between">
-                                            <p class="currentshowing mb-0">
-                                                Showing <span>{{lookupTaxonomyList.length}}</span> of <span>{{totalLookupTaxonomy}}</span>  
-                                            </p>
-                                            <div class="d-flex justify-content-end">
-                                                <ngb-pagination [collectionSize]="totalLookupTaxonomy" [rotate]="true" (pageChange)="pageChanged($event)" [pageSize]="databaseHelper.itemsPerPage" [(page)]="databaseHelper.currentPage" [maxSize]="5" [boundaryLinks]="true">
-                                                </ngb-pagination>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>
