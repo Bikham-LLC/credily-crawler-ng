@@ -303,3 +303,6 @@ label.form-label.labelCls {
   /* background-color: #ffff00 !important; */
   background-color: #ffb75d !important;
 }
+.inlineTaxoformstate app-state-dropdown .selected-list .c-btn {
+  border-radius: 4px 0px 0px 4px !important;
+}
