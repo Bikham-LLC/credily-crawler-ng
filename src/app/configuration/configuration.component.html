@@ -109,14 +109,11 @@
                                         <div>Loading...</div>
                                     </div>
                                 </div>
+                                <h6>
+                                    <a [href]="lookupLink" target="_blank" rel="noopener noreferrer">Click </a> to view in next tab.
+                                </h6>
                                 <iframe style="width:100%; height:80vh;" [src]="src"  (load)="onLoad()"></iframe>
-                                
-                                <!-- <iframe style="width:100%; height:80vh;" frameborder="0" [src]="lookupLink | safe"  (load)="onLoad()"></iframe> -->
-                            
-                                <!-- <div class="my-auto text-center justify-content-center mt-3" *ngIf="Constant.EMPTY_STRINGS.includes(lookupLink) && !loadingIframe">
-                                    <img src="assets/images/web.png" style="width: 200px;">
-                                    <h6> Webview Link will open here. </h6>
-                                </div> -->
+
                             </div>
                         </div>
                         
@@ -223,11 +220,14 @@
                                         <div class="accordion" id="accordionExample">
                                             <div class="accordion-item">
                                               <div class="taxonomyaccHeader accordion-header" id="headingOne">
-                                                <button class="taxonomyaccBtn accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                                <!-- <button class="taxonomyaccBtn accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                                                    Taxonomy 
+                                                </button> -->
+                                                <button class="taxonomyaccBtn accordion-button" [ngClass]="{'collapsed':!showTaxonomyListToggle}" type="button" (click)="showTaxonomyDiv()">
                                                     Taxonomy 
                                                 </button>
                                               </div>
-                                              <div id="collapseOne" class="taxonomyCollapse accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                                              <div id="collapseOne" class="taxonomyCollapse accordion-collapse collapse" [ngClass]="{'show':showTaxonomyListToggle}" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
                                                 <div class="accordion-body">
                                                     <div class="usertableinner" >
                                                         <!-- <caption class="mb-1">Taxonomy</caption> -->
@@ -584,6 +584,7 @@
         </div>
     </div>  
 
+    <!-- replicate congiguration modal -->
     <button type="button" class="d-none" id="replicateModalButton" #replicateModalButton data-bs-toggle="modal" data-bs-target= "#replicateModal"></button>
     <div class="modal blur-bg-2" id="replicateModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="profilCreatemodal" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">

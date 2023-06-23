@@ -141,6 +141,7 @@ export class ConfigurationComponent implements OnInit {
 
   openLookupModal(){
     this.selectedTaxonomyIds = [];
+    this.lookupTaxonomyList = [];
     this.selectedTaxonomyLink = [];
     this.selectedVersion = [];
     this.databaseHelper = new DatabaseHelper();
@@ -151,6 +152,9 @@ export class ConfigurationComponent implements OnInit {
     this.selectedLookupConfigId = 0;
     this.lookupModalButton.nativeElement.click();
     // this.getLookupTaxonomy();
+    this.type = 'mapped';
+    this.showTaxonomyListToggle = false;
+    this.totalLookupTaxonomy = 0;
     this.getTaxonomyLink('');
   }
 
@@ -827,6 +831,11 @@ export class ConfigurationComponent implements OnInit {
     },error=>{
       this.loadingLookupTaxonomy = false;
     })
+  }
+
+  showTaxonomyListToggle:boolean=false;
+  showTaxonomyDiv(){
+    this.showTaxonomyListToggle = !this.showTaxonomyListToggle;
   }
 
 }
