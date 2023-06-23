@@ -163,7 +163,10 @@ export class ConfigurationComponent implements OnInit {
     this.lookupLink = '';
     this.selectedTaxonomyIds = [];
     if (event[0] != undefined) {
-      this.selectedTaxonomyLink = event;
+      var temp: { id: any, itemName: any} = { id: event[0].id, itemName: event[0].id};
+      // this.selectedTaxonomyLink = event;
+      this.selectedTaxonomyLink = [];
+      this.selectedTaxonomyLink.push(temp);
       this.lookupLink = event[0].id;
       this.getTaxonomyByLookupLink(this.lookupLink);
     }else{
