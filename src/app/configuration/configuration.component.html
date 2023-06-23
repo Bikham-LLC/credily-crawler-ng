@@ -232,7 +232,29 @@
                                                     <div class="usertableinner" >
                                                         <!-- <caption class="mb-1">Taxonomy</caption> -->
                                                         <div class="lookupSearch lookupSearchbdr">
-                                                            <div class="row">
+
+                                                            <div class="inlineTaxoform">
+                                                                <div class="inlineTaxoformstate">
+                                                                    <app-state-dropdown [_updatedStateName]="selectedStateName"
+                                                                        [(stateNameProp)]="selectedStateName"
+                                                                        [stateNameLabelClass]="'labelCls'" 
+                                                                        [stateCodeLabelClass]="'labelCls'"
+                                                                        [stateNameDynamic]="'State Name'" 
+                                                                        [stateCodeDynamic]="'State Code'" 
+                                                                        [stateNameClass]="'col-12 labelCls'" 
+                                                                        [stateCodeClass]="'d-none'"
+                                                                        [requiredClass]="'d-none'"
+                                                                        [cityClass]="'d-none'" (callFunction)="selectStateName()">
+                                                                    </app-state-dropdown>
+                                                                </div>
+                                                                <div class="inlineTaxoformsearch">
+                                                                    <div class="position-relative">
+                                                                        <i class="bi bi-search"></i>
+                                                                        <input type="Text" class="form-control" name="searchTaxonomy" placeholder="Search Taxonomy" [(ngModel)]="databaseHelper.search" (keyup.enter)="searchTaxonomy()" >
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <!-- <div class="row">
                                                                 <div class="col-lg-6 pr-0">
                                                                     <app-state-dropdown [_updatedStateName]="selectedStateName"
                                                                         [(stateNameProp)]="selectedStateName"
@@ -250,12 +272,11 @@
                                                                     <div class="lookupSearchForm">
                                                                         <label class="pb-1">Search Taxonomy</label>
                                                                         <div class="position-relative">
-                                                                            <!-- <i class="bi bi-search"></i> -->
                                                                             <input type="Text" class="form-control" name="searchTaxonomy" placeholder="Search Taxonomy" [(ngModel)]="databaseHelper.search" (keyup.enter)="searchTaxonomy()" >
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                            </div>
+                                                            </div> -->
                                                         </div>
 
                                                         <div class="mppedBtninner d-flex align-items-center">

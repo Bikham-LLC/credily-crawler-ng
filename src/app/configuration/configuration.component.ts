@@ -183,10 +183,10 @@ export class ConfigurationComponent implements OnInit {
   getTaxonomyLink(search:string){
 
     this.lookupTaxonomyService.getTaxonomyLink(search).subscribe(response=>{
-      if(response.object!=null){
+      if(response.object != null){
         this.taxonomyLinkList = [];
         response.object.forEach((element:any)=>{
-          var temp: { id: any, itemName: any} = { id: element, itemName: element };
+          var temp: { id: any, itemName: any} = { id: element.link, itemName: element.name + ' - '+ element.link};
           this.taxonomyLinkList.push(temp);
         })
       }
