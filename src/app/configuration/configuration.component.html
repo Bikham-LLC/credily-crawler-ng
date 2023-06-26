@@ -403,7 +403,7 @@
                                                 <small *ngIf="addStepForm.submitted && addStepFormInvalid && cofigStepRequest.crawlerAttributeId<=0" style="color: red;">Select Crawler Attribute!</small>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6" *ngIf="cofigStepRequest.crawlerAttributeId!=5 && cofigStepRequest.crawlerAttributeId != 7" >
+                                        <div class="col-lg-6" *ngIf="cofigStepRequest.crawlerAttributeId!=5 && cofigStepRequest.crawlerAttributeId != 6" >
                                             <div class="lookupSearchForm">
                                                 <div class="position-relative">
                                                     <label class="m-1">Lookup Element</label>
@@ -415,15 +415,15 @@
                                         <div class="col-lg-6">
                                             <div class="lookupSearchForm">
                                                 <div class="position-relative">
-                                                    <label class="m-1" *ngIf="cofigStepRequest.crawlerAttributeId == 7 ">Delay Time</label>
-                                                    <label class="m-1" *ngIf="cofigStepRequest.crawlerAttributeId != 7">Element Event</label>
+                                                    <label class="m-1" *ngIf="cofigStepRequest.crawlerAttributeId == 6 ">Delay Time</label>
+                                                    <label class="m-1" *ngIf="cofigStepRequest.crawlerAttributeId != 6">Element Event</label>
                                                     <angular2-multiselect id="className" name="className" [data]="EventList" [settings]="dropdownSettingsEvent" [(ngModel)]="selectedEvent" (ngModelChange)="selectCrawlerEvent($event)" required>
                                                     </angular2-multiselect>
                                                 </div>
                                                 <small *ngIf="addStepForm.submitted && addStepFormInvalid && Constant.EMPTY_STRINGS.includes(cofigStepRequest.elementEvent)" style="color: red;">Select Event/Delay!</small>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6" *ngIf="cofigStepRequest.crawlerAttributeId != 7">
+                                        <div class="col-lg-6" *ngIf="cofigStepRequest.crawlerAttributeId != 6">
                                             <div class="lookupSearchForm">
                                                 <div class="position-relative">
                                                     <label class="m-1">Entity Name</label>
