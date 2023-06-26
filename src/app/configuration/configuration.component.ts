@@ -377,7 +377,6 @@ export class ConfigurationComponent implements OnInit {
       this.attributeList = response.object;
 
       this.attributeList = JSON.parse(JSON.stringify(this.attributeList));
-
     })
 
 
