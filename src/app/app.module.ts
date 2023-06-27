@@ -16,6 +16,7 @@ import {DragDropModule} from '@angular/cdk/drag-drop';
 import { HeaderComponent } from './header/header.component';
 import { ReportComponent } from './report/report.component';
 import { ProviderReportComponent } from './provider-report/provider-report.component';
+import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { ProviderReportComponent } from './provider-report/provider-report.compo
     FormsModule,
     NgbModule,
     AngularMultiSelectModule,
-    DragDropModule
+    DragDropModule,
+    NgxDaterangepickerMd.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]
