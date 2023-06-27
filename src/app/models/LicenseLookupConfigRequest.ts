@@ -7,6 +7,7 @@ export class LicenseLookupConfigRequest{
     licenseLookUpName : string = '';
     userAccountUuid : string = '';
     testingProviderUuid:any;
+    configStatus:string='';
     taxonomyIdList : number[] = [];
     configRequests : ConfigRequest[] = [];
 }

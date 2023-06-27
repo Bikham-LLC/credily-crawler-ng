@@ -73,7 +73,7 @@
                                             <td class="tableData text-center">
                                                 <div class="col-lg-8 px-2">
                                                     <div class="form-check form-switch">
-                                                        <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" [checked]="config.configStatus == 'Active'" (click)="updateStatus(config.id)">
+                                                        <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" name="configstatus" [checked]="config.configStatus == 'Active'" (click)="updateStatus(config.id)">
                                                         <label></label>
                                                     </div>
                                                 </div>
@@ -157,7 +157,7 @@
 
                                     <div class="configAction d-flex justify-content-end align-items-center">
                                         <button class="btn btn-secondary m-2" [disabled]="testingConfiguration || savingConfiguration" (click)="openUuidModal()">Test Configuration</button>
-                                        <button class="btn primaryBtn" [disabled]="savingConfiguration" (click)="uuidSaveModal()">Save Configuration <i class="spinner-border spinner-border-sm" *ngIf="!testingConfiguration && savingConfiguration"></i></button>
+                                        <button class="btn primaryBtn" [disabled]="savingConfiguration" (click)="uuidSaveModal()">Save Configuration</button>
                                     </div>
                                 </div>
                             </div>
@@ -650,7 +650,7 @@
                 <form  #providerUuidForm="ngForm" ngNativeValidate (ngSubmit)="saveConfiguration()" >
                     <div class="modal-header">
                         <h5 class="modal-title" id="saveUuidModalLabel">New Configuration</h5>
-                        <button type="button" class="close" [disabled]="testingConfiguration" data-bs-dismiss="modal" aria-bs-label="Close" #closeUuidModal (click)="isInvalidConfiguration=false; providerUuid = '' ">
+                        <button type="button" class="close" [disabled]="savingConfiguration" data-bs-dismiss="modal" aria-bs-label="Close" #closeSaveUuidModal (click)="isInvalidConfiguration=false; providerUuid = '' ">
                             <span aria-bs-hidden="true">&times;</span>
                         </button>
                     </div>
@@ -674,8 +674,8 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn primarycancelbtn" style="border-color: #F05252 !important;" [disabled]="testingConfiguration" data-bs-dismiss="modal" (click)=" isInvalidConfiguration=false; providerUuid = '' ">Close</button>
-                        <button type="submit" class="btn primaryBtn" [disabled]="testingConfiguration">Submit <i class="spinner-border spinner-border-sm" *ngIf="testingConfiguration && !savingConfiguration"></i> </button>
+                        <button type="button" class="btn primarycancelbtn" style="border-color: #F05252 !important;" [disabled]="savingConfiguration" data-bs-dismiss="modal" (click)=" isInvalidConfiguration=false; providerUuid = '' ">Close</button>
+                        <button type="submit" class="btn primaryBtn" [disabled]="savingConfiguration">Submit <i class="spinner-border spinner-border-sm" *ngIf="!testingConfiguration && savingConfiguration"></i></button>
                     </div>
                 </form>
             </div>

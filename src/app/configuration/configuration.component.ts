@@ -478,6 +478,9 @@ export class ConfigurationComponent implements OnInit {
   providerUuid: string = '';
   @ViewChild('uuidModalButton') uuidModalButton !: ElementRef;
   @ViewChild('closeUuidModal') closeUuidModal !: ElementRef;
+  @ViewChild('closeSaveUuidModal') closeSaveUuidModal !: ElementRef;
+
+  
 
   openUuidModal() {
     this.uuidModalButton.nativeElement.click();
@@ -513,7 +516,7 @@ export class ConfigurationComponent implements OnInit {
       this.testingConfiguration = false;
     })
   }
-
+  configstatus:string='';
   saveConfiguration() {
     debugger
     this.savingConfiguration = true;
@@ -528,11 +531,15 @@ export class ConfigurationComponent implements OnInit {
     if (!this.isInvalidConfiguration) {
 
       if (this.selectedLookupConfigId > 0) {
+        this.licenseLookupConfigRequest.configStatus = this.configstatus;
         this.lookupTaxonomyService.updateConfiguration(this.licenseLookupConfigRequest).subscribe(response => {
           this.savingConfiguration = false;
           this.dataService.showToast('Configuration Saved Successfully.');
           this.addStepToggle = false;
           this.selectedLookupConfigId = 0;
+          setTimeout(() => {
+            this.closeSaveUuidModal.nativeElement.click();
+          }, 500)
           this.getConfiguration();
         }, error => {
           this.savingConfiguration = false;
@@ -544,6 +551,9 @@ export class ConfigurationComponent implements OnInit {
           this.dataService.showToast('Configuration Saved Successfully.');
           this.addStepToggle = false;
           this.selectedLookupConfigId = 0;
+          setTimeout(() => {
+            this.closeSaveUuidModal.nativeElement.click();
+          }, 500)
           this.getConfiguration();
         }, error => {
           this.savingConfiguration = false;
@@ -737,6 +747,7 @@ export class ConfigurationComponent implements OnInit {
 
   selectedLookupConfigId: number = 0;
   openEditModel(config: LookupConfiguration) {
+    this.configstatus = config.configStatus;
     this.selectedLookupConfigId = config.id;
     this.lookupName = config.lookupName;
     this.lookupLink = config.lookupLink;
@@ -851,11 +862,11 @@ export class ConfigurationComponent implements OnInit {
 
 
   updateStatus(id:any){
-    // console.log(id);
     this.lookupTaxonomyService.updateConfigStatus(id).subscribe(response=>{
       if(response.status){
        this.dataService.showToast("Status updated Successfully "); 
       }
+      this.getConfiguration();
     }, error=>{
 
     })
