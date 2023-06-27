@@ -1,0 +1,204 @@
+
+
+<div class="container-fluid">
+    <div class="main">
+      <div class="roletitlemain">
+        <div class="pagetitle">
+          <h3>Users</h3>
+        </div>
+      </div>
+  
+      <div class="usertablemain">
+        <div class="row justify-content-between align-items-center">
+          <div class="col-lg-4 px-2">
+            <div class="form-group usrtblesearch position-relative">
+              <input placeholder="Search User" class="form-control" id="Users" name="User"/>
+              <!-- <i class="fa-solid fa-magnifying-glass"></i> -->
+              <i class="bi bi-search"></i>
+            </div>
+          </div>
+          <div class="col-lg-3 pl-2 pr-0">
+            <div class="d-flex justify-content-end align-items-center">
+              <button type="button" class="btn primarybtn pdependent" style="margin-right: 16px;">
+                Create New Instance
+              </button>
+            </div>
+          </div>
+        </div>
+  
+
+        <!-- Empty notification -->
+        <!-- <div class="empty-notific text-center mt-5" *ngIf="!loadingUser && userAccountList.length==0">
+          <div class="empty-notificinner">
+            <img src="assets/images/allexpirable.svg" style="width: 30%;" alt="no data found" />
+            <h6 class="m-3 ps-5">No data found</h6>
+          </div>
+        </div>
+        <app-circular-loader *ngIf="loadingUser"></app-circular-loader> -->
+
+        <div class="usertable mt-3">
+          <div class="usertableinner table-responsive">
+  
+  
+            <table class="table">
+              <thead>
+                <tr>
+                  <th style="width: 10%">S. No.</th>
+                  <th style="width: 25%">Provider Name</th>
+                  <th style="width: 20%">Provider Uuid</th>
+                  <th style="width: 15%">Taxonomy</th>
+                  <th style="width: 10%">Version</th>
+                  <th style="width: 10%">Date</th>
+                  <th style="width: 10%">Status</th>
+                </tr>
+              </thead>
+  
+              <tbody>
+                <tr *ngFor="let obj of [].constructor(5); let i = index" >
+                  <td>
+                    <div class="tableinfo">
+                      {{i+1}}
+                    </div>
+                  </td>
+                  <td>
+                    <div class="tableinfo">
+                      <span>Name</span>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="tableinfo">
+                      <span>UUID</span>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="tableinfo">
+                      <span>Taxonomy</span>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="tableinfo">
+                      <span>Version</span>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="tableinfo">
+                      <!-- <span class="badge-grey">{{user.cretedDate | date:'MM-dd-yyyy hh:mm:ss a' : 'EST'}} (EST)</span> -->
+                      <span>10/06/2023</span>
+                    </div>
+                  </td>
+  
+                  <td>
+                    <div class="tableinfo">
+                      <span>lorem</span>
+                    </div>
+                  </td>
+
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <!-- <div class="paginationmain" *ngIf="totalAccountCount>userAccountList.length"> 
+           <div class="d-flex align-items-center justify-content-between">
+              <p class="currentshowing mb-0">
+                Showing <span>{{userAccountList.length}}</span> of <span>{{totalAccountCount}}</span>
+              </p>
+              <div class="col-lg-6">
+                <div class="card-body d-flex justify-content-end">
+                  <ngb-pagination class="pagination pagination-separated justify-content-sm-end mb-sm-0"
+                    [collectionSize]="totalAccountCount" [rotate]="true" (pageChange)="pageChanged($event)"
+                    [pageSize]="userDatabaseHelper.itemsPerPage" [(page)]="userDatabaseHelper.currentPage" [maxSize]="5"
+                    [boundaryLinks]="true">
+                  </ngb-pagination>
+                </div>
+              </div>
+            </div> 
+          </div> -->
+        </div>
+      </div>
+    </div>
+</div>
+  
+  <!-- create new instance -->
+<button type="button" #createUsermodalButton class="d-none" data-bs-toggle="modal" data-bs-target="#createUsermodal"></button>
+<div class="modal blur-bg-2" id="createUsermodal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="crreateForm" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+        <div class="modal-header border-0">
+        <h1 class="modal-title" id="profilEditLabel">
+            <span>Create Instance</span>
+        </h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <p>Write code here!</p>
+        <!-- <form #leaderDetailForm="ngForm" ngNativeValidate (ngSubmit)="createUser()">
+            <div class="modal-body pt-0">
+                <div class="rolemodalbody">
+                    <div class="rolemodalinner">
+                        <div class="row px-1">
+                        <div class="col-lg-6 col-md-12 px-2">
+                            <div class="mdlform form-group position-relative mb-3">
+                            <label>Full Name<sup>*</sup></label>
+                            <div class="position-relative">
+                                <input type="text" placeholder="Eg: John" class="form-control" name="fname" [(ngModel)]="userAccountRequest.fullName" minlength="3" maxlength="55" required/>
+                            </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-12 px-2">
+                            <div class="mdlform form-group usrtblesearch position-relative mb-3">
+                            <label>Phone<sup>*</sup></label>
+                            <div class="position-relative">
+                                <input type="text" placeholder="10 digit phone number" class="form-control" name="phone" [(ngModel)]="userAccountRequest.phone" required mask="(000)-000-0000" minlength="10" maxlength="10" />
+                                <i>
+                                <svg width="17" height="16" viewBox="0 0 17 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                    d="M1.48816 0.988155C1.17559 1.30072 1 1.72464 1 2.16667V3C1 9.90333 6.59667 15.5 13.5 15.5H14.3333C14.7754 15.5 15.1993 15.3244 15.5118 15.0118C15.8244 14.6993 16 14.2754 16 13.8333V11.1008C16 10.9259 15.945 10.7553 15.8427 10.6134C15.7404 10.4714 15.596 10.3653 15.43 10.31L11.6858 9.06167C11.4956 8.99841 11.2888 9.0059 11.1036 9.08274C10.9184 9.15958 10.7671 9.30062 10.6775 9.48L9.73583 11.3608C7.69538 10.4389 6.0611 8.80462 5.13917 6.76417L7.02 5.8225C7.19938 5.73288 7.34042 5.58158 7.41726 5.39637C7.4941 5.21116 7.50158 5.00445 7.43833 4.81417L6.19 1.07C6.13475 0.90413 6.02874 0.759836 5.88696 0.657542C5.74519 0.555247 5.57483 0.500133 5.4 0.5H2.66667C2.22464 0.5 1.80072 0.675595 1.48816 0.988155Z"
+                                    stroke="#6B7280" stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                                </i>
+                            </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-12 px-2">
+                            <div class="mdlform form-group usrtblesearch position-relative mb-3">
+                            <label>Email<sup>*</sup></label>
+                            <div class="position-relative">
+                                <input type="email" autocomplete="false" placeholder="Enter Email" class="form-control" name="email1" [(ngModel)]="userAccountRequest.userName" required minlength="3" maxlength="55" />
+                                <i>
+                                <svg width="16" height="14" viewBox="0 0 16 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                    d="M0.5 3.66602L7.075 8.04935C7.34888 8.23208 7.67075 8.3296 8 8.3296C8.32925 8.3296 8.65112 8.23208 8.925 8.04935L15.5 3.66602M2.16667 12.8327H13.8333C14.2754 12.8327 14.6993 12.6571 15.0118 12.3445C15.3244 12.032 15.5 11.608 15.5 11.166V2.83268C15.5 2.39065 15.3244 1.96673 15.0118 1.65417C14.6993 1.34161 14.2754 1.16602 13.8333 1.16602H2.16667C1.72464 1.16602 1.30072 1.34161 0.988155 1.65417C0.675595 1.96673 0.5 2.39065 0.5 2.83268V11.166C0.5 11.608 0.675595 12.032 0.988155 12.3445C1.30072 12.6571 1.72464 12.8327 2.16667 12.8327Z"
+                                    stroke="#6B7280" stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                                </i>
+                            </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-12 px-2" >
+                            <div class="mdlform form-group usrtblesearch position-relative mb-3">
+                            <label>Password<sup>*</sup></label>
+                            <div class="position-relative" >
+                                <input type="password" autocomplete="false" placeholder="Enter password" class="form-control" name="password1" [(ngModel)]="userAccountRequest.password" required minlength="5" maxlength="15" />
+                                <i>
+                                <svg width="14" height="18" viewBox="0 0 14 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" clip-rule="evenodd"
+                                    d="M6.99967 0.666016C9.2403 0.666016 11.0679 2.4346 11.1625 4.65194L11.1663 4.83268V7.33268C12.5471 7.33268 13.6663 8.45197 13.6663 9.83268V14.8327C13.6663 16.2134 12.5471 17.3327 11.1663 17.3327H2.83301C1.4523 17.3327 0.333008 16.2134 0.333008 14.8327V9.83268C0.333008 8.45197 1.4523 7.33268 2.83301 7.33268V4.83268C2.83301 2.5315 4.69849 0.666016 6.99967 0.666016ZM11.1663 8.99935H2.83301C2.37277 8.99935 1.99967 9.37245 1.99967 9.83268V14.8327C1.99967 15.2929 2.37277 15.666 2.83301 15.666H11.1663C11.6266 15.666 11.9997 15.2929 11.9997 14.8327V9.83268C11.9997 9.37245 11.6266 8.99935 11.1663 8.99935ZM7.14657 2.33693L6.99967 2.33268C5.66827 2.33268 4.57996 3.37345 4.50392 4.68579L4.49967 4.83268V7.33268H9.49967V4.83268C9.49967 3.50128 8.45891 2.41296 7.14657 2.33693L6.99967 2.33268L7.14657 2.33693Z"
+                                    fill="#6B7280" />
+                                </svg>
+                                </i>
+                            </div>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer border-top-0 pt-0">
+                <button type="button" class="btn primarycancelbtn" #closeLeaderModel data-bs-dismiss="modal" style="border-color: #F05252 !important;">Cancel</button>
+                <button type="submit" class="btn primarybtn">
+                <span>Create <i class="spinner-border spinner-border-sm" role="status"></i></span>
+                </button>
+            </div>
+        </form> -->
+    </div>
+</div>
+</div>
