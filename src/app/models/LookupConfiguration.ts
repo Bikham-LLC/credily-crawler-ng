@@ -5,5 +5,8 @@ export class LookupConfiguration{
     addedBy:string='';
     version:string='';
     taxonomyId:any;
+    lastTestedOn:any;
+    reportStatus:string='';
+    url:any;
     configStatus:string='';
 }

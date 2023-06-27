@@ -494,6 +494,7 @@ export class ConfigurationComponent implements OnInit {
     this.licenseLookupConfigRequest.version = this.credilyVersion;
     this.licenseLookupConfigRequest.licenseLookUpName = this.lookupName;
     this.licenseLookupConfigRequest.licenseLookUpLink = this.lookupLink;
+    this.licenseLookupConfigRequest.lookupConfigId = this.selectedLookupConfigId;
     this.licenseLookupConfigRequest.taxonomyIdList = this.selectedTaxonomyIds;
     this.licenseLookupConfigRequest.userAccountUuid = String(localStorage.getItem(this.Constant.ACCOUNT_UUID));
     this.licenseLookupConfigRequest.configRequests = this.configurationStepList;
@@ -532,6 +533,9 @@ export class ConfigurationComponent implements OnInit {
 
       if (this.selectedLookupConfigId > 0) {
         this.licenseLookupConfigRequest.configStatus = this.configstatus;
+        this.licenseLookupConfigRequest.lastTestedOn = this.lastTestedOn;
+        this.licenseLookupConfigRequest.screenShotUrl = this.screenShotUrl;
+        this.licenseLookupConfigRequest.configReportStatus = this.configReportStatus;
         this.lookupTaxonomyService.updateConfiguration(this.licenseLookupConfigRequest).subscribe(response => {
           this.savingConfiguration = false;
           this.dataService.showToast('Configuration Saved Successfully.');
@@ -746,8 +750,14 @@ export class ConfigurationComponent implements OnInit {
 
 
   selectedLookupConfigId: number = 0;
+  lastTestedOn:any;
+  screenShotUrl:any;
+  configReportStatus:any;
   openEditModel(config: LookupConfiguration) {
     this.configstatus = config.configStatus;
+    this.lastTestedOn = config.lastTestedOn;
+    this.screenShotUrl = config.url;
+    this.configReportStatus = config.reportStatus;
     this.selectedLookupConfigId = config.id;
     this.lookupName = config.lookupName;
     this.lookupLink = config.lookupLink;
