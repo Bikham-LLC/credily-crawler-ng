@@ -8,6 +8,9 @@ export class LicenseLookupConfigRequest{
     userAccountUuid : string = '';
     testingProviderUuid:any;
     configStatus:string='';
+    lastTestedOn:any;
+    screenShotUrl:any;
+    configReportStatus:any;
     taxonomyIdList : number[] = [];
     configRequests : ConfigRequest[] = [];
 }
