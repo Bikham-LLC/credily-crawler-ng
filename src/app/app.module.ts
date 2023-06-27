@@ -14,6 +14,8 @@ import { StateDropdownComponent } from './state-dropdown/state-dropdown.componen
 import { AccountUserComponent } from './account-user/account-user.component';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import { HeaderComponent } from './header/header.component';
+import { ReportComponent } from './report/report.component';
+import { ProviderReportComponent } from './provider-report/provider-report.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +25,9 @@ import { HeaderComponent } from './header/header.component';
     SafePipe,
     StateDropdownComponent,
     AccountUserComponent,
-    HeaderComponent
+    HeaderComponent,
+    ReportComponent,
+    ProviderReportComponent
   ],
   imports: [
     BrowserModule,
