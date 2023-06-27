@@ -7,9 +7,15 @@
                 <div class="sidenavigationinner">
                     <ul class="mb-0">
                         <li class="sidenavitem">
-                            <a class="sidenavlink pointer" routerLink="/report" routerLinkActive="active" (click)="switchTab(providerReport)">
+                            <a class="sidenavlink pointer" [ngClass]="{'active':selectedTab==providerReport}"  (click)="switchTab(providerReport)">
                                 <img src="assets/images/side-icon/profile-1.svg" alt="">
                                 Provider Report
+                            </a>
+                        </li>
+                        <li class="sidenavitem">
+                            <a class="sidenavlink pointer" [ngClass]="{'active':selectedTab==lookupConfigReport}" (click)="switchTab(lookupConfigReport)">
+                                <img src="assets/images/side-icon/profile-1.svg" alt="">
+                                Config Report
                             </a>
                         </li>
                     </ul>
@@ -19,6 +25,9 @@
         <div class="px-2 col-lg-9 col-md-8 col-sm-12">
             <div *ngIf="selectedTab==providerReport">
                 <app-provider-report></app-provider-report>
+            </div>
+            <div *ngIf="selectedTab==lookupConfigReport">
+                <p>Lookup Config report</p>
             </div>
         </div>
     </div>

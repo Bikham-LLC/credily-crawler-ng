@@ -17,7 +17,7 @@ export class ReportComponent implements OnInit {
   
   selectedTab:string=this.providerReport;
   switchTab(tab:string){
-
+    this.selectedTab = tab;
   }
 
 
