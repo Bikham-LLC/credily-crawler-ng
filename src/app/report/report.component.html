@@ -14,7 +14,7 @@
                         </li>
                         <li class="sidenavitem">
                             <a class="sidenavlink pointer" [ngClass]="{'active':selectedTab==lookupConfigReport}" (click)="switchTab(lookupConfigReport)">
-                                <img src="assets/images/side-icon/profile-1.svg" alt="">
+                                <i class="bi bi-gear"></i>
                                 Config Report
                             </a>
                         </li>
@@ -27,7 +27,104 @@
                 <app-provider-report></app-provider-report>
             </div>
             <div *ngIf="selectedTab==lookupConfigReport">
-                <p>Lookup Config report</p>
+                <!-- <p>Lookup Config report</p> -->
+
+                <div class="emptyNotif">
+                    <div class="dashNav-paneinner table-responsive">
+                        <div class="reportListing usertableinner no-wrap">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th class="tableDead" style="width: 5%;">
+                                            <p class="mb-0 text-center">S No.</p>
+                                        </th>
+                                        <th class="tableDead" style="width: 10%;">
+                                            <p class="mb-0">Lookup Name</p>
+                                        </th>
+                                        <th class="tableDead" style="width: 20%;">
+                                            <p class="mb-0">Link</p>
+                                        </th>
+                                        <th style="width: 10%;">Version</th>
+                                        <th style="width: 10%;">Added By</th>
+                                        <th style="width: 10%;">Status</th>
+                                        <th style="width: 10%;">LastChecked</th>
+                                        <th style="width: 10%;">ScreenShot Url</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let config of configList; let i = index">
+                                        <td class="tableData">
+                                            <p class="mb-0 text-center">{{ configDatabaseHelper.currentPage * (i+1)}}</p>
+                                        </td>
+                                        <td class="tableData">
+                                            <p class="mb-0">{{config.lookupName}}</p>
+                                        </td>
+                                        <td class="tableData lookupLiks">
+                                            <p class="mb-0">{{config.lookupLink}}</p>
+                                        </td>
+                                        <td class="tableData lookupLiks">
+                                            <p class="mb-0">{{config.version}}</p>
+                                        </td>
+                                        <td class="tableData text-center">
+                                            <p class="mb-0">{{config.addedBy}}</p>
+                                        </td>
+                                        <td class="tableData text-center">
+                                            <p class="mb-0">{{config.reportStatus}}</p>
+                                        </td>
+                                        <td class="tableData text-center">
+                                            <p class="mb-0">{{config.lastTestedOn | date:'MM-dd-yyyy hh:mm:ss' : 'EST'}} (EST) </p>
+                                        </td>
+                                        <td class="tableData text-center">
+                                            <a class="text-primary" data-bs-toggle="modal" data-bs-target="#showImageModal" rel="noopener noreferrer" *ngIf="!Constant.EMPTY_STRINGS.includes(config.url)">
+                                                 <i class="bi bi-eye pointer" (click)="selectedImage = config.url"></i>
+                                            </a>
+                                            <!-- <i class="bi bi-eye-slash"></i> -->
+                                            <!-- <p class="mb-0">{{config.url}}</p> -->
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                         
+                        <div class=" p-5" *ngIf="loadingConfiguration">
+                            <app-circular-loader></app-circular-loader>
+                        </div>
+                        <div class="row justify-content-center" *ngIf="totalConfiguration > 0">   
+                            <div class="paginationmain w-100 px-3 mt-2">
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <p class="currentshowing mb-0">
+                                        Showing <span>{{configList.length}}</span> of <span>{{totalConfiguration}}</span>  
+                                    </p>
+                                    <div class="d-flex justify-content-end">
+                                        <ngb-pagination [collectionSize]="totalConfiguration" [rotate]="true" (pageChange)="configPageChanged($event)" [pageSize]="configDatabaseHelper.itemsPerPage" [(page)]="configDatabaseHelper.currentPage" [maxSize]="5" [boundaryLinks]="true">
+                                        </ngb-pagination>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="empty-notific text-center mt-5"  *ngIf="!loadingConfiguration && configList.length == 0">
+                            <div class="empty-notificinner">
+                              <img src="assets/images/allexpirable.svg" style="width: 30%;margin-right: 118px;" alt="no data found" />
+                              <h6 class="m-3 ps-6">No data found</h6>
+                            </div>
+                    </div>
+                </div>
+             </div>
+        </div>
+    </div>
+</div>
+
+<!-- show image modal -->
+<div class="modal blur-bg-2" id="showImageModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="shareModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="max-width:80%;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Config Report Snapshot</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center" style="overflow: scroll;min-height: 350px;">
+                <img class="w-100" [src]="selectedImage" alt="" />
             </div>
         </div>
     </div>
