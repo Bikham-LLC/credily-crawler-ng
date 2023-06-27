@@ -47,8 +47,8 @@
                                         <th style="width: 10%;">Version</th>
                                         <th style="width: 10%;">Added By</th>
                                         <th style="width: 10%;">Status</th>
-                                        <th style="width: 10%;">LastChecked</th>
-                                        <th style="width: 10%;">ScreenShot Url</th>
+                                        <th style="width: 10%;">Last Checked</th>
+                                        <th style="width: 10%;">Screenshot Url</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -78,8 +78,7 @@
                                             <a class="text-primary" data-bs-toggle="modal" data-bs-target="#showImageModal" rel="noopener noreferrer" *ngIf="!Constant.EMPTY_STRINGS.includes(config.url)">
                                                  <i class="bi bi-eye pointer" (click)="selectedImage = config.url"></i>
                                             </a>
-                                            <!-- <i class="bi bi-eye-slash"></i> -->
-                                            <!-- <p class="mb-0">{{config.url}}</p> -->
+                                            <i class="bi bi-eye-slash" *ngIf="Constant.EMPTY_STRINGS.includes(config.url)"></i>
                                         </td>
                                     </tr>
                                 </tbody>
