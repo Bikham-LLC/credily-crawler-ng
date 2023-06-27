@@ -2,18 +2,18 @@
 
 <div class="container-fluid">
     <div class="main">
-      <div class="roletitlemain">
+      <!-- <div class="roletitlemain">
         <div class="pagetitle">
           <h3>Users</h3>
         </div>
-      </div>
+      </div> -->
   
       <div class="usertablemain">
-        <div class="row justify-content-between align-items-center">
+
+        <!-- <div class="row justify-content-between align-items-center">
           <div class="col-lg-4 px-2">
             <div class="form-group usrtblesearch position-relative">
               <input placeholder="Search User" class="form-control" id="Users" name="User"/>
-              <!-- <i class="fa-solid fa-magnifying-glass"></i> -->
               <i class="bi bi-search"></i>
             </div>
           </div>
@@ -24,17 +24,15 @@
               </button>
             </div>
           </div>
-        </div>
+        </div> -->
   
-
-        <!-- Empty notification -->
-        <!-- <div class="empty-notific text-center mt-5" *ngIf="!loadingUser && userAccountList.length==0">
+        <div class="empty-notific text-center mt-5" *ngIf="!fetchingReport && providerReports.length==0">
           <div class="empty-notificinner">
             <img src="assets/images/allexpirable.svg" style="width: 30%;" alt="no data found" />
             <h6 class="m-3 ps-5">No data found</h6>
           </div>
         </div>
-        <app-circular-loader *ngIf="loadingUser"></app-circular-loader> -->
+        <app-circular-loader *ngIf="fetchingReport"></app-circular-loader>
 
         <div class="usertable mt-3">
           <div class="usertableinner table-responsive">
@@ -46,15 +44,15 @@
                   <th style="width: 10%">S. No.</th>
                   <th style="width: 25%">Provider Name</th>
                   <th style="width: 20%">Provider Uuid</th>
-                  <th style="width: 15%">Taxonomy</th>
                   <th style="width: 10%">Version</th>
+                  <th style="width: 15%">Allocated Queue</th>
                   <th style="width: 10%">Date</th>
                   <th style="width: 10%">Status</th>
                 </tr>
               </thead>
   
               <tbody>
-                <tr *ngFor="let obj of [].constructor(5); let i = index" >
+                <tr *ngFor="let obj of providerReports; let i = index" >
                   <td>
                     <div class="tableinfo">
                       {{i+1}}
@@ -62,34 +60,33 @@
                   </td>
                   <td>
                     <div class="tableinfo">
-                      <span>Name</span>
+                      <span>{{obj.providerName}}</span>
                     </div>
                   </td>
                   <td>
                     <div class="tableinfo">
-                      <span>UUID</span>
+                      <span>{{obj.providerUuid}}</span>
                     </div>
                   </td>
                   <td>
                     <div class="tableinfo">
-                      <span>Taxonomy</span>
+                      <span>{{obj.version}}</span>
                     </div>
                   </td>
                   <td>
                     <div class="tableinfo">
-                      <span>Version</span>
+                      <span>{{obj.allocatedQueue}}</span>
                     </div>
                   </td>
                   <td>
                     <div class="tableinfo">
-                      <!-- <span class="badge-grey">{{user.cretedDate | date:'MM-dd-yyyy hh:mm:ss a' : 'EST'}} (EST)</span> -->
-                      <span>10/06/2023</span>
+                      <span class="badge-grey">{{obj.createdDate | date:'MM-dd-yyyy hh:mm:ss a' : 'EST'}} (EST)</span>
                     </div>
                   </td>
   
                   <td>
                     <div class="tableinfo">
-                      <span>lorem</span>
+                      <span class="statusactive">{{obj.status}}</span> <span class="statusinactive">lorem</span> <span class="statuspending">lorem</span>
                     </div>
                   </td>
 
@@ -97,22 +94,22 @@
               </tbody>
             </table>
           </div>
-          <!-- <div class="paginationmain" *ngIf="totalAccountCount>userAccountList.length"> 
+          <div class="paginationmain" *ngIf=" !fetchingReport && totalProviderReport>providerReports.length"> 
            <div class="d-flex align-items-center justify-content-between">
               <p class="currentshowing mb-0">
-                Showing <span>{{userAccountList.length}}</span> of <span>{{totalAccountCount}}</span>
+                Showing <span>{{providerReports.length}}</span> of <span>{{totalProviderReport}}</span>
               </p>
               <div class="col-lg-6">
                 <div class="card-body d-flex justify-content-end">
                   <ngb-pagination class="pagination pagination-separated justify-content-sm-end mb-sm-0"
-                    [collectionSize]="totalAccountCount" [rotate]="true" (pageChange)="pageChanged($event)"
-                    [pageSize]="userDatabaseHelper.itemsPerPage" [(page)]="userDatabaseHelper.currentPage" [maxSize]="5"
+                    [collectionSize]="totalProviderReport" [rotate]="true" (pageChange)="pageChanged($event)"
+                    [pageSize]="databaseHelper.itemsPerPage" [(page)]="databaseHelper.currentPage" [maxSize]="5"
                     [boundaryLinks]="true">
                   </ngb-pagination>
                 </div>
               </div>
             </div> 
-          </div> -->
+          </div>
         </div>
       </div>
     </div>
