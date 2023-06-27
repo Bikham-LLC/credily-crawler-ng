@@ -12,6 +12,7 @@ export class Keys{
     lookup_taxonomy = '/license-lookup-configuration/taxonomy'
     lookup_crawler_attribute = '/license-lookup-configuration/attribute'
     crewler_controller = '/web-crawler'
+    provider_crawler_controller = '/provider-crawler'
     
     
 }
