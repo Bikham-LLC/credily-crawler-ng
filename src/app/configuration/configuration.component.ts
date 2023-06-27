@@ -521,6 +521,7 @@ export class ConfigurationComponent implements OnInit {
     this.licenseLookupConfigRequest.licenseLookUpName = this.lookupName;
     this.licenseLookupConfigRequest.licenseLookUpLink = this.lookupLink;
     this.licenseLookupConfigRequest.taxonomyIdList = this.selectedTaxonomyIds;
+    this.licenseLookupConfigRequest.testingProviderUuid = this.providerUuid;
     this.licenseLookupConfigRequest.userAccountUuid = String(localStorage.getItem(this.Constant.ACCOUNT_UUID));
     this.licenseLookupConfigRequest.configRequests = this.configurationStepList;
     this.licenseLookupConfigRequest.lookupConfigId = this.selectedLookupConfigId;
@@ -843,8 +844,21 @@ export class ConfigurationComponent implements OnInit {
     this.showTaxonomyListToggle = !this.showTaxonomyListToggle;
   }
 
+  @ViewChild('saveUuidModalButton') saveUuidModalButton! : ElementRef;
+  uuidSaveModal(){
+    this.saveUuidModalButton.nativeElement.click();
+  }
+
+
   updateStatus(id:any){
-    console.log(id);
+    // console.log(id);
+    this.lookupTaxonomyService.updateConfigStatus(id).subscribe(response=>{
+      if(response.status){
+       this.dataService.showToast("Status updated Successfully "); 
+      }
+    }, error=>{
+
+    })
   }
 
 }

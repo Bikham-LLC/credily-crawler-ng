@@ -118,7 +118,7 @@ export class LookupTaxonomyService {
   updateConfigStatus(id:any) :Observable<any> {
     const params = new HttpParams()
     .set('id', id)
-    return this.http.patch<any>(this.key.server_url + this.key.api_version_one + this.key.lookup_config_controller + "/auto-report-schedule", {}, {params});
+    return this.http.patch<any>(this.key.server_url + this.key.api_version_one + this.key.lookup_config_controller + "/update-config-status", {}, {params});
   }
 
 }
