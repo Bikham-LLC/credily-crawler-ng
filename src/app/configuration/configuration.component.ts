@@ -843,4 +843,8 @@ export class ConfigurationComponent implements OnInit {
     this.showTaxonomyListToggle = !this.showTaxonomyListToggle;
   }
 
+  updateStatus(id:any){
+    console.log(id);
+  }
+
 }
