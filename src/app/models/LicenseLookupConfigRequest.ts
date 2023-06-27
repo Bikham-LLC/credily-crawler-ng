@@ -6,6 +6,7 @@ export class LicenseLookupConfigRequest{
     licenseLookUpLink : string = '';
     licenseLookUpName : string = '';
     userAccountUuid : string = '';
+    testingProviderUuid:any;
     taxonomyIdList : number[] = [];
     configRequests : ConfigRequest[] = [];
 }
