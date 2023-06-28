@@ -204,7 +204,9 @@
                                         <div class="col-lg-12 ">
                                             <div class="lookupSearchForm">
                                                 <div class="position-relative">
-                                                    <label>Lookup Link <sup class="text-danger">*</sup> </label>
+                                                    <label>Lookup Link <sup class="text-danger">*</sup> 
+                                                        <span class="tbleditBtn"><i class="bi bi-pen" style="cursor: pointer;"></i></span>
+                                                    </label>
                                                     <angular2-multiselect id="taxoLink" name="taxoLink" [data]="taxonomyLinkList" 
                                                     [settings]="dropdownSettingsTaxonomyLink" [(ngModel)]="selectedTaxonomyLink" 
                                                     (ngModelChange)="selectTaxonomyLink($event)" (keyup)="onSearchLink($event)" required>
