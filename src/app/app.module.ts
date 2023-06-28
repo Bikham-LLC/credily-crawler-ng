@@ -1,4 +1,4 @@
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
@@ -17,6 +17,7 @@ import { HeaderComponent } from './header/header.component';
 import { ReportComponent } from './report/report.component';
 import { ProviderReportComponent } from './provider-report/provider-report.component';
 import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
+import { TokenInterceptorService } from './services/token-interceptor.service';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,11 @@ import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
     DragDropModule,
     NgxDaterangepickerMd.forRoot()
   ],
-  providers: [],
+  providers: [ {
+    provide: HTTP_INTERCEPTORS,
+    useClass: TokenInterceptorService,
+    multi: true
+  }] ,
   bootstrap: [AppComponent]
 })
 export class AppModule { }

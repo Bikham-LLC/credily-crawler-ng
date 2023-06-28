@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Keys } from '../models/key';
 import { UserAccountRequest } from '../models/UserAccountRequest';
+import { Constant } from '../models/Constant';
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +19,12 @@ export class AuthService {
     .set('username', userName)
     .set('password', password)
 
+    return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.login, {params});
+  }
+
+  renewToken(): Observable<any> {
+    const params = new HttpParams()
+      .set('refreshToken', localStorage.getItem(Constant.REFRESH_TOKEN)!)
     return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.login, {params});
   }
 

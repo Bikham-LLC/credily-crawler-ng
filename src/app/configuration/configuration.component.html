@@ -26,17 +26,6 @@
                             <div class="reportListing usertableinner no-wrap" *ngIf="!loadingConfiguration && configList.length > 0">
                                 <table class="table">
                                     <thead>
-                                        <!-- <tr>
-                                            <th class="tableDead text-center" colspan="4">
-                                                <p class="mb-0">Configuration</p>
-                                            </th>
-                                            <th class="tableDead text-center"> 
-                                                <p class="mb-0">Added By</p>
-                                            </th>
-                                            <th class="tableDead text-center">
-                                                <p class="mb-0">Action</p>
-                                            </th>
-                                        </tr> -->
                                         <tr>
                                             <th class="tableDead" style="width: 5%;">
                                                 <p class="mb-0 text-center">S No.</p>
@@ -265,29 +254,6 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <!-- <div class="row">
-                                                                <div class="col-lg-6 pr-0">
-                                                                    <app-state-dropdown [_updatedStateName]="selectedStateName"
-                                                                        [(stateNameProp)]="selectedStateName"
-                                                                        [stateNameLabelClass]="'labelCls'" 
-                                                                        [stateCodeLabelClass]="'labelCls'"
-                                                                        [stateNameDynamic]="'State Name'" 
-                                                                        [stateCodeDynamic]="'State Code'" 
-                                                                        [stateNameClass]="'col-12 labelCls'" 
-                                                                        [stateCodeClass]="'d-none'"
-                                                                        [requiredClass]="'d-none'"
-                                                                        [cityClass]="'d-none'" (callFunction)="selectStateName()">
-                                                                    </app-state-dropdown>
-                                                                </div>
-                                                                <div class="col-lg-6 ">
-                                                                    <div class="lookupSearchForm">
-                                                                        <label class="pb-1">Search Taxonomy</label>
-                                                                        <div class="position-relative">
-                                                                            <input type="Text" class="form-control" name="searchTaxonomy" placeholder="Search Taxonomy" [(ngModel)]="databaseHelper.search" (keyup.enter)="searchTaxonomy()" >
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div> -->
                                                         </div>
 
                                                         <div class="mppedBtninner d-flex align-items-center">
