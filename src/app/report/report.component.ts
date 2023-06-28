@@ -14,10 +14,57 @@ export class ReportComponent implements OnInit {
 
   readonly Constant = Constant;
   constructor(private lookupTaxonomyService: LookupTaxonomyService,
-    private dataService: DataService) { }
+  private dataService: DataService) { }
+    
+    dropdownSettingsLookupName !: { singleSelection: boolean; text: string; enableSearchFilter: boolean; autoPosition: boolean };
+    selectedLookupName: any[] = new Array();
+    LookupNameList: any[] = new Array();  
+    // LookupNameJson:string[]=['Test pass', 'Test fail'];
+   
+    dropdownSettingsVersion !: { singleSelection: boolean; text: string; enableSearchFilter: boolean; autoPosition: boolean };
+    selectedVersion: any[] = new Array();
+    versionList: any[] = new Array();  
+    versionJson:string[]=['V2', 'V3'];  
+  
+    dropdownSettingsStatus !: { singleSelection: boolean; text: string; enableSearchFilter: boolean; autoPosition: boolean };
+    selectedStatus: any[] = new Array();
+    statusList: any[] = new Array();  
+    statusJson:string[]=['Test pass', 'Test fail'];
+    
+    dropdownSettingsLastChecked !: { singleSelection: boolean; text: string; enableSearchFilter: boolean; autoPosition: boolean };
+    selectedLastChecked: any[] = new Array();
+    lastCheckedList: any[] = new Array();  
+
 
   ngOnInit(): void {
+
+    this.dropdownSettingsStatus = {
+      singleSelection: true,
+      text: 'Select Status',
+      enableSearchFilter: false,
+      autoPosition: false
+    }
+    this.dropdownSettingsLookupName = {
+      singleSelection: true,
+      text: 'Select Lookup Name',
+      enableSearchFilter: false,
+      autoPosition: false
+    }
+    this.dropdownSettingsVersion = {
+      singleSelection: true,
+      text: 'Select Version',
+      enableSearchFilter: false,
+      autoPosition: false
+    }
+    this.dropdownSettingsLastChecked = {
+      singleSelection: true,
+      text: 'Select Last Checked',
+      enableSearchFilter: false,
+      autoPosition: false
+    }
     this.getConfiguration();
+    this.getStatus();
+    this.getVersion();
   }
 
   providerReport:string='provider';
@@ -52,6 +99,46 @@ export class ReportComponent implements OnInit {
       this.configDatabaseHelper.currentPage = event;
       this.getConfiguration();
     }
+  }
+
+  getStatus(){
+    this.statusList = [];
+    this.statusJson.forEach(e=>{
+      var temp: { id: any, itemName: any} = { id: e, itemName: e };
+      this.statusList.push(temp);
+    })
+    this.statusList = JSON.parse(JSON.stringify(this.statusList));
+  }
+
+  status:string= '';
+  selectStatus(event: any) {
+    debugger
+    this.status = '';
+    if (event[0] != undefined) {
+      this.selectedStatus = event;
+      this.status = event[0].id;
+    }
+    this.getConfiguration();
+  }
+
+  getVersion(){
+    this.versionList = [];
+    this.versionJson.forEach(e=>{
+      var temp: { id: any, itemName: any} = { id: e, itemName: e };
+      this.versionList.push(temp);
+    })
+    this.versionList = JSON.parse(JSON.stringify(this.versionList));
+  }
+
+  version:string= '';
+  selectVersion(event: any) {
+    debugger
+    this.version = '';
+    if (event[0] != undefined) {
+      this.selectedStatus = event;
+      this.version = event[0].id;
+    }
+    this.getConfiguration();
   }
 
 }

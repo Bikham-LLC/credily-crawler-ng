@@ -2,35 +2,47 @@
 <app-header></app-header>
 <div class="container-fluid mt-4">
     <div class="row px-1">
-        <div class="px-2 col-lg-3 col-md-4 col-sm-12">
-            <div class="sidenavigation">
-                <div class="sidenavigationinner">
-                    <ul class="mb-0">
-                        <li class="sidenavitem">
-                            <a class="sidenavlink pointer" [ngClass]="{'active':selectedTab==providerReport}"  (click)="switchTab(providerReport)">
-                                <img src="assets/images/side-icon/profile-1.svg" alt="">
-                                Provider Report
-                            </a>
-                        </li>
-                        <li class="sidenavitem">
-                            <a class="sidenavlink pointer" [ngClass]="{'active':selectedTab==lookupConfigReport}" (click)="switchTab(lookupConfigReport)">
-                                <i class="bi bi-gear"></i>
-                                Config Report
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="px-2 col-lg-9 col-md-8 col-sm-12">
-            <div *ngIf="selectedTab==providerReport">
-                <app-provider-report></app-provider-report>
-            </div>
-            <div *ngIf="selectedTab==lookupConfigReport">
-                <!-- <p>Lookup Config report</p> -->
-
+        <div class="px-2 col-lg-12 col-md-12 col-sm-12">
+            <div>
                 <div class="emptyNotif">
                     <div class="dashNav-paneinner table-responsive">
+                        
+                        <div class="row justify-content-between align-items-center p-1">
+                            <div class="col-lg-3 mb-3 px-2">
+                                <div class="lookupSearchForm">
+                                <div class="position-relative">
+                                    <angular2-multiselect id="lookupName" name="lookupName" [data]="LookupNameList" [settings]="dropdownSettingsLookupName" [(ngModel)]="selectedLookupName" required>
+                                    </angular2-multiselect>
+                                </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 mb-3 px-2">
+                                <div class="lookupSearchForm">
+                                <div class="position-relative">
+                                    <angular2-multiselect id="version" name="version" [data]="versionList" [settings]="dropdownSettingsVersion" [(ngModel)]="selectedVersion" (ngModelChange)="selectVersion($event)" required>
+                                    </angular2-multiselect>
+                                </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 mb-3 px-2">
+                                <div class="lookupSearchForm">
+                                <div class="position-relative">
+                                    <angular2-multiselect id="status" name="status" [data]="statusList" [settings]="dropdownSettingsStatus" [(ngModel)]="selectedStatus" (ngModelChange)="selectStatus($event)" required>
+                                    </angular2-multiselect>
+                                </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 mb-3 px-2">
+                                <div class="lookupSearchForm">
+                                <div class="position-relative">
+                                    <angular2-multiselect id="lastChecked" name="lastChecked" [data]="lastCheckedList" [settings]="dropdownSettingsLastChecked" [(ngModel)]="selectedLastChecked" required>
+                                    </angular2-multiselect>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        
                         <div class="reportListing usertableinner no-wrap">
                             <table class="table">
                                 <thead>
@@ -48,7 +60,7 @@
                                         <th style="width: 10%;">Added By</th>
                                         <th style="width: 10%;">Status</th>
                                         <th style="width: 10%;">Last Checked</th>
-                                        <th style="width: 10%;">Screenshot Url</th>
+                                        <th style="width: 10%;">Snapshot</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -69,7 +81,8 @@
                                             <p class="mb-0">{{config.addedBy}}</p>
                                         </td>
                                         <td class="tableData text-center">
-                                            <p class="mb-0">{{config.reportStatus}}</p>
+                                            <span [ngClass]="{'statusactive' : config.reportStatus == 'Test pass', 'statusinactive' : config.reportStatus == 'Test fail'}">
+                                            {{config.reportStatus | titlecase}}</span>
                                         </td>
                                         <td class="tableData text-center">
                                             <p class="mb-0">{{config.lastTestedOn | date:'MM-dd-yyyy hh:mm:ss' : 'EST'}} (EST) </p>
@@ -103,13 +116,13 @@
                         </div>
                     </div>
                     <div class="empty-notific text-center mt-5"  *ngIf="!loadingConfiguration && configList.length == 0">
-                            <div class="empty-notificinner">
-                              <img src="assets/images/allexpirable.svg" style="width: 30%;margin-right: 118px;" alt="no data found" />
-                              <h6 class="m-3 ps-6">No data found</h6>
-                            </div>
+                        <div class="empty-notificinner">
+                            <img src="assets/images/allexpirable.svg" style="width: 30%;margin-right: 118px;" alt="no data found" />
+                            <h6 class="m-3 ps-6">No data found</h6>
+                        </div>
                     </div>
                 </div>
-             </div>
+            </div>
         </div>
     </div>
 </div>

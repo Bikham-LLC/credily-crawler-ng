@@ -66,7 +66,7 @@ export class LookupTaxonomyService {
     .set('searchBy', databaseHelper.searchBy)
     .set('currentPage', databaseHelper.currentPage)
     .set('itemsPerPage', databaseHelper.itemsPerPage)
-    return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.lookup_config_controller+'/lookup');
+    return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.lookup_config_controller+'/lookup', {params});
   }
 
   getTaxonomyLink(search:any): Observable<any> {
