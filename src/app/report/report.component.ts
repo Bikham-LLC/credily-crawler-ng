@@ -150,6 +150,7 @@ export class ReportComponent implements OnInit {
       }
       
     }
+    
     // console.log(this.ids);
     // console.log(this.checkcheck(config.id));
   }
