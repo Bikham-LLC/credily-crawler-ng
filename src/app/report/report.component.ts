@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { LookupConfiguration } from '../models/LookupConfiguration';
 import { DatabaseHelper } from '../models/DatabaseHelper';
 import { LookupTaxonomyService } from '../services/lookup-taxonomy.service';
@@ -137,23 +137,44 @@ export class ReportComponent implements OnInit {
   }
 
   ids:number[] = new Array();
-  selectIdForTest(id:any){
-    var i = this.ids.findIndex(e=>e==id);
+  selectIdForTest(config:any){
+    config.toggle=false;
+    var i = this.ids.findIndex(e=>e==config.id);
     if(i > -1){
       this.ids.splice(i,1);
     } else {
-      this.ids.push(id);
+      if(this.ids.length<2){
+        
+        this.ids.push(config.id);
+        config.toggle=true;
+      }
+      
+    }
+    // console.log(this.ids);
+    // console.log(this.checkcheck(config.id));
+  }
+
+
+  checkcheck(id:any){
+    
+    if(this.ids.includes(id)){
+      return true;
+    }else{
+      return false;
     }
   }
 
+
+  testingConfigToggle:boolean = false;
   testConfig(){
+    this.testingConfigToggle = true;
     this.lookupTaxonomyService.idToTestConfig(this.ids).subscribe(response=>{
     if(response.status){
       this.ids = [];
     }
-
+    this.testingConfigToggle = false;
     }, error=>{
-      
+      this.testingConfigToggle = false;
     })
   }
 
