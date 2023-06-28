@@ -35,6 +35,11 @@ export class ReportComponent implements OnInit {
     selectedLastChecked: any[] = new Array();
     lastCheckedList: any[] = new Array();  
 
+    maxDate:any;
+    selected !: { startDate: moment.Moment, endDate: moment.Moment };
+    startDate: any = null;
+    endDate: any = null;        
+
 
   ngOnInit(): void {
 
@@ -82,7 +87,7 @@ export class ReportComponent implements OnInit {
   configDatabaseHelper: DatabaseHelper = new DatabaseHelper();
   getConfiguration() {
     this.loadingConfiguration = true;
-    this.lookupTaxonomyService.getConfiguration(this.configDatabaseHelper).subscribe(response => {
+    this.lookupTaxonomyService.getConfiguration(this.configDatabaseHelper, this.startDate, this.endDate, this.version, this.reportStatus).subscribe(response => {
       if (response.status && response.object != null) {
         this.configList = response.object;
         this.totalConfiguration = response.totalItems;
@@ -110,13 +115,13 @@ export class ReportComponent implements OnInit {
     this.statusList = JSON.parse(JSON.stringify(this.statusList));
   }
 
-  status:string= '';
+  reportStatus:string= '';
   selectStatus(event: any) {
     debugger
-    this.status = '';
+    this.reportStatus = '';
     if (event[0] != undefined) {
       this.selectedStatus = event;
-      this.status = event[0].id;
+      this.reportStatus = event[0].id;
     }
     this.getConfiguration();
   }
@@ -135,10 +140,20 @@ export class ReportComponent implements OnInit {
     debugger
     this.version = '';
     if (event[0] != undefined) {
-      this.selectedStatus = event;
+      this.selectedVersion = event;
       this.version = event[0].id;
     }
     this.getConfiguration();
+  }
+
+  selectDateFilter(event: any) {
+    debugger
+    if (this.selected != undefined && this.selected != null && this.selected.startDate != undefined && this.selected.endDate != undefined && this.selected != null) {
+      this.startDate = new Date(this.selected.startDate.toDate()).toDateString();
+      this.endDate = new Date(this.selected.endDate.toDate()).toDateString();
+    }
+    this.getConfiguration();
+
   }
 
 }

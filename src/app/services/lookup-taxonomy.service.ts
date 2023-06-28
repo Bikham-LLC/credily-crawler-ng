@@ -4,6 +4,7 @@ import { Keys } from '../models/key';
 import { Observable } from 'rxjs';
 import { DatabaseHelper } from '../models/DatabaseHelper';
 import { LicenseLookupConfigRequest } from '../models/LicenseLookupConfigRequest';
+import { Constant } from '../models/Constant';
 
 @Injectable({
   providedIn: 'root'
@@ -57,15 +58,21 @@ export class LookupTaxonomyService {
     return this.http.post<any>(this.key.server_url + this.key.api_version_one + this.key.lookup_config_controller + "/replicate",{}, {params});
   }
 
-  getConfiguration(databaseHelper:DatabaseHelper): Observable<any> {
+  getConfiguration(databaseHelper:DatabaseHelper, startDate:any, endDate:any, version:any, configReportStatus:any): Observable<any> {
     if(databaseHelper==undefined || databaseHelper==null){
       databaseHelper = new DatabaseHelper();
     }
-    const params = new HttpParams()
+    var params = new HttpParams()
     .set('search', databaseHelper.search)
     .set('searchBy', databaseHelper.searchBy)
     .set('currentPage', databaseHelper.currentPage)
     .set('itemsPerPage', databaseHelper.itemsPerPage)
+    .set('version', version)
+    .set('configReportStatus', configReportStatus)
+    if(!Constant.EMPTY_STRINGS.includes(startDate) && !Constant.EMPTY_STRINGS.includes(startDate)){
+      params = params.set('startDate', startDate)
+      .set('endDate', endDate)
+    }
     return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.lookup_config_controller+'/lookup', {params});
   }
 
