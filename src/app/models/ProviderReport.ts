@@ -1,7 +1,9 @@
 export class ProviderReport{
     id : number = 0;
     providerName : string = '';
-    providerUuid : string = '';
+    npi : string = '';
+    email : string = '';
+    phone : string = '';
     taxonomy : string = '';
     version : string = '';
     createdDate : string = '';

@@ -88,6 +88,5 @@ export class ProviderReportComponent implements OnInit {
     this.databaseHelper.currentPage = event;
     this.getProviderReport();
   }
-  
 
 }
