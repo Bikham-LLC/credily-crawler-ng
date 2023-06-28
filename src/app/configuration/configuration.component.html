@@ -204,13 +204,40 @@
                                         <div class="col-lg-12 ">
                                             <div class="lookupSearchForm">
                                                 <div class="position-relative">
-                                                    <label>Lookup Link <sup class="text-danger">*</sup> 
-                                                        <span class="tbleditBtn"><i class="bi bi-pen" style="cursor: pointer;"></i></span>
+                                                    <label> Lookup Link <sup class="text-danger">*</sup> 
+                                                        <span class="text-primary" *ngIf="!updateLinkToggle" (click)="switchUpdateLinkToggle()"><i class="bi bi-pen" style="cursor: pointer;"></i></span>
                                                     </label>
-                                                    <angular2-multiselect id="taxoLink" name="taxoLink" [data]="taxonomyLinkList" 
-                                                    [settings]="dropdownSettingsTaxonomyLink" [(ngModel)]="selectedTaxonomyLink" 
-                                                    (ngModelChange)="selectTaxonomyLink($event)" (keyup)="onSearchLink($event)" required>
-                                                    </angular2-multiselect>
+                                                    <div class="row mt-2" *ngIf="updateLinkToggle">
+                                                        <div class="col-lg-12">
+                                                            <div class="lookupSearchForm">
+                                                                <label>Old Link <sup class="text-danger">*</sup> </label>
+                                                                <div class="position-relative">
+                                                                    <input type="text" class="form-control" name="oldLink" placeholder="Enter Old Link" [(ngModel)]="oldLink" maxlength="250" required>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-12">
+                                                            <div class="lookupSearchForm">
+                                                                <label>New Link <sup class="text-danger">*</sup> </label>
+                                                                <div class="position-relative">
+                                                                    <input type="text" class="form-control" name="newLink" placeholder="Enter New Link" [(ngModel)]="newLink" maxlength="250" required>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-12">
+                                                            <div class="lookupSearchForm d-flex justify-content-end">
+                                                                <button type="button" class="btn btn-secondary me-2" [disabled]="updatingLoader" (click)="switchUpdateLinkToggle()">Cancel</button>
+                                                                <button type="button" class="btn primaryBtn" [disabled]="updatingLoader || Constant.EMPTY_STRINGS.includes(oldLink.trim()) || Constant.EMPTY_STRINGS.includes(newLink.trim())" (click)="updateLookupLink()">Update <i class="spinner-border spinner-border-sm" *ngIf="updatingLoader"></i></button>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                    </div>
+                                                    <div class="row" *ngIf="!updateLinkToggle">
+                                                        <angular2-multiselect id="taxoLink" name="taxoLink" [data]="taxonomyLinkList" 
+                                                        [settings]="dropdownSettingsTaxonomyLink" [(ngModel)]="selectedTaxonomyLink" 
+                                                        (ngModelChange)="selectTaxonomyLink($event)" (keyup)="onSearchLink($event)" required>
+                                                        </angular2-multiselect>
+                                                    </div>
                                                 </div>
                                                 <small *ngIf="mapLookupTaxonomyForm.submitted && Constant.EMPTY_STRINGS.includes(lookupLink)" style="color: red;">Select Link!</small>
                                             </div>
@@ -347,7 +374,7 @@
                     <div class="modal-footer">
                         <button type="button" class="btn primarycancelbtn" style="border-color: #F05252 !important;" 
                         data-bs-dismiss="modal" #closeTaxomonModalButton (click)="closeTaxonomyModal()">Close</button>
-                        <button type="submit" class="btn primaryBtn" [disabled]="selectedTaxonomyIds.length==0 || mapLookupTaxonomyForm.invalid">Save changes</button>
+                        <button type="submit" class="btn primaryBtn" [disabled]="selectedTaxonomyIds.length==0 || mapLookupTaxonomyForm.invalid || updateLinkToggle">Save changes</button>
                     </div>
                 </form>
             </div>

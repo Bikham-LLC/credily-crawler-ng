@@ -134,4 +134,11 @@ export class LookupTaxonomyService {
     return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.lookup_config_controller + "/test", {params});
   }
 
+  updateLookupLink(oldLink:any, newLink:any) :Observable<any> {
+    const params = new HttpParams()
+    .set('oldLink', oldLink)
+    .set('newLink', newLink)
+    return this.http.patch<any>(this.key.server_url + this.key.api_version_one + this.key.lookup_config_controller + "/taxonomy-link", {}, {params});
+  }
+
 }

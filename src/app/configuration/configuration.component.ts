@@ -883,4 +883,25 @@ export class ConfigurationComponent implements OnInit {
     })
   }
 
+  updateLinkToggle:boolean=false;
+  oldLink:string='';
+  newLink:string='';
+  updatingLoader:boolean=false;
+  switchUpdateLinkToggle(){
+    this.oldLink = this.lookupLink;
+    this.newLink = '';
+    this.updateLinkToggle = !this.updateLinkToggle
+  }
+
+  updateLookupLink(){
+    this.updatingLoader = true;
+    this.lookupTaxonomyService.updateLookupLink(this.oldLink, this.newLink).subscribe(response => {
+      this.getTaxonomyLink('');
+      this.updatingLoader = false;
+      this.updateLinkToggle = false;
+    },error => {
+      this.updatingLoader = false;
+    })
+  }
+
 }
