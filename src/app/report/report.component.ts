@@ -15,11 +15,6 @@ export class ReportComponent implements OnInit {
   readonly Constant = Constant;
   constructor(private lookupTaxonomyService: LookupTaxonomyService,
   private dataService: DataService) { }
-    
-    dropdownSettingsLookupName !: { singleSelection: boolean; text: string; enableSearchFilter: boolean; autoPosition: boolean };
-    selectedLookupName: any[] = new Array();
-    LookupNameList: any[] = new Array();  
-    // LookupNameJson:string[]=['Test pass', 'Test fail'];
    
     dropdownSettingsVersion !: { singleSelection: boolean; text: string; enableSearchFilter: boolean; autoPosition: boolean };
     selectedVersion: any[] = new Array();
@@ -30,11 +25,7 @@ export class ReportComponent implements OnInit {
     selectedStatus: any[] = new Array();
     statusList: any[] = new Array();  
     statusJson:string[]=['Test pass', 'Test fail'];
-    
-    dropdownSettingsLastChecked !: { singleSelection: boolean; text: string; enableSearchFilter: boolean; autoPosition: boolean };
-    selectedLastChecked: any[] = new Array();
-    lastCheckedList: any[] = new Array();  
-
+  
     maxDate:any;
     selected !: { startDate: moment.Moment, endDate: moment.Moment };
     startDate: any = null;
@@ -49,24 +40,13 @@ export class ReportComponent implements OnInit {
       enableSearchFilter: false,
       autoPosition: false
     }
-    this.dropdownSettingsLookupName = {
-      singleSelection: true,
-      text: 'Select Lookup Name',
-      enableSearchFilter: false,
-      autoPosition: false
-    }
     this.dropdownSettingsVersion = {
       singleSelection: true,
       text: 'Select Version',
       enableSearchFilter: false,
       autoPosition: false
     }
-    this.dropdownSettingsLastChecked = {
-      singleSelection: true,
-      text: 'Select Last Checked',
-      enableSearchFilter: false,
-      autoPosition: false
-    }
+
     this.getConfiguration();
     this.getStatus();
     this.getVersion();
@@ -154,6 +134,27 @@ export class ReportComponent implements OnInit {
     }
     this.getConfiguration();
 
+  }
+
+  ids:number[] = new Array();
+  selectIdForTest(id:any){
+    var i = this.ids.findIndex(e=>e==id);
+    if(i > -1){
+      this.ids.splice(i,1);
+    } else {
+      this.ids.push(id);
+    }
+  }
+
+  testConfig(){
+    this.lookupTaxonomyService.idToTestConfig(this.ids).subscribe(response=>{
+    if(response.status){
+      this.ids = [];
+    }
+
+    }, error=>{
+      
+    })
   }
 
 }
