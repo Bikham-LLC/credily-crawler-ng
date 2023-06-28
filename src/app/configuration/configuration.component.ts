@@ -24,11 +24,11 @@ export class ConfigurationComponent implements OnInit {
     private sanitizer: DomSanitizer,
     private lookupTaxonomyService: LookupTaxonomyService,
     private dataService: DataService) {
-    // if(!this.Constant.EMPTY_STRINGS.includes(localStorage.getItem(this.Constant.USER_NAME))){
-    //   this.userName = String(localStorage.getItem(this.Constant.USER_NAME));
-    // }
-
-    this.versionList = [{ id: 'V2', itemName: 'Credily V2' }, { id: 'V3', itemName: 'Credily V3' }];
+      if(this.Constant.EMPTY_STRINGS.includes(localStorage.getItem(this.Constant.TOKEN))){
+        localStorage.clear();
+        this._router.navigate(['/auth/login']);
+      }
+      this.versionList = [{ id: 'V2', itemName: 'Credily V2' }, { id: 'V3', itemName: 'Credily V3' }];
   }
 
   readonly Constant = Constant;
