@@ -10,8 +10,8 @@
   
       <div class="usertablemain">
 
-        <div class="row justify-content-between align-items-center">
-          <div class="col-lg-4 px-2">
+        <div class="row justify-content-between align-items-center m-1">
+          <div class="col-lg-4 px-1">
             <div class="lookupSearchForm">
               <div class="position-relative">
                 <!-- <i class="bi bi-search"></i> -->
@@ -19,7 +19,7 @@
               </div>
             </div>
           </div>
-          <div class="col-lg-4 px-2">
+          <div class="col-lg-4 px-1">
             <div class="lookupSearchForm">
               <div class="position-relative">
                   <angular2-multiselect id="version" name="version" [data]="statusList" [settings]="dropdownSettingsStatus" [(ngModel)]="selectedStatus" (ngModelChange)="selectVersion($event)" required>
@@ -27,7 +27,7 @@
               </div>
             </div>
           </div>
-          <div class="col-lg-4 pl-2 pr-0">
+          <div class="col-lg-4 pl-2 px-1">
             <input type="text" autocomplete="off" class="form-control" name="daterange" placeholder="Select Date Range" ngxDaterangepickerMd  [maxDate]="maxDate" [opens]="'left'" [locale]="{applyLabel: 'Apply', format: 'MM-DD-YYYY'}" [(ngModel)]="selected" (ngModelChange)="selectDateFilter($event)">
           </div>
         </div>

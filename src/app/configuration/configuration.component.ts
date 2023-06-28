@@ -894,13 +894,20 @@ export class ConfigurationComponent implements OnInit {
   }
 
   updateLookupLink(){
+    debugger
     this.updatingLoader = true;
-    this.lookupTaxonomyService.updateLookupLink(this.oldLink, this.newLink).subscribe(response => {
+    this.lookupTaxonomyService.updateLookupLink(this.oldLink, this.newLink).subscribe(response=>{
       this.getTaxonomyLink('');
       this.updatingLoader = false;
       this.updateLinkToggle = false;
-    },error => {
+      this.lookupLink = '';
+      this.selectedTaxonomyLink = [];
+    }, error=>{
+      this.getTaxonomyLink('');
       this.updatingLoader = false;
+      this.updateLinkToggle = false;
+      this.lookupLink = '';
+      this.selectedTaxonomyLink = [];
     })
   }
 
