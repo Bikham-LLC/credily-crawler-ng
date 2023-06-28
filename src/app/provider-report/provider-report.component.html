@@ -11,7 +11,15 @@
       <div class="usertablemain">
 
         <div class="row justify-content-between align-items-center">
-          <div class="col-lg-6 px-2">
+          <div class="col-lg-4 px-2">
+            <div class="lookupSearchForm">
+              <div class="position-relative">
+                <!-- <i class="bi bi-search"></i> -->
+                <input class="form-control" placeholder="Search by Name or NPI or email" [(ngModel)]="databaseHelper.search" (keyup)="getProviderReport()">
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 px-2">
             <div class="lookupSearchForm">
               <div class="position-relative">
                   <angular2-multiselect id="version" name="version" [data]="statusList" [settings]="dropdownSettingsStatus" [(ngModel)]="selectedStatus" (ngModelChange)="selectVersion($event)" required>
@@ -19,7 +27,7 @@
               </div>
             </div>
           </div>
-          <div class="col-lg-6 pl-2 pr-0">
+          <div class="col-lg-4 pl-2 pr-0">
             <input type="text" autocomplete="off" class="form-control" name="daterange" placeholder="Select Date Range" ngxDaterangepickerMd  [maxDate]="maxDate" [opens]="'left'" [locale]="{applyLabel: 'Apply', format: 'MM-DD-YYYY'}" [(ngModel)]="selected" (ngModelChange)="selectDateFilter($event)">
           </div>
         </div>
@@ -37,13 +45,15 @@
             <table class="table">
               <thead>
                 <tr>
-                  <th style="width: 7%">S. No.</th>
-                  <th style="width: 20%">Provider Name</th>
-                  <th style="width: 20%">Provider Uuid</th>
-                  <th style="width: 8%">Version</th>
-                  <th style="width: 15%">Date</th>
-                  <th style="width: 15%">Allocated Queue</th>
-                  <th style="width: 15%">Status</th>
+                  <th style="width: 5%">S. No.</th>
+                  <th style="width: 15%">Provider Name</th>
+                  <th style="width: 15%">NPI</th>
+                  <th style="width: 15%">Email</th>
+                  <th style="width: 10%">Phone</th>
+                  <th style="width: 10%">Version</th>
+                  <th style="width: 10%">Date</th>
+                  <th style="width: 10%">Allocated Queue</th>
+                  <th style="width: 10%">Status</th>
                 </tr>
               </thead>
   
@@ -61,7 +71,17 @@
                   </td>
                   <td>
                     <div class="tableinfo">
-                      <span>{{obj.providerUuid}}</span>
+                      <span>{{obj.npi}}</span>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="tableinfo">
+                      <span>{{obj.email}}</span>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="tableinfo">
+                      <span>{{obj.phone}}</span>
                     </div>
                   </td>
                   <td>
