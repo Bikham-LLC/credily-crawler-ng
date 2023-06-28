@@ -9,4 +9,5 @@ export class LookupConfiguration{
     reportStatus:string='';
     url:any;
     configStatus:string='';
+    toggle:boolean=false;
 }
