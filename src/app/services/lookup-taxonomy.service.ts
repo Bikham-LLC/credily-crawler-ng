@@ -128,4 +128,10 @@ export class LookupTaxonomyService {
     return this.http.patch<any>(this.key.server_url + this.key.api_version_one + this.key.lookup_config_controller + "/update-config-status", {}, {params});
   }
 
+  idToTestConfig(ids:any) :Observable<any> { 
+    const params = new HttpParams()
+    .set('ids', ids)
+    return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.lookup_config_controller + "/test", {params});
+  }
+
 }
