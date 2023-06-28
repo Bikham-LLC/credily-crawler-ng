@@ -1,43 +1,29 @@
 
 <app-header></app-header>
-<div class="container-fluid mt-4">
+<div class="container-fluid mt-3">
     <div class="row px-1">
         <div class="px-2 col-lg-12 col-md-12 col-sm-12">
             <div>
                 <div class="emptyNotif">
                     <div class="dashNav-paneinner table-responsive">
-                        
                         <div class="row justify-content-between align-items-center p-1">
-                            <div class="col-lg-3 mb-3 px-2">
+                            <div class="col-lg-4 mb-3 px-2">
+                                <input type="text" autocomplete="off" class="form-control" name="daterange" placeholder="Select Date Range" ngxDaterangepickerMd  [maxDate]="maxDate" [opens]="'right'" [locale]="{applyLabel: 'Apply', format: 'MM-DD-YYYY'}" [(ngModel)]="selected" (ngModelChange)="selectDateFilter($event)">
+                            </div>
+                            <div class="col-lg-4 mb-3 px-2">
                                 <div class="lookupSearchForm">
-                                <div class="position-relative">
-                                    <angular2-multiselect id="lookupName" name="lookupName" [data]="LookupNameList" [settings]="dropdownSettingsLookupName" [(ngModel)]="selectedLookupName" required>
-                                    </angular2-multiselect>
-                                </div>
+                                    <div class="position-relative">
+                                        <angular2-multiselect id="version" name="version" [data]="versionList" [settings]="dropdownSettingsVersion" [(ngModel)]="selectedVersion" (ngModelChange)="selectVersion($event)" required>
+                                        </angular2-multiselect>
+                                    </div> 
                                 </div>
                             </div>
-                            <div class="col-lg-3 mb-3 px-2">
+                            <div class="col-lg-4 mb-3 px-2">
                                 <div class="lookupSearchForm">
-                                <div class="position-relative">
-                                    <angular2-multiselect id="version" name="version" [data]="versionList" [settings]="dropdownSettingsVersion" [(ngModel)]="selectedVersion" (ngModelChange)="selectVersion($event)" required>
-                                    </angular2-multiselect>
-                                </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-3 mb-3 px-2">
-                                <div class="lookupSearchForm">
-                                <div class="position-relative">
-                                    <angular2-multiselect id="status" name="status" [data]="statusList" [settings]="dropdownSettingsStatus" [(ngModel)]="selectedStatus" (ngModelChange)="selectStatus($event)" required>
-                                    </angular2-multiselect>
-                                </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-3 mb-3 px-2">
-                                <div class="lookupSearchForm">
-                                <div class="position-relative">
-                                    <angular2-multiselect id="lastChecked" name="lastChecked" [data]="lastCheckedList" [settings]="dropdownSettingsLastChecked" [(ngModel)]="selectedLastChecked" required>
-                                    </angular2-multiselect>
-                                </div>
+                                    <div class="position-relative">
+                                        <angular2-multiselect id="status" name="status" [data]="statusList" [settings]="dropdownSettingsStatus" [(ngModel)]="selectedStatus" (ngModelChange)="selectStatus($event)" required>
+                                        </angular2-multiselect>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -56,10 +42,10 @@
                                         <th class="tableDead" style="width: 20%;">
                                             <p class="mb-0">Link</p>
                                         </th>
-                                        <th style="width: 10%;">Version</th>
+                                        <th style="width: 7%;">Version</th>
                                         <th style="width: 10%;">Added By</th>
                                         <th style="width: 10%;">Status</th>
-                                        <th style="width: 10%;">Last Checked</th>
+                                        <th style="width: 13%;">Last Checked</th>
                                         <th style="width: 10%;">Snapshot</th>
                                     </tr>
                                 </thead>
@@ -85,7 +71,7 @@
                                             {{config.reportStatus | titlecase}}</span>
                                         </td>
                                         <td class="tableData text-center">
-                                            <p class="mb-0">{{config.lastTestedOn | date:'MM-dd-yyyy hh:mm:ss' : 'EST'}} (EST) </p>
+                                            <p class="badge-grey mb-0">{{config.lastTestedOn | date:'MM-dd-yyyy' : 'EST'}} </p>
                                         </td>
                                         <td class="tableData text-center">
                                             <a class="text-primary" data-bs-toggle="modal" data-bs-target="#showImageModal" rel="noopener noreferrer" *ngIf="!Constant.EMPTY_STRINGS.includes(config.url)">
