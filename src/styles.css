@@ -15,6 +15,10 @@ body {
   font-family: "Poppins", sans-serif;
   font-weight: 400;
 }
+
+.pointer{
+  cursor: pointer !important;
+}
 a {
   text-decoration: none;
 }

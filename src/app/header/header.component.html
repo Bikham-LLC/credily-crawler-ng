@@ -46,12 +46,23 @@
                         Dashboard
                     </a>
                     <a routerLink="/configuration" class="btn navigationitem " routerLinkActive="navActive">
-                        <!-- (click)="this.addStepToggle = false; -->
                         Configuration
                     </a>
-                    <a routerLink="/report" class="btn navigationitem" routerLinkActive="navActive">
-                        Report
-                    </a>
+                    <div class="dropdown">
+                        <button class="btn navigationitem dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Report
+                            <i class="fa-solid fa-chevron-down"></i>
+                        </button>
+                        
+                        <ul class="navigationitemmenu dropdown-menu">
+                            <li>
+                                <a class="navigationmenuitem pointer" routerLinkActive="navActive" routerLink="/provider-report">Provider Report</a>
+                            </li>
+                            <li>
+                                <a class="navigationmenuitem pointer" routerLinkActive="navActive" routerLink="/report">Config Report</a>
+                            </li>
+                        </ul>
+                    </div>
             </div>
         </div>
     </header>

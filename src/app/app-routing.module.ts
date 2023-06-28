@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './auth/components/login/login.component';
 import { ConfigurationComponent } from './configuration/configuration.component';
 import { AccountUserComponent } from './account-user/account-user.component';
+import { ProviderReportComponent } from './provider-report/provider-report.component';
 import { ReportComponent } from './report/report.component';
 
 const routes: Routes = [
@@ -10,6 +11,7 @@ const routes: Routes = [
   { path: 'configuration', component: ConfigurationComponent },
   { path: 'account-user', component: AccountUserComponent },
   { path: 'report', component: ReportComponent },
+  { path: 'provider-report', component: ProviderReportComponent},
   { path: 'auth', loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule) }];
 
 @NgModule({
