@@ -144,6 +144,7 @@ export class ConfigurationComponent implements OnInit {
     this.lookupTaxonomyList = [];
     this.selectedTaxonomyLink = [];
     this.selectedVersion = [];
+    this.credilyVersion = '';
     this.databaseHelper = new DatabaseHelper();
     this.lookupLink = '';
     this.lookupName = '';
