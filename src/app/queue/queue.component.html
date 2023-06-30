@@ -12,7 +12,7 @@
                 </div>
                 <div class="col-lg-12 pl-2 pr-0">
                     <div class="d-flex justify-content-end align-items-center">
-                        <button type="button" class="btn primarybtn pdependent" style="margin-right: 16px;" (click)="createQueue()">
+                        <button type="button" class="btn primarybtn pdependent" style="margin-right: 16px;" (click)="openCreateQueueModel()">
                             Create Queue
                         </button> 
                     </div>
@@ -47,7 +47,7 @@
                             </td>
                             <td>
                                 <div class="tableinfo">
-                                    <span>{{queue.instanceUrl}}</span>
+                                    <span>{{queue.instanceUrl?queue.instanceUrl:'Url not generated.'}}</span>
                                 </div>
                             </td>
                             <td>
@@ -61,8 +61,8 @@
                                 </div>
                             </td>
                             <td class="tableData">
-                                <span class="tbleditBtn"><i class="bi bi-pen" style="cursor: pointer;" (click)="openEditmodel()"></i></span>
-                                <span class="tbldeleteBtn"><i class="bi bi-trash ms-2" style="cursor: pointer;" (click)="deleteQueue()"></i></span>
+                                <span class="tbleditBtn"><i class="bi bi-pen" style="cursor: pointer;" (click)="openEditmodel(queue)"></i></span>
+                                <span class="tbldeleteBtn"><i class="bi bi-trash ms-2" style="cursor: pointer;" (click)="openDeleteModel(queue.id)"></i></span>
                             </td>
                             </tr>
                         </tbody>
@@ -113,7 +113,7 @@
             </h1>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form #leaderDetailForm="ngForm" ngNativeValidate>
+            <form #leaderDetailForm="ngForm" ngNativeValidate (ngSubmit)="createQueue()">
                 <div class="modal-body pt-0">
                     <div class="rolemodalbody">
                         <div class="rolemodalinner">
@@ -122,7 +122,7 @@
                                         <div class="mdlform form-group position-relative mb-3">
                                                 <label>Queue Name<sup>*</sup></label>
                                                 <div class="position-relative">
-                                                    <input type="text" placeholder="Enter queue name" class="form-control" name="fname" minlength="3" maxlength="55" required/>
+                                                    <input type="text" placeholder="Enter queue name" class="form-control" name="fname" minlength="3" maxlength="55" [disabled]="nameToggle" [(ngModel)]="queueName" required/>
                                                 </div>
                                         </div>
                                 </div>
@@ -130,7 +130,8 @@
                                     <div class="mdlform form-group position-relative mb-3">
                                     <label>Max Request<sup>*</sup></label>
                                     <div class="position-relative">
-                                        <input type="text" placeholder="Enter request" class="form-control" name="request" minlength="3" maxlength="55" required/>
+                                        <input type="text" placeholder="Enter request" class="form-control" name="request" minlength="1" maxlength="2" [(ngModel)]="maxRequest" required
+                                        oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" required/>
                                     </div>
                                     </div>
                                 </div>
@@ -139,10 +140,10 @@
                     </div>
                 </div>
                 <div class="modal-footer border-top-0 pt-0">
-                    <button type="button" class="btn primarycancelbtn" #closeLeaderModel data-bs-dismiss="modal" style="border-color: #F05252 !important;">Cancel</button>
-                    <button type="submit" class="btn primarybtn">
-                        <span>Create </span>
-                        <!-- <i class="spinner-border spinner-border-sm" role="status"></i> -->
+                    <button type="button" class="btn primarycancelbtn" #closeQueueModel data-bs-dismiss="modal" style="border-color: #F05252 !important;">Cancel</button>
+                    <button type="submit" class="btn primarybtn" [disabled]="creatingQueueSpinner" >
+                        <span>Create <i class="spinner-border spinner-border-sm" role="status" *ngIf="creatingQueueSpinner"></i></span>
+                        
                     </button>
                 </div>
             </form>
@@ -164,7 +165,7 @@
                 </small>
             </div>
             <div class="modal-footer justify-content-center">
-                <button type="button" data-bs-dismiss="modal" class="btn btnmarkdelete">
+                <button type="button" data-bs-dismiss="modal" class="btn btnmarkdelete" (click)="deleteQueue()">
                     Yes Delete It
                 </button>
                 <button type="button" class="btn btnmarkcancel" id="deleteModalCloseButton" #deleteModalCloseButton data-bs-dismiss="modal">

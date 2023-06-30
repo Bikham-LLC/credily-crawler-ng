@@ -25,6 +25,7 @@ export class QueueComponent implements OnInit {
   totalQueue:number = 0;
   loadingQueue:boolean = false;
   getAllQueue(){
+    debugger
     this.loadingQueue = true;
     this.queueService.getQueue(this.databaseHelper).subscribe(response=>{
       this.queueInstanceList = response.dtoList;
@@ -41,16 +42,71 @@ export class QueueComponent implements OnInit {
   }
 
   @ViewChild('createQueuemodalButton') createQueuemodalButton!: ElementRef;
-  createQueue(){
+  @ViewChild('closeQueueModel') closeQueueModel!: ElementRef;
+  queueinstance: QueueInstance = new QueueInstance();
+  creatingQueueSpinner:boolean = false;
+  
+  openCreateQueueModel(){
+    this.queueName = '';
+    this.nameToggle = false;
+    this.maxRequest = null;
     this.createQueuemodalButton.nativeElement.click();
   }
 
-  openEditmodel(){
+  queueName:any;
+  maxRequest:any;
+  nameToggle:boolean = true;
+  openEditmodel(queue:QueueInstance){
+    debugger
+    this.queueId = queue.id;
+    this.queueName = queue.queueName;
+    this.nameToggle = true;
+    this.maxRequest = queue.maxRequest;
     this.createQueuemodalButton.nativeElement.click();
+  }
+
+  createQueue(){
+    debugger
+    this.creatingQueueSpinner = true;
+    this.queueService.createQueue(this.queueName, this.maxRequest).subscribe(response=>{
+      this.creatingQueueSpinner = false;
+    },error=>{
+      this.creatingQueueSpinner = false;
+    })
+    setTimeout(() => {
+      this.closeQueueModel.nativeElement.click();
+    }, 500)
+
+    if(this.queueId > 0){
+      this.creatingQueueSpinner = true;
+        this.queueService.updateQueue(this.queueId, this.queueName, this.maxRequest).subscribe(response=>{
+          this.creatingQueueSpinner = false;
+        },error=>{
+          this.creatingQueueSpinner = false;
+        })
+        setTimeout(() => {
+          this.closeQueueModel.nativeElement.click();
+        }, 500)
+    }
+
+    this.getAllQueue();
+    
   }
 
   @ViewChild('deleteModalButton') deleteModalButton! :ElementRef;
-  deleteQueue(){
+  queueId:any
+  openDeleteModel(id:any){
+    this.queueId = id;
     this.deleteModalButton.nativeElement.click();
   }
+
+  deletingToggle:boolean= false;
+  deleteQueue(){
+    debugger
+    // console.log(this.queueId);
+    this.queueService.deleteQueue(this.queueId).subscribe(response=>{
+      this.getAllQueue();
+    })
+  }
+
 }
