@@ -144,6 +144,7 @@ export class ConfigurationComponent implements OnInit {
     this.selectedTaxonomyIds = [];
     this.lookupTaxonomyList = [];
     this.selectedTaxonomyLink = [];
+    this.updateLinkToggle = false;
     this.selectedVersion = [];
     this.credilyVersion = '';
     this.databaseHelper = new DatabaseHelper();
@@ -763,6 +764,7 @@ export class ConfigurationComponent implements OnInit {
     this.selectedLookupConfigId = config.id;
     this.lookupName = config.lookupName;
     this.lookupLink = config.lookupLink;
+    this.updateLinkToggle = false;
     this.selectedTaxonomyLink = [];
     this.selectedVersion = [];
     if (config.version == 'V2') {
@@ -899,6 +901,7 @@ export class ConfigurationComponent implements OnInit {
     this.updatingLoader = true;
     this.lookupTaxonomyService.updateLookupLink(this.oldLink, this.newLink).subscribe(response=>{
       this.getTaxonomyLink('');
+      this.getConfiguration();
       this.updatingLoader = false;
       this.updateLinkToggle = false;
       this.lookupLink = '';
