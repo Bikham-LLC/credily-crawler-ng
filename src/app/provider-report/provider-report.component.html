@@ -41,7 +41,7 @@
         <app-circular-loader *ngIf="fetchingReport"></app-circular-loader>
 
         <div class="usertable mt-3">
-          <div class="usertableinner table-responsive" *ngIf="!fetchingReport && providerReports.length>0">
+          <div class="usertableinner table-responsive" style="min-height: 500px;" *ngIf="!fetchingReport && providerReports.length>0">
             <table class="table">
               <thead>
                 <tr>
