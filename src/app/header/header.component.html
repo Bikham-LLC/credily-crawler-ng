@@ -42,27 +42,30 @@
         </div>
         <div class="navigation-bar">
             <div class="navigationitemsmain">
-                    <a href="#" class="btn navigationitem" routerLinkActive="navActive">
-                        Dashboard
-                    </a>
-                    <a routerLink="/configuration" class="btn navigationitem " routerLinkActive="navActive">
-                        Configuration
-                    </a>
-                    <div class="dropdown">
-                        <button class="btn navigationitem dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Report
-                            <i class="fa-solid fa-chevron-down"></i>
-                        </button>
-                        
-                        <ul class="navigationitemmenu dropdown-menu">
-                            <li>
-                                <a class="navigationmenuitem pointer" routerLinkActive="navActive" routerLink="/provider-report">Provider Report</a>
-                            </li>
-                            <li>
-                                <a class="navigationmenuitem pointer" routerLinkActive="navActive" routerLink="/report">Config Report</a>
-                            </li>
-                        </ul>
-                    </div>
+                <a href="#" class="btn navigationitem" routerLinkActive="navActive">
+                    Dashboard
+                </a>
+                <a routerLink="/configuration" class="btn navigationitem " routerLinkActive="navActive">
+                    Configuration
+                </a>
+                <a routerLink="/queue" class="btn navigationitem " routerLinkActive="navActive">
+                    Queue
+                </a>
+                <div class="dropdown">
+                    <button class="btn navigationitem dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Report
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </button>
+                    
+                    <ul class="navigationitemmenu dropdown-menu">
+                        <li>
+                            <a class="navigationmenuitem pointer" routerLinkActive="navActive" routerLink="/provider-report">Provider Report</a>
+                        </li>
+                        <li>
+                            <a class="navigationmenuitem pointer" routerLinkActive="navActive" routerLink="/report">Config Report</a>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
     </header>

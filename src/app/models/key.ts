@@ -13,6 +13,7 @@ export class Keys{
     lookup_crawler_attribute = '/license-lookup-configuration/attribute'
     crewler_controller = '/web-crawler'
     provider_crawler_controller = '/provider-crawler'
+    queue = '/aws';
     
     
 }

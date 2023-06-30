@@ -18,6 +18,7 @@ import { ReportComponent } from './report/report.component';
 import { ProviderReportComponent } from './provider-report/provider-report.component';
 import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
 import { TokenInterceptorService } from './services/token-interceptor.service';
+import { QueueComponent } from './queue/queue.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { TokenInterceptorService } from './services/token-interceptor.service';
     AccountUserComponent,
     HeaderComponent,
     ReportComponent,
-    ProviderReportComponent
+    ProviderReportComponent,
+    QueueComponent
   ],
   imports: [
     BrowserModule,

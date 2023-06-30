@@ -5,6 +5,7 @@ import { ConfigurationComponent } from './configuration/configuration.component'
 import { AccountUserComponent } from './account-user/account-user.component';
 import { ProviderReportComponent } from './provider-report/provider-report.component';
 import { ReportComponent } from './report/report.component';
+import { QueueComponent } from './queue/queue.component';
 
 const routes: Routes = [
   { path: '', component: LoginComponent, pathMatch: 'full' },
@@ -12,6 +13,7 @@ const routes: Routes = [
   { path: 'account-user', component: AccountUserComponent },
   { path: 'report', component: ReportComponent },
   { path: 'provider-report', component: ProviderReportComponent},
+  { path: 'queue', component: QueueComponent},
   { path: 'auth', loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule) }];
 
 @NgModule({

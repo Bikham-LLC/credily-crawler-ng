@@ -119,6 +119,7 @@ export class ConfigurationComponent implements OnInit {
   totalConfiguration: number = 0;
   configDatabaseHelper: DatabaseHelper = new DatabaseHelper();
   getConfiguration() {
+    debugger
     this.loadingConfiguration = true;
     this.lookupTaxonomyService.getConfiguration(this.configDatabaseHelper, '', '', '', '').subscribe(response => {
       if (response.status && response.object != null) {
