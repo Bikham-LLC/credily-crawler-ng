@@ -5,5 +5,6 @@ export class QueueInstance{
     instanceUrl:string='';
     instanceId:string='';
     cretedDate:any;
+    status:string='';
     maxRequest:number = 0;
 }

@@ -28,6 +28,7 @@
                             <th style="width: 10%">Queue Name</th>
                             <th style="width: 30%">Instance url</th>
                             <th style="width: 10%">Max Request</th>
+                            <th style="width: 10%">Status</th>
                             <th style="width: 15%">created Date</th>
                             <th style="width: 10%">Action</th>
                             </tr>
@@ -57,12 +58,19 @@
                             </td>
                             <td>
                                 <div class="tableinfo">
+                                    <span [ngClass]="{'statusactive': queue.status == 'Running', 'statusinactive': queue.status == 'Initializing'}">
+                                    {{queue.status | titlecase}}</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="tableinfo">
                                     <span class="badge-grey">{{queue.cretedDate | date: "mm-dd-yyyy" : 'EST'}}</span>
                                 </div>
                             </td>
                             <td class="tableData">
                                 <span class="tbleditBtn"><i class="bi bi-pen" style="cursor: pointer;" (click)="openEditmodel(queue)"></i></span>
-                                <span class="tbldeleteBtn"><i class="bi bi-trash ms-2" style="cursor: pointer;" (click)="openDeleteModel(queue.id)"></i></span>
+                                <span class="tbldeleteBtn"><i *ngIf="queue.id != 1" class="bi bi-trash ms-2" style="cursor: pointer;"  (click)="openDeleteModel(queue.id)"></i></span>
+                                <i *ngIf="queue.id == 1" class="bi bi-trash"></i>
                             </td>
                             </tr>
                         </tbody>
