@@ -905,9 +905,6 @@ export class ConfigurationComponent implements OnInit {
     }, error=>{
       this.getTaxonomyLink('');
       this.updatingLoader = false;
-      this.updateLinkToggle = false;
-      this.lookupLink = '';
-      this.selectedTaxonomyLink = [];
     })
   }
 
