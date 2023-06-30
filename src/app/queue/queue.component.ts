@@ -108,7 +108,6 @@ export class QueueComponent implements OnInit {
   deletingToggle:boolean= false;
   deleteQueue(){
     debugger
-    // console.log(this.queueId);
     this.queueService.deleteQueue(this.queueId).subscribe(response=>{
       this.getAllQueue();
     })
