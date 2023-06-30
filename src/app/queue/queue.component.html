@@ -70,7 +70,7 @@
                             <td class="tableData">
                                 <span class="tbleditBtn"><i class="bi bi-pen" style="cursor: pointer;" (click)="openEditmodel(queue)"></i></span>
                                 <span class="tbldeleteBtn"><i *ngIf="queue.id != 1" class="bi bi-trash ms-2" style="cursor: pointer;"  (click)="openDeleteModel(queue.id)"></i></span>
-                                <i *ngIf="queue.id == 1" class="bi bi-trash"></i>
+                                <i *ngIf="queue.id == 1" class="bi bi-lock-fill"></i>
                             </td>
                             </tr>
                         </tbody>
