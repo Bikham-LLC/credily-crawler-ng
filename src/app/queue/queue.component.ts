@@ -12,8 +12,7 @@ import { QueueInstance } from '../models/QueueInstance';
 })
 export class QueueComponent implements OnInit {
 
-  constructor(private dataService : DataService,
-    private queueService : QueueService) { }
+  constructor(private queueService : QueueService) { }
 
   ngOnInit(): void {
     this.getAllQueue();
@@ -69,6 +68,9 @@ export class QueueComponent implements OnInit {
     debugger
     this.creatingQueueSpinner = true;
     this.queueService.createQueue(this.queueName, this.maxRequest).subscribe(response=>{
+      if(response.status){
+        this.getAllQueue();
+      }
       this.creatingQueueSpinner = false;
     },error=>{
       this.creatingQueueSpinner = false;
@@ -79,17 +81,20 @@ export class QueueComponent implements OnInit {
 
     if(this.queueId > 0){
       this.creatingQueueSpinner = true;
-        this.queueService.updateQueue(this.queueId, this.queueName, this.maxRequest).subscribe(response=>{
-          this.creatingQueueSpinner = false;
-        },error=>{
-          this.creatingQueueSpinner = false;
-        })
-        setTimeout(() => {
-          this.closeQueueModel.nativeElement.click();
-        }, 500)
+      this.queueService.updateQueue(this.queueId, this.queueName, this.maxRequest).subscribe(response=>{
+        if(response.status){
+          this.getAllQueue();
+        }
+        this.creatingQueueSpinner = false;
+      },error=>{
+        this.creatingQueueSpinner = false;
+      })
+      setTimeout(() => {
+        this.closeQueueModel.nativeElement.click();
+      }, 500)
+     
     }
-
-    this.getAllQueue();
+    
     
   }
 
