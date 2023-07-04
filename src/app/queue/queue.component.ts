@@ -4,6 +4,7 @@ import { DataService } from '../services/data.service';
 import { QueueService } from '../services/queue.service';
 import { DatabaseHelper } from '../models/DatabaseHelper';
 import { QueueInstance } from '../models/QueueInstance';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-queue',
@@ -12,7 +13,7 @@ import { QueueInstance } from '../models/QueueInstance';
 })
 export class QueueComponent implements OnInit {
 
-  constructor(private queueService : QueueService) { }
+  constructor(private queueService : QueueService) {}
 
   ngOnInit(): void {
     this.getAllQueue();

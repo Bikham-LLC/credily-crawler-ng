@@ -4,6 +4,7 @@ import { DatabaseHelper } from '../models/DatabaseHelper';
 import { LookupTaxonomyService } from '../services/lookup-taxonomy.service';
 import { DataService } from '../services/data.service';
 import { Constant } from '../models/Constant';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-report',
@@ -14,7 +15,7 @@ export class ReportComponent implements OnInit {
 
   readonly Constant = Constant;
   constructor(private lookupTaxonomyService: LookupTaxonomyService,
-  private dataService: DataService) { }
+    private dataService: DataService) { }
    
     dropdownSettingsVersion !: { singleSelection: boolean; text: string; enableSearchFilter: boolean; autoPosition: boolean };
     selectedVersion: any[] = new Array();
