@@ -81,7 +81,8 @@
                                             {{config.reportStatus | titlecase}}</span>
                                         </td>
                                         <td class="tableData text-center">
-                                            <p class="badge-grey mb-0">{{config.lastTestedOn | date:'MM-dd-yyyy' : 'EST'}} </p>
+                                            <p class="badge-grey mb-0" *ngIf="!Constant.EMPTY_STRINGS.includes(config.lastTestedOn)">{{config.lastTestedOn | date:'MM-dd-yyyy' : 'EST'}} </p>
+                                            <p class="mb-0" *ngIf="Constant.EMPTY_STRINGS.includes(config.lastTestedOn)"> N/A </p>
                                         </td>
                                         <td class="tableData text-center">
                                             <a class="text-primary" data-bs-toggle="modal" data-bs-target="#showImageModal" rel="noopener noreferrer" *ngIf="!Constant.EMPTY_STRINGS.includes(config.url)">

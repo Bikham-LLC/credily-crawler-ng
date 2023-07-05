@@ -762,6 +762,7 @@ export class ConfigurationComponent implements OnInit {
     this.lookupName = config.lookupName;
     this.lookupLink = config.lookupLink;
     this.updateLinkToggle = false;
+    this.showTaxonomyListToggle = false;
     this.selectedTaxonomyLink = [];
     this.selectedVersion = [];
     if (config.version == 'V2') {
