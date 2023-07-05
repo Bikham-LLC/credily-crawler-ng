@@ -161,7 +161,6 @@ export class ConfigurationComponent implements OnInit {
     debugger
     this.lookupLink = '';
     this.selectedTaxonomyIds = [];
-    this.loadingLookupTaxonomy = true;
     if (event[0] != undefined) {
       var temp: { id: any, itemName: any } = { id: event[0].id, itemName: event[0].id };
       // this.selectedTaxonomyLink = event;
@@ -212,6 +211,7 @@ export class ConfigurationComponent implements OnInit {
   getTaxonomyByLookupLink(lookupLink: string) {
     debugger
     this.selectedTaxonomyIds = [];
+    this.loadingLookupTaxonomy = true;
     this.lookupTaxonomyService.getLinkTaxonomyIds(lookupLink).subscribe(resp => {
       if (resp.status && resp.object != null) {
         this.selectedTaxonomyIds = resp.object;
