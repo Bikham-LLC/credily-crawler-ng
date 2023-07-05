@@ -161,6 +161,7 @@ export class ConfigurationComponent implements OnInit {
     debugger
     this.lookupLink = '';
     this.selectedTaxonomyIds = [];
+    this.loadingLookupTaxonomy = true;
     if (event[0] != undefined) {
       var temp: { id: any, itemName: any } = { id: event[0].id, itemName: event[0].id };
       // this.selectedTaxonomyLink = event;
@@ -840,9 +841,11 @@ export class ConfigurationComponent implements OnInit {
   ids: number[] = new Array;
   type: string = 'mapped';
   getMappedTaxonomy(type: string) {
+    debugger
     this.type = type;
     if (type == 'mapped' && this.selectedTaxonomyIds.length == 0) {
       this.lookupTaxonomyList = [];
+      this.loadingLookupTaxonomy = false;
       return;
     }
     this.loadingLookupTaxonomy = true;
