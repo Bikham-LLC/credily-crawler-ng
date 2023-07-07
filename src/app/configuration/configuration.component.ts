@@ -503,7 +503,6 @@ export class ConfigurationComponent implements OnInit {
     this.lookupTaxonomyService.testConfiguration(this.licenseLookupConfigRequest, this.providerUuid).subscribe(response => {
       this.testingConfiguration = false;
       if (response.object != null) {
-        // this.iframeUrl = response.object;
         window.open(response.object, "_blank");
       }
       setTimeout(() => {
