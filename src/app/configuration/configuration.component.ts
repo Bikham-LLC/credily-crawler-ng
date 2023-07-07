@@ -11,6 +11,8 @@ import { FormStructure } from '../models/formStructure';
 import { CdkDragDrop, CdkDropList, CdkDrag, moveItemInArray } from '@angular/cdk/drag-drop';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { LookupConfiguration } from '../models/LookupConfiguration';
+import { Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 @Component({
   selector: 'app-configuration',
@@ -18,13 +20,22 @@ import { LookupConfiguration } from '../models/LookupConfiguration';
   styleUrls: ['./configuration.component.css']
 })
 export class ConfigurationComponent implements OnInit {
-
+  
+  configSearch = new Subject<string>();
   constructor(
     private _router: Router,
     private sanitizer: DomSanitizer,
     private lookupTaxonomyService: LookupTaxonomyService,
     private dataService: DataService) {
       this.versionList = [{ id: 'V2', itemName: 'Credily V2' }, { id: 'V3', itemName: 'Credily V3' }];
+
+      this.configSearch.pipe(
+        debounceTime(600),
+        distinctUntilChanged())
+        .subscribe(value => {
+          this.configDatabaseHelper.currentPage = 1;
+          this.getConfiguration();
+        });
   }
 
   readonly Constant = Constant;
@@ -117,7 +128,7 @@ export class ConfigurationComponent implements OnInit {
   getConfiguration() {
     debugger
     this.loadingConfiguration = true;
-    this.lookupTaxonomyService.getConfiguration(this.configDatabaseHelper, '', '', '', '').subscribe(response => {
+    this.lookupTaxonomyService.getConfiguration(this.configDatabaseHelper, this.startDate, this.endDate, this.credilyVersion, '').subscribe(response => {
       if (response.status && response.object != null) {
         this.configList = response.object;
         this.totalConfiguration = response.totalItems;
@@ -180,6 +191,15 @@ export class ConfigurationComponent implements OnInit {
       this.selectedVersion = event;
       this.credilyVersion = event[0].id;
     }
+  }
+  searchSelectVersion(event:any){
+    debugger
+    this.credilyVersion = '';
+    if (event[0] != undefined) {
+      this.selectedVersion = event;
+      this.credilyVersion = event[0].id;
+    }
+    this.getConfiguration();
   }
 
   getTaxonomyLink(search: string) {
@@ -909,6 +929,20 @@ export class ConfigurationComponent implements OnInit {
       this.getTaxonomyLink('');
       this.updatingLoader = false;
     })
+  }
+
+  maxDate:any;
+    selected !: { startDate: moment.Moment, endDate: moment.Moment };
+    startDate: any = null;
+    endDate: any = null;  
+  selectDateFilter(event: any) {
+    debugger
+    if (this.selected != undefined && this.selected != null && this.selected.startDate != undefined && this.selected.endDate != undefined && this.selected != null) {
+      this.startDate = new Date(this.selected.startDate.toDate()).toDateString();
+      this.endDate = new Date(this.selected.endDate.toDate()).toDateString();
+    }
+    this.getConfiguration();
+
   }
 
 }
