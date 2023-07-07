@@ -104,7 +104,7 @@ export class ConfigurationComponent implements OnInit {
       searchPlaceholderText: 'Search By Lookup Name'
     }
 
-    this.getConfiguration();
+    // this.getConfiguration();
   }
 
   drop(event: CdkDragDrop<any[]>) {
@@ -827,6 +827,7 @@ export class ConfigurationComponent implements OnInit {
   confirmDeleteConfiguration() {
     debugger
     this.configList.splice(this.deletedIndex, 1);
+    this.totalConfiguration = this.totalConfiguration-1;
     this.deletingConfguration = true;
     this.lookupTaxonomyService.deleteConfiguration(this.deletedId).subscribe(response => {
       this.deletingConfguration = false;
@@ -941,7 +942,7 @@ export class ConfigurationComponent implements OnInit {
       this.startDate = new Date(this.selected.startDate.toDate()).toDateString();
       this.endDate = new Date(this.selected.endDate.toDate()).toDateString();
     }
-    // this.getConfiguration();
+    this.getConfiguration();
 
   }
 
