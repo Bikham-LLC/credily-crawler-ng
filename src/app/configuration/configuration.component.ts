@@ -941,7 +941,7 @@ export class ConfigurationComponent implements OnInit {
       this.startDate = new Date(this.selected.startDate.toDate()).toDateString();
       this.endDate = new Date(this.selected.endDate.toDate()).toDateString();
     }
-    this.getConfiguration();
+    // this.getConfiguration();
 
   }
 
