@@ -8,6 +8,7 @@ export class LookupConfiguration{
     lastTestedOn:any;
     reportStatus:string='';
     url:any;
+    createdDate:any;
     configStatus:string='';
     toggle:boolean=false;
 }

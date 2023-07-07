@@ -693,3 +693,19 @@ span.removeSteps {
   font-size: 14px;
   color: #636363;
 }
+.line-clamp {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;  
+  overflow: hidden;
+}
+.badge-grey {
+  background: #f3f4f6;
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 20px;
+  text-align: center;
+  color: #111928;
+}
