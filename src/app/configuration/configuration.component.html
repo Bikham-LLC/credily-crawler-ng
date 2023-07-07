@@ -45,7 +45,7 @@
                                     <tbody>
                                         <tr *ngFor="let config of configList; let i = index">
                                             <td class="tableData">
-                                                <p class="mb-0 text-center">{{ configDatabaseHelper.currentPage * (i+1)}}</p>
+                                                <p class="mb-0 text-center">{{ (configDatabaseHelper.currentPage -1) * 10 + (i+1) }}</p>
                                             </td>
                                             <td class="tableData">
                                                 <p class="mb-0">{{config.lookupName}}</p>
