@@ -826,10 +826,11 @@ export class ConfigurationComponent implements OnInit {
   deletingConfguration: boolean = false;
   confirmDeleteConfiguration() {
     debugger
-    this.configList.splice(this.deletedIndex, 1);
-    this.totalConfiguration = this.totalConfiguration-1;
+    // this.configList.splice(this.deletedIndex, 1);
+    // this.totalConfiguration = this.totalConfiguration-1;
     this.deletingConfguration = true;
     this.lookupTaxonomyService.deleteConfiguration(this.deletedId).subscribe(response => {
+      this.getConfiguration();
       this.deletingConfguration = false;
     }, error => {
       this.deletingConfguration = false;

@@ -9,9 +9,6 @@
                 <div class="emptyNotif" *ngIf="!addStepToggle">
                         <div class="d-flex mb-3">
                             <div class="col-lg-3 px-2">
-                                <input type="text" autocomplete="off" class="form-control" name="daterange" placeholder="Select Date Range" ngxDaterangepickerMd [maxDate]="maxDate" [opens]="'right'" [locale]="{applyLabel: 'Apply', format: 'MM-DD-YYYY'}" [(ngModel)]="selected" (ngModelChange)="selectDateFilter($event)">
-                            </div>
-                            <div class="col-lg-3 px-2">
                                 <div class="position-relative">
                                     <input class="form-control" placeholder="Search by lookup name" [(ngModel)]="configDatabaseHelper.search" (ngModelChange)="this.configSearch.next($event)">
                                   </div>
@@ -21,6 +18,9 @@
                                         <angular2-multiselect id="version" name="version" [data]="versionList" [settings]="dropdownSettingsVersion" [(ngModel)]="selectedVersion" (ngModelChange)="searchSelectVersion($event)" required>
                                         </angular2-multiselect>
                                 </div>
+                            </div>
+                            <div class="col-lg-3 px-2">
+                                <input type="text" autocomplete="off" class="form-control" name="daterange" placeholder="Select Date Range" ngxDaterangepickerMd [maxDate]="maxDate" [opens]="'right'" [locale]="{applyLabel: 'Apply', format: 'MM-DD-YYYY'}" [(ngModel)]="selected" (ngModelChange)="selectDateFilter($event)">
                             </div>
                             <div class="col-lg-3 px-2 d-flex justify-content-end">
                                 <button class="btn primarybtn" (click)="openLookupModal()">Create Configuration</button>
