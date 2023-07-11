@@ -427,7 +427,7 @@
                                                 <small *ngIf="addStepForm.submitted && addStepFormInvalid && cofigStepRequest.crawlerAttributeId<=0" style="color: red;">Select Crawler Attribute!</small>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6" *ngIf="!Constant.LOOKUP_HIDE.includes(cofigStepRequest.crawlerAttributeId)">
+                                        <div class="col-lg-6" *ngIf="!Constant.LOOKUP_HIDE.includes(cofigStepRequest.crawlerAttributeId) && cofigStepRequest.crawlerAttributeId != 19">
                                             <div class="lookupSearchForm">
                                                 <div class="position-relative">
                                                     <label class="m-1">Lookup Element</label>
@@ -438,9 +438,9 @@
 
                                         <div class="col-lg-6" *ngIf="!Constant.EVENT_HIDE.includes(cofigStepRequest.crawlerAttributeId)">
                                             <div class="lookupSearchForm">
-                                                <div class="position-relative">
+                                                <div class="position-relative" *ngIf="cofigStepRequest.crawlerAttributeId != 19">
                                                     <label class="m-1" *ngIf="cofigStepRequest.crawlerAttributeId == 6 ">Delay Time</label>
-                                                    <label class="m-1" *ngIf="cofigStepRequest.crawlerAttributeId != 6">Element Event</label>
+                                                    <label class="m-1" *ngIf="cofigStepRequest.crawlerAttributeId != 6 ">Element Event</label>
                                                     <angular2-multiselect id="className" name="className" [data]="EventList" [settings]="dropdownSettingsEvent" [(ngModel)]="selectedEvent" (ngModelChange)="selectCrawlerEvent($event)" required>
                                                     </angular2-multiselect>
                                                 </div>
