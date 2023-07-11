@@ -3,9 +3,9 @@
 export class Constant{
 
     static EMPTY_STRINGS = [null, undefined, "", "N/A", "n/a", " ", "null"];
-	static LOOKUP_HIDE = [5,6,8,10];
-	static EVENT_HIDE = [7,8,10];
-	static ENTITY_HIDE = [4,6];
+	static LOOKUP_HIDE = [5,6,8,10,19];
+	static EVENT_HIDE = [7,8,10,19];
+	static ENTITY_HIDE = [4,6,19];
 
     /**
 	 * Authentication constants
