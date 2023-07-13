@@ -487,7 +487,9 @@ export class ConfigurationComponent implements OnInit {
       this.addStepFormInvalid = true;
       return;
     }
-    this.cofigStepRequest.lookUpElementDesc = "//"+this.customTag+"[@"+this.customAttribute+"='"+this.customValue+"']";
+    if(this.cofigStepRequest.crawlerAttribute == 'customAttribute'){
+      this.cofigStepRequest.lookUpElementDesc = "//"+this.customTag+"[@"+this.customAttribute+"='"+this.customValue+"']";
+    }
     console.log(this.cofigStepRequest.lookUpElementDesc);
     this.configurationStepList.push(this.cofigStepRequest);
     this.closeAddStepModal.nativeElement.click();
