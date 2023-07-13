@@ -476,6 +476,10 @@ export class ConfigurationComponent implements OnInit {
     }
   }
 
+  customTag:string='';
+  customAttribute:string='';
+  customValue:string='';
+
   addConfigurationStep() {
     debugger
     this.addStepFormInvalid = false;
@@ -483,6 +487,8 @@ export class ConfigurationComponent implements OnInit {
       this.addStepFormInvalid = true;
       return;
     }
+    this.cofigStepRequest.lookUpElementDesc = "//"+this.customTag+"[@"+this.customAttribute+"='"+this.customValue+"']";
+    console.log(this.cofigStepRequest.lookUpElementDesc);
     this.configurationStepList.push(this.cofigStepRequest);
     this.closeAddStepModal.nativeElement.click();
     // this.attributeList = [];
