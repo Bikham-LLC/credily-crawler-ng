@@ -371,6 +371,9 @@ export class ConfigurationComponent implements OnInit {
     this.selectedColumn = [];
     this.selectedEvent = [];
     this.EventList = [];
+    this.customAttribute='';
+    this.customTag='';
+    this.customValue='';
     this.cofigStepRequest = new ConfigRequest();
     this.addConfigStepModalButton.nativeElement.click();
     this.getArribute();
@@ -487,8 +490,9 @@ export class ConfigurationComponent implements OnInit {
       this.addStepFormInvalid = true;
       return;
     }
-    if(this.cofigStepRequest.crawlerAttribute == 'customAttribute'){
+    if(this.cofigStepRequest.crawlerAttributeId == 17){
       this.cofigStepRequest.lookUpElementDesc = "//"+this.customTag+"[@"+this.customAttribute+"='"+this.customValue+"']";
+      console.log(this.cofigStepRequest.lookUpElementDesc);
     }
     console.log(this.cofigStepRequest.lookUpElementDesc);
     this.configurationStepList.push(this.cofigStepRequest);
