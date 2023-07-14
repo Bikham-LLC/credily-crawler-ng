@@ -427,6 +427,30 @@
                                                 <small *ngIf="addStepForm.submitted && addStepFormInvalid && cofigStepRequest.crawlerAttributeId<=0" style="color: red;">Select Crawler Attribute!</small>
                                             </div>
                                         </div>
+                                        <div class="col-lg-6" *ngIf="cofigStepRequest.crawlerAttributeId == 17">
+                                            <div class="lookupSearchForm">
+                                                <div class="position-relative">
+                                                    <label class="m-1">Custom Tag</label>
+                                                    <input type="text" class="form-control" name="customTag" placeholder="Enter Custom Tag" [(ngModel)]="customTag" maxlength="155" required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6" *ngIf="cofigStepRequest.crawlerAttributeId == 17">
+                                            <div class="lookupSearchForm">
+                                                <div class="position-relative">
+                                                    <label class="m-1">Custom Attribute Name</label>
+                                                    <input type="text" class="form-control" name="customAtt" placeholder="Enter Custom Attribute Name" [(ngModel)]="customAttribute" maxlength="155" required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6" *ngIf="cofigStepRequest.crawlerAttributeId == 17">
+                                            <div class="lookupSearchForm">
+                                                <div class="position-relative">
+                                                    <label class="m-1">Custom Value</label>
+                                                    <input type="text" class="form-control" name="customValue" placeholder="Enter Custom Value" [(ngModel)]="customValue" maxlength="155" required>
+                                                </div>
+                                            </div>
+                                        </div>
                                         <div class="col-lg-6" *ngIf="!Constant.LOOKUP_HIDE.includes(cofigStepRequest.crawlerAttributeId) && cofigStepRequest.crawlerAttributeId != 19">
                                             <div class="lookupSearchForm">
                                                 <div class="position-relative">
@@ -465,31 +489,6 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6" *ngIf="cofigStepRequest.crawlerAttributeId == 17">
-                                            <div class="lookupSearchForm">
-                                                <div class="position-relative">
-                                                    <label class="m-1">Custom Tag</label>
-                                                    <input type="text" class="form-control" name="customTag" placeholder="Enter Custom Tag" [(ngModel)]="customTag" maxlength="155" required>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6" *ngIf="cofigStepRequest.crawlerAttributeId == 17">
-                                            <div class="lookupSearchForm">
-                                                <div class="position-relative">
-                                                    <label class="m-1">Custom Attribute Name</label>
-                                                    <input type="text" class="form-control" name="customAtt" placeholder="Enter Custom Attribute Name" [(ngModel)]="customAttribute" maxlength="155" required>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6" *ngIf="cofigStepRequest.crawlerAttributeId == 17">
-                                            <div class="lookupSearchForm">
-                                                <div class="position-relative">
-                                                    <label class="m-1">Custom Value</label>
-                                                    <input type="text" class="form-control" name="customValue" placeholder="Enter Custom Value" [(ngModel)]="customValue" maxlength="155" required>
-                                                </div>
-                                            </div>
-                                        </div>
-
                                     </div>
                                 </div>
                             </div>
