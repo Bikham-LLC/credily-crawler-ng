@@ -946,9 +946,9 @@ export class ConfigurationComponent implements OnInit {
   }
 
   maxDate:any;
-    selected !: { startDate: moment.Moment, endDate: moment.Moment };
-    startDate: any = null;
-    endDate: any = null;  
+  selected !: { startDate: moment.Moment, endDate: moment.Moment };
+  startDate: any = null;
+  endDate: any = null;  
   selectDateFilter(event: any) {
     debugger
     if (this.selected != undefined && this.selected != null && this.selected.startDate != undefined && this.selected.endDate != undefined && this.selected != null) {
@@ -956,6 +956,10 @@ export class ConfigurationComponent implements OnInit {
       this.endDate = new Date(this.selected.endDate.toDate()).toDateString();
     }
     this.getConfiguration();
+
+  }
+
+  clearDateFilter(){
 
   }
 
