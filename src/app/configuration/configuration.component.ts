@@ -351,7 +351,7 @@ export class ConfigurationComponent implements OnInit {
 
   dropdownSettingsEvent!: { singleSelection: boolean; text: string; enableSearchFilter: boolean; autoPosition: boolean };
   selectedEvent: any[] = new Array();
-  EventList: any[] = [{ id: 'sendKey', itemName: 'Input Value' }, { id: 'click', itemName: 'Click' }]
+  EventList: any[] = [{ id: 'sendKey', itemName: 'Input Value' }, { id: 'click', itemName: 'Click' }, { id: 'windowClick', itemName: 'Click Window' }]
 
   dropdownSettingsClass!: { singleSelection: boolean; text: string; enableSearchFilter: boolean; autoPosition: boolean };
   selectedClass: any[] = new Array();
