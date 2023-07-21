@@ -378,7 +378,7 @@ export class ConfigurationComponent implements OnInit {
     this.addConfigStepModalButton.nativeElement.click();
     this.getArribute();
     this.getClassName();
-    this.EventList = [{ id: 'sendKey', itemName: 'Input Value' }, { id: 'click', itemName: 'Click' }];
+    this.EventList = [{ id: 'sendKey', itemName: 'Input Value' }, { id: 'click', itemName: 'Click' }, { id: 'windowClick', itemName: 'Click Window' }];
     this.dropdownSettingsEvent = {
       singleSelection: true,
       text: 'Select Event',
@@ -441,7 +441,7 @@ export class ConfigurationComponent implements OnInit {
           autoPosition: false
         }
       } else {
-        this.EventList = [{ id: 'sendKey', itemName: 'Input Value' }, { id: 'click', itemName: 'Click' }];
+        this.EventList = [{ id: 'sendKey', itemName: 'Input Value' }, { id: 'click', itemName: 'Click' }, { id: 'windowClick', itemName: 'Click Window' }];
         this.dropdownSettingsEvent = {
           singleSelection: true,
           text: 'Select Event',
