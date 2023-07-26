@@ -180,4 +180,11 @@ export class ReportComponent implements OnInit {
     })
   }
 
+  @ViewChild('openSnapshotModalButton') openSnapshotModalButton! : ElementRef;
+  showSnapshot(url:string){
+    debugger
+    this.selectedImage = url;
+    this.openSnapshotModalButton.nativeElement.click();
+  }
+
 }

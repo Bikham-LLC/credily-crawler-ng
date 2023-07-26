@@ -86,7 +86,8 @@
                                         </td>
                                         <td class="tableData text-center">
                                             <a class="text-primary" data-bs-toggle="modal" data-bs-target="#showImageModal" rel="noopener noreferrer" *ngIf="!Constant.EMPTY_STRINGS.includes(config.url)">
-                                                 <i class="bi bi-eye pointer" (click)="selectedImage = config.url"></i>
+                                                <i class="bi bi-eye pointer" (click)="showSnapshot(config.url)"></i>
+                                                <!-- <i class="bi bi-eye pointer" (click)="selectedImage = config.url"></i> -->
                                             </a>
                                             <i class="bi bi-eye-slash" *ngIf="Constant.EMPTY_STRINGS.includes(config.url)"></i>
                                         </td>
@@ -130,15 +131,17 @@
 </div>
 
 <!-- show image modal -->
+<button type="button" #openSnapshotModalButton class="d-none" data-bs-toggle="modal" data-bs-target="#showImageModal"></button>
 <div class="modal blur-bg-2" id="showImageModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="shareModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" style="max-width:80%;">
+    <div class="modal-dialog modal-dialog-centered" style="max-width:95%;">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Config Report Snapshot</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body text-center" style="overflow: scroll;min-height: 350px;">
-                <img class="w-100" [src]="selectedImage" alt="" />
+                <!-- <img class="w-100" [src]="selectedImage" alt="" /> -->
+                <iframe [src]="selectedImage | safe" frameborder="0" style="width:100%;min-height:600px"></iframe>
             </div>
         </div>
     </div>
