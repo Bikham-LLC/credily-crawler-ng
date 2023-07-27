@@ -5,6 +5,7 @@ import { LookupTaxonomyService } from '../services/lookup-taxonomy.service';
 import { DataService } from '../services/data.service';
 import { Constant } from '../models/Constant';
 import { Router } from '@angular/router';
+import { timeout } from 'rxjs/operators';
 
 @Component({
   selector: 'app-report',
@@ -60,8 +61,6 @@ export class ReportComponent implements OnInit {
   switchTab(tab:string){
     this.selectedTab = tab;
   }
-
-  selectedImage: string ='';
   loadingConfiguration: boolean = false;
   configList: LookupConfiguration[] = new Array();
   totalConfiguration: number = 0;
@@ -180,11 +179,16 @@ export class ReportComponent implements OnInit {
     })
   }
 
+
+  selectedImage: string ='';
   @ViewChild('openSnapshotModalButton') openSnapshotModalButton! : ElementRef;
   showSnapshot(url:string){
     debugger
     this.selectedImage = url;
-    this.openSnapshotModalButton.nativeElement.click();
+    setTimeout(()=>{
+      this.openSnapshotModalButton.nativeElement.click();
+    },1000)
+    
   }
 
 }
