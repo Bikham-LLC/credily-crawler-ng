@@ -28,8 +28,12 @@
                             </div>
                         </div>
 
+                         
+                        <div class=" p-5" *ngIf="loadingConfiguration">
+                            <app-circular-loader></app-circular-loader>
+                        </div>
                         
-                        <div class="reportListing usertableinner no-wrap">
+                        <div class="reportListing usertableinner no-wrap" *ngIf="!loadingConfiguration">
                             <form>
                             <table class="table">
                                 <thead>
@@ -85,11 +89,11 @@
                                             <p class="mb-0" *ngIf="Constant.EMPTY_STRINGS.includes(config.lastTestedOn)"> N/A </p>
                                         </td>
                                         <td class="tableData text-center">
-                                            <a class="text-primary" data-bs-toggle="modal" data-bs-target="#showImageModal" rel="noopener noreferrer" *ngIf="!Constant.EMPTY_STRINGS.includes(config.url)">
+                                            <a class="text-primary" data-bs-toggle="modal" data-bs-target="#showImageModal" rel="noopener noreferrer" *ngIf="config.reportStatus == 'Test pass'" >
                                                 <i class="bi bi-eye pointer" (click)="showSnapshot(config.url)"></i>
                                                 <!-- <i class="bi bi-eye pointer" (click)="selectedImage = config.url"></i> -->
                                             </a>
-                                            <i class="bi bi-eye-slash" *ngIf="Constant.EMPTY_STRINGS.includes(config.url)"></i>
+                                            <i class="bi bi-eye-slash" *ngIf="config.reportStatus == 'Test fail'"></i>
                                         </td>
                                     </tr>
                              
@@ -97,14 +101,10 @@
                             </table>
                         </form>
                         </div>
-                         
-                        <div class=" p-5" *ngIf="loadingConfiguration">
-                            <app-circular-loader></app-circular-loader>
-                        </div>
                         <div *ngIf="ids.length>0">
                             <button type="button" class="btn btn-primary" [disabled]="testingConfigToggle" (click)="testConfig()">Click to test configuration  <i class="spinner-border spinner-border-sm" *ngIf="testingConfigToggle"></i></button>
                         </div>
-                        <div class="row justify-content-center" *ngIf="totalConfiguration > 0">   
+                        <div class="row justify-content-center" *ngIf="!loadingConfiguration && configList.length > 0">   
                             <div class="paginationmain w-100 px-3 mt-2">
                                 <div class="d-flex align-items-center justify-content-between">
                                     <p class="currentshowing mb-0">
@@ -118,7 +118,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="empty-notific text-center mt-5"  *ngIf="!loadingConfiguration && configList.length == 0">
+                    <div class="empty-notific text-center mt-5" *ngIf="!loadingConfiguration && configList.length == 0">
                         <div class="empty-notificinner">
                             <img src="assets/images/allexpirable.svg" style="width: 30%;margin-right: 118px;" alt="no data found" />
                             <h6 class="m-3 ps-6">No data found</h6>
@@ -139,9 +139,9 @@
                 <h5 class="modal-title" id="exampleModalLabel">Config Report Snapshot</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body text-center" style="overflow: scroll;min-height: 350px;">
+            <div class="modal-body text-center" style="overflow: scroll;min-height: 450px;">
                 <!-- <img class="w-100" [src]="selectedImage" alt="" /> -->
-                <iframe [src]="selectedImage | safe" frameborder="0" style="width:100%;min-height:600px"></iframe>
+                <iframe [src]="selectedImage | safe" frameborder="0" style="width:100%;min-height: 500px;"></iframe>
             </div>
         </div>
     </div>

@@ -263,3 +263,13 @@
     -webkit-box-orient: vertical;  
     overflow: hidden;
   }
+  .reportListing {
+    max-height: 450px;
+    overflow-y: auto;
+    position: sticky;
+  }
+  .reportListing .table thead th {
+    position: sticky;
+    top: -1px;
+    z-index: 5;
+  }
