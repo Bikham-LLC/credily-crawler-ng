@@ -188,7 +188,12 @@ export class ReportComponent implements OnInit {
     setTimeout(()=>{
       this.openSnapshotModalButton.nativeElement.click();
     },1000)
-    
+  }
+  
+  @ViewChild('closeImageModalButton') closeImageModalButton! : ElementRef;
+  closeImageModal(){
+    this.closeImageModalButton.nativeElement.click();
+    this.selectedImage='';
   }
 
 }

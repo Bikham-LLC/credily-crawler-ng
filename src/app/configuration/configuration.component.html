@@ -145,7 +145,7 @@
                                     <h3>New Configuration</h3>
                                     <button class="btn primaryBtn" (click)="openAddConfigModal()">Add Steps</button>
                                 </div>
-                                <div class="empty-notific" style="margin-top: 10%;" *ngIf="configurationStepList.length==0">
+                                <div class="empty-notific" style="margin-top: 10%;" *ngIf="!loadingConfgurationStep && configurationStepList.length==0">
                                     <div class="empty-notificinner text-center">
                                         <div class="empty-notificinnerimg">
                                             <img src="assets/images/nodocument.svg" alt="" style="width:40%">
@@ -156,8 +156,11 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class=" p-5" *ngIf="loadingConfgurationStep">
+                                    <app-circular-loader></app-circular-loader>
+                                </div>
 
-                                <div class="configStepsouter" *ngIf="configurationStepList.length>0">
+                                <div class="configStepsouter" *ngIf="!loadingConfgurationStep && configurationStepList.length>0">
                                    
                                     <div class="configStepsinner" cdkDropList (cdkDropListDropped)="drop($event)">
                                         <div class="configSteps example-box position-relative" cdkDrag *ngFor="let step of configurationStepList; let i = index">

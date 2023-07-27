@@ -137,10 +137,10 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Config Report Snapshot</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <!-- <button id="closeImageModal" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="closeImageModal()" #closeImageModalButton id="closeImageModalButton"></button>
             </div>
             <div class="modal-body text-center" style="overflow: scroll;min-height: 450px;">
-                <!-- <img class="w-100" [src]="selectedImage" alt="" /> -->
                 <iframe [src]="selectedImage | safe" frameborder="0" style="width:100%;min-height: 500px;"></iframe>
             </div>
         </div>
