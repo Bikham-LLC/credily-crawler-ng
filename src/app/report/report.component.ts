@@ -6,6 +6,7 @@ import { DataService } from '../services/data.service';
 import { Constant } from '../models/Constant';
 import { Router } from '@angular/router';
 import { timeout } from 'rxjs/operators';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-report',
@@ -16,6 +17,7 @@ export class ReportComponent implements OnInit {
 
   readonly Constant = Constant;
   constructor(private lookupTaxonomyService: LookupTaxonomyService,
+    private sanitizer: DomSanitizer,
     private dataService: DataService) { }
    
     dropdownSettingsVersion !: { singleSelection: boolean; text: string; enableSearchFilter: boolean; autoPosition: boolean };

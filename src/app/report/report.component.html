@@ -91,7 +91,6 @@
                                         <td class="tableData text-center">
                                             <a class="text-primary" data-bs-toggle="modal" data-bs-target="#showImageModal" rel="noopener noreferrer" *ngIf="config.reportStatus == 'Test pass'" >
                                                 <i class="bi bi-eye pointer" (click)="showSnapshot(config.url)"></i>
-                                                <!-- <i class="bi bi-eye pointer" (click)="selectedImage = config.url"></i> -->
                                             </a>
                                             <i class="bi bi-eye-slash" *ngIf="config.reportStatus == 'Test fail'"></i>
                                         </td>
@@ -137,10 +136,10 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Config Report Snapshot</h5>
-                <!-- <button id="closeImageModal" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="closeImageModal()" #closeImageModalButton id="closeImageModalButton"></button>
             </div>
             <div class="modal-body text-center" style="overflow: scroll;min-height: 450px;">
+                <!-- <img [src]="selectedImage | safe" alt="" /> -->
                 <iframe [src]="selectedImage | safe" frameborder="0" style="width:100%;min-height: 500px;"></iframe>
             </div>
         </div>
