@@ -22,6 +22,9 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 export class ConfigurationComponent implements OnInit {
   
   configSearch = new Subject<string>();
+  configSearchByLink = new Subject<string>();
+  search:string='';
+  searchLink:string='';
   constructor(
     private _router: Router,
     private sanitizer: DomSanitizer,
@@ -34,8 +37,20 @@ export class ConfigurationComponent implements OnInit {
         distinctUntilChanged())
         .subscribe(value => {
           this.configDatabaseHelper.currentPage = 1;
+          this.configDatabaseHelper.search = this.search;
+          this.configDatabaseHelper.searchBy = 'licenseLookupName';
           this.getConfiguration();
         });
+
+        this.configSearchByLink.pipe(
+          debounceTime(600),
+          distinctUntilChanged())
+          .subscribe(value => {
+            this.configDatabaseHelper.currentPage = 1;
+            this.configDatabaseHelper.search = this.searchLink;
+            this.configDatabaseHelper.searchBy = 'licenseLookupLink';
+            this.getConfiguration();
+          });
   }
 
   readonly Constant = Constant;
@@ -103,6 +118,23 @@ export class ConfigurationComponent implements OnInit {
       autoPosition: false,
       searchPlaceholderText: 'Search By Lookup Name'
     }
+    this.dropdownSettingsLookupNames = {
+      singleSelection: false,
+      badgeShowLimit: 1, 
+      text: 'Linked boards name',
+      autoPosition: false,
+      enableSearchFilter: false,
+      classes: "activeSelectBox"
+    }
+
+    // this.dropdownSettingsStatus = {
+    //   singleSelection: false,
+    //   text: ‘Select Account Status’,
+    //   enableSearchFilter: true,
+    //   autoPosition: false,
+    //   classes: “activeSelectBox”,
+    //   badgeShowLimit: 1
+    // };
 
     // this.getConfiguration();
   }
@@ -179,9 +211,29 @@ export class ConfigurationComponent implements OnInit {
       this.selectedTaxonomyLink.push(temp);
       this.lookupLink = event[0].id;
       this.getTaxonomyByLookupLink(this.lookupLink);
+      this.selectedlookupName(this.lookupLink);
     } else {
       this.getMappedTaxonomy(this.type);
     }
+  }
+
+  allLookupNamesList : any[] = new Array();
+  totalLookupName : number=0;
+  selectedlookupName(lookupLink:any) {
+    debugger
+    this.selectedLookupNames = [];
+    this.lookupTaxonomyService.getLinkLookupName(lookupLink).subscribe(response=>{
+      if(response.object != null){
+        this.allLookupNamesList = response.object;
+        this.allLookupNamesList.forEach(element=>{
+          var temp: { id: any, itemName: any } = { id: element, itemName: element };
+          this.selectedLookupNames.push(temp);
+        })
+        this.selectedLookupNames = JSON.parse(JSON.stringify(this.selectedLookupNames));
+        this.totalLookupName = response.totalItems;
+      }
+    })
+    
   }
 
   selectVersion(event: any) {
@@ -203,11 +255,11 @@ export class ConfigurationComponent implements OnInit {
   }
 
   getTaxonomyLink(search: string) {
-
+    debugger
     this.lookupTaxonomyService.getTaxonomyLink(search).subscribe(response => {
-      if (response.object != null) {
+      if (response != null) {
         this.taxonomyLinkList = [];
-        response.object.forEach((element: any) => {
+        response.forEach((element: any) => {
           var temp: { id: any, itemName: any } = { id: element.link, itemName: element.name + ' - ' + element.link };
           this.taxonomyLinkList.push(temp);
         })
@@ -233,8 +285,8 @@ export class ConfigurationComponent implements OnInit {
     this.selectedTaxonomyIds = [];
     this.loadingLookupTaxonomy = true;
     this.lookupTaxonomyService.getLinkTaxonomyIds(lookupLink).subscribe(resp => {
-      if (resp.status && resp.object != null) {
-        this.selectedTaxonomyIds = resp.object;
+      if (resp != null) {
+        this.selectedTaxonomyIds = resp;
         if (this.selectedTaxonomyIds.length > 0) {
           this.lookupTaxonomyList.forEach(x => {
             if (this.selectedTaxonomyIds.includes(x.id)) {
@@ -360,6 +412,10 @@ export class ConfigurationComponent implements OnInit {
   dropdownSettingsColumn!: { singleSelection: boolean; text: string; enableSearchFilter: boolean; autoPosition: boolean; noDataLabel: string };
   selectedColumn: any[] = new Array();
   columnList: any[] = new Array();
+
+  dropdownSettingsLookupNames!: {singleSelection: boolean; text: string; autoPosition: boolean;enableSearchFilter: boolean; badgeShowLimit:number; classes:string;};
+  selectedLookupNames: any[] = new Array();
+  LookupNamesList: any[] = new Array();
 
   openAddConfigModal() {
     // this.iframeUrl = this.lookupLink;
@@ -884,7 +940,7 @@ export class ConfigurationComponent implements OnInit {
     }
     this.loadingLookupTaxonomy = true;
     this.lookupTaxonomyService.getMappedTaxonomy(this.selectedTaxonomyIds, type, this.selectedStateName, this.databaseHelper).subscribe(response => {
-      this.lookupTaxonomyList = response.object;
+      this.lookupTaxonomyList = response.taxonomyList;
       this.totalLookupTaxonomy = response.totalItems;
       if (type == 'mapped') {
         this.lookupTaxonomyList.forEach(l => {

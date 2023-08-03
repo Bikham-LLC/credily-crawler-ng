@@ -139,4 +139,7 @@ export class LookupTaxonomyService {
     return this.http.patch<any>(this.key.server_url + this.key.api_version_one + this.key.lookup_config_controller + "/taxonomy-link", temp);
   }
 
+  getLinkLookupName(link:string): Observable<any> {
+    return this.http.post<any>(this.key.server_url + this.key.api_version_one + this.key.lookup_config_controller+'/lookup-name', link);
+  }
 }

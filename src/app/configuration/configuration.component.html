@@ -7,23 +7,34 @@
             <div class="dashNav-paneinner">
 
                 <div class="emptyNotif" *ngIf="!addStepToggle">
-                        <div class="d-flex mb-3">
-                            <div class="col-lg-3 px-2">
-                                <div class="position-relative">
-                                    <input class="form-control" placeholder="Search by lookup name" [(ngModel)]="configDatabaseHelper.search" (ngModelChange)="this.configSearch.next($event)">
-                                  </div>
-                            </div>
-                            <div class="col-lg-3 px-2">
-                                <div class="lookupSearchForm">
-                                        <angular2-multiselect id="version" name="version" [data]="versionList" [settings]="dropdownSettingsVersion" [(ngModel)]="selectedVersion" (ngModelChange)="searchSelectVersion($event)" required>
-                                        </angular2-multiselect>
+                        <div class="row mb-3">
+                            <div class="col-lg-9 px-2">
+                                <div class="row px-1">
+                                    <div class="col-lg-3 px-2">
+                                        <div class="position-relative">
+                                            <input class="form-control" id="searchname" name="searchname" placeholder="Search by lookup name" [(ngModel)]="search" (ngModelChange)="this.configSearch.next($event)">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 px-2">
+                                        <div class="position-relative">
+                                            <input class="form-control" id="searchlink" name="searchlink" placeholder="Search by lookup link" [(ngModel)]="searchLink" (ngModelChange)="this.configSearchByLink.next($event)">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 px-2">
+                                        <div class="lookupSearchForm">
+                                            <angular2-multiselect id="version" name="version" [data]="versionList" [settings]="dropdownSettingsVersion" [(ngModel)]="selectedVersion" (ngModelChange)="searchSelectVersion($event)" required>
+                                            </angular2-multiselect>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 px-2">
+                                        <input type="text" autocomplete="off" class="form-control" name="daterange" placeholder="Select Date Range" ngxDaterangepickerMd [maxDate]="maxDate" [opens]="'right'" [locale]="{applyLabel: 'Apply', format: 'MM-DD-YYYY'}" [(ngModel)]="selected" (ngModelChange)="selectDateFilter($event)">
+                                        <!-- <input type="text" autocomplete="off" class="form-control" name="daterange" placeholder="Select Date Range" ngxDaterangepickerMd [maxDate]="maxDate" [opens]="'right'" [locale]="{applyLabel: 'Apply', format: 'MM-DD-YYYY', clearLabel: 'Clear', cancelLabel: 'Cancel'}" [(ngModel)]="selected" (ngModelChange)="selectDateFilter($event)" (clearClicked)="clearDateFilter()"> -->
+                                    </div>
+                                    
                                 </div>
                             </div>
-                            <div class="col-lg-3 px-2">
-                                <input type="text" autocomplete="off" class="form-control" name="daterange" placeholder="Select Date Range" ngxDaterangepickerMd [maxDate]="maxDate" [opens]="'right'" [locale]="{applyLabel: 'Apply', format: 'MM-DD-YYYY'}" [(ngModel)]="selected" (ngModelChange)="selectDateFilter($event)">
-                                <!-- <input type="text" autocomplete="off" class="form-control" name="daterange" placeholder="Select Date Range" ngxDaterangepickerMd [maxDate]="maxDate" [opens]="'right'" [locale]="{applyLabel: 'Apply', format: 'MM-DD-YYYY', clearLabel: 'Clear', cancelLabel: 'Cancel'}" [(ngModel)]="selected" (ngModelChange)="selectDateFilter($event)" (clearClicked)="clearDateFilter()"> -->
-                            </div>
-                            <div class="col-lg-3 px-2 d-flex justify-content-end">
+                            
+                            <div class="col-lg-3 px-2 d-flex justify-content-end align-items-start">
                                 <button class="btn primarybtn" (click)="openLookupModal()">Create Configuration</button>
                             </div>
                                 
@@ -254,8 +265,8 @@
                                                                 <button type="button" class="btn primaryBtn" [disabled]="updatingLoader || Constant.EMPTY_STRINGS.includes(oldLink.trim()) || Constant.EMPTY_STRINGS.includes(newLink.trim())" (click)="updateLookupLink()">Update <i class="spinner-border spinner-border-sm" *ngIf="updatingLoader"></i></button>
                                                             </div>
                                                         </div>
-                                                        
                                                     </div>
+                                                    
                                                     <div class="row" *ngIf="!updateLinkToggle">
                                                         <angular2-multiselect id="taxoLink" name="taxoLink" [data]="taxonomyLinkList" 
                                                         [settings]="dropdownSettingsTaxonomyLink" [(ngModel)]="selectedTaxonomyLink" 
@@ -264,6 +275,15 @@
                                                     </div>
                                                 </div>
                                                 <small *ngIf="mapLookupTaxonomyForm.submitted && Constant.EMPTY_STRINGS.includes(lookupLink)" style="color: red;">Select Link!</small>
+                                            </div>
+                                            <div class="col-lg-12" *ngIf="!Constant.EMPTY_STRINGS.includes(lookupLink)">
+                                                <div class="lookupSearchForm">
+                                                    <label>Boards Name</label>
+                                                    <div class="position-relative">
+                                                        <angular2-multiselect id="boardName" name="boardName" [data]="selectedLookupNames" [settings]="dropdownSettingsLookupNames" [(ngModel)]="selectedLookupNames">
+                                                        </angular2-multiselect>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                         
