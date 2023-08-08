@@ -294,10 +294,13 @@ export class ConfigurationComponent implements OnInit {
             }
           })
           this.getMappedTaxonomy(this.type);
+        } else {
+          this.loadingLookupTaxonomy = false;
         }
       }
     }, error => {
       // this.dataService.showToast(error.error);
+      this.loadingLookupTaxonomy = false;
     })
   }
 
@@ -940,6 +943,7 @@ export class ConfigurationComponent implements OnInit {
     }
     this.loadingLookupTaxonomy = true;
     this.lookupTaxonomyService.getMappedTaxonomy(this.selectedTaxonomyIds, type, this.selectedStateName, this.databaseHelper).subscribe(response => {
+      if(response.status){
       this.lookupTaxonomyList = response.taxonomyList;
       this.totalLookupTaxonomy = response.totalItems;
       if (type == 'mapped') {
@@ -948,6 +952,9 @@ export class ConfigurationComponent implements OnInit {
         })
       }
       this.loadingLookupTaxonomy = false;
+    }else {
+      this.loadingLookupTaxonomy = false;
+    }
     }, error => {
       this.loadingLookupTaxonomy = false;
     })
