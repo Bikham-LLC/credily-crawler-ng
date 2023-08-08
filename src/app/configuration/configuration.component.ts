@@ -952,8 +952,6 @@ export class ConfigurationComponent implements OnInit {
         })
       }
       this.loadingLookupTaxonomy = false;
-    }else {
-      this.loadingLookupTaxonomy = false;
     }
     }, error => {
       this.loadingLookupTaxonomy = false;
