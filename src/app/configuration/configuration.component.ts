@@ -951,8 +951,8 @@ export class ConfigurationComponent implements OnInit {
           l.checked = true;
         })
       }
-      this.loadingLookupTaxonomy = false;
     }
+    this.loadingLookupTaxonomy = false;
     }, error => {
       this.loadingLookupTaxonomy = false;
     })
