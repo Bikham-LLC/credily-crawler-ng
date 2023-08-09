@@ -274,6 +274,7 @@ export class ConfigurationComponent implements OnInit {
         var temp: { id: any, itemName: any } = { id: this.lookupLink, itemName: this.lookupLink };
         this.selectedTaxonomyLink.push(temp);
         this.getTaxonomyByLookupLink(this.lookupLink);
+        this.selectedlookupName(this.lookupLink);
       }
       this.taxanomyLinkLoading = false;
     },error=>{
