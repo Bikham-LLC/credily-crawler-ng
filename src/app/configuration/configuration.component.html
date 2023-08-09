@@ -22,7 +22,7 @@
                                     </div>
                                     <div class="col-lg-3 px-2">
                                         <div class="lookupSearchForm">
-                                            <angular2-multiselect id="version" name="version" [data]="versionList" [settings]="dropdownSettingsVersion" [(ngModel)]="selectedVersion" (ngModelChange)="searchSelectVersion($event)" required>
+                                            <angular2-multiselect id="version" name="version" [data]="versionList" [settings]="dropdownSettingsVersion" [(ngModel)]="selectedVersions" (ngModelChange)="searchSelectVersion($event)" required>
                                             </angular2-multiselect>
                                         </div>
                                     </div>
@@ -217,7 +217,7 @@
                         <div class="mldConfigurationmain">
                             <div class="mldConfigurationinner">
                                 <div class="lookupSearch mb-1">
-                                    <div class="row mb-1">
+                                    <div class="row mb-1" *ngIf="!taxanomyLinkLoading">
                                         <div class="col-lg-6 pr-0">
                                             <div class="lookupSearchForm">
                                                 <div class="position-relative">
@@ -286,11 +286,12 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        
                                     </div>
                                 </div>
-                                
-                                <div class="taxonomyCollapse">
+                                <div class="p-5" *ngIf="taxanomyLinkLoading && selectedTaxonomyLink.length == 0">
+                                    <app-circular-loader></app-circular-loader>
+                                </div>
+                                <div class="taxonomyCollapse" *ngIf="!taxanomyLinkLoading && selectedTaxonomyLink.length >0">
                                     <div class="taxonomyCollapseInner">
                                         <div class="accordion" id="accordionExample">
                                             <div class="accordion-item">
@@ -411,7 +412,6 @@
                                           </div>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
                     </div>

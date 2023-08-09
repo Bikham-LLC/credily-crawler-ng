@@ -74,6 +74,7 @@ export class ConfigurationComponent implements OnInit {
 
   dropdownSettingsVersion !: { singleSelection: boolean; text: string; enableSearchFilter: boolean; autoPosition: boolean };
   selectedVersion: any[] = new Array();
+  selectedVersions: any[] = new Array();
   versionList: any[] = new Array();
 
   addStepToggle: boolean = false;
@@ -248,14 +249,18 @@ export class ConfigurationComponent implements OnInit {
     debugger
     this.credilyVersion = '';
     if (event[0] != undefined) {
-      this.selectedVersion = event;
+      this.selectedVersions = event;
       this.credilyVersion = event[0].id;
     }
     this.getConfiguration();
   }
 
+  taxanomyLinkLoading:boolean = false;
   getTaxonomyLink(search: string) {
     debugger
+    if(!this.Constant.EMPTY_STRINGS.includes(this.lookupLink)){
+      this.taxanomyLinkLoading = true;
+    }
     this.lookupTaxonomyService.getTaxonomyLink(search).subscribe(response => {
       if (response != null) {
         this.taxonomyLinkList = [];
@@ -270,10 +275,11 @@ export class ConfigurationComponent implements OnInit {
         this.selectedTaxonomyLink.push(temp);
         this.getTaxonomyByLookupLink(this.lookupLink);
       }
+      this.taxanomyLinkLoading = false;
+    },error=>{
+      this.taxanomyLinkLoading = false;
     })
-
     this.taxonomyLinkList = JSON.parse(JSON.stringify(this.taxonomyLinkList));
-
   }
 
   onSearchLink(event: any) {
@@ -285,19 +291,18 @@ export class ConfigurationComponent implements OnInit {
     this.selectedTaxonomyIds = [];
     this.loadingLookupTaxonomy = true;
     this.lookupTaxonomyService.getLinkTaxonomyIds(lookupLink).subscribe(resp => {
-      if (resp != null) {
-        this.selectedTaxonomyIds = resp;
+      if (resp.object != null) {
+        this.selectedTaxonomyIds = resp.object;
         if (this.selectedTaxonomyIds.length > 0) {
           this.lookupTaxonomyList.forEach(x => {
             if (this.selectedTaxonomyIds.includes(x.id)) {
               x.checked = true;
             }
           })
-          this.getMappedTaxonomy(this.type);
-        } else {
-          this.loadingLookupTaxonomy = false;
         }
+        this.getMappedTaxonomy(this.type);
       }
+      this.loadingLookupTaxonomy = false;
     }, error => {
       // this.dataService.showToast(error.error);
       this.loadingLookupTaxonomy = false;
@@ -382,6 +387,7 @@ export class ConfigurationComponent implements OnInit {
 
   closeTaxonomyModal() {
     this.databaseHelper = new DatabaseHelper();
+    this.type = 'mapped';
     // this.selectedTaxonomyIds = [];
   }
 
@@ -944,13 +950,15 @@ export class ConfigurationComponent implements OnInit {
     this.loadingLookupTaxonomy = true;
     this.lookupTaxonomyService.getMappedTaxonomy(this.selectedTaxonomyIds, type, this.selectedStateName, this.databaseHelper).subscribe(response => {
       if(response.status){
-      this.lookupTaxonomyList = response.taxonomyList;
-      this.totalLookupTaxonomy = response.totalItems;
+      this.lookupTaxonomyList = response.object.taxonomyList;
+      this.totalLookupTaxonomy = response.object.totalItems;
       if (type == 'mapped') {
         this.lookupTaxonomyList.forEach(l => {
           l.checked = true;
         })
       }
+      this.loadingLookupTaxonomy = false;
+    }else {
       this.loadingLookupTaxonomy = false;
     }
     }, error => {
@@ -1017,10 +1025,6 @@ export class ConfigurationComponent implements OnInit {
       this.endDate = new Date(this.selected.endDate.toDate()).toDateString();
     }
     this.getConfiguration();
-
-  }
-
-  clearDateFilter(){
 
   }
 
