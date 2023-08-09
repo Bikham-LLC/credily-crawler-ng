@@ -288,10 +288,10 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="p-5" *ngIf="taxanomyLinkLoading && selectedTaxonomyLink.length == 0">
+                                <div class="p-5" *ngIf="taxanomyLinkLoading">
                                     <app-circular-loader></app-circular-loader>
                                 </div>
-                                <div class="taxonomyCollapse" *ngIf="!taxanomyLinkLoading && selectedTaxonomyLink.length >0">
+                                <div class="taxonomyCollapse" *ngIf="!taxanomyLinkLoading">
                                     <div class="taxonomyCollapseInner">
                                         <div class="accordion" id="accordionExample">
                                             <div class="accordion-item">
