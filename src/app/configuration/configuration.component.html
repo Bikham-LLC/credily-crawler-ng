@@ -418,7 +418,7 @@
                     <div class="modal-footer">
                         <button type="button" class="btn primarycancelbtn" style="border-color: #F05252 !important;" 
                         data-bs-dismiss="modal" #closeTaxomonModalButton (click)="closeTaxonomyModal()">Close</button>
-                        <button type="submit" class="btn primaryBtn" [disabled]="selectedTaxonomyIds.length==0 || mapLookupTaxonomyForm.invalid || updateLinkToggle">Save changes</button>
+                        <button type="submit" class="btn primaryBtn" [disabled]="selectedTaxonomyIds.length==0 || mapLookupTaxonomyForm.invalid || updateLinkToggle || taxanomyLinkLoading">Save changes</button>
                     </div>
                 </form>
             </div>
