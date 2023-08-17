@@ -37,6 +37,10 @@
                             <div class="col-lg-3 px-2 d-flex justify-content-end align-items-start">
                                 <button class="btn primarybtn" (click)="openLookupModal()">Create Configuration</button>
                             </div>
+                            <div class="col-lg-12 px-2 d-flex justify-content-start align-items-start">
+                                <button class="btn mt-2 me-2" [ngClass]="{'primarybtn':crawlerType==Constant.CRAWLER_TYPE_LOOKUP_LINK}" (click)="toggleType(Constant.CRAWLER_TYPE_LOOKUP_LINK)">License Lookup</button>
+                                <button class="btn mt-2" [ngClass]="{'primarybtn':crawlerType==Constant.CRAWLER_TYPE_BOARD_CERTIFICATION}" (click)="toggleType(Constant.CRAWLER_TYPE_BOARD_CERTIFICATION)">Board Certification</button>
+                            </div>
                                 
                         </div>
                         <div class="dashNav-paneinner table-responsive">

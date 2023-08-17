@@ -1,6 +1,7 @@
 import { ConfigRequest } from "./ConfigRequest";
 
 export class LicenseLookupConfigRequest{
+    type:string = '';
     lookupConfigId:number=0;
     version : string = '';
     licenseLookUpLink : string = '';

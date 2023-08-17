@@ -64,6 +64,7 @@ export class ConfigurationComponent implements OnInit {
   lookupLink: string = '';
   selectedStateName: string = '';
   credilyVersion: string = '';
+  crawlerType: string = this.Constant.CRAWLER_TYPE_LOOKUP_LINK;
   @ViewChild('lookupModalButton') lookupModalButton !: ElementRef;
   @ViewChild('mapLookupTaxonomyForm') mapLookupTaxonomyForm: any;
 
@@ -588,7 +589,7 @@ export class ConfigurationComponent implements OnInit {
     debugger
 
     // this.closeUuidModal.nativeElement.click();
-
+    this.licenseLookupConfigRequest.type = this.crawlerType;
     this.licenseLookupConfigRequest.version = this.credilyVersion;
     this.licenseLookupConfigRequest.licenseLookUpName = this.lookupName;
     this.licenseLookupConfigRequest.licenseLookUpLink = this.lookupLink;
@@ -618,6 +619,7 @@ export class ConfigurationComponent implements OnInit {
   saveConfiguration() {
     debugger
     this.savingConfiguration = true;
+    this.licenseLookupConfigRequest.type = this.crawlerType;
     this.licenseLookupConfigRequest.version = this.credilyVersion;
     this.licenseLookupConfigRequest.licenseLookUpName = this.lookupName;
     this.licenseLookupConfigRequest.licenseLookUpLink = this.lookupLink;
@@ -1025,6 +1027,12 @@ export class ConfigurationComponent implements OnInit {
     }
     this.getConfiguration();
 
+  }
+
+
+
+  toggleType(type:string){
+    this.crawlerType = type;
   }
 
 }
