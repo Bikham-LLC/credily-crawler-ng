@@ -1,5 +1,6 @@
 export class LookupConfiguration{
     id:number=0;
+    type:string='';
     lookupName:string='';
     lookupLink:string='';
     addedBy:string='';
