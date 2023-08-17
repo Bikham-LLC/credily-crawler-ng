@@ -142,4 +142,10 @@ export class LookupTaxonomyService {
   getLinkLookupName(link:string): Observable<any> {
     return this.http.post<any>(this.key.server_url + this.key.api_version_one + this.key.lookup_config_controller+'/lookup-name', link);
   }
+
+  getTaxIdsWithLookupName(lookupName:any, link:string): Observable<any> {
+    var params = new HttpParams()
+    .set('lookupLink', link)
+    return this.http.post<any>(this.key.server_url + this.key.api_version_one + this.key.lookup_config_controller+'/lookup-name-tax-ids', lookupName, {params});
+  }
 }

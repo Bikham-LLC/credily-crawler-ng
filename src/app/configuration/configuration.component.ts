@@ -59,7 +59,7 @@ export class ConfigurationComponent implements OnInit {
   lookupTaxonomyList: LookupTaxonomy[] = new Array();
   totalLookupTaxonomy: number = 0;
   loadingLookupTaxonomy: boolean = false;
-  selectedTaxonomyIds: number[] = new Array();
+  selectedTaxonomyIds: any[] = new Array();
   lookupName: string = '';
   lookupLink: string = '';
   selectedStateName: string = '';
@@ -126,17 +126,9 @@ export class ConfigurationComponent implements OnInit {
       text: 'Linked boards name',
       autoPosition: false,
       enableSearchFilter: false,
-      classes: "activeSelectBox"
+      classes: "activeSelectBox",
+      enableCheckAll: true
     }
-
-    // this.dropdownSettingsStatus = {
-    //   singleSelection: false,
-    //   text: ‘Select Account Status’,
-    //   enableSearchFilter: true,
-    //   autoPosition: false,
-    //   classes: “activeSelectBox”,
-    //   badgeShowLimit: 1
-    // };
 
     // this.getConfiguration();
   }
@@ -194,6 +186,7 @@ export class ConfigurationComponent implements OnInit {
     this.selectedStateName = '';
     this.configurationStepList = [];
     this.selectedLookupConfigId = 0;
+    this.deselectedLookupNames = [];
     this.lookupModalButton.nativeElement.click();
     // this.getLookupTaxonomy();
     this.type = 'mapped';
@@ -224,18 +217,46 @@ export class ConfigurationComponent implements OnInit {
   selectedlookupName(lookupLink:any) {
     debugger
     this.selectedLookupNames = [];
+    this.mappedLookupNames = [];
     this.lookupTaxonomyService.getLinkLookupName(lookupLink).subscribe(response=>{
-      if(response.object != null){
-        this.allLookupNamesList = response.object;
+      if(response.dtoList != null){
+        this.allLookupNamesList = response.dtoList;
         this.allLookupNamesList.forEach(element=>{
-          var temp: { id: any, itemName: any } = { id: element, itemName: element };
+          var temp: { id: any, itemName: any } = { id: element.taxanomyId, itemName: element.lookupName };
           this.selectedLookupNames.push(temp);
+          this.mappedLookupNames.push(temp);
         })
         this.selectedLookupNames = JSON.parse(JSON.stringify(this.selectedLookupNames));
+        this.mappedLookupNames = JSON.parse(JSON.stringify(this.mappedLookupNames));
         this.totalLookupName = response.totalItems;
       }
+    })    
+  }
+
+  deselectedLookupNames: string[] = [];
+  searchSelectLookupName(event:any){
+    debugger
+    if (event != undefined && event.length>0) {
+      this.deselectedLookupNames = [];
+      event.forEach((e:any)=>{
+        this.deselectedLookupNames.push(e.itemName);
+      })
+      this.getTaxIdsWithLookupName(this.deselectedLookupNames);
+    }else{
+      this.selectedTaxonomyIds = [];
+      this.getMappedTaxonomy('mapped');
+    }
+  }
+
+  getTaxIdsWithLookupName(lookupNames:any){
+    debugger
+    this.loadingLookupTaxonomy = true;
+    this.lookupTaxonomyService.getTaxIdsWithLookupName(lookupNames, this.lookupLink).subscribe(response=>{
+      this.selectedTaxonomyIds = response;
+      this.getMappedTaxonomy('mapped');
+    },error=>{
+
     })
-    
   }
 
   selectVersion(event: any) {
@@ -424,9 +445,9 @@ export class ConfigurationComponent implements OnInit {
   selectedColumn: any[] = new Array();
   columnList: any[] = new Array();
 
-  dropdownSettingsLookupNames!: {singleSelection: boolean; text: string; autoPosition: boolean;enableSearchFilter: boolean; badgeShowLimit:number; classes:string;};
+  dropdownSettingsLookupNames!: {singleSelection: boolean; text: string; autoPosition: boolean;enableSearchFilter: boolean; badgeShowLimit:number; classes:string; enableCheckAll:boolean;};
   selectedLookupNames: any[] = new Array();
-  LookupNamesList: any[] = new Array();
+  mappedLookupNames: any[] = new Array();
 
   openAddConfigModal() {
     // this.iframeUrl = this.lookupLink;
@@ -947,6 +968,7 @@ export class ConfigurationComponent implements OnInit {
     this.type = type;
     if (type == 'mapped' && this.selectedTaxonomyIds.length == 0) {
       this.lookupTaxonomyList = [];
+      this.totalLookupTaxonomy = 0;
       this.loadingLookupTaxonomy = false;
       return;
     }
