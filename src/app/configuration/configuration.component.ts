@@ -80,6 +80,14 @@ export class ConfigurationComponent implements OnInit {
 
   addStepToggle: boolean = false;
 
+  dropdownSettingsAttachmentType !: { singleSelection: boolean; text: string; enableSearchFilter: boolean; autoPosition: boolean };
+  selectedAttType: any[] = new Array();
+  attTypeList: any[] = new Array();
+
+  dropdownSettingsAttachmentSubType !: { singleSelection: boolean; text: string; enableSearchFilter: boolean; autoPosition: boolean };
+  selectedAttSubType: any[] = new Array();
+  attSubTypeList: any[] = new Array();
+
   ngOnInit(): void {
 
     this.dropdownSettingsAttribute = {
@@ -128,6 +136,20 @@ export class ConfigurationComponent implements OnInit {
       enableSearchFilter: false,
       classes: "activeSelectBox",
       enableCheckAll: true
+    }
+
+    this.dropdownSettingsAttachmentType = {
+      singleSelection: true,
+      text: 'Select Attachment Type',
+      enableSearchFilter: false,
+      autoPosition: false
+    }
+
+    this.dropdownSettingsAttachmentSubType = {
+      singleSelection: true,
+      text: 'Select Attachment Sub Type',
+      enableSearchFilter: false,
+      autoPosition: false
     }
 
     // this.getConfiguration();
@@ -193,6 +215,7 @@ export class ConfigurationComponent implements OnInit {
     this.showTaxonomyListToggle = false;
     this.totalLookupTaxonomy = 0;
     this.getTaxonomyLink('');
+    this.getAttachmentType();
   }
 
   selectTaxonomyLink(event: any) {
@@ -643,6 +666,8 @@ export class ConfigurationComponent implements OnInit {
     this.licenseLookupConfigRequest.type = this.crawlerType;
     this.licenseLookupConfigRequest.version = this.credilyVersion;
     this.licenseLookupConfigRequest.licenseLookUpName = this.lookupName;
+    this.licenseLookupConfigRequest.attachmentType = this.attachmentType;
+    this.licenseLookupConfigRequest.attachmentSubType = this.attachmentSubType;
     this.licenseLookupConfigRequest.licenseLookUpLink = this.lookupLink;
     this.licenseLookupConfigRequest.taxonomyIdList = this.selectedTaxonomyIds;
     this.licenseLookupConfigRequest.testingProviderUuid = this.providerUuid;
@@ -1052,9 +1077,56 @@ export class ConfigurationComponent implements OnInit {
   }
 
 
-
   toggleType(type:string){
     this.crawlerType = type;
+  }
+
+  attachmentTypeList: any[] = new Array()
+  getAttachmentType(){
+    this.lookupTaxonomyService.getAttachmentType().subscribe(response=>{
+      response.forEach((e:any)=>{
+        var temp : {id: any, itemName: any} = {id: e.id, itemName:e.name};
+        this.attTypeList.push(temp);
+      })
+      this.attTypeList = JSON.parse(JSON.stringify(this.attTypeList));
+    },error=>{
+
+    })
+  }
+
+  attachmentId:number=0;
+  attachmentType:string='';
+  selectAttType(event:any){
+    debugger
+    this.attSubTypeList = [];
+    this.attachmentSubType = '';
+    if(event[0] != undefined && event.length > 0){
+      this.selectedAttType = event;
+      this.attachmentId = event[0].id;
+      this.attachmentType = event[0].name;
+      this.getAttachmentSubType();
+    }
+  }
+
+  getAttachmentSubType(){
+    this.lookupTaxonomyService.getAttachmentSubType(this.attachmentId).subscribe(response=>{
+      response.forEach((e:any)=>{
+        var temp : {id: any, itemName: any} = {id: e.id, itemName:e.name};
+        this.attSubTypeList.push(temp);
+      })
+      this.attSubTypeList = JSON.parse(JSON.stringify(this.attSubTypeList));
+    },error=>{
+
+    })
+  }
+
+  attachmentSubType:string='';
+  selectAttSubType(event:any){
+    debugger
+    if(event[0] != undefined && event.length > 0){
+      this.selectedAttSubType = event;
+      this.attachmentSubType = event[0].name;
+    }
   }
 
 }

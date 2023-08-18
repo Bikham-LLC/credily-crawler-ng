@@ -240,6 +240,26 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="col-lg-6">
+                                            <div class="lookupSearchForm">
+                                                <div class="position-relative">
+                                                    <label class="">Attachment Type<sup class="text-danger">*</sup> </label>
+                                                    <angular2-multiselect id="attType" name="attType" [data]="attTypeList" [settings]="dropdownSettingsAttachmentType" [(ngModel)]="selectedAttType" (ngModelChange)="selectAttType($event)" required>
+                                                    </angular2-multiselect>
+                                                </div>
+                                                <!-- <small *ngIf="mapLookupTaxonomyForm.submitted && Constant.EMPTY_STRINGS.includes(credilyVersion)" style="color: red;">!</small> -->
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="lookupSearchForm">
+                                                <div class="position-relative">
+                                                    <label class="">Attachment Sub Type<sup class="text-danger">*</sup> </label>
+                                                    <angular2-multiselect id="attSubType" name="attSubType" [data]="attSubTypeList" [settings]="dropdownSettingsAttachmentSubType" [(ngModel)]="selectedAttSubType" (ngModelChange)="selectAttSubType($event)" required>
+                                                    </angular2-multiselect>
+                                                </div>
+                                                <!-- <small *ngIf="mapLookupTaxonomyForm.submitted && Constant.EMPTY_STRINGS.includes(credilyVersion)" style="color: red;">Select Credily Version!</small> -->
+                                            </div>
+                                        </div>
                                         <div class="col-lg-12 ">
                                             <div class="lookupSearchForm">
                                                 <div class="position-relative">

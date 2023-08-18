@@ -148,4 +148,14 @@ export class LookupTaxonomyService {
     .set('lookupLink', link)
     return this.http.post<any>(this.key.server_url + this.key.api_version_one + this.key.lookup_config_controller+'/lookup-name-tax-ids', lookupName, {params});
   }
+
+  getAttachmentType(): Observable<any>{
+    return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.lookup_config_controller+ '/attachment-type');
+  }
+
+  getAttachmentSubType(attachmentId:number): Observable<any>{
+    var params = new HttpParams()
+    .set('attachmentId', attachmentId)
+    return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.lookup_config_controller+ '/attachment-sub-type', {params});
+  }
 }
