@@ -206,6 +206,12 @@ export class ConfigurationComponent implements OnInit {
     this.lookupLink = '';
     this.lookupName = '';
     this.selectedStateName = '';
+    this.attachmentType = '';
+    this.attachmentSubType = '';
+    this.attTypeList = [];
+    this.attSubTypeList = [];
+    this.selectedAttType = [];
+    this.selectedAttSubType = [];
     this.configurationStepList = [];
     this.selectedLookupConfigId = 0;
     this.deselectedLookupNames = [];
@@ -434,6 +440,7 @@ export class ConfigurationComponent implements OnInit {
   closeTaxonomyModal() {
     this.databaseHelper = new DatabaseHelper();
     this.type = 'mapped';
+    
     // this.selectedTaxonomyIds = [];
   }
 
@@ -637,6 +644,8 @@ export class ConfigurationComponent implements OnInit {
     this.licenseLookupConfigRequest.version = this.credilyVersion;
     this.licenseLookupConfigRequest.licenseLookUpName = this.lookupName;
     this.licenseLookupConfigRequest.licenseLookUpLink = this.lookupLink;
+    this.licenseLookupConfigRequest.attachmentType = this.attachmentType;
+    this.licenseLookupConfigRequest.attachmentSubType = this.attachmentSubType;
     this.licenseLookupConfigRequest.lookupConfigId = this.selectedLookupConfigId;
     this.licenseLookupConfigRequest.taxonomyIdList = this.selectedTaxonomyIds;
     this.licenseLookupConfigRequest.userAccountUuid = String(localStorage.getItem(this.Constant.ACCOUNT_UUID));
@@ -899,6 +908,7 @@ export class ConfigurationComponent implements OnInit {
   screenShotUrl:any;
   configReportStatus:any;
   openEditModel(config: LookupConfiguration) {
+    debugger
     this.configstatus = config.configStatus;
     this.lastTestedOn = config.lastTestedOn;
     this.screenShotUrl = config.url;
@@ -910,6 +920,16 @@ export class ConfigurationComponent implements OnInit {
     this.showTaxonomyListToggle = false;
     this.selectedTaxonomyLink = [];
     this.selectedVersion = [];
+    this.selectedAttType = [];
+    this.selectedAttSubType = [];
+    if(!Constant.EMPTY_STRINGS.includes(config.attachmentType)){
+      var attType: { id: any, itemName: any } = { id: config.attachmentType, itemName: config.attachmentType };
+      this.selectedAttType.push(attType);
+    }
+    if(!Constant.EMPTY_STRINGS.includes(config.attachmentSubType)){
+      var attSubType: { id: any, itemName: any } = { id: config.attachmentSubType, itemName: config.attachmentSubType };
+      this.selectedAttSubType.push(attSubType);
+    }
     if (config.version == 'V2') {
       var temp: { id: any, itemName: any } = { id: 'V2', itemName: 'Credily V2' };
       this.selectedVersion.push(temp);
@@ -922,7 +942,7 @@ export class ConfigurationComponent implements OnInit {
     this.selectedTaxonomyIds = config.taxonomyId;
     // this.getLookupTaxonomy();
     this.getTaxonomyLink('');
-
+    this.getAttachmentType();    
     this.lookupModalButton.nativeElement.click();
   }
 
@@ -1100,10 +1120,10 @@ export class ConfigurationComponent implements OnInit {
     debugger
     this.attSubTypeList = [];
     this.attachmentSubType = '';
+    this.attachmentType = '';
     if(event[0] != undefined && event.length > 0){
-      this.selectedAttType = event;
       this.attachmentId = event[0].id;
-      this.attachmentType = event[0].name;
+      this.attachmentType = event[0].itemName;
       this.getAttachmentSubType();
     }
   }
@@ -1124,8 +1144,7 @@ export class ConfigurationComponent implements OnInit {
   selectAttSubType(event:any){
     debugger
     if(event[0] != undefined && event.length > 0){
-      this.selectedAttSubType = event;
-      this.attachmentSubType = event[0].name;
+      this.attachmentSubType = event[0].itemName;
     }
   }
 

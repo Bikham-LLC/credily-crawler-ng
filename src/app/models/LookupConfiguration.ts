@@ -9,6 +9,8 @@ export class LookupConfiguration{
     lastTestedOn:any;
     reportStatus:string='';
     url:any;
+    attachmentType:string='';
+    attachmentSubType:string='';
     createdDate:any;
     configStatus:string='';
     toggle:boolean=false;
