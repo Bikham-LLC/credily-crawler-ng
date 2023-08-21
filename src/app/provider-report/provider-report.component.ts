@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ReportService } from '../services/report.service';
 import { DatabaseHelper } from '../models/DatabaseHelper';
 import { ProviderReport } from '../models/ProviderReport';
 import * as moment from 'moment';
+import { ProviderRequestCrawlerLog } from '../models/ProviderRequestCrawlerLog';
+import { Constant } from '../models/Constant';
 
 @Component({
   selector: 'app-provider-report',
@@ -11,6 +13,7 @@ import * as moment from 'moment';
 })
 export class ProviderReportComponent implements OnInit {
 
+  readonly Constant = Constant;
   maxDate:any;
   selected !: { startDate: moment.Moment, endDate: moment.Moment };
   startDate: any = null;
@@ -87,6 +90,60 @@ export class ProviderReportComponent implements OnInit {
   pageChanged(event:any){
     this.databaseHelper.currentPage = event;
     this.getProviderReport();
+  }
+
+  @ViewChild('viewLogsButton') viewLogsButton!: ElementRef;
+  uuid :any;
+  viewLogs(providerUuid:string){
+    this.uuid = providerUuid;
+    this.viewLogsButton.nativeElement.click();
+    this.getProviderLogs(this.uuid);
+  }
+
+  providerCrawlerLogList:ProviderRequestCrawlerLog[]=new Array();
+  logLoadingToggle:boolean = false;
+  getProviderLogs(providerUuid:string){
+    this.logLoadingToggle = true;
+    this.reportService.getProviderLogs(providerUuid).subscribe(response=>{
+      this.providerCrawlerLogList = response;
+      this.logLoadingToggle = false;
+    },error=>{
+      this.logLoadingToggle = false;
+    })
+  }
+
+  providerTestingToggle:boolean = false;
+  testAgainProviderRequest(logId:number, index:number){
+    this.providerTestingToggle = true;
+    this.providerCrawlerLogList[index].reTestingToggle = true;
+    this.reportService.testAgainProviderRequest(logId).subscribe(response=>{
+      this.providerCrawlerLogList[index].reTestingToggle = false;
+      this.providerTestingToggle = false;
+      this.getProviderLogs(this.uuid);
+    },error=>{
+      this.providerTestingToggle = false;
+      this.providerCrawlerLogList[index].reTestingToggle = false;
+    })
+  }
+
+  @ViewChild('closeLogsButton') closeLogsButton!:ElementRef;
+  closeLogModel(){
+    this.closeLogsButton.nativeElement.click();
+  }
+
+  @ViewChild('openSnapshotModalButton') openSnapshotModalButton !: ElementRef;
+  imageUrl:string='';
+  viewSnapshot(url:string){
+    debugger
+    this.imageUrl = url;
+    this.closeLogsButton.nativeElement.click();
+    this.openSnapshotModalButton.nativeElement.click();
+  }
+
+  @ViewChild('closeSnapshotModalButton') closeSnapshotModalButton !: ElementRef;
+  closeSnapshotModal(){
+    this.closeSnapshotModalButton.nativeElement.click();
+    this.viewLogsButton.nativeElement.click();
   }
 
 }

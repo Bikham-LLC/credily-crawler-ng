@@ -32,4 +32,16 @@ export class ReportService {
     return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.provider_crawler_controller, {params});
   }
 
+  getProviderLogs(providerUuid:string):Observable<any> {
+    var params = new HttpParams()
+    .set('providerUuid', providerUuid)
+    return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.provider_crawler_controller + '/logs', {params});
+  }
+
+  testAgainProviderRequest(logId:number):Observable<any> {
+    var params = new HttpParams()
+    .set('logId', logId)
+    return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.provider_crawler_controller + '/test-again', {params});
+  }
+
 }

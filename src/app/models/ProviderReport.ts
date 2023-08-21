@@ -9,4 +9,5 @@ export class ProviderReport{
     createdDate : string = '';
     status : string = '';
     allocatedQueue : string = '';
+    providerUuid:string='';
 }

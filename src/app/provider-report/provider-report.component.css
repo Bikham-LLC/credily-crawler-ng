@@ -204,7 +204,7 @@
   }
   
   .actiontable {
-    font-size: 20px;
+    font-size: 12px;
     margin-right: 8px;
     cursor: pointer;
   }
@@ -253,5 +253,19 @@
     font-size: 16px;
     line-height: 28px;
     color: #3d3d3d;
+  }
+  .pointer{
+    cursor: pointer !important;
+  }
+  .modal-confirm .modal-content {
+    padding: 15px;
+    border-radius: 6px;
+    border: none;
+    text-align: center;
+    font-size: 14px;
+  }
+  .modal-custom {
+    max-width: 90%;
+    width: 100%;
   }
   

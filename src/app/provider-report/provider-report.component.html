@@ -47,13 +47,14 @@
                 <tr>
                   <th style="width: 5%">S. No.</th>
                   <th style="width: 15%">Provider Name</th>
-                  <th style="width: 15%">NPI</th>
-                  <th style="width: 15%">Email</th>
+                  <th style="width: 7%">NPI</th>
+                  <th style="width: 12%">Email</th>
                   <th style="width: 10%">Phone</th>
-                  <th style="width: 10%">Version</th>
+                  <th style="width: 8%">Version</th>
                   <th style="width: 10%">Date</th>
                   <th style="width: 10%">Allocated Queue</th>
                   <th style="width: 10%">Status</th>
+                  <th style="width: 8%">Logs</th>
                 </tr>
               </thead>
   
@@ -105,6 +106,13 @@
                         <span [ngClass]="{'statusactive':obj.status.toUpperCase()=='COMPLETED', 'statusinactive':obj.status.toUpperCase()=='NO CONFIG', 'statuspending':(obj.status.toUpperCase()!='COMPLETED' && obj.status.toUpperCase()!='NO CONFIG') }">
                             {{obj.status | titlecase}}
                         </span>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="actiontable">
+                      <span class="text-primary pointer" (click)="viewLogs(obj.providerUuid)">
+                        View
+                      </span>
                     </div>
                   </td>
 
@@ -218,4 +226,90 @@
         </form> -->
     </div>
 </div>
+</div>
+
+<!-- view Logs Model -->
+<button data-bs-toggle="modal" style="display: none;" data-bs-target="#viewLogs" id="viewLogsButton" #viewLogsButton></button>
+<div class="modal blur-bg-2" id="viewLogs" tabindex="-1" aria-labelledby="viewEditLabel" data-bs-backdrop="static" aria-hidden="true">
+    <div class="modal-dialog modal-custom modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header d-flex justify-content-between align-items-center">
+              <div><b>Logs</b></div>
+                <button type="button" class="btn-close" [disabled]="providerTestingToggle" data-bs-dismiss="modal" id="closeLogsButton" #closeLogsButton aria-label="Close" (click)="closeLogModel()"></button>
+            </div>
+            <div class="modal-body">
+              <div>
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th style="width: 10%">S. No.</th>
+                      <th style="width: 20%">Lookup Name</th>
+                      <th style="width: 20%">Lookup Link</th>
+                      <th style="width: 5%">Status</th>
+                      <th style="width: 15%">Created Date</th>
+                      <th style="width: 25%;text-align: center;">Action</th>
+                    </tr>
+                  </thead>
+      
+                  <tbody>
+                    <tr *ngFor="let log of providerCrawlerLogList; let i =index;">
+                      <td>
+                        <div class="tableinfo">
+                          {{i+1}}
+                        </div>
+                      </td>
+                      <td>
+                        <div class="tableinfo">
+                          <span> {{log.lookupName}}</span>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="tableinfo">
+                          <span>{{log.lookupLink}}</span>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="tableinfo">
+                          <span *ngIf="log.status==0" class="statusinactive">Failed</span>
+                          <span *ngIf="log.status==1" class="statusactive">Completed</span>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="tableinfo">
+                          <span>{{log.createdDate | date: 'MMM dd, yyyy'}}</span>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="tableinfo d-flex align-items-center justify-content-between" style="padding-right: 14%;">
+                          <Button type="button" style="height: 33px;" [disabled]="log.reTestingToggle || providerTestingToggle" class="btn primaryBtn" (click)="testAgainProviderRequest(log.id, i)" >Re-run
+                            <i *ngIf="log.reTestingToggle" class="spinner-border spinner-border-sm"></i><h6 style="height: 9px;"><i *ngIf="!log.reTestingToggle" class="bi bi-arrow-clockwise"></i></h6>
+                          </Button>
+                          <Button type="button" style="height: 33px;" [disabled]="log.reTestingToggle || Constant.EMPTY_STRINGS.includes(log.snapShotUrl) || providerTestingToggle" class="btn primaryBtn" (click)="viewSnapshot(log.snapShotUrl)">View
+                            <h6 style="height: 9px;"><i class="bi bi-eye pointer"></i></h6>
+                          </Button>                           
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- show image modal -->
+<button type="button" #openSnapshotModalButton id="openSnapshotModalButton" class="d-none" data-bs-toggle="modal" data-bs-target="#showImageModal"></button>
+<div class="modal blur-bg-2" id="showImageModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="shareModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="max-width:95%;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Snapshot</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="closeSnapshotModal()" #closeSnapshotModalButton id="closeSnapshotModalButton"></button>
+            </div>
+            <div class="modal-body text-center" style="overflow: scroll;min-height: 450px;">
+                <img [src]="imageUrl | safe" alt="" />
+            </div>
+        </div>
+    </div>
 </div>
