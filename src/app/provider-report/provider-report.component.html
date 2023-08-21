@@ -239,7 +239,7 @@
             </div>
             <div class="modal-body">
               <div>
-                <table class="table">
+                <table class="table" *ngIf="!logLoadingToggle && providerCrawlerLogList.length>0">
                   <thead>
                     <tr>
                       <th style="width: 10%">S. No.</th>
@@ -247,7 +247,7 @@
                       <th style="width: 20%">Lookup Link</th>
                       <th style="width: 5%">Status</th>
                       <th style="width: 15%">Created Date</th>
-                      <th style="width: 25%;text-align: center;">Action</th>
+                      <th style="width: 25%;text-align: center;padding-right: 105px;">Action</th>
                     </tr>
                   </thead>
       
@@ -280,7 +280,7 @@
                         </div>
                       </td>
                       <td>
-                        <div class="tableinfo d-flex align-items-center justify-content-between" style="padding-right: 14%;">
+                        <div class="tableinfo d-flex align-items-center justify-content-between" style="padding-right: 30%;">
                           <Button type="button" style="height: 33px;" [disabled]="log.reTestingToggle || providerTestingToggle" class="btn primaryBtn" (click)="testAgainProviderRequest(log.id, i)" >Re-run
                             <i *ngIf="log.reTestingToggle" class="spinner-border spinner-border-sm"></i><h6 style="height: 9px;"><i *ngIf="!log.reTestingToggle" class="bi bi-arrow-clockwise"></i></h6>
                           </Button>
@@ -294,8 +294,17 @@
                 </table>
               </div>
             </div>
+            <!-- Empty notification -->
+            <div class="empty-notific text-center mt-5" *ngIf="!logLoadingToggle && providerCrawlerLogList.length==0">
+              <div class="empty-notificinner">
+      
+                <img src="assets/images/allexpirable.svg" style="width: 25%;" alt="no data found" />
+                <h6 class="m-3 ps-5">No data found</h6>
+              </div>
+            </div>
+            <app-circular-loader *ngIf="logLoadingToggle"></app-circular-loader>
+          </div>
         </div>
-    </div>
 </div>
 
 <!-- show image modal -->
