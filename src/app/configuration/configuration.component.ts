@@ -123,10 +123,10 @@ export class ConfigurationComponent implements OnInit {
     }
     this.dropdownSettingsTaxonomyLink = {
       singleSelection: true,
-      text: 'Select Lookup Link',
+      text: 'Select Link',
       enableSearchFilter: true,
       autoPosition: false,
-      searchPlaceholderText: 'Search By Lookup Name'
+      searchPlaceholderText: 'Search By Name'
     }
     this.dropdownSettingsLookupNames = {
       singleSelection: false,
