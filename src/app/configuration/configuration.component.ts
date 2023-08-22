@@ -343,8 +343,8 @@ export class ConfigurationComponent implements OnInit {
     this.selectedTaxonomyIds = [];
     this.loadingLookupTaxonomy = true;
     this.lookupTaxonomyService.getLinkTaxonomyIds(lookupLink).subscribe(resp => {
-      if (resp.object != null) {
-        this.selectedTaxonomyIds = resp.object;
+      if (resp != null) {
+        this.selectedTaxonomyIds = resp;
         if (this.selectedTaxonomyIds.length > 0) {
           this.lookupTaxonomyList.forEach(x => {
             if (this.selectedTaxonomyIds.includes(x.id)) {

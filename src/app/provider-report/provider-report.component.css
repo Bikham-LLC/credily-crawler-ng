@@ -265,7 +265,13 @@
     font-size: 14px;
   }
   .modal-custom {
-    max-width: 95%;
+    max-width: 80%;
     width: 100%;
   }
-  
+  .textClamp>span {
+    display: block;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    max-width: 220px;
+}

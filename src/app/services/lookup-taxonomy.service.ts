@@ -31,8 +31,6 @@ export class LookupTaxonomyService {
   }
 
   getLinkTaxonomyIds(link:string): Observable<any> {
-    // const params = new HttpParams()
-    // .set('link', link)
     return this.http.post<any>(this.key.server_url + this.key.api_version_one + this.key.lookup_config_controller+'/taxonomy-ids', link);
   }
 
