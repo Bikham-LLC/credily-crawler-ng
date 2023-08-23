@@ -56,7 +56,7 @@ export class LookupTaxonomyService {
     return this.http.post<any>(this.key.server_url + this.key.api_version_one + this.key.lookup_config_controller + "/replicate",{}, {params});
   }
 
-  getConfiguration(databaseHelper:DatabaseHelper, startDate:any, endDate:any, version:any, configReportStatus:any): Observable<any> {
+  getConfiguration(databaseHelper:DatabaseHelper, startDate:any, endDate:any, version:any, configReportStatus:any, type:string): Observable<any> {
     if(databaseHelper==undefined || databaseHelper==null){
       databaseHelper = new DatabaseHelper();
     }
@@ -67,6 +67,7 @@ export class LookupTaxonomyService {
     .set('itemsPerPage', databaseHelper.itemsPerPage)
     .set('version', version)
     .set('configReportStatus', configReportStatus)
+    .set('type', type)
     if(!Constant.EMPTY_STRINGS.includes(startDate) && !Constant.EMPTY_STRINGS.includes(startDate)){
       params = params.set('startDate', startDate)
       .set('endDate', endDate)
@@ -74,10 +75,10 @@ export class LookupTaxonomyService {
     return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.lookup_config_controller+'/lookup', {params});
   }
 
-  getTaxonomyLink(search:any): Observable<any> {
+  getTaxonomyLink(search:any, crawlerType:string): Observable<any> {
     const params = new HttpParams()
     .set('search', search)
-    // .set('type', crawlerType)
+    .set('type', crawlerType)
     return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.lookup_config_controller+'/taxonomy-link', {params});
   }
 
@@ -138,8 +139,10 @@ export class LookupTaxonomyService {
     return this.http.patch<any>(this.key.server_url + this.key.api_version_one + this.key.lookup_config_controller + "/taxonomy-link", temp);
   }
 
-  getLinkLookupName(link:string): Observable<any> {
-    return this.http.post<any>(this.key.server_url + this.key.api_version_one + this.key.lookup_config_controller+'/lookup-name', link);
+  getLinkLookupName(link:string, type:string): Observable<any> {
+    var params = new HttpParams()
+    .set('type', type)
+    return this.http.post<any>(this.key.server_url + this.key.api_version_one + this.key.lookup_config_controller+'/lookup-name', link, {params});
   }
 
   getTaxIdsWithLookupName(lookupName:any, link:string): Observable<any> {

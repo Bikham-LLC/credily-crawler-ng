@@ -64,7 +64,7 @@ export class ConfigurationComponent implements OnInit {
   lookupLink: string = '';
   selectedStateName: string = '';
   credilyVersion: string = '';
-  crawlerType: string = this.Constant.CRAWLER_TYPE_LOOKUP_LINK;
+  crawlerType: string = this.Constant.CRAWLER_TYPE_LICENSE_LOOKUP;
   @ViewChild('lookupModalButton') lookupModalButton !: ElementRef;
   @ViewChild('mapLookupTaxonomyForm') mapLookupTaxonomyForm: any;
 
@@ -176,7 +176,7 @@ export class ConfigurationComponent implements OnInit {
   getConfiguration() {
     debugger
     this.loadingConfiguration = true;
-    this.lookupTaxonomyService.getConfiguration(this.configDatabaseHelper, this.startDate, this.endDate, this.credilyVersion, '').subscribe(response => {
+    this.lookupTaxonomyService.getConfiguration(this.configDatabaseHelper, this.startDate, this.endDate, this.credilyVersion, '', this.crawlerType).subscribe(response => {
       if (response.status && response.object != null) {
         this.configList = response.object;
         this.totalConfiguration = response.totalItems;
@@ -247,7 +247,7 @@ export class ConfigurationComponent implements OnInit {
     debugger
     this.selectedLookupNames = [];
     this.mappedLookupNames = [];
-    this.lookupTaxonomyService.getLinkLookupName(lookupLink).subscribe(response=>{
+    this.lookupTaxonomyService.getLinkLookupName(lookupLink, this.crawlerType).subscribe(response=>{
       if(response.dtoList != null){
         this.allLookupNamesList = response.dtoList;
         this.allLookupNamesList.forEach(element=>{
@@ -312,7 +312,7 @@ export class ConfigurationComponent implements OnInit {
     if(!this.Constant.EMPTY_STRINGS.includes(this.lookupLink)){
       this.taxanomyLinkLoading = true;
     }
-    this.lookupTaxonomyService.getTaxonomyLink(search).subscribe(response => {
+    this.lookupTaxonomyService.getTaxonomyLink(search, this.crawlerType).subscribe(response => {
       if (response != null) {
         this.taxonomyLinkList = [];
         response.forEach((element: any) => {
@@ -1097,8 +1097,9 @@ export class ConfigurationComponent implements OnInit {
   }
 
 
-  toggleType(type:string){
+  getConfigurationWithType(type:string){
     this.crawlerType = type;
+    this.getConfiguration();
   }
 
   attachmentTypeList: any[] = new Array()

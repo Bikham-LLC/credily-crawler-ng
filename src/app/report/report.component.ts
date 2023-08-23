@@ -69,7 +69,7 @@ export class ReportComponent implements OnInit {
   configDatabaseHelper: DatabaseHelper = new DatabaseHelper();
   getConfiguration() {
     this.loadingConfiguration = true;
-    this.lookupTaxonomyService.getConfiguration(this.configDatabaseHelper, this.startDate, this.endDate, this.version, this.reportStatus).subscribe(response => {
+    this.lookupTaxonomyService.getConfiguration(this.configDatabaseHelper, this.startDate, this.endDate, this.version, this.reportStatus,'').subscribe(response => {
       if (response.status && response.object != null) {
         this.configList = response.object;
         this.totalConfiguration = response.totalItems;

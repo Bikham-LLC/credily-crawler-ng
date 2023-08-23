@@ -7,7 +7,7 @@ export class Constant{
 	static EVENT_HIDE = [7,8,10,19,21,22,23,24,25];
 	static ENTITY_HIDE = [4,6,19,23,24,25];
 
-	static CRAWLER_TYPE_LOOKUP_LINK = 'Lookup Link';
+	static CRAWLER_TYPE_LICENSE_LOOKUP = 'License Lookup';
 	static CRAWLER_TYPE_BOARD_CERTIFICATION = 'Board Certification';
 
     /**
