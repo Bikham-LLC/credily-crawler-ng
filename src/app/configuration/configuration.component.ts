@@ -354,7 +354,7 @@ export class ConfigurationComponent implements OnInit {
         }
         this.getMappedTaxonomy(this.type);
       }
-      this.loadingLookupTaxonomy = false;
+      // this.loadingLookupTaxonomy = false;
     }, error => {
       // this.dataService.showToast(error.error);
       this.loadingLookupTaxonomy = false;
