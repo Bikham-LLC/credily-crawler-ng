@@ -27,8 +27,10 @@
                                         </div>
                                     </div>
                                     <div class="col-lg-3 px-2">
-                                        <input type="text" autocomplete="off" class="form-control" name="daterange" placeholder="Select Date Range" ngxDaterangepickerMd [maxDate]="maxDate" [opens]="'right'" [locale]="{applyLabel: 'Apply', format: 'MM-DD-YYYY'}" [(ngModel)]="selected" (ngModelChange)="selectDateFilter($event)">
-                                        <!-- <input type="text" autocomplete="off" class="form-control" name="daterange" placeholder="Select Date Range" ngxDaterangepickerMd [maxDate]="maxDate" [opens]="'right'" [locale]="{applyLabel: 'Apply', format: 'MM-DD-YYYY', clearLabel: 'Clear', cancelLabel: 'Cancel'}" [(ngModel)]="selected" (ngModelChange)="selectDateFilter($event)" (clearClicked)="clearDateFilter()"> -->
+                                        <div class="dateRangeFilter">
+                                            <input type="text" autocomplete="off" class="form-control" name="daterange" placeholder="Select Date Range" ngxDaterangepickerMd [showClearButton]="true" [maxDate]="maxDate" [opens]="'right'" [locale]="{applyLabel: 'Apply', format: 'MM-DD-YYYY'}" [(ngModel)]="selected" (ngModelChange)="selectDateFilter($event)">
+                                            <!-- <input type="text" autocomplete="off" class="form-control" name="daterange" placeholder="Select Date Range" ngxDaterangepickerMd [maxDate]="maxDate" [opens]="'right'" [locale]="{applyLabel: 'Apply', format: 'MM-DD-YYYY', clearLabel: 'Clear', cancelLabel: 'Cancel'}" [(ngModel)]="selected" (ngModelChange)="selectDateFilter($event)" (clearClicked)="clearDateFilter()"> -->                                    
+                                        </div>
                                     </div>
                                     
                                 </div>
@@ -450,7 +452,7 @@
                     <div class="modal-footer">
                         <button type="button" class="btn primarycancelbtn" style="border-color: #F05252 !important;" 
                         data-bs-dismiss="modal" #closeTaxomonModalButton (click)="closeTaxonomyModal()">Close</button>
-                        <button type="submit" class="btn primaryBtn" [disabled]="selectedTaxonomyIds.length==0 || mapLookupTaxonomyForm.invalid || updateLinkToggle || taxanomyLinkLoading || loadingLookupTaxonomy">Save changes</button>
+                        <button type="submit" class="btn primaryBtn" [disabled]=" mapLookupTaxonomyForm.invalid || updateLinkToggle || taxanomyLinkLoading || loadingLookupTaxonomy">Save changes</button>
                     </div>
                 </form>
             </div>

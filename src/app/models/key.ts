@@ -15,6 +15,7 @@ export class Keys{
     crewler_controller = '/web-crawler'
     provider_crawler_controller = '/provider-crawler'
     queue = '/aws';
+    report = '/report'
     
     
 }

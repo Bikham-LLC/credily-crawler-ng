@@ -44,4 +44,31 @@ export class ReportService {
     return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.provider_crawler_controller + '/test-again', {params});
   }
 
+  // ------------------------------- config report section -----------------------
+
+  getConfigReport(databaseHelper:DatabaseHelper, startDate:any, endDate:any, version:any, configReportStatus:any, type:string): Observable<any> {
+    if(databaseHelper==undefined || databaseHelper==null){
+      databaseHelper = new DatabaseHelper();
+    }
+    var params = new HttpParams()
+    .set('search', databaseHelper.search)
+    .set('searchBy', databaseHelper.searchBy)
+    .set('currentPage', databaseHelper.currentPage)
+    .set('itemsPerPage', databaseHelper.itemsPerPage)
+    .set('version', version)
+    .set('configReportStatus', configReportStatus)
+    if(!Constant.EMPTY_STRINGS.includes(startDate) && !Constant.EMPTY_STRINGS.includes(startDate)){
+      params = params.set('startDate', startDate)
+      .set('endDate', endDate)
+    }
+    return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.report + '/config-status', {params});
+  }
+
+
+  idToTestConfig(ids:any) :Observable<any> { 
+    const params = new HttpParams()
+    .set('ids', ids)
+    return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.report + "/test", {params});
+  }
+
 }

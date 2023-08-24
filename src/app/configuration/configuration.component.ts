@@ -141,14 +141,14 @@ export class ConfigurationComponent implements OnInit {
     this.dropdownSettingsAttachmentType = {
       singleSelection: true,
       text: 'Select Attachment Type',
-      enableSearchFilter: false,
+      enableSearchFilter: true,
       autoPosition: false
     }
 
     this.dropdownSettingsAttachmentSubType = {
       singleSelection: true,
       text: 'Select Attachment Sub Type',
-      enableSearchFilter: false,
+      enableSearchFilter: true,
       autoPosition: false
     }
 

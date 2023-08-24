@@ -1,12 +1,10 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { LookupConfiguration } from '../models/LookupConfiguration';
 import { DatabaseHelper } from '../models/DatabaseHelper';
-import { LookupTaxonomyService } from '../services/lookup-taxonomy.service';
 import { DataService } from '../services/data.service';
 import { Constant } from '../models/Constant';
-import { Router } from '@angular/router';
-import { timeout } from 'rxjs/operators';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { ReportService } from '../services/report.service';
 
 @Component({
   selector: 'app-report',
@@ -16,8 +14,7 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 export class ReportComponent implements OnInit {
 
   readonly Constant = Constant;
-  constructor(private lookupTaxonomyService: LookupTaxonomyService,
-    private sanitizer: DomSanitizer,
+  constructor(private reportService: ReportService,
     private dataService: DataService) { }
    
     dropdownSettingsVersion !: { singleSelection: boolean; text: string; enableSearchFilter: boolean; autoPosition: boolean };
@@ -51,7 +48,7 @@ export class ReportComponent implements OnInit {
       autoPosition: false
     }
 
-    this.getConfiguration();
+    // this.getConfigReport();
     this.getStatus();
     this.getVersion();
   }
@@ -63,20 +60,20 @@ export class ReportComponent implements OnInit {
   switchTab(tab:string){
     this.selectedTab = tab;
   }
-  loadingConfiguration: boolean = false;
+  loadingConfigReport: boolean = false;
   configList: LookupConfiguration[] = new Array();
   totalConfiguration: number = 0;
   configDatabaseHelper: DatabaseHelper = new DatabaseHelper();
-  getConfiguration() {
-    this.loadingConfiguration = true;
-    this.lookupTaxonomyService.getConfiguration(this.configDatabaseHelper, this.startDate, this.endDate, this.version, this.reportStatus,'').subscribe(response => {
+  getConfigReport() {
+    this.loadingConfigReport = true;
+    this.reportService.getConfigReport(this.configDatabaseHelper, this.startDate, this.endDate, this.version, this.reportStatus,'').subscribe(response => {
       if (response.status && response.object != null) {
         this.configList = response.object;
         this.totalConfiguration = response.totalItems;
       }
-      this.loadingConfiguration = false;
+      this.loadingConfigReport = false;
     }, error => {
-      this.loadingConfiguration = false;
+      this.loadingConfigReport = false;
       this.dataService.showToast(error.error);
     })
   }
@@ -84,7 +81,7 @@ export class ReportComponent implements OnInit {
   configPageChanged(event: any) {
     if (event != this.configDatabaseHelper.currentPage) {
       this.configDatabaseHelper.currentPage = event;
-      this.getConfiguration();
+      this.getConfigReport();
     }
   }
 
@@ -105,7 +102,7 @@ export class ReportComponent implements OnInit {
       this.selectedStatus = event;
       this.reportStatus = event[0].id;
     }
-    this.getConfiguration();
+    this.getConfigReport();
   }
 
   getVersion(){
@@ -125,7 +122,7 @@ export class ReportComponent implements OnInit {
       this.selectedVersion = event;
       this.version = event[0].id;
     }
-    this.getConfiguration();
+    this.getConfigReport();
   }
 
   selectDateFilter(event: any) {
@@ -134,7 +131,7 @@ export class ReportComponent implements OnInit {
       this.startDate = new Date(this.selected.startDate.toDate()).toDateString();
       this.endDate = new Date(this.selected.endDate.toDate()).toDateString();
     }
-    this.getConfiguration();
+    this.getConfigReport();
 
   }
 
@@ -171,11 +168,12 @@ export class ReportComponent implements OnInit {
   testingConfigToggle:boolean = false;
   testConfig(){
     this.testingConfigToggle = true;
-    this.lookupTaxonomyService.idToTestConfig(this.ids).subscribe(response=>{
+    this.reportService.idToTestConfig(this.ids).subscribe(response=>{
     if(response.status){
       this.ids = [];
     }
     this.testingConfigToggle = false;
+    this.getConfigReport();
     }, error=>{
       this.testingConfigToggle = false;
     })

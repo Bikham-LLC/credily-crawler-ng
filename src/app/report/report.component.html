@@ -8,7 +8,9 @@
                     <div class="dashNav-paneinner">
                         <div class="row justify-content-between align-items-center p-1">
                             <div class="col-lg-4 mb-3 px-2">
-                                <input type="text" autocomplete="off" class="form-control" name="daterange" placeholder="Select Date Range" ngxDaterangepickerMd  [maxDate]="maxDate" [opens]="'right'" [locale]="{applyLabel: 'Apply', format: 'MM-DD-YYYY'}" [(ngModel)]="selected" (ngModelChange)="selectDateFilter($event)">
+                                <div class="dateRangeFilter">
+                                    <input type="text" autocomplete="off" class="form-control" name="daterange" placeholder="Select Date Range" ngxDaterangepickerMd [showClearButton]="true" [maxDate]="maxDate" [opens]="'right'" [locale]="{applyLabel: 'Apply', format: 'MM-DD-YYYY'}" [(ngModel)]="selected" (ngModelChange)="selectDateFilter($event)">
+                                </div>
                             </div>
                             <div class="col-lg-4 mb-3 px-2">
                                 <div class="lookupSearchForm">
@@ -29,11 +31,11 @@
                         </div>
 
                          
-                        <div class=" p-5" *ngIf="loadingConfiguration">
+                        <div class=" p-5" *ngIf="loadingConfigReport">
                             <app-circular-loader></app-circular-loader>
                         </div>
                         
-                        <div class="reportListing usertableinner no-wrap" *ngIf="!loadingConfiguration">
+                        <div class="reportListing usertableinner no-wrap" *ngIf="!loadingConfigReport">
                             <form>
                             <table class="table">
                                 <thead>
@@ -103,7 +105,7 @@
                         <div *ngIf="ids.length>0">
                             <button type="button" class="btn btn-primary" [disabled]="testingConfigToggle" (click)="testConfig()">Click to test configuration  <i class="spinner-border spinner-border-sm" *ngIf="testingConfigToggle"></i></button>
                         </div>
-                        <div class="row justify-content-center" *ngIf="!loadingConfiguration && configList.length > 0">   
+                        <div class="row justify-content-center" *ngIf="!loadingConfigReport && configList.length > 0">   
                             <div class="paginationmain w-100 px-3 mt-2">
                                 <div class="d-flex align-items-center justify-content-between">
                                     <p class="currentshowing mb-0">
@@ -117,7 +119,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="empty-notific text-center mt-5" *ngIf="!loadingConfiguration && configList.length == 0">
+                    <div class="empty-notific text-center mt-5" *ngIf="!loadingConfigReport && configList.length == 0">
                         <div class="empty-notificinner">
                             <img src="assets/images/allexpirable.svg" style="width: 30%;margin-right: 118px;" alt="no data found" />
                             <h6 class="m-3 ps-6">No data found</h6>

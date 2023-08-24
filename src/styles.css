@@ -332,3 +332,9 @@ label.form-label.labelCls {
 .inlineTaxoformstate app-state-dropdown .selected-list .c-btn {
   border-radius: 4px 0px 0px 4px !important;
 }
+.md-drppicker .btn.btn-default>svg {
+  display: none !important;
+}
+.md-drppicker .btn.btn-default {
+  padding: 0 15px !important;
+}
