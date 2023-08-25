@@ -976,6 +976,9 @@ export class ConfigurationComponent implements OnInit {
     // this.totalConfiguration = this.totalConfiguration-1;
     this.deletingConfguration = true;
     this.lookupTaxonomyService.deleteConfiguration(this.deletedId).subscribe(response => {
+      if(response.status){
+        this.dataService.showToast(response.message);
+      }
       this.getConfiguration();
       this.deletingConfguration = false;
     }, error => {
