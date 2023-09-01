@@ -492,6 +492,7 @@ export class ConfigurationComponent implements OnInit {
     this.customAttribute='';
     this.customTag='';
     this.customValue='';
+    this.attTypeList = [];
     this.cofigStepRequest = new ConfigRequest();
     this.addConfigStepModalButton.nativeElement.click();
     this.getArribute();
@@ -970,6 +971,7 @@ export class ConfigurationComponent implements OnInit {
   }
 
   deletingConfguration: boolean = false;
+  @ViewChild('deleteCloseModalButton') deleteCloseModalButton!: ElementRef;
   confirmDeleteConfiguration() {
     debugger
     // this.configList.splice(this.deletedIndex, 1);
@@ -979,6 +981,7 @@ export class ConfigurationComponent implements OnInit {
       if(response.status){
         this.dataService.showToast(response.message);
       }
+      this.deleteCloseModalButton.nativeElement.click();
       this.getConfiguration();
       this.deletingConfguration = false;
     }, error => {
