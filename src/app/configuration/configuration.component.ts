@@ -214,7 +214,7 @@ export class ConfigurationComponent implements OnInit {
     this.selectedAttSubType = [];
     this.configurationStepList = [];
     this.selectedLookupConfigId = 0;
-    this.deselectedLookupNames = [];
+    this.selectedLookupName = [];
     this.lookupModalButton.nativeElement.click();
     // this.getLookupTaxonomy();
     this.type = 'mapped';
@@ -254,6 +254,8 @@ export class ConfigurationComponent implements OnInit {
           var temp: { id: any, itemName: any } = { id: element.taxanomyId, itemName: element.lookupName };
           this.selectedLookupNames.push(temp);
           this.mappedLookupNames.push(temp);
+          this.selectedLookupName.push(element.lookupName);
+          console.log(this.selectedLookupName);
         })
         this.selectedLookupNames = JSON.parse(JSON.stringify(this.selectedLookupNames));
         this.mappedLookupNames = JSON.parse(JSON.stringify(this.mappedLookupNames));
@@ -262,15 +264,15 @@ export class ConfigurationComponent implements OnInit {
     })    
   }
 
-  deselectedLookupNames: string[] = [];
+  selectedLookupName: string[] = [];
   searchSelectLookupName(event:any){
     debugger
     if (event != undefined && event.length>0) {
-      this.deselectedLookupNames = [];
+      this.selectedLookupName = [];
       event.forEach((e:any)=>{
-        this.deselectedLookupNames.push(e.itemName);
+        this.selectedLookupName.push(e.itemName);
       })
-      this.getTaxIdsWithLookupName(this.deselectedLookupNames);
+      this.getTaxIdsWithLookupName(this.selectedLookupName);
     }else{
       this.selectedTaxonomyIds = [];
       this.getMappedTaxonomy('mapped');
@@ -674,12 +676,13 @@ export class ConfigurationComponent implements OnInit {
     debugger
     this.savingConfiguration = true;
     this.licenseLookupConfigRequest.type = this.crawlerType;
+    this.licenseLookupConfigRequest.lookupNames = this.selectedLookupName;
     this.licenseLookupConfigRequest.version = this.credilyVersion;
     this.licenseLookupConfigRequest.licenseLookUpName = this.lookupName;
     this.licenseLookupConfigRequest.attachmentType = this.attachmentType;
     this.licenseLookupConfigRequest.attachmentSubType = this.attachmentSubType;
     this.licenseLookupConfigRequest.licenseLookUpLink = this.lookupLink;
-    this.licenseLookupConfigRequest.taxonomyIdList = this.selectedTaxonomyIds;
+    // this.licenseLookupConfigRequest.taxonomyIdList = this.selectedTaxonomyIds;
     this.licenseLookupConfigRequest.testingProviderUuid = this.providerUuid;
     this.licenseLookupConfigRequest.userAccountUuid = String(localStorage.getItem(this.Constant.ACCOUNT_UUID));
     this.licenseLookupConfigRequest.configRequests = this.configurationStepList;
@@ -917,6 +920,7 @@ export class ConfigurationComponent implements OnInit {
     this.selectedLookupConfigId = config.id;
     this.lookupName = config.lookupName;
     this.lookupLink = config.lookupLink;
+
     this.updateLinkToggle = false;
     this.showTaxonomyListToggle = false;
     this.selectedTaxonomyLink = [];
@@ -926,10 +930,12 @@ export class ConfigurationComponent implements OnInit {
     if(!Constant.EMPTY_STRINGS.includes(config.attachmentType)){
       var attType: { id: any, itemName: any } = { id: config.attachmentType, itemName: config.attachmentType };
       this.selectedAttType.push(attType);
+      this.attachmentType = config.attachmentType;
     }
     if(!Constant.EMPTY_STRINGS.includes(config.attachmentSubType)){
       var attSubType: { id: any, itemName: any } = { id: config.attachmentSubType, itemName: config.attachmentSubType };
       this.selectedAttSubType.push(attSubType);
+      this.attachmentSubType = config.attachmentSubType;
     }
     if (config.version == 'V2') {
       var temp: { id: any, itemName: any } = { id: 'V2', itemName: 'Credily V2' };
@@ -941,9 +947,8 @@ export class ConfigurationComponent implements OnInit {
       this.credilyVersion = 'V3';
     }
     this.selectedTaxonomyIds = config.taxonomyId;
-    // this.getLookupTaxonomy();
-    this.getTaxonomyLink('');
     this.getAttachmentType();    
+    this.getTaxonomyLink('');
     this.lookupModalButton.nativeElement.click();
   }
 

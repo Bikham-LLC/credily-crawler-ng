@@ -16,4 +16,8 @@ export class LicenseLookupConfigRequest{
     attachmentSubType:string='';
     taxonomyIdList : number[] = [];
     configRequests : ConfigRequest[] = [];
+
+    lookupNames:string[] = [];
+    removeIds:number[] = [];
+    mappedIds:number[] = [];
 }
