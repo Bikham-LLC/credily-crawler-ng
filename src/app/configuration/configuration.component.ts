@@ -255,7 +255,7 @@ export class ConfigurationComponent implements OnInit {
           this.selectedLookupNames.push(temp);
           this.mappedLookupNames.push(temp);
           this.selectedLookupName.push(element.lookupName);
-          console.log(this.selectedLookupName);
+          // console.log(this.selectedLookupName);
         })
         this.selectedLookupNames = JSON.parse(JSON.stringify(this.selectedLookupNames));
         this.mappedLookupNames = JSON.parse(JSON.stringify(this.mappedLookupNames));
@@ -381,6 +381,8 @@ export class ConfigurationComponent implements OnInit {
   }
 
 
+  mappedIds:number[] = new Array();
+  unMappedIds:number[] = new Array();
   selectTaxonomySingle(index: number) {
     debugger
 
@@ -392,9 +394,13 @@ export class ConfigurationComponent implements OnInit {
       var i = this.selectedTaxonomyIds.findIndex(x => x == this.lookupTaxonomyList[index].id);
       if (i > -1) {
         this.selectedTaxonomyIds.splice(i, 1);
+        this.unMappedIds.push(this.lookupTaxonomyList[index].id);
+        console.log('Unmapped IDs: ' + this.unMappedIds);
       }
     } else {
       this.selectedTaxonomyIds.push(this.lookupTaxonomyList[index].id);
+      this.mappedIds.push(this.lookupTaxonomyList[index].id);
+      console.log('mapped ids from unmapped: ' + this.mappedIds);
     }
 
     this.lookupTaxonomyList.splice(index, 1);
@@ -679,10 +685,11 @@ export class ConfigurationComponent implements OnInit {
     this.licenseLookupConfigRequest.lookupNames = this.selectedLookupName;
     this.licenseLookupConfigRequest.version = this.credilyVersion;
     this.licenseLookupConfigRequest.licenseLookUpName = this.lookupName;
+    this.licenseLookupConfigRequest.mappedIds = this.mappedIds;
+    this.licenseLookupConfigRequest.removeIds = this.unMappedIds;
     this.licenseLookupConfigRequest.attachmentType = this.attachmentType;
     this.licenseLookupConfigRequest.attachmentSubType = this.attachmentSubType;
     this.licenseLookupConfigRequest.licenseLookUpLink = this.lookupLink;
-    // this.licenseLookupConfigRequest.taxonomyIdList = this.selectedTaxonomyIds;
     this.licenseLookupConfigRequest.testingProviderUuid = this.providerUuid;
     this.licenseLookupConfigRequest.userAccountUuid = String(localStorage.getItem(this.Constant.ACCOUNT_UUID));
     this.licenseLookupConfigRequest.configRequests = this.configurationStepList;
@@ -923,6 +930,8 @@ export class ConfigurationComponent implements OnInit {
 
     this.updateLinkToggle = false;
     this.showTaxonomyListToggle = false;
+    this.unMappedIds = [];
+    this.mappedIds = [];
     this.selectedTaxonomyLink = [];
     this.selectedVersion = [];
     this.selectedAttType = [];
