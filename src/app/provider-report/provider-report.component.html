@@ -284,7 +284,7 @@
                       </td>
                       <td>
                         <div class="tableinfo d-flex align-items-center justify-content-end gap-2">
-                          <Button type="button" style="height: 33px;" [disabled]="log.reTestingToggle || providerTestingToggle" class="btn primaryBtn" (click)="testAgainProviderRequest(log.id, i)" >Re-run
+                          <Button type="button" style="height: 33px;" [disabled]="log.reTestingToggle || providerTestingToggle || (Constant.EMPTY_STRINGS.includes(log.lookupName) && Constant.EMPTY_STRINGS.includes(log.lookupLink))" class="btn primaryBtn" (click)="testAgainProviderRequest(log.id, i)" >Re-run
                             <i *ngIf="log.reTestingToggle" class="spinner-border spinner-border-sm"></i><h6 style="height: 9px;"><i *ngIf="!log.reTestingToggle" class="bi bi-arrow-clockwise"></i></h6>
                           </Button>
                           <Button type="button" style="height: 33px;" [disabled]="log.reTestingToggle || Constant.EMPTY_STRINGS.includes(log.snapShotUrl) || providerTestingToggle" class="btn primaryBtn" (click)="viewSnapshot(log.snapShotUrl)">View
