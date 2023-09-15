@@ -789,6 +789,7 @@ export class ConfigurationComponent implements OnInit {
     debugger
     this.subIndexedTab = innerIndex;
     this.selectedNestedColumns = '';
+    this.selectedColumns = '';
     this.selectedNestedsubColumn = '';
     this.columns[index].values.forEach(element => {
       element.isSelected = false;
@@ -806,6 +807,7 @@ export class ConfigurationComponent implements OnInit {
   selectedColumns: any;
   flag: boolean = false;
   selectedEntity: FormStructure = new FormStructure();
+  addColumnToggle:boolean = false;
   selectTab(columnObj: any, index: any) {
     debugger
     this.selectedEntity.val = "";
@@ -816,6 +818,7 @@ export class ConfigurationComponent implements OnInit {
     });
     this.selectedColumns = this.columns[index].key;
     this.columns[index].isSelected = true;
+    this.addColumnToggle = true;
     this.flag = false;
     this.indexedTab = index;
 
@@ -826,6 +829,19 @@ export class ConfigurationComponent implements OnInit {
       this.flag = true;
     }
   }
+
+  selectedColumnNames : string[] = new Array();
+  addColumns(){
+    debugger
+    if(this.selectedColumns.length > 0){
+      this.selectedColumnNames = this.selectedColumnNames.concat(this.selectedColumns);
+    } else if (this.selectedNestedColumns.length > 0) {
+      this.selectedColumnNames = this.selectedColumnNames.concat(this.selectedNestedColumns);
+    } else {
+      this.selectedColumnNames = this.selectedColumnNames.concat(this.selectedNestedsubColumn);
+    }
+  }
+
   countLoader: boolean = false;
   getNestedPrimaryColumn(dataObj: any) {
     debugger
@@ -888,9 +904,12 @@ export class ConfigurationComponent implements OnInit {
   subIndexedTab: any;
   selectedNestedsubColumn: any;
   selectNestedSubValue(columnId: any, nestedColumnId: any, nestedSubColumnId: any, nestedSubValueObj: any) {
+    debugger
     this.columns[columnId].values[nestedColumnId].values.forEach(element => {
       element.isSelected = false;
     });
+    this.selectedColumns = '';
+    this.selectedNestedColumns = '';
     this.selectedNestedsubColumn = "";
     nestedSubValueObj.isSelected = true;
     this.selectedNestedsubColumn = this.columns[columnId].values[nestedColumnId].values[nestedSubColumnId].key;
