@@ -192,7 +192,8 @@
                                         <div class="configSteps example-box position-relative" cdkDrag *ngFor="let step of configurationStepList; let i = index">
                                             <span class="removeSteps" title="Remove Step" (click)="removeStep(i)"><i class="bi bi-dash-circle-fill"></i></span>
                                             <label class="me-2 text-center">Step {{i+1}}</label>
-                                            <p>Crawler Attribute : {{step.crawlerAttribute}}, Lookup Element : {{step.lookUpElementDesc}}, Element Event : {{step.elementEvent}}, Entity Name : {{step.className}}, <span *ngIf="!Constant.EMPTY_STRINGS.includes(step.className) && step.className.toLowerCase()=='static'">Value : {{step.columnName}}</span> <span *ngIf=" (!Constant.EMPTY_STRINGS.includes(step.className) && step.className.toLowerCase()!='static') || Constant.EMPTY_STRINGS.includes(step.className)"> Column Name : {{step.columnName}}</span></p>
+                                            <p>Crawler Attribute : {{step.crawlerAttribute}}, Lookup Element : {{step.lookUpElementDesc}}, Element Event : {{step.elementEvent}}, Entity Name : {{step.className}}, Pattern : {{step.pattern}}, dataSourcePath : {{step.dataSourcePath}}, actionButton : {{step.actionButton}}
+                                                <span *ngIf="!Constant.EMPTY_STRINGS.includes(step.className) && step.className.toLowerCase()=='static'">Value : {{step.columnName}}</span> <span *ngIf=" (!Constant.EMPTY_STRINGS.includes(step.className) && step.className.toLowerCase()!='static') || Constant.EMPTY_STRINGS.includes(step.className)"> Column Name : {{step.columnName}}</span></p>
                                         </div>
                                     </div>
 
@@ -545,6 +546,43 @@
                                                 <div class="position-relative">
                                                     <label class="m-1">Column Name</label>
                                                     <input type="text" class="form-control" name="cName1" placeholder="Enter Column Name" [(ngModel)]="cofigStepRequest.columnName" maxlength="155" required>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-6" *ngIf="cofigStepRequest.crawlerAttributeId == 28">
+                                            <div class="lookupSearchForm">
+                                                <div class="position-relative">
+                                                    <label class="m-1">Pattern</label>
+                                                    <input type="text" class="form-control" name="pattern" placeholder="Enter pattern for search criteria" [(ngModel)]="cofigStepRequest.pattern" maxlength="155" required>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-6" *ngIf="cofigStepRequest.crawlerAttributeId == 28 || cofigStepRequest.crawlerAttributeId == 27">
+                                            <div class="lookupSearchForm">
+                                                <div class="position-relative">
+                                                    <label *ngIf="cofigStepRequest.crawlerAttributeId != 27"  class="m-1">Source path</label>
+                                                    <label *ngIf="cofigStepRequest.crawlerAttributeId == 27" class="m-1">Search list path</label>
+                                                    <input type="text" class="form-control" name="dataSourcePath" placeholder="Enter pattern for search criteria" [(ngModel)]="cofigStepRequest.dataSourcePath" maxlength="155" required>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-6" *ngIf="cofigStepRequest.crawlerAttributeId == 28">
+                                            <div class="lookupSearchForm">
+                                                <div class="position-relative">
+                                                    <label class="m-1">Selected Columns</label>
+                                                    <input type="text" class="form-control" name="customAtt" disabled [(ngModel)]="selectedColumnNames" maxlength="155" required>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-6" *ngIf="cofigStepRequest.crawlerAttributeId == 28">
+                                            <div class="lookupSearchForm">
+                                                <div class="position-relative">
+                                                    <label class="m-1">Action Button</label>
+                                                    <input type="text" class="form-control" name="actButton" placeholder="Enter action button path" [(ngModel)]="cofigStepRequest.actionButton" maxlength="155" required>
                                                 </div>
                                             </div>
                                         </div>

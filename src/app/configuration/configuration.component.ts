@@ -499,6 +499,7 @@ export class ConfigurationComponent implements OnInit {
     this.EventList = [];
     this.customAttribute='';
     this.customTag='';
+    this.selectedColumnNames = '';
     this.customValue='';
     this.attTypeList = [];
     this.cofigStepRequest = new ConfigRequest();
@@ -612,6 +613,7 @@ export class ConfigurationComponent implements OnInit {
 
   addConfigurationStep() {
     debugger
+    this.selectedColumnNames = '';
     this.addStepFormInvalid = false;
     if (this.addStepForm.invalid) {
       this.addStepFormInvalid = true;
@@ -621,7 +623,7 @@ export class ConfigurationComponent implements OnInit {
       this.cofigStepRequest.lookUpElementDesc = "//"+this.customTag+"[@"+this.customAttribute+"='"+this.customValue+"']";
       console.log(this.cofigStepRequest.lookUpElementDesc);
     }
-    console.log(this.cofigStepRequest.lookUpElementDesc);
+    // console.log(this.cofigStepRequest.lookUpElementDesc);
     this.configurationStepList.push(this.cofigStepRequest);
     this.closeAddStepModal.nativeElement.click();
     // this.attributeList = [];
@@ -739,6 +741,7 @@ export class ConfigurationComponent implements OnInit {
   @ViewChild('appUpdateSubStructureModalButton') appUpdateSubStructureModalButton!: ElementRef;
 
   openAddStepAndCloseColumn() {
+    this.selectedColumnNames = '';
     this.subStructureUpdateModalCloseButton.nativeElement.click();
     this.addConfigStepModalButton.nativeElement.click();
     // this.openAddConfigModal();
@@ -830,18 +833,6 @@ export class ConfigurationComponent implements OnInit {
     }
   }
 
-  selectedColumnNames : string[] = new Array();
-  addColumns(){
-    debugger
-    if(this.selectedColumns.length > 0){
-      this.selectedColumnNames = this.selectedColumnNames.concat(this.selectedColumns);
-    } else if (this.selectedNestedColumns.length > 0) {
-      this.selectedColumnNames = this.selectedColumnNames.concat(this.selectedNestedColumns);
-    } else {
-      this.selectedColumnNames = this.selectedColumnNames.concat(this.selectedNestedsubColumn);
-    }
-  }
-
   countLoader: boolean = false;
   getNestedPrimaryColumn(dataObj: any) {
     debugger
@@ -917,17 +908,34 @@ export class ConfigurationComponent implements OnInit {
 
 
 
+
+  // selectedColumnNames : string[] = new Array();
+  selectedColumnNames : string='';
+
+  addColumns(){
+    debugger
+    if(this.selectedColumns.length > 0){
+      this.selectedColumnNames = this.selectedColumnNames.concat(this.selectedColumns + ",");
+    } else if (this.selectedNestedColumns.length > 0) {
+      this.selectedColumnNames = this.selectedColumnNames.concat(this.selectedNestedColumns + ",");
+    } else {
+      this.selectedColumnNames = this.selectedColumnNames.concat(this.selectedNestedsubColumn + ",");  
+    }
+  }
+
   addCloumnNameObj() {
     debugger
 
-    if (!this.Constant.EMPTY_STRINGS.includes(this.selectedNestedsubColumn)) {
-      this.selectedEntity.val = this.selectedEntity.val + this.selectedColumns + "." + this.selectedNestedColumns + "." + this.selectedNestedsubColumn;
-    } else if (!this.Constant.EMPTY_STRINGS.includes(this.selectedNestedColumns)) {
-      this.selectedEntity.val = this.selectedEntity.val + this.selectedColumns + "." + this.selectedNestedColumns;
-    } else {
-      this.selectedEntity.val = this.selectedEntity.val + this.selectedColumns
-    }
-    this.cofigStepRequest.columnName = this.selectedEntity.val;
+    // if (!this.Constant.EMPTY_STRINGS.includes(this.selectedNestedsubColumn)) {
+    //   this.selectedEntity.val = this.selectedEntity.val + this.selectedColumns + "." + this.selectedNestedColumns + "." + this.selectedNestedsubColumn;
+    // } else if (!this.Constant.EMPTY_STRINGS.includes(this.selectedNestedColumns)) {
+    //   this.selectedEntity.val = this.selectedEntity.val + this.selectedColumns + "." + this.selectedNestedColumns;
+    // } else {
+    //   this.selectedEntity.val = this.selectedEntity.val + this.selectedColumns
+    // }
+    // this.cofigStepRequest.columnName = this.selectedEntity.val;
+    this.selectedColumnNames = this.selectedColumnNames.slice(0, -1);
+    this.cofigStepRequest.columnName = this.selectedColumnNames;
     this.openAddStepAndCloseColumn();
   }
 

@@ -5,4 +5,7 @@ export class ConfigRequest{
     elementEvent : string = '';
     className : string = '';
     columnName : string = '';
+    pattern : string='';
+    dataSourcePath:string='';
+    actionButton:string=''
 }
