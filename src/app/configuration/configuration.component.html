@@ -531,6 +531,14 @@
                                                 <small *ngIf="addStepForm.submitted && addStepFormInvalid && Constant.EMPTY_STRINGS.includes(cofigStepRequest.elementEvent)" style="color: red;">Select Event/Delay!</small>
                                             </div>
                                         </div>
+                                        <div class="col-lg-6" *ngIf="cofigStepRequest.crawlerAttributeId == 27">
+                                            <div class="lookupSearchForm">
+                                                <div class="position-relative">
+                                                    <label class="m-1">List path</label>
+                                                    <input type="text" class="form-control" name="listPath" placeholder="Enter list path" [(ngModel)]="cofigStepRequest.dataSourcePath" maxlength="255" required>
+                                                </div>
+                                            </div>
+                                        </div>
                                         <div class="col-lg-6" *ngIf="!Constant.ENTITY_HIDE.includes(cofigStepRequest.crawlerAttributeId)">
                                             <div class="lookupSearchForm">
                                                 <div class="position-relative">
@@ -559,11 +567,10 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-lg-6" *ngIf="cofigStepRequest.crawlerAttributeId == 28 || cofigStepRequest.crawlerAttributeId == 27">
+                                        <div class="col-lg-6" *ngIf="cofigStepRequest.crawlerAttributeId == 28">
                                             <div class="lookupSearchForm">
                                                 <div class="position-relative">
-                                                    <label *ngIf="cofigStepRequest.crawlerAttributeId != 27"  class="m-1">Source path</label>
-                                                    <label *ngIf="cofigStepRequest.crawlerAttributeId == 27" class="m-1">Search list path</label>
+                                                    <label class="m-1">Source path</label>
                                                     <input type="text" class="form-control" name="dataSourcePath" placeholder="Enter pattern for search criteria" [(ngModel)]="cofigStepRequest.dataSourcePath" maxlength="155" required>
                                                 </div>
                                             </div>
