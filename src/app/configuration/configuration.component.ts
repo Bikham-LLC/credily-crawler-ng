@@ -13,6 +13,7 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { LookupConfiguration } from '../models/LookupConfiguration';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { SubAttributeMap } from '../models/SubAttributeMap';
 
 @Component({
   selector: 'app-configuration',
@@ -661,6 +662,8 @@ export class ConfigurationComponent implements OnInit {
     this.licenseLookupConfigRequest.taxonomyIdList = this.selectedTaxonomyIds;
     this.licenseLookupConfigRequest.userAccountUuid = String(localStorage.getItem(this.Constant.ACCOUNT_UUID));
     this.licenseLookupConfigRequest.configRequests = this.configurationStepList;
+    // this.licenseLookupConfigRequest.configRequests[this.index].subAttributeMapList = this.subAttributeMapList;
+
     this.testingConfiguration = true;
     this.isInvalidConfiguration = false;
     this.lookupTaxonomyService.testConfiguration(this.licenseLookupConfigRequest, this.providerUuid).subscribe(response => {
@@ -696,6 +699,7 @@ export class ConfigurationComponent implements OnInit {
     this.licenseLookupConfigRequest.userAccountUuid = String(localStorage.getItem(this.Constant.ACCOUNT_UUID));
     this.licenseLookupConfigRequest.configRequests = this.configurationStepList;
     this.licenseLookupConfigRequest.lookupConfigId = this.selectedLookupConfigId;
+    // this.licenseLookupConfigRequest.configRequests[this.index].subAttributeMapList = this.subAttributeMapList;
     if (!this.isInvalidConfiguration) {
 
       if (this.selectedLookupConfigId > 0) {
@@ -1193,6 +1197,50 @@ export class ConfigurationComponent implements OnInit {
     debugger
     if(event[0] != undefined && event.length > 0){
       this.attachmentSubType = event[0].itemName;
+    }
+  }
+
+  // subAttributeMap: SubAttributeMap = new SubAttributeMap();
+  // subAttributeMapList: SubAttributeMap[] = new Array();
+  addSubStep(){
+    this.cofigStepRequest.subAttributeMapList.push(new SubAttributeMap());
+  }
+
+  removeSubStep(index:number){
+    this.cofigStepRequest.subAttributeMapList.splice(index, 1);
+  }
+  
+  index:number=0;
+  selectSubCrawlerAttribute(event:any, index:number){
+    debugger
+    if (event[0] != undefined) {
+      this.index = index;
+      this.cofigStepRequest.subAttributeMapList[index].selectAttribute = event;
+      this.cofigStepRequest.subAttributeMapList[index].crawlerAttributeId = event[0].id;
+    }
+  }
+  selectSubCrawlerEvent(event:any, index:number){
+    debugger
+    if (event[0] != undefined) {
+      this.cofigStepRequest.subAttributeMapList[index].selectedEvent = event;
+      this.cofigStepRequest.subAttributeMapList[index].elementEvent = event[0].id;
+    }
+  }
+  selectSubClassName(event:any, index:number){
+    debugger
+    this.cofigStepRequest.subAttributeMapList[index].className = '';
+    this.columnList = [];
+    if (event[0] != undefined) {
+      this.cofigStepRequest.subAttributeMapList[index].selectedClass = event;
+      this.cofigStepRequest.subAttributeMapList[index].className = event[0].itemName;
+      if (this.cofigStepRequest.subAttributeMapList[index].className.toLowerCase() != 'static') {
+        this.getPrimaryColumn(this.cofigStepRequest.subAttributeMapList[index].className);
+        this.appUpdateSubStructureModalButton.nativeElement.click();
+      }
+
+    } else {
+      this.columnList = [];
+      this.selectedColumn = [];
     }
   }
 

@@ -1,4 +1,5 @@
 import { ConfigRequest } from "./ConfigRequest";
+import { SubAttributeMap } from "./SubAttributeMap";
 
 export class LicenseLookupConfigRequest{
     type:string = '';
@@ -16,6 +17,7 @@ export class LicenseLookupConfigRequest{
     attachmentSubType:string='';
     taxonomyIdList : number[] = [];
     configRequests : ConfigRequest[] = [];
+    subAttributeMapRequests : SubAttributeMap[] = [];
 
     lookupNames:string[] = [];
     removeIds:number[] = [];

@@ -646,9 +646,10 @@ span.removeSteps {
   border-bottom: 1px solid #f1f1f1;
   margin-bottom: 1rem;
 }
-.mldConfigurationinner > .lookupSearch {
+.mldConfigurationinner > .lookupSearch:not(:last-child) {
   border-bottom: 1px solid #f1f1f1;
-  margin-bottom: 1rem !important;
+    margin-bottom: 0.5rem !important;
+    padding-bottom: 0.5rem;
 }
 .tlbctnbtnsinner {
   margin-bottom: 1rem;
@@ -711,3 +712,12 @@ span.removeSteps {
   text-align: center;
   color: #111928;
 }
+
+/* .mldConfigurationinner {
+  overflow-x: hidden;
+  overflow-y: auto;
+  max-height: 500px;
+}
+.mldConfigurationinner::-webkit-scrollbar{
+  display: none;
+} */
