@@ -594,6 +594,7 @@ export class ConfigurationComponent implements OnInit {
     debugger
     this.cofigStepRequest.className = '';
     this.columnList = [];
+    this.subClassToggle = false;
     if (event[0] != undefined) {
       this.selectedClass = event;
       this.cofigStepRequest.className = event[0].itemName;
@@ -699,7 +700,7 @@ export class ConfigurationComponent implements OnInit {
     this.licenseLookupConfigRequest.userAccountUuid = String(localStorage.getItem(this.Constant.ACCOUNT_UUID));
     this.licenseLookupConfigRequest.configRequests = this.configurationStepList;
     this.licenseLookupConfigRequest.lookupConfigId = this.selectedLookupConfigId;
-    // this.licenseLookupConfigRequest.configRequests[this.index].subAttributeMapList = this.subAttributeMapList;
+    this.licenseLookupConfigRequest.configRequests[this.index].subAttributeMapList = this.cofigStepRequest.subAttributeMapList;
     if (!this.isInvalidConfiguration) {
 
       if (this.selectedLookupConfigId > 0) {
@@ -938,6 +939,12 @@ export class ConfigurationComponent implements OnInit {
     //   this.selectedEntity.val = this.selectedEntity.val + this.selectedColumns
     // }
     // this.cofigStepRequest.columnName = this.selectedEntity.val;
+    // if(this.index > 0){
+      
+    //   this.cofigStepRequest.subAttributeMapList[this.index].columnName = this.selectedColumnNames;
+    // } else {
+    //   this.cofigStepRequest.columnName = this.selectedColumnNames;
+    // }
     this.selectedColumnNames = this.selectedColumnNames.slice(0, -1);
     this.cofigStepRequest.columnName = this.selectedColumnNames;
     this.openAddStepAndCloseColumn();
@@ -1208,29 +1215,20 @@ export class ConfigurationComponent implements OnInit {
 
   removeSubStep(index:number){
     this.cofigStepRequest.subAttributeMapList.splice(index, 1);
+    this.cofigStepRequest.subAttributeMapList[index].className = '';
+    this.cofigStepRequest.subAttributeMapList[index].columnName = '';
   }
   
-  index:number=0;
-  selectSubCrawlerAttribute(event:any, index:number){
-    debugger
-    if (event[0] != undefined) {
-      this.index = index;
-      this.cofigStepRequest.subAttributeMapList[index].selectAttribute = event;
-      this.cofigStepRequest.subAttributeMapList[index].crawlerAttributeId = event[0].id;
-    }
-  }
-  selectSubCrawlerEvent(event:any, index:number){
-    debugger
-    if (event[0] != undefined) {
-      this.cofigStepRequest.subAttributeMapList[index].selectedEvent = event;
-      this.cofigStepRequest.subAttributeMapList[index].elementEvent = event[0].id;
-    }
-  }
+  index:number = 0;
+  subClassToggle:boolean = false;
   selectSubClassName(event:any, index:number){
     debugger
+    this.subClassToggle = false;
     this.cofigStepRequest.subAttributeMapList[index].className = '';
     this.columnList = [];
+    this.index = index;
     if (event[0] != undefined) {
+      this.subClassToggle = true;
       this.cofigStepRequest.subAttributeMapList[index].selectedClass = event;
       this.cofigStepRequest.subAttributeMapList[index].className = event[0].itemName;
       if (this.cofigStepRequest.subAttributeMapList[index].className.toLowerCase() != 'static') {
@@ -1242,6 +1240,13 @@ export class ConfigurationComponent implements OnInit {
       this.columnList = [];
       this.selectedColumn = [];
     }
+  }
+
+  addSubCloumnNameObj() {
+    debugger
+    this.selectedColumnNames = this.selectedColumnNames.slice(0, -1);
+    this.cofigStepRequest.subAttributeMapList[this.index].columnName = this.selectedColumnNames;
+    this.openAddStepAndCloseColumn();
   }
 
 }

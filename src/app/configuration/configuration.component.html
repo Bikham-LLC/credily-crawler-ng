@@ -558,7 +558,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-lg-6" *ngIf="cofigStepRequest.crawlerAttributeId == 28">
+                                        <div class="col-lg-6" *ngIf="cofigStepRequest.crawlerAttributeId == 28 || cofigStepRequest.crawlerAttributeId == 5">
                                             <div class="lookupSearchForm">
                                                 <div class="position-relative">
                                                     <label class="m-1">Pattern</label>
@@ -594,36 +594,6 @@
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-6">
-                                                        <div class="lookupSearchForm">
-                                                            <div class="position-relative">
-                                                                <label class="m-1">Crawler Attribute</label>
-                                                                <angular2-multiselect id="att{{i}}" name="att{{i}}" [data]="attributeList" [settings]="dropdownSettingsAttribute" [(ngModel)]="obj.selectAttribute" (ngModelChange)="selectSubCrawlerAttribute($event, i)" required>
-                                                                </angular2-multiselect>
-                                                            </div>
-                                                            <small *ngIf="addStepForm.submitted && addStepFormInvalid && obj.crawlerAttributeId<=0" style="color: red;">Select Crawler Attribute!</small>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-6" *ngIf="!Constant.LOOKUP_HIDE.includes(obj.crawlerAttributeId)">
-                                                        <div class="lookupSearchForm">
-                                                            <div class="position-relative">
-                                                                <label class="m-1">Lookup Element</label>
-                                                                <input type="text" class="form-control" name="lEle{{i}}" placeholder="Enter Lookup Element" [(ngModel)]="obj.lookUpElementDesc" maxlength="155" required>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-            
-                                                    <div class="col-lg-6" *ngIf="!Constant.EVENT_HIDE.includes(obj.crawlerAttributeId)">
-                                                        <div class="lookupSearchForm">
-                                                            <div class="position-relative">
-                                                                <label class="m-1" *ngIf="obj.crawlerAttributeId == 6 ">Delay Time</label>
-                                                                <label class="m-1" *ngIf="obj.crawlerAttributeId != 6 ">Element Event</label>
-                                                                <angular2-multiselect id="class{{i}}" name="class{{i}}" [data]="EventList" [settings]="dropdownSettingsEvent" [(ngModel)]="obj.selectedEvent" (ngModelChange)="selectSubCrawlerEvent($event, i)" required>
-                                                                </angular2-multiselect>
-                                                            </div>
-                                                            <small *ngIf="addStepForm.submitted && addStepFormInvalid && Constant.EMPTY_STRINGS.includes(obj.elementEvent)" style="color: red;">Select Event/Delay!</small>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-6" *ngIf="!Constant.ENTITY_HIDE.includes(obj.crawlerAttributeId)">
                                                         <div class="lookupSearchForm">
                                                             <div class="position-relative">
                                                                 <label class="m-1">Entity Name</label>
@@ -794,7 +764,10 @@
                         <i class="ri-add-circle-line align-bottom me-2"></i>Add Column
                     </button>
 
-                    <button type="button" *ngIf="columns.length > 0" (click)="addCloumnNameObj()" class="btn btn-primary waves-effect waves-light">
+                    <button type="button" *ngIf="columns.length > 0 && !subClassToggle" (click)="addCloumnNameObj()" class="btn btn-primary waves-effect waves-light">
+                        <i class="ri-add-circle-line align-bottom me-2"></i>Submit
+                    </button>
+                    <button type="button" *ngIf="columns.length > 0 && subClassToggle" (click)="addSubCloumnNameObj()" class="btn btn-primary waves-effect waves-light">
                         <i class="ri-add-circle-line align-bottom me-2"></i>Submit
                     </button>
                 </div>
