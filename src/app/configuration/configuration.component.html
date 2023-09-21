@@ -558,7 +558,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-lg-6" *ngIf="cofigStepRequest.crawlerAttributeId == 28 || cofigStepRequest.crawlerAttributeId == 5">
+                                        <div class="col-lg-6" *ngIf="cofigStepRequest.crawlerAttributeId == 28 || cofigStepRequest.crawlerAttributeId == 5 || cofigStepRequest.crawlerAttributeId == 29 || cofigStepRequest.crawlerAttributeId == 20">
                                             <div class="lookupSearchForm">
                                                 <div class="position-relative">
                                                     <label class="m-1">Pattern</label>
@@ -567,7 +567,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-lg-6" *ngIf="cofigStepRequest.crawlerAttributeId == 28">
+                                        <div class="col-lg-6" *ngIf="cofigStepRequest.crawlerAttributeId == 28 || cofigStepRequest.crawlerAttributeId == 29">
                                             <div class="lookupSearchForm">
                                                 <div class="position-relative">
                                                     <label class="m-1">Source path</label>
@@ -576,7 +576,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-lg-6" *ngIf="cofigStepRequest.crawlerAttributeId == 28">
+                                        <div class="col-lg-6" *ngIf="cofigStepRequest.crawlerAttributeId == 28 || cofigStepRequest.crawlerAttributeId == 29">
                                             <div class="lookupSearchForm">
                                                 <div class="position-relative">
                                                     <label class="m-1">Action Button</label>
@@ -629,7 +629,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button *ngIf="cofigStepRequest.crawlerAttributeId == 28" type="button" class="btn primaryBtn" (click)="addSubStep()" >Add Sub Step</button>
+                        <button *ngIf="cofigStepRequest.crawlerAttributeId == 28 || cofigStepRequest.crawlerAttributeId == 29" type="button" class="btn primaryBtn" (click)="addSubStep()" >Add Sub Step</button>
                         <button type="submit" class="btn primaryBtn">Submit</button>
                     </div>
                 </form>
