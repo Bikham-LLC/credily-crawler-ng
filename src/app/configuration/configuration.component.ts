@@ -663,7 +663,7 @@ export class ConfigurationComponent implements OnInit {
     this.licenseLookupConfigRequest.taxonomyIdList = this.selectedTaxonomyIds;
     this.licenseLookupConfigRequest.userAccountUuid = String(localStorage.getItem(this.Constant.ACCOUNT_UUID));
     this.licenseLookupConfigRequest.configRequests = this.configurationStepList;
-    // this.licenseLookupConfigRequest.configRequests[this.index].subAttributeMapList = this.subAttributeMapList;
+    this.licenseLookupConfigRequest.configRequests[this.index].subAttributeMapList = this.cofigStepRequest.subAttributeMapList;
 
     this.testingConfiguration = true;
     this.isInvalidConfiguration = false;
