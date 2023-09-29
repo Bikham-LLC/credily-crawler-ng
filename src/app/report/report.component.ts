@@ -195,5 +195,13 @@ export class ReportComponent implements OnInit {
     this.closeImageModalButton.nativeElement.click();
     this.selectedImage='';
   }
-
+  
+  @ViewChild('viewModalButton') viewModalButton! : ElementRef;
+  viewMultiple(){
+    this.viewModalButton.nativeElement.click(); 
+  }
+  @ViewChild('closeViewModalButton') closeViewModalButton! : ElementRef;
+  closeViewModel(){
+    this.closeViewModalButton.nativeElement.click();
+  }
 }

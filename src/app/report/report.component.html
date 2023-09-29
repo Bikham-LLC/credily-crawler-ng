@@ -91,8 +91,11 @@
                                             <p class="mb-0" *ngIf="Constant.EMPTY_STRINGS.includes(config.lastTestedOn)"> N/A </p>
                                         </td>
                                         <td class="tableData text-center">
-                                            <a class="text-primary" data-bs-toggle="modal" data-bs-target="#showImageModal" rel="noopener noreferrer" *ngIf="config.reportStatus == 'Test pass'" >
+                                            <!-- <a class="text-primary" data-bs-toggle="modal" data-bs-target="#showImageModal" rel="noopener noreferrer" *ngIf="config.reportStatus == 'Test pass'" >
                                                 <i class="bi bi-eye pointer" (click)="showSnapshot(config.url)"></i>
+                                            </a> -->
+                                            <a class="text-primary" data-bs-toggle="modal" data-bs-target="#viewModalButton">
+                                                <i class="bi bi-eye pointer" (click)="viewMultiple()"></i>
                                             </a>
                                             <i class="bi bi-eye-slash" *ngIf="config.reportStatus == 'Test fail'"></i>
                                         </td>
@@ -147,3 +150,28 @@
         </div>
     </div>
 </div>
+
+ <!--delete modal-->
+ <button type="button" class="d-none" id="viewModalButton" #viewModalButton data-bs-toggle="modal" data-bs-target= "#viewModal"></button>
+ <div class="modal blur-bg-2" id="viewModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm" style="max-width:30%;">
+        <div class="modal-content" style="margin-top:30%;">
+            <div class="modal-header">
+                <h5 class="modal-title">Config Report Snapshot</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeViewModalButton id="closeViewModalButton" (click)="closeViewModel()"></button>
+            </div>
+            <div class="modal-body text-center">
+                <table>
+                    <thead>
+                        <th>License Number</th>
+                        <th>View</th>
+                    </thead>
+                    <tbody>
+                        <td>345</td>
+                        <td>View</td>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+ </div>  
