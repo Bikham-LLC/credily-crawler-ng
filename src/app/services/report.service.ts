@@ -71,4 +71,10 @@ export class ReportService {
     return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.report + "/test", {params});
   }
 
+  getScreenshot(id:any) :Observable<any> { 
+    const params = new HttpParams()
+    .set('configId', id)
+    return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.report + "/screentshot", {params});
+  }
+
 }

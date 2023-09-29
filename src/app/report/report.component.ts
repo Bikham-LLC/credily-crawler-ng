@@ -185,23 +185,36 @@ export class ReportComponent implements OnInit {
   showSnapshot(url:string){
     debugger
     this.selectedImage = url;
-    setTimeout(()=>{
-      this.openSnapshotModalButton.nativeElement.click();
-    },2000)
+    this.closeViewModalButton.nativeElement.click();
+    this.openSnapshotModalButton.nativeElement.click();
+    // setTimeout(()=>{
+    //   this.openSnapshotModalButton.nativeElement.click();
+    // },2000)
   }
   
   @ViewChild('closeImageModalButton') closeImageModalButton! : ElementRef;
   closeImageModal(){
     this.closeImageModalButton.nativeElement.click();
     this.selectedImage='';
+    this.viewModalButton.nativeElement.click(); 
   }
   
   @ViewChild('viewModalButton') viewModalButton! : ElementRef;
-  viewMultiple(){
+  viewMultiple(id:number){
     this.viewModalButton.nativeElement.click(); 
+    this.getScreenshot(id);
   }
   @ViewChild('closeViewModalButton') closeViewModalButton! : ElementRef;
   closeViewModel(){
     this.closeViewModalButton.nativeElement.click();
+  }
+
+  configSnapshotList:any[] = new Array();
+  getScreenshot(id:number){
+    this.reportService.getScreenshot(id).subscribe(response=>{
+      this.configSnapshotList = response;
+    }, error=>{
+
+    })
   }
 }
