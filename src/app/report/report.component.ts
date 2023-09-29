@@ -210,11 +210,14 @@ export class ReportComponent implements OnInit {
   }
 
   configSnapshotList:any[] = new Array();
+  shapshotLoadingToggle:boolean = false;
   getScreenshot(id:number){
+    this.shapshotLoadingToggle = true;
     this.reportService.getScreenshot(id).subscribe(response=>{
       this.configSnapshotList = response;
+      this.shapshotLoadingToggle = false;
     }, error=>{
-
+      this.shapshotLoadingToggle = false;
     })
   }
 }

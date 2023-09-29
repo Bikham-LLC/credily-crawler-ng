@@ -143,8 +143,8 @@
                 <h5 class="modal-title" id="exampleModalLabel">Config Report Snapshot</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="closeImageModal()" #closeImageModalButton id="closeImageModalButton"></button>
             </div>
-            <div class="modal-body text-center" style="overflow: scroll;min-height: 450px;width: 100%;">
-                <img [src]="selectedImage | safe" alt="" />
+            <div class="modal-body text-center" style="overflow: scroll;min-height: 450px;">
+                <img style="width: 100%;" [src]="selectedImage | safe" alt="" />
                 <!-- <iframe [src]="selectedImage | safe" frameborder="0" style="width:100%;min-height: 500px;"></iframe> -->
             </div>
         </div>
@@ -163,7 +163,7 @@
             <div class="modal-body text-center">
                 <div class="reportListing usertableinner no-wrap" *ngIf="!loadingConfigReport">
                     <form>
-                        <table class="table">
+                        <table class="table" *ngIf="!shapshotLoadingToggle">
                             <thead>
                                 <tr>
                                     <th style="width: 10%;">License Number</th>
@@ -182,6 +182,7 @@
                                 </tr>
                             </tbody>
                         </table>
+                        <app-circular-loader *ngIf="shapshotLoadingToggle"></app-circular-loader>
                     </form>
                 </div>
             </div>
