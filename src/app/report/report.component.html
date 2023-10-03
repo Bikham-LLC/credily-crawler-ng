@@ -97,7 +97,7 @@
                                             <a class="text-primary" data-bs-toggle="modal" (click)="viewMultiple(config.id)">
                                                 <i class="bi bi-eye pointer" ></i>
                                             </a>
-                                            <i class="bi bi-eye-slash" *ngIf="config.reportStatus == 'Test fail'"></i>
+                                            <!-- <i class="bi bi-eye-slash" *ngIf="config.reportStatus == 'Test fail'"></i> -->
                                         </td>
                                     </tr>
                              
@@ -183,6 +183,12 @@
                             </tbody>
                         </table>
                         <app-circular-loader *ngIf="shapshotLoadingToggle"></app-circular-loader>
+                        <div class="empty-notific text-center mt-5" *ngIf="!shapshotLoadingToggle && configSnapshotList.length == 0">
+                            <div class="empty-notificinner">
+                                <img src="assets/images/allexpirable.svg" style="width: 30%;margin-right: 118px;" alt="no data found" />
+                                <h6 class="m-3 ps-6">No data found</h6>
+                            </div>
+                        </div>
                     </form>
                 </div>
             </div>
