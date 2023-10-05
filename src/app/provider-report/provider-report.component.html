@@ -48,16 +48,16 @@
             <table class="table">
               <thead>
                 <tr>
-                  <th style="width: 5%">S. No.</th>
-                  <th style="width: 15%">Provider Name</th>
+                  <th style="width: 4%">S. No.</th>
+                  <th style="width: 12%">Provider Name</th>
                   <th style="width: 7%">NPI</th>
                   <th style="width: 12%">Email</th>
-                  <th style="width: 10%">Phone</th>
-                  <th style="width: 8%">Version</th>
-                  <th style="width: 10%">Date</th>
+                  <th style="width: 8%">Phone</th>
+                  <th style="width: 6%">Version</th>
+                  <th style="width: 13%">Date</th>
                   <th style="width: 10%">Allocated Queue</th>
-                  <th style="width: 10%">Status</th>
-                  <th style="width: 8%">Logs</th>
+                  <th style="width: 13%">Status</th>
+                  <th style="width: 5%">Logs</th>
                 </tr>
               </thead>
   
@@ -95,7 +95,7 @@
                   </td>
                   <td>
                     <div class="tableinfo">
-                        <span class="badge-grey">{{obj.createdDate | date:'MM-dd-yyyy' : 'EST'}}</span>
+                        <span class="badge-grey">{{obj.createdDate | date:'MM-dd-yyyy hh:mm:ss' : 'EST'}}</span>
                     </div>
                   </td>
                   <td>
@@ -273,7 +273,7 @@
                       </td>
                       <td>
                         <div class="tableinfo text-center">
-                          <span *ngIf="log.status==0" class="statusinactive">{{log.errorStatus}}</span>
+                          <span *ngIf="log.status==0" class="statusinactive">{{log.errorStatus?log.errorStatus:'N/A'}}</span>
                           <span *ngIf="log.status==1" class="statusactive">Completed</span>
                         </div>
                       </td>
