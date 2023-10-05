@@ -273,7 +273,7 @@
                       </td>
                       <td>
                         <div class="tableinfo text-center">
-                          <span *ngIf="log.status==0" class="statusinactive">Failed</span>
+                          <span *ngIf="log.status==0" class="statusinactive">{{log.errorStatus}}</span>
                           <span *ngIf="log.status==1" class="statusactive">Completed</span>
                         </div>
                       </td>

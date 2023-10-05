@@ -6,5 +6,6 @@ export class ProviderRequestCrawlerLog{
     status:number=0;
     lookupName:string='';
     lookupLink:string='';
+    errorStatus:string='';
     reTestingToggle:boolean=false;
 }
