@@ -549,7 +549,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-lg-6" *ngIf="!Constant.EMPTY_STRINGS.includes(cofigStepRequest.className) && cofigStepRequest.className.toLowerCase() == 'static'">
+                                        <div class="col-lg-6" *ngIf="!Constant.EMPTY_STRINGS.includes(cofigStepRequest.className) && cofigStepRequest.className.toLowerCase() == 'static' || cofigStepRequest.crawlerAttributeId == 32">
                                             <div class="lookupSearchForm">
                                                 <div class="position-relative">
                                                     <label class="m-1">Column Name</label>
