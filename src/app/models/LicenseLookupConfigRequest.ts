@@ -15,6 +15,7 @@ export class LicenseLookupConfigRequest{
     configReportStatus:any;
     attachmentType:string='';
     attachmentSubType:string='';
+    attachmentSubTypeDescription:string='';
     taxonomyIdList : number[] = [];
     configRequests : ConfigRequest[] = [];
 

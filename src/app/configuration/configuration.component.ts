@@ -695,6 +695,7 @@ export class ConfigurationComponent implements OnInit {
     this.licenseLookupConfigRequest.removeIds = this.unMappedIds;
     this.licenseLookupConfigRequest.attachmentType = this.attachmentType;
     this.licenseLookupConfigRequest.attachmentSubType = this.attachmentSubType;
+    this.licenseLookupConfigRequest.attachmentSubTypeDescription = this.attachmentSubTypeDescription;
     this.licenseLookupConfigRequest.licenseLookUpLink = this.lookupLink;
     this.licenseLookupConfigRequest.testingProviderUuid = this.providerUuid;
     this.licenseLookupConfigRequest.userAccountUuid = String(localStorage.getItem(this.Constant.ACCOUNT_UUID));
@@ -1190,7 +1191,7 @@ export class ConfigurationComponent implements OnInit {
   getAttachmentSubType(){
     this.lookupTaxonomyService.getAttachmentSubType(this.attachmentId).subscribe(response=>{
       response.forEach((e:any)=>{
-        var temp : {id: any, itemName: any} = {id: e.id, itemName:e.name};
+        var temp : {id: any, itemName: any, description:any} = {id: e.id, itemName:e.name, description:e.description};
         this.attSubTypeList.push(temp);
       })
       this.attSubTypeList = JSON.parse(JSON.stringify(this.attSubTypeList));
@@ -1200,10 +1201,12 @@ export class ConfigurationComponent implements OnInit {
   }
 
   attachmentSubType:string='';
+  attachmentSubTypeDescription:string='';
   selectAttSubType(event:any){
     debugger
     if(event[0] != undefined && event.length > 0){
       this.attachmentSubType = event[0].itemName;
+      this.attachmentSubTypeDescription = event[0].description;
     }
   }
 
