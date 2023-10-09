@@ -9,6 +9,7 @@ export class Constant{
 
 	static CRAWLER_TYPE_LICENSE_LOOKUP = 'License Lookup';
 	static CRAWLER_TYPE_BOARD_CERTIFICATION = 'Board Certification';
+	static CRAWLER_TYPE_COMMON_LINKS = 'Common';
 
     /**
 	 * Authentication constants
