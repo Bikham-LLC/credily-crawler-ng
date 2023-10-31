@@ -30,8 +30,10 @@ export class LookupTaxonomyService {
     return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.lookup_taxonomy, {params});
   }
 
-  getLinkTaxonomyIds(link:string): Observable<any> {
-    return this.http.post<any>(this.key.server_url + this.key.api_version_one + this.key.lookup_config_controller+'/taxonomy-ids', link);
+  getLinkTaxonomyIds(link:string, configId:number): Observable<any> {
+    const params = new HttpParams()
+    .set('configId', configId)
+    return this.http.post<any>(this.key.server_url + this.key.api_version_one + this.key.lookup_config_controller+'/taxonomy-ids', link, {params});
   }
 
   testConfiguration(config:LicenseLookupConfigRequest, providerUuid:string): Observable<any> {

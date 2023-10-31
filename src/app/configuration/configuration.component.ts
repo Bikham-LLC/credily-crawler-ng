@@ -345,7 +345,7 @@ export class ConfigurationComponent implements OnInit {
     debugger
     this.selectedTaxonomyIds = [];
     this.loadingLookupTaxonomy = true;
-    this.lookupTaxonomyService.getLinkTaxonomyIds(lookupLink).subscribe(resp => {
+    this.lookupTaxonomyService.getLinkTaxonomyIds(lookupLink, this.configId).subscribe(resp => {
       if (resp != null) {
         this.selectedTaxonomyIds = resp;
         if (this.selectedTaxonomyIds.length > 0) {
@@ -449,6 +449,7 @@ export class ConfigurationComponent implements OnInit {
   closeTaxonomyModal() {
     this.databaseHelper = new DatabaseHelper();
     this.type = 'mapped';
+    this.configId = 0;
     
     // this.selectedTaxonomyIds = [];
   }
@@ -959,6 +960,7 @@ export class ConfigurationComponent implements OnInit {
   lastTestedOn:any;
   screenShotUrl:any;
   configReportStatus:any;
+  configId:number=0;
   openEditModel(config: LookupConfiguration) {
     debugger
     this.configstatus = config.configStatus;
@@ -968,7 +970,7 @@ export class ConfigurationComponent implements OnInit {
     this.selectedLookupConfigId = config.id;
     this.lookupName = config.lookupName;
     this.lookupLink = config.lookupLink;
-
+    this.configId = config.id;
     this.updateLinkToggle = false;
     this.showTaxonomyListToggle = false;
     this.unMappedIds = [];
