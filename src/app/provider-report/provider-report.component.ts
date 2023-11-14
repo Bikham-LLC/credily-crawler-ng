@@ -153,4 +153,19 @@ export class ProviderReportComponent implements OnInit {
     this.viewLogsButton.nativeElement.click();
   }
 
+  refreshProviderStatus(providerUuid:string, index:number){
+    debugger
+    this.providerReports[index].refreshProviderLoading = true;
+    this.reportService.refreshProviderStatus(providerUuid).subscribe(response=>{
+      this.providerReports[index].status = response.object;
+      this.providerReports[index].refreshProviderLoading = false;
+    },error=>{
+      this.providerReports[index].refreshProviderLoading = false;
+    })
+  }
+
+  refreshProviderLogs(){
+    this.getProviderLogs(this.uuid);
+  }
+
 }

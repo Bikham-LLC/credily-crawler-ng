@@ -6,7 +6,7 @@ export class Constant{
 	static LOOKUP_HIDE = [5,6,8,10,17,19,22,23,24,25];
 	static EVENT_HIDE = [7,8,10,19,23,24,25,27,29,32];
 	static ENTITY_HIDE = [4,6,19,23,24,25,29,32];
-
+	static REFRESH_HIDE = ['IN QUEUE','IN PROCESS','AWAIT QUEUE']
 	static CRAWLER_TYPE_LICENSE_LOOKUP = 'License Lookup';
 	static CRAWLER_TYPE_BOARD_CERTIFICATION = 'Board Certification';
 	static CRAWLER_TYPE_COMMON_LINKS = 'Common';
