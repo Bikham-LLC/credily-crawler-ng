@@ -1256,4 +1256,12 @@ export class ConfigurationComponent implements OnInit {
     this.openAddStepAndCloseColumn();
   }
 
+  
+  removeAllTaxonomy(){
+    this.type = 'unmap';
+    this.licenseLookupConfigRequest.removeAll = 'yes';
+    this.lookupTaxonomyList = [];
+    
+  }
+
 }

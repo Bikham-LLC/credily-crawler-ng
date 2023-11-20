@@ -379,10 +379,13 @@
                                                         </div>
 
                                                         <div class="mppedBtninner d-flex align-items-center">
+                                                            <p class="mb-0 mppedBtn" [ngClass]="{'mpactive':type=='unmap'}" (click)="removeAllTaxonomy()">
+                                                                Unmap All
+                                                            </p>
                                                             <p class="mb-0 mppedBtn" [ngClass]="{'mpactive':type=='mapped'}" (click)="getMappedTaxonomy('mapped')">
                                                                 Mapped
                                                             </p>
-                                                            <p class="mb-0 mppedBtn" [ngClass]="{'mpactive':type != 'mapped'}" (click)="getMappedTaxonomy('unmapped')">
+                                                            <p class="mb-0 mppedBtn" [ngClass]="{'mpactive':type == 'unmapped'}" (click)="getMappedTaxonomy('unmapped')">
                                                                 Unmapped
                                                             </p>
                                                         </div>
@@ -764,8 +767,6 @@
                                             </div>
                                         </div>
                                     </button>
-                                    <!--  -->
-
                                 </div>
                             </div>
                         </div>

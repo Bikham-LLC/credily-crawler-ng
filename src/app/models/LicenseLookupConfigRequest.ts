@@ -22,4 +22,5 @@ export class LicenseLookupConfigRequest{
     lookupNames:string[] = [];
     removeIds:number[] = [];
     mappedIds:number[] = [];
+    removeAll:string='no';
 }
