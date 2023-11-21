@@ -50,10 +50,9 @@ export class LookupTaxonomyService {
     return this.http.patch<any>(this.key.server_url + this.key.api_version_one + this.key.lookup_config_controller, config);
   }
 
-  replicateLookupConfig(accountUuid:any, version:string, configId:number): Observable<any> {
+  replicateLookupConfig(accountUuid:any, configId:number): Observable<any> {
     const params = new HttpParams()
     .set('accountUuid', accountUuid)
-    .set('version', version)
     .set('configId', configId)
     return this.http.post<any>(this.key.server_url + this.key.api_version_one + this.key.lookup_config_controller + "/replicate",{}, {params});
   }

@@ -21,37 +21,37 @@ import { SubAttributeMap } from '../models/SubAttributeMap';
   styleUrls: ['./configuration.component.css']
 })
 export class ConfigurationComponent implements OnInit {
-  
+
   configSearch = new Subject<string>();
   configSearchByLink = new Subject<string>();
-  search:string='';
-  searchLink:string='';
+  search: string = '';
+  searchLink: string = '';
   constructor(
     private _router: Router,
     private sanitizer: DomSanitizer,
     private lookupTaxonomyService: LookupTaxonomyService,
     private dataService: DataService) {
-      this.versionList = [{ id: 'V2', itemName: 'Credily V2' }, { id: 'V3', itemName: 'Credily V3' }];
+    this.versionList = [{ id: 'V2', itemName: 'Credily V2' }, { id: 'V3', itemName: 'Credily V3' }];
 
-      this.configSearch.pipe(
-        debounceTime(600),
-        distinctUntilChanged())
-        .subscribe(value => {
-          this.configDatabaseHelper.currentPage = 1;
-          this.configDatabaseHelper.search = this.search;
-          this.configDatabaseHelper.searchBy = 'licenseLookupName';
-          this.getConfiguration();
-        });
+    this.configSearch.pipe(
+      debounceTime(600),
+      distinctUntilChanged())
+      .subscribe(value => {
+        this.configDatabaseHelper.currentPage = 1;
+        this.configDatabaseHelper.search = this.search;
+        this.configDatabaseHelper.searchBy = 'licenseLookupName';
+        this.getConfiguration();
+      });
 
-        this.configSearchByLink.pipe(
-          debounceTime(600),
-          distinctUntilChanged())
-          .subscribe(value => {
-            this.configDatabaseHelper.currentPage = 1;
-            this.configDatabaseHelper.search = this.searchLink;
-            this.configDatabaseHelper.searchBy = 'licenseLookupLink';
-            this.getConfiguration();
-          });
+    this.configSearchByLink.pipe(
+      debounceTime(600),
+      distinctUntilChanged())
+      .subscribe(value => {
+        this.configDatabaseHelper.currentPage = 1;
+        this.configDatabaseHelper.search = this.searchLink;
+        this.configDatabaseHelper.searchBy = 'licenseLookupLink';
+        this.getConfiguration();
+      });
   }
 
   readonly Constant = Constant;
@@ -131,7 +131,7 @@ export class ConfigurationComponent implements OnInit {
     }
     this.dropdownSettingsLookupNames = {
       singleSelection: false,
-      badgeShowLimit: 1, 
+      badgeShowLimit: 1,
       text: 'Linked boards name',
       autoPosition: false,
       enableSearchFilter: false,
@@ -242,16 +242,16 @@ export class ConfigurationComponent implements OnInit {
     }
   }
 
-  allLookupNamesList : any[] = new Array();
-  totalLookupName : number=0;
-  selectedlookupName(lookupLink:any) {
+  allLookupNamesList: any[] = new Array();
+  totalLookupName: number = 0;
+  selectedlookupName(lookupLink: any) {
     debugger
     this.selectedLookupNames = [];
     this.mappedLookupNames = [];
-    this.lookupTaxonomyService.getLinkLookupName(lookupLink, this.crawlerType).subscribe(response=>{
-      if(response.dtoList != null){
+    this.lookupTaxonomyService.getLinkLookupName(lookupLink, this.crawlerType).subscribe(response => {
+      if (response.dtoList != null) {
         this.allLookupNamesList = response.dtoList;
-        this.allLookupNamesList.forEach(element=>{
+        this.allLookupNamesList.forEach(element => {
           var temp: { id: any, itemName: any } = { id: element.taxanomyId, itemName: element.lookupName };
           this.selectedLookupNames.push(temp);
           this.mappedLookupNames.push(temp);
@@ -262,31 +262,31 @@ export class ConfigurationComponent implements OnInit {
         this.mappedLookupNames = JSON.parse(JSON.stringify(this.mappedLookupNames));
         this.totalLookupName = response.totalItems;
       }
-    })    
+    })
   }
 
   selectedLookupName: string[] = [];
-  searchSelectLookupName(event:any){
+  searchSelectLookupName(event: any) {
     debugger
-    if (event != undefined && event.length>0) {
+    if (event != undefined && event.length > 0) {
       this.selectedLookupName = [];
-      event.forEach((e:any)=>{
+      event.forEach((e: any) => {
         this.selectedLookupName.push(e.itemName);
       })
       this.getTaxIdsWithLookupName(this.selectedLookupName);
-    }else{
+    } else {
       this.selectedTaxonomyIds = [];
       this.getMappedTaxonomy('mapped');
     }
   }
 
-  getTaxIdsWithLookupName(lookupNames:any){
+  getTaxIdsWithLookupName(lookupNames: any) {
     debugger
     this.loadingLookupTaxonomy = true;
-    this.lookupTaxonomyService.getTaxIdsWithLookupName(lookupNames, this.lookupLink).subscribe(response=>{
+    this.lookupTaxonomyService.getTaxIdsWithLookupName(lookupNames, this.lookupLink).subscribe(response => {
       this.selectedTaxonomyIds = response;
       this.getMappedTaxonomy('mapped');
-    },error=>{
+    }, error => {
 
     })
   }
@@ -299,7 +299,7 @@ export class ConfigurationComponent implements OnInit {
       this.credilyVersion = event[0].id;
     }
   }
-  searchSelectVersion(event:any){
+  searchSelectVersion(event: any) {
     debugger
     this.credilyVersion = '';
     if (event[0] != undefined) {
@@ -309,10 +309,10 @@ export class ConfigurationComponent implements OnInit {
     this.getConfiguration();
   }
 
-  taxanomyLinkLoading:boolean = false;
+  taxanomyLinkLoading: boolean = false;
   getTaxonomyLink(search: string) {
     debugger
-    if(!this.Constant.EMPTY_STRINGS.includes(this.lookupLink)){
+    if (!this.Constant.EMPTY_STRINGS.includes(this.lookupLink)) {
       this.taxanomyLinkLoading = true;
     }
     this.lookupTaxonomyService.getTaxonomyLink(search, this.crawlerType).subscribe(response => {
@@ -331,7 +331,7 @@ export class ConfigurationComponent implements OnInit {
         this.selectedlookupName(this.lookupLink);
       }
       this.taxanomyLinkLoading = false;
-    },error=>{
+    }, error => {
       this.taxanomyLinkLoading = false;
     })
     this.taxonomyLinkList = JSON.parse(JSON.stringify(this.taxonomyLinkList));
@@ -382,8 +382,8 @@ export class ConfigurationComponent implements OnInit {
   }
 
 
-  mappedIds:number[] = new Array();
-  unMappedIds:number[] = new Array();
+  mappedIds: number[] = new Array();
+  unMappedIds: number[] = new Array();
   selectTaxonomySingle(index: number) {
     debugger
 
@@ -396,19 +396,15 @@ export class ConfigurationComponent implements OnInit {
       if (i > -1) {
         this.selectedTaxonomyIds.splice(i, 1);
         this.unMappedIds.push(this.lookupTaxonomyList[index].id);
-        console.log('Unmapped IDs: ' + this.unMappedIds);
       }
     } else {
       this.selectedTaxonomyIds.push(this.lookupTaxonomyList[index].id);
       this.mappedIds.push(this.lookupTaxonomyList[index].id);
-      console.log('mapped ids from unmapped: ' + this.mappedIds);
     }
 
     this.lookupTaxonomyList.splice(index, 1);
 
     this.totalLookupTaxonomy--;
-
-    // this.lookupTaxonomyList[index].checked = !this.lookupTaxonomyList[index].checked;
 
   }
 
@@ -450,7 +446,7 @@ export class ConfigurationComponent implements OnInit {
     this.databaseHelper = new DatabaseHelper();
     this.type = 'mapped';
     this.configId = 0;
-    
+
     // this.selectedTaxonomyIds = [];
   }
 
@@ -476,8 +472,8 @@ export class ConfigurationComponent implements OnInit {
   dropdownSettingsEvent!: { singleSelection: boolean; text: string; enableSearchFilter: boolean; autoPosition: boolean };
   selectedEvent: any[] = new Array();
   EventList: any[] = [{ id: 'sendKey', itemName: 'Input Value' }, { id: 'click', itemName: 'Click' }
-  // , { id: 'windowClick', itemName: 'Click Window' }
-]
+    // , { id: 'windowClick', itemName: 'Click Window' }
+  ]
 
   dropdownSettingsClass!: { singleSelection: boolean; text: string; enableSearchFilter: boolean; autoPosition: boolean };
   selectedClass: any[] = new Array();
@@ -487,7 +483,7 @@ export class ConfigurationComponent implements OnInit {
   selectedColumn: any[] = new Array();
   columnList: any[] = new Array();
 
-  dropdownSettingsLookupNames!: {singleSelection: boolean; text: string; autoPosition: boolean;enableSearchFilter: boolean; badgeShowLimit:number; classes:string; enableCheckAll:boolean;};
+  dropdownSettingsLookupNames!: { singleSelection: boolean; text: string; autoPosition: boolean; enableSearchFilter: boolean; badgeShowLimit: number; classes: string; enableCheckAll: boolean; };
   selectedLookupNames: any[] = new Array();
   mappedLookupNames: any[] = new Array();
 
@@ -501,10 +497,10 @@ export class ConfigurationComponent implements OnInit {
     this.selectedColumn = [];
     this.selectedEvent = [];
     this.EventList = [];
-    this.customAttribute='';
-    this.customTag='';
+    this.customAttribute = '';
+    this.customTag = '';
     this.selectedColumnNames = '';
-    this.customValue='';
+    this.customValue = '';
     this.attTypeList = [];
     this.cofigStepRequest = new ConfigRequest();
     this.addConfigStepModalButton.nativeElement.click();
@@ -612,9 +608,9 @@ export class ConfigurationComponent implements OnInit {
     }
   }
 
-  customTag:string='';
-  customAttribute:string='';
-  customValue:string='';
+  customTag: string = '';
+  customAttribute: string = '';
+  customValue: string = '';
 
   addConfigurationStep() {
     debugger
@@ -624,8 +620,8 @@ export class ConfigurationComponent implements OnInit {
       this.addStepFormInvalid = true;
       return;
     }
-    if(this.cofigStepRequest.crawlerAttributeId == 17){
-      this.cofigStepRequest.lookUpElementDesc = "//"+this.customTag+"[@"+this.customAttribute+"='"+this.customValue+"']";
+    if (this.cofigStepRequest.crawlerAttributeId == 17) {
+      this.cofigStepRequest.lookUpElementDesc = "//" + this.customTag + "[@" + this.customAttribute + "='" + this.customValue + "']";
       console.log(this.cofigStepRequest.lookUpElementDesc);
     }
     // console.log(this.cofigStepRequest.lookUpElementDesc);
@@ -646,7 +642,7 @@ export class ConfigurationComponent implements OnInit {
   @ViewChild('closeUuidModal') closeUuidModal !: ElementRef;
   @ViewChild('closeSaveUuidModal') closeSaveUuidModal !: ElementRef;
 
-  
+
 
   openUuidModal() {
     this.uuidModalButton.nativeElement.click();
@@ -686,7 +682,7 @@ export class ConfigurationComponent implements OnInit {
       this.testingConfiguration = false;
     })
   }
-  configstatus:string='';
+  configstatus: string = '';
   saveConfiguration() {
     debugger
     this.savingConfiguration = true;
@@ -819,7 +815,7 @@ export class ConfigurationComponent implements OnInit {
   selectedColumns: any;
   flag: boolean = false;
   selectedEntity: FormStructure = new FormStructure();
-  addColumnToggle:boolean = false;
+  addColumnToggle: boolean = false;
   selectTab(columnObj: any, index: any) {
     debugger
     this.selectedEntity.val = "";
@@ -919,16 +915,16 @@ export class ConfigurationComponent implements OnInit {
 
 
   // selectedColumnNames : string[] = new Array();
-  selectedColumnNames : string='';
+  selectedColumnNames: string = '';
 
-  addColumns(){
+  addColumns() {
     debugger
-    if(this.selectedColumns.length > 0){
+    if (this.selectedColumns.length > 0) {
       this.selectedColumnNames = this.selectedColumnNames.concat(this.selectedColumns + ",");
     } else if (this.selectedNestedColumns.length > 0) {
       this.selectedColumnNames = this.selectedColumnNames.concat(this.selectedNestedColumns + ",");
     } else {
-      this.selectedColumnNames = this.selectedColumnNames.concat(this.selectedNestedsubColumn + ",");  
+      this.selectedColumnNames = this.selectedColumnNames.concat(this.selectedNestedsubColumn + ",");
     }
   }
 
@@ -944,7 +940,7 @@ export class ConfigurationComponent implements OnInit {
     // }
     // this.cofigStepRequest.columnName = this.selectedEntity.val;
     // if(this.index > 0){
-      
+
     //   this.cofigStepRequest.subAttributeMapList[this.index].columnName = this.selectedColumnNames;
     // } else {
     //   this.cofigStepRequest.columnName = this.selectedColumnNames;
@@ -957,10 +953,10 @@ export class ConfigurationComponent implements OnInit {
 
 
   selectedLookupConfigId: number = 0;
-  lastTestedOn:any;
-  screenShotUrl:any;
-  configReportStatus:any;
-  configId:number=0;
+  lastTestedOn: any;
+  screenShotUrl: any;
+  configReportStatus: any;
+  configId: number = 0;
   openEditModel(config: LookupConfiguration) {
     debugger
     this.configstatus = config.configStatus;
@@ -979,12 +975,12 @@ export class ConfigurationComponent implements OnInit {
     this.selectedVersion = [];
     this.selectedAttType = [];
     this.selectedAttSubType = [];
-    if(!Constant.EMPTY_STRINGS.includes(config.attachmentType)){
+    if (!Constant.EMPTY_STRINGS.includes(config.attachmentType)) {
       var attType: { id: any, itemName: any } = { id: config.attachmentType, itemName: config.attachmentType };
       this.selectedAttType.push(attType);
       this.attachmentType = config.attachmentType;
     }
-    if(!Constant.EMPTY_STRINGS.includes(config.attachmentSubType)){
+    if (!Constant.EMPTY_STRINGS.includes(config.attachmentSubType)) {
       var attSubType: { id: any, itemName: any } = { id: config.attachmentSubType, itemName: config.attachmentSubType };
       this.selectedAttSubType.push(attSubType);
       this.attachmentSubType = config.attachmentSubType;
@@ -999,7 +995,7 @@ export class ConfigurationComponent implements OnInit {
       this.credilyVersion = 'V3';
     }
     this.selectedTaxonomyIds = config.taxonomyId;
-    this.getAttachmentType();    
+    this.getAttachmentType();
     this.getTaxonomyLink('');
     this.lookupModalButton.nativeElement.click();
   }
@@ -1035,7 +1031,7 @@ export class ConfigurationComponent implements OnInit {
     // this.totalConfiguration = this.totalConfiguration-1;
     this.deletingConfguration = true;
     this.lookupTaxonomyService.deleteConfiguration(this.deletedId).subscribe(response => {
-      if(response.status){
+      if (response.status) {
         this.dataService.showToast(response.message);
       }
       this.deleteCloseModalButton.nativeElement.click();
@@ -1058,12 +1054,12 @@ export class ConfigurationComponent implements OnInit {
   replicatingConfig: boolean = false;
   replicateLookupConfig() {
     this.replicatingConfig = true;
-    this.lookupTaxonomyService.replicateLookupConfig(String(localStorage.getItem(this.Constant.ACCOUNT_UUID)), this.credilyVersion, this.selectedLookupConfigId).subscribe(response => {
-      this.replicatingConfig = false;
-      this.getConfiguration();
+    this.lookupTaxonomyService.replicateLookupConfig(String(localStorage.getItem(this.Constant.ACCOUNT_UUID)), this.selectedLookupConfigId).subscribe(response => {
       setTimeout(() => {
         this.replicateModalCloseButton.nativeElement.click();
       }, 500)
+      this.replicatingConfig = false;
+      this.getConfiguration();
     }, error => {
       this.replicatingConfig = false;
     })
@@ -1080,21 +1076,22 @@ export class ConfigurationComponent implements OnInit {
       this.loadingLookupTaxonomy = false;
       return;
     }
-    this.loadingLookupTaxonomy = true;
-    this.lookupTaxonomyService.getMappedTaxonomy(this.selectedTaxonomyIds, type, this.selectedStateName, this.databaseHelper).subscribe(response => {
-      if(response.status){
-      this.lookupTaxonomyList = response.object.taxonomyList;
-      this.totalLookupTaxonomy = response.object.totalItems;
-      if (type == 'mapped') {
-        this.lookupTaxonomyList.forEach(l => {
-          l.checked = true;
-        })
-      }
-    }
-    this.loadingLookupTaxonomy = false;
-    }, error => {
-      this.loadingLookupTaxonomy = false;
-    })
+      this.loadingLookupTaxonomy = true;
+      this.lookupTaxonomyService.getMappedTaxonomy(this.selectedTaxonomyIds, type, this.selectedStateName, this.databaseHelper).subscribe(response => {
+        if (response.status) {
+          this.lookupTaxonomyList = response.object.taxonomyList;
+          this.totalLookupTaxonomy = response.object.totalItems;
+          if (type == 'mapped') {
+            this.lookupTaxonomyList.forEach(l => {
+              l.checked = true;
+            })
+          }
+        }
+        this.loadingLookupTaxonomy = false;
+      }, error => {
+        this.loadingLookupTaxonomy = false;
+      })
+   
   }
 
   showTaxonomyListToggle: boolean = false;
@@ -1102,53 +1099,53 @@ export class ConfigurationComponent implements OnInit {
     this.showTaxonomyListToggle = !this.showTaxonomyListToggle;
   }
 
-  @ViewChild('saveUuidModalButton') saveUuidModalButton! : ElementRef;
-  uuidSaveModal(){
+  @ViewChild('saveUuidModalButton') saveUuidModalButton!: ElementRef;
+  uuidSaveModal() {
     this.saveUuidModalButton.nativeElement.click();
   }
 
 
-  updateStatus(id:any){
-    this.lookupTaxonomyService.updateConfigStatus(id).subscribe(response=>{
-      if(response.status){
-       this.dataService.showToast("Status updated Successfully "); 
+  updateStatus(id: any) {
+    this.lookupTaxonomyService.updateConfigStatus(id).subscribe(response => {
+      if (response.status) {
+        this.dataService.showToast("Status updated Successfully ");
       }
       this.getConfiguration();
-    }, error=>{
+    }, error => {
 
     })
   }
 
-  updateLinkToggle:boolean=false;
-  oldLink:string='';
-  newLink:string='';
-  updatingLoader:boolean=false;
-  switchUpdateLinkToggle(){
+  updateLinkToggle: boolean = false;
+  oldLink: string = '';
+  newLink: string = '';
+  updatingLoader: boolean = false;
+  switchUpdateLinkToggle() {
     this.oldLink = this.lookupLink;
     this.newLink = '';
     this.updateLinkToggle = !this.updateLinkToggle
   }
 
-  updateLookupLink(){
+  updateLookupLink() {
     debugger
     this.updatingLoader = true;
-    this.lookupTaxonomyService.updateLookupLink(this.oldLink, this.newLink).subscribe(response=>{
+    this.lookupTaxonomyService.updateLookupLink(this.oldLink, this.newLink).subscribe(response => {
       this.getTaxonomyLink('');
       this.getConfiguration();
       this.updatingLoader = false;
       this.updateLinkToggle = false;
       this.lookupLink = '';
       this.selectedTaxonomyLink = [];
-    }, error=>{
+    }, error => {
       this.getTaxonomyLink('');
       this.updatingLoader = false;
     })
   }
 
-  maxDate:any;
+  maxDate: any;
   selected !: { startDate: moment.Moment, endDate: moment.Moment };
   startDate: any = null;
-  endDate: any = null;  
+  endDate: any = null;
   selectDateFilter(event: any) {
     debugger
     if (this.selected != undefined && this.selected != null && this.selected.startDate != undefined && this.selected.endDate != undefined && this.selected != null) {
@@ -1160,55 +1157,55 @@ export class ConfigurationComponent implements OnInit {
   }
 
 
-  getConfigurationWithType(type:string){
+  getConfigurationWithType(type: string) {
     this.crawlerType = type;
     this.getConfiguration();
   }
 
   attachmentTypeList: any[] = new Array()
-  getAttachmentType(){
-    this.lookupTaxonomyService.getAttachmentType().subscribe(response=>{
-      response.forEach((e:any)=>{
-        var temp : {id: any, itemName: any} = {id: e.id, itemName:e.name};
+  getAttachmentType() {
+    this.lookupTaxonomyService.getAttachmentType().subscribe(response => {
+      response.forEach((e: any) => {
+        var temp: { id: any, itemName: any } = { id: e.id, itemName: e.name };
         this.attTypeList.push(temp);
       })
       this.attTypeList = JSON.parse(JSON.stringify(this.attTypeList));
-    },error=>{
+    }, error => {
 
     })
   }
 
-  attachmentId:number=0;
-  attachmentType:string='';
-  selectAttType(event:any){
+  attachmentId: number = 0;
+  attachmentType: string = '';
+  selectAttType(event: any) {
     debugger
     this.attSubTypeList = [];
     this.attachmentSubType = '';
     this.attachmentType = '';
-    if(event[0] != undefined && event.length > 0){
+    if (event[0] != undefined && event.length > 0) {
       this.attachmentId = event[0].id;
       this.attachmentType = event[0].itemName;
       this.getAttachmentSubType();
     }
   }
 
-  getAttachmentSubType(){
-    this.lookupTaxonomyService.getAttachmentSubType(this.attachmentId).subscribe(response=>{
-      response.forEach((e:any)=>{
-        var temp : {id: any, itemName: any, description:any} = {id: e.id, itemName:e.name, description:e.description};
+  getAttachmentSubType() {
+    this.lookupTaxonomyService.getAttachmentSubType(this.attachmentId).subscribe(response => {
+      response.forEach((e: any) => {
+        var temp: { id: any, itemName: any, description: any } = { id: e.id, itemName: e.name, description: e.description };
         this.attSubTypeList.push(temp);
       })
       this.attSubTypeList = JSON.parse(JSON.stringify(this.attSubTypeList));
-    },error=>{
+    }, error => {
 
     })
   }
 
-  attachmentSubType:string='';
-  attachmentSubTypeDescription:string='';
-  selectAttSubType(event:any){
+  attachmentSubType: string = '';
+  attachmentSubTypeDescription: string = '';
+  selectAttSubType(event: any) {
     debugger
-    if(event[0] != undefined && event.length > 0){
+    if (event[0] != undefined && event.length > 0) {
       this.attachmentSubType = event[0].itemName;
       this.attachmentSubTypeDescription = event[0].description;
     }
@@ -1216,19 +1213,19 @@ export class ConfigurationComponent implements OnInit {
 
   // subAttributeMap: SubAttributeMap = new SubAttributeMap();
   // subAttributeMapList: SubAttributeMap[] = new Array();
-  addSubStep(){
+  addSubStep() {
     this.cofigStepRequest.subAttributeMapList.push(new SubAttributeMap());
   }
 
-  removeSubStep(index:number){
+  removeSubStep(index: number) {
     this.cofigStepRequest.subAttributeMapList.splice(index, 1);
     this.cofigStepRequest.subAttributeMapList[index].className = '';
     this.cofigStepRequest.subAttributeMapList[index].columnName = '';
   }
-  
-  index:number = 0;
-  subClassToggle:boolean = false;
-  selectSubClassName(event:any, index:number){
+
+  index: number = 0;
+  subClassToggle: boolean = false;
+  selectSubClassName(event: any, index: number) {
     debugger
     this.subClassToggle = false;
     this.cofigStepRequest.subAttributeMapList[index].className = '';
@@ -1256,12 +1253,18 @@ export class ConfigurationComponent implements OnInit {
     this.openAddStepAndCloseColumn();
   }
 
-  
-  removeAllTaxonomy(){
-    this.type = 'unmap';
-    this.licenseLookupConfigRequest.removeAll = 'yes';
-    this.lookupTaxonomyList = [];
-    
+
+  removeAllTax:boolean = false;
+  removeAllTaxonomy(event: any) {
+    if (event.target.checked) {
+      console.log('checked');
+      this.type = 'unmap';
+      this.removeAllTax = true;
+      this.licenseLookupConfigRequest.removeAll = 'yes';
+      this.lookupTaxonomyList = [];
+    }
+
+
   }
 
 }
