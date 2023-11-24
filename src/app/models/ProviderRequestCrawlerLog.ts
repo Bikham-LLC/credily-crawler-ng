@@ -8,5 +8,6 @@ export class ProviderRequestCrawlerLog{
     lookupName:string='';
     lookupLink:string='';
     errorStatus:string='';
+    crawlerStatus:string='';
     reTestingToggle:boolean=false;
 }

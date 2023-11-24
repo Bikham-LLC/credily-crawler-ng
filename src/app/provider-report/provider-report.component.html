@@ -112,7 +112,7 @@
                 <td>
                   <div class="tableinfo">
                     <span
-                      [ngClass]="{'statusactive':obj.status.toUpperCase()=='COMPLETED', 'statusinactive':obj.status.toUpperCase()=='NO CONFIG FOUND', 'statuspending':(obj.status.toUpperCase()!='COMPLETED' && obj.status.toUpperCase()!='NO CONFIG') }">
+                      [ngClass]="{'statusactive':obj.status.toUpperCase()=='COMPLETED', 'statusinactive':obj.status =='NO CONFIG FOUND', 'statuspending':(obj.status.toUpperCase()!='COMPLETED' && obj.status.toUpperCase()!='NO CONFIG FOUND') }">
                       {{obj.status | titlecase}}
                     </span>
                   </div>
@@ -206,8 +206,8 @@
                 </td>
                 <td>
                   <div class="tableinfo text-center">
-                    <span *ngIf="log.status==0" class="statusinactive">{{log.errorStatus?log.errorStatus:'N/A'}}</span>
-                    <span *ngIf="log.status==1" class="statusactive">Completed</span>
+                    <span *ngIf="log.errorStatus!=null" class="statusinactive">{{log.errorStatus?log.errorStatus:'N/A'}}</span>
+                    <span *ngIf="log.errorStatus==null" [ngClass]="{'statusactive':log.crawlerStatus=='COMPLETED', 'statuspending' :log.crawlerStatus=='PENDING'}" >{{log.crawlerStatus}}</span>
                   </div>
                 </td>
                 <td>
