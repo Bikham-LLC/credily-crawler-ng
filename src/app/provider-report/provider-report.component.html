@@ -41,7 +41,7 @@
 
       <div class="empty-notific text-center mt-5" *ngIf="!fetchingReport && providerReports.length==0">
         <div class="empty-notificinner">
-          <img src="assets/images/allexpirable.svg" style="width: 30%;" alt="no data found" />
+          <img src="assets/images/allexpirable.svg" style="width:20%;margin-top:8%;margin-right:1%;" alt="no data found" />
           <h6 class="m-3 ps-5">No data found</h6>
         </div>
       </div>
@@ -222,8 +222,7 @@
                 </td>
                 <td>
                   <div class="tableinfo d-flex align-items-center justify-content-end gap-2">
-                    <!-- [disabled]="log.reTestingToggle || providerTestingToggle || (Constant.EMPTY_STRINGS.includes(log.lookupName) && Constant.EMPTY_STRINGS.includes(log.lookupLink))" -->
-                    <Button type="button" style="height: 33px;" disabled class="btn primaryBtn"
+                    <Button type="button" style="height: 33px;" class="btn primaryBtn" [disabled]="log.reTestingToggle || providerTestingToggle || (Constant.EMPTY_STRINGS.includes(log.lookupName) && Constant.EMPTY_STRINGS.includes(log.lookupLink))"
                       (click)="testAgainProviderRequest(log.id, i)">Re-run
                       <i *ngIf="log.reTestingToggle" class="spinner-border spinner-border-sm"></i>
                       <h6 style="height: 9px;"><i *ngIf="!log.reTestingToggle" class="bi bi-arrow-clockwise"></i></h6>

@@ -532,9 +532,13 @@
                                         </div>
                                         <div class="col-lg-6" *ngIf="!Constant.LOOKUP_HIDE.includes(cofigStepRequest.crawlerAttributeId)">
                                             <div class="lookupSearchForm">
-                                                <div class="position-relative">
-                                                    <label class="m-1">Lookup Element</label>
+                                                <div class="position-relative" *ngIf="cofigStepRequest.crawlerAttributeId != 32">
+                                                    <label class="m-1" >Lookup Element</label>
                                                     <input type="text" class="form-control" name="lElement" placeholder="Enter Lookup Element" [(ngModel)]="cofigStepRequest.lookUpElementDesc" maxlength="155" required>
+                                                </div>
+                                                <div class="position-relative" *ngIf="cofigStepRequest.crawlerAttributeId == 32">
+                                                    <label class="m-1">Crop Element 1</label>
+                                                    <input type="text" class="form-control" name="lElement" placeholder="Enter Crop Element 1" [(ngModel)]="cofigStepRequest.lookUpElementDesc" maxlength="155" required>
                                                 </div>
                                             </div>
                                         </div>
@@ -550,11 +554,15 @@
                                                 <small *ngIf="addStepForm.submitted && addStepFormInvalid && Constant.EMPTY_STRINGS.includes(cofigStepRequest.elementEvent)" style="color: red;">Select Event/Delay!</small>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6" *ngIf="cofigStepRequest.crawlerAttributeId == 27">
+                                        <div class="col-lg-6" *ngIf="cofigStepRequest.crawlerAttributeId == 27 || cofigStepRequest.crawlerAttributeId == 32">
                                             <div class="lookupSearchForm">
-                                                <div class="position-relative">
+                                                <div class="position-relative" *ngIf="cofigStepRequest.crawlerAttributeId != 32">
                                                     <label class="m-1">List path</label>
                                                     <input type="text" class="form-control" name="listPath" placeholder="Enter list path" [(ngModel)]="cofigStepRequest.dataSourcePath" maxlength="255" required>
+                                                </div>
+                                                <div class="position-relative" *ngIf="cofigStepRequest.crawlerAttributeId == 32">
+                                                    <label class="m-1" *ngIf="cofigStepRequest.crawlerAttributeId == 32">Crop Element 2</label>
+                                                    <input type="text" class="form-control" name="listPath" placeholder="Enter Crop Element 2" [(ngModel)]="cofigStepRequest.dataSourcePath" maxlength="255">
                                                 </div>
                                             </div>
                                         </div>
@@ -570,18 +578,26 @@
 
                                         <div class="col-lg-6" *ngIf="!Constant.EMPTY_STRINGS.includes(cofigStepRequest.className) && cofigStepRequest.className.toLowerCase() == 'static' || cofigStepRequest.crawlerAttributeId == 32">
                                             <div class="lookupSearchForm">
-                                                <div class="position-relative">
+                                                <div class="position-relative" *ngIf="cofigStepRequest.crawlerAttributeId != 32">
                                                     <label class="m-1">Column Name</label>
                                                     <input type="text" class="form-control" name="cName1" placeholder="Enter Column Name" [(ngModel)]="cofigStepRequest.columnName" maxlength="155" required>
+                                                </div>
+                                                <div class="position-relative" *ngIf="cofigStepRequest.crawlerAttributeId == 32">
+                                                    <label class="m-1" *ngIf="cofigStepRequest.crawlerAttributeId == 32">Crop Element 3</label>
+                                                    <input type="text" class="form-control" name="cName1" placeholder="Enter Crop Element 3" [(ngModel)]="cofigStepRequest.columnName" maxlength="155">
                                                 </div>
                                             </div>
                                         </div>
 
-                                        <div class="col-lg-6" *ngIf="cofigStepRequest.crawlerAttributeId == 28 || cofigStepRequest.crawlerAttributeId == 5 || cofigStepRequest.crawlerAttributeId == 20">
+                                        <div class="col-lg-6" *ngIf="cofigStepRequest.crawlerAttributeId == 28 || cofigStepRequest.crawlerAttributeId == 5 || cofigStepRequest.crawlerAttributeId == 20 || cofigStepRequest.crawlerAttributeId == 32">
                                             <div class="lookupSearchForm">
-                                                <div class="position-relative">
+                                                <div class="position-relative" *ngIf="cofigStepRequest.crawlerAttributeId != 32">
                                                     <label class="m-1">Pattern</label>
-                                                    <input type="text" class="form-control" name="pattern" placeholder="Enter pattern for search criteria" [(ngModel)]="cofigStepRequest.pattern" maxlength="155" required>
+                                                    <input type="text" class="form-control" name="pattern" placeholder="Enter pattern for search criteria" [(ngModel)]="cofigStepRequest.pattern" maxlength="155">
+                                                </div>
+                                                <div class="position-relative" *ngIf="cofigStepRequest.crawlerAttributeId == 32">
+                                                    <label class="m-1">Crop Element 4</label>
+                                                    <input type="text" class="form-control" name="pattern" placeholder="Enter Crop Element 4" [(ngModel)]="cofigStepRequest.pattern" maxlength="155">
                                                 </div>
                                             </div>
                                         </div>

@@ -15,7 +15,7 @@ export class ProviderReportComponent implements OnInit {
 
   readonly Constant = Constant;
   maxDate:any;
-  selected !: { startDate: moment.Moment | null, endDate: moment.Moment | null};
+  selected !: { startDate: moment.Moment, endDate: moment.Moment };
   startDate: any = null;
   endDate: any = null;
   requestStatusJson:string[]=['IN QUEUE', 'IN PROCESS', 'COMPLETED', 'NO CONFIG', 'AWAIT QUEUE'];
@@ -34,8 +34,6 @@ export class ProviderReportComponent implements OnInit {
       enableSearchFilter: false,
       autoPosition: false
     }
-
-    // this.getProviderReport();
     this.getStatus();
   }
 
@@ -63,14 +61,6 @@ export class ProviderReportComponent implements OnInit {
     this.getProviderReport();
 
   }
-
-  // clearDate(){
-  //   // this.startDate=null;
-  //   // this.endDate=null;
-  //   this.selected = 
-  //   this.getProviderReport();
-  // }
-
   selectVersion(event: any) {
     debugger
     this.status = '';
