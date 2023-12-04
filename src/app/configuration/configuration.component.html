@@ -44,12 +44,16 @@
                                     <span *ngIf="crawlerType == Constant.CRAWLER_TYPE_BOARD_CERTIFICATION">
                                         Create Board Configuration
                                     </span>
+                                    <span *ngIf="crawlerType == Constant.CRAWLER_TYPE_COMMON_LINKS">
+                                        Create Common Configuration
+                                    </span>
 
                                 </button>
                             </div>
                             <div class="col-lg-12 px-2 d-flex justify-content-start align-items-start">
                                 <button class="btn mt-2 me-2" [ngClass]="{'primarybtn':crawlerType==Constant.CRAWLER_TYPE_LICENSE_LOOKUP}" (click)="getConfigurationWithType(Constant.CRAWLER_TYPE_LICENSE_LOOKUP)">License Lookup</button>
                                 <button class="btn mt-2" [ngClass]="{'primarybtn':crawlerType==Constant.CRAWLER_TYPE_BOARD_CERTIFICATION}" (click)="getConfigurationWithType(Constant.CRAWLER_TYPE_BOARD_CERTIFICATION)">Board Certification</button>
+                                <button class="btn mt-2" [ngClass]="{'primarybtn':crawlerType==Constant.CRAWLER_TYPE_COMMON_LINKS}" (click)="getConfigurationWithType(Constant.CRAWLER_TYPE_COMMON_LINKS)">Common</button>
                             </div>
                                 
                         </div>
@@ -117,8 +121,8 @@
                                             <td class="tableData text-center">
                                                 <span class="tbleditBtn"><i class="bi bi-pen" style="cursor: pointer;" (click)="openEditModel(config)"></i></span>
                                                 <span class="tbldeleteBtn"><i class="bi bi-trash ms-2" style="cursor: pointer;" (click)="deleteConfiguration(config.id, i)"></i></span>
-                                                <!-- <span class="tblreplicateBtn"><i class="bi bi-clipboard-plus ms-2" style="cursor: pointer;" (click)="replicateConfig(config.id)"></i></span> -->
-                                                <span><i class="bi bi-clipboard-plus ms-2"></i></span>
+                                                <span class="tblreplicateBtn"><i class="bi bi-clipboard-plus ms-2" style="cursor: pointer;" (click)="replicateConfig(config.id)"></i></span>
+                                                <!-- <span><i class="bi bi-clipboard-plus ms-2"></i></span> -->
                                             </td>
                                         </tr>
                                     </tbody>
@@ -272,7 +276,7 @@
                                                 <!-- <small *ngIf="mapLookupTaxonomyForm.submitted && Constant.EMPTY_STRINGS.includes(credilyVersion)" style="color: red;">Select Credily Version!</small> -->
                                             </div>
                                         </div>
-                                        <div class="col-lg-12 ">
+                                        <div class="col-lg-12 " *ngIf="crawlerType != Constant.CRAWLER_TYPE_COMMON_LINKS">
                                             <div class="lookupSearchForm">
                                                 <div class="position-relative">
                                                     <label> Lookup Link <sup class="text-danger">*</sup> 
@@ -322,12 +326,22 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="col-lg-12 " *ngIf="crawlerType == Constant.CRAWLER_TYPE_COMMON_LINKS">
+                                            <div class="lookupSearchForm">
+                                                <div class="lookupSearchForm">
+                                                    <label>Lookup Link <sup class="text-danger">*</sup> </label>
+                                                    <div class="position-relative">
+                                                        <input type="text" class="form-control" name="lookupLink" placeholder="Enter Lookup Link" [(ngModel)]="lookupLink" minlength="10" maxlength="250" required>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="p-5" *ngIf="taxanomyLinkLoading">
                                     <app-circular-loader></app-circular-loader>
                                 </div>
-                                <div class="taxonomyCollapse" *ngIf="!taxanomyLinkLoading">
+                                <div class="taxonomyCollapse" *ngIf="!taxanomyLinkLoading && crawlerType != Constant.CRAWLER_TYPE_COMMON_LINKS">
                                     <div class="taxonomyCollapseInner">
                                         <div class="accordion" id="accordionExample">
                                             <div class="accordion-item">
@@ -368,11 +382,17 @@
                                                             <p class="mb-0 mppedBtn" [ngClass]="{'mpactive':type=='mapped'}" (click)="getMappedTaxonomy('mapped')">
                                                                 Mapped
                                                             </p>
-                                                            <p class="mb-0 mppedBtn" [ngClass]="{'mpactive':type != 'mapped'}" (click)="getMappedTaxonomy('unmapped')">
+                                                            <p class="mb-0 mppedBtn" [ngClass]="{'mpactive':type == 'unmapped'}" (click)="getMappedTaxonomy('unmapped')">
                                                                 Unmapped
                                                             </p>
                                                         </div>
                                                         
+                                                        <div>
+                                                            <div *ngIf="!Constant.EMPTY_STRINGS.includes(lookupLink)" class="text-ceter pointer" (click)="removeAllTaxonomy($event)">
+                                                                <input type="checkbox" id="unmappedAll" name="unmappedAll" value="unmap">
+                                                                <label for="unmappedAll" style="margin-left: 5px;">Unmap All</label>
+                                                            </div>
+                                                        </div>
 
 
                                                         <div class="reportListing" *ngIf="!loadingLookupTaxonomy && lookupTaxonomyList.length > 0" style="max-height: 250px;">
@@ -429,7 +449,7 @@
                                                         <app-circular-loader></app-circular-loader>
                                                     </div>
                     
-                                                    <div class="row justify-content-center" *ngIf="totalLookupTaxonomy>0 && !loadingLookupTaxonomy">  
+                                                    <div class="row justify-content-center" *ngIf="lookupTaxonomyList.length>0 && !loadingLookupTaxonomy">  
                                                         <div class="paginationmain w-100 px-3 mt-2">
                                                             <div class="d-flex align-items-center justify-content-between">
                                                                 <p class="currentshowing mb-0">
@@ -452,9 +472,8 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn primarycancelbtn" style="border-color: #F05252 !important;" 
-                        data-bs-dismiss="modal" #closeTaxomonModalButton (click)="closeTaxonomyModal()">Close</button>
-                        <button type="submit" class="btn primaryBtn" [disabled]=" mapLookupTaxonomyForm.invalid || updateLinkToggle || taxanomyLinkLoading || loadingLookupTaxonomy">Save changes</button>
+                        <button type="button" class="btn primarycancelbtn" style="border-color: #F05252 !important;" data-bs-dismiss="modal" #closeTaxomonModalButton (click)="closeTaxonomyModal()">Close</button>
+                        <button type="submit" class="btn primaryBtn" [disabled]="mapLookupTaxonomyForm.invalid || updateLinkToggle || taxanomyLinkLoading || loadingLookupTaxonomy">Save changes</button>
                     </div>
                 </form>
             </div>
@@ -513,9 +532,13 @@
                                         </div>
                                         <div class="col-lg-6" *ngIf="!Constant.LOOKUP_HIDE.includes(cofigStepRequest.crawlerAttributeId)">
                                             <div class="lookupSearchForm">
-                                                <div class="position-relative">
-                                                    <label class="m-1">Lookup Element</label>
+                                                <div class="position-relative" *ngIf="cofigStepRequest.crawlerAttributeId != 32">
+                                                    <label class="m-1" >Lookup Element</label>
                                                     <input type="text" class="form-control" name="lElement" placeholder="Enter Lookup Element" [(ngModel)]="cofigStepRequest.lookUpElementDesc" maxlength="155" required>
+                                                </div>
+                                                <div class="position-relative" *ngIf="cofigStepRequest.crawlerAttributeId == 32">
+                                                    <label class="m-1">Crop Element 1</label>
+                                                    <input type="text" class="form-control" name="lElement" placeholder="Enter Crop Element 1" [(ngModel)]="cofigStepRequest.lookUpElementDesc" maxlength="155" required>
                                                 </div>
                                             </div>
                                         </div>
@@ -531,11 +554,15 @@
                                                 <small *ngIf="addStepForm.submitted && addStepFormInvalid && Constant.EMPTY_STRINGS.includes(cofigStepRequest.elementEvent)" style="color: red;">Select Event/Delay!</small>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6" *ngIf="cofigStepRequest.crawlerAttributeId == 27">
+                                        <div class="col-lg-6" *ngIf="cofigStepRequest.crawlerAttributeId == 27 || cofigStepRequest.crawlerAttributeId == 32">
                                             <div class="lookupSearchForm">
-                                                <div class="position-relative">
+                                                <div class="position-relative" *ngIf="cofigStepRequest.crawlerAttributeId != 32">
                                                     <label class="m-1">List path</label>
                                                     <input type="text" class="form-control" name="listPath" placeholder="Enter list path" [(ngModel)]="cofigStepRequest.dataSourcePath" maxlength="255" required>
+                                                </div>
+                                                <div class="position-relative" *ngIf="cofigStepRequest.crawlerAttributeId == 32">
+                                                    <label class="m-1" *ngIf="cofigStepRequest.crawlerAttributeId == 32">Crop Element 2</label>
+                                                    <input type="text" class="form-control" name="listPath" placeholder="Enter Crop Element 2" [(ngModel)]="cofigStepRequest.dataSourcePath" maxlength="255">
                                                 </div>
                                             </div>
                                         </div>
@@ -549,20 +576,28 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-lg-6" *ngIf="!Constant.EMPTY_STRINGS.includes(cofigStepRequest.className) && cofigStepRequest.className.toLowerCase() == 'static'">
+                                        <div class="col-lg-6" *ngIf="!Constant.EMPTY_STRINGS.includes(cofigStepRequest.className) && cofigStepRequest.className.toLowerCase() == 'static' || cofigStepRequest.crawlerAttributeId == 32">
                                             <div class="lookupSearchForm">
-                                                <div class="position-relative">
+                                                <div class="position-relative" *ngIf="cofigStepRequest.crawlerAttributeId != 32">
                                                     <label class="m-1">Column Name</label>
                                                     <input type="text" class="form-control" name="cName1" placeholder="Enter Column Name" [(ngModel)]="cofigStepRequest.columnName" maxlength="155" required>
+                                                </div>
+                                                <div class="position-relative" *ngIf="cofigStepRequest.crawlerAttributeId == 32">
+                                                    <label class="m-1" *ngIf="cofigStepRequest.crawlerAttributeId == 32">Crop Element 3</label>
+                                                    <input type="text" class="form-control" name="cName1" placeholder="Enter Crop Element 3" [(ngModel)]="cofigStepRequest.columnName" maxlength="155">
                                                 </div>
                                             </div>
                                         </div>
 
-                                        <div class="col-lg-6" *ngIf="cofigStepRequest.crawlerAttributeId == 28 || cofigStepRequest.crawlerAttributeId == 5 || cofigStepRequest.crawlerAttributeId == 29 || cofigStepRequest.crawlerAttributeId == 20">
+                                        <div class="col-lg-6" *ngIf="cofigStepRequest.crawlerAttributeId == 28 || cofigStepRequest.crawlerAttributeId == 5 || cofigStepRequest.crawlerAttributeId == 20 || cofigStepRequest.crawlerAttributeId == 32">
                                             <div class="lookupSearchForm">
-                                                <div class="position-relative">
+                                                <div class="position-relative" *ngIf="cofigStepRequest.crawlerAttributeId != 32">
                                                     <label class="m-1">Pattern</label>
-                                                    <input type="text" class="form-control" name="pattern" placeholder="Enter pattern for search criteria" [(ngModel)]="cofigStepRequest.pattern" maxlength="155" required>
+                                                    <input type="text" class="form-control" name="pattern" placeholder="Enter pattern for search criteria" [(ngModel)]="cofigStepRequest.pattern" maxlength="155">
+                                                </div>
+                                                <div class="position-relative" *ngIf="cofigStepRequest.crawlerAttributeId == 32">
+                                                    <label class="m-1">Crop Element 4</label>
+                                                    <input type="text" class="form-control" name="pattern" placeholder="Enter Crop Element 4" [(ngModel)]="cofigStepRequest.pattern" maxlength="155">
                                                 </div>
                                             </div>
                                         </div>
@@ -751,8 +786,6 @@
                                             </div>
                                         </div>
                                     </button>
-                                    <!--  -->
-
                                 </div>
                             </div>
                         </div>
@@ -794,11 +827,11 @@
                     </small>
                 </div>
                 <div class="modal-footer justify-content-center">
-                    <button type="button" [disabled]="deletingConfguration" class="btn btnmarkdelete" (click)="confirmDeleteConfiguration()">
-                        Yes Delete It <span><i class="spinner-border spinner-border-sm" role="status" *ngIf="deletingConfguration"></i></span>
-                    </button>
                     <button type="button" [disabled]="deletingConfguration" class="btn btnmarkcancel" data-bs-dismiss="modal">
                         Cancel
+                    </button>
+                    <button type="button" [disabled]="deletingConfguration" class="btn btnmarkdelete" (click)="confirmDeleteConfiguration()">
+                        Yes Delete It <span><i class="spinner-border spinner-border-sm" role="status" *ngIf="deletingConfguration"></i></span>
                     </button>
                 </div>
             </div>
@@ -813,18 +846,21 @@
                 <div class="modal-body text-center">
                     <div class="lookupSearchForm">
                         <div class="position-relative">
-                            <label class="m-1">Credily Version <sup class="text-danger">*</sup> </label>
-                            <angular2-multiselect id="version" name="version" [data]="versionList" [settings]="dropdownSettingsVersion" [(ngModel)]="selectedVersion" (ngModelChange)="selectVersion($event)" required>
-                            </angular2-multiselect>
+                            <p>Do you want to replicate this configuration?</p>
+                            <!-- <label class="m-1">Credily Version <sup class="text-danger">*</sup> </label> -->
+                            <!-- <angular2-multiselect id="version" name="version" [data]="versionList" [settings]="dropdownSettingsVersion" [(ngModel)]="selectedVersion" (ngModelChange)="selectVersion($event)" required>
+                            </angular2-multiselect> -->
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer justify-content-center">
-                    <button type="button" class="btn btn-primary" [disabled]="Constant.EMPTY_STRINGS.includes(credilyVersion) || replicatingConfig" (click)="replicateLookupConfig()">
-                        Replicate <i class="spinner-border spinner-border-sm" *ngIf="replicatingConfig "></i>
-                    </button>
                     <button type="button" class="btn btnmarkcancel" [disabled]="replicatingConfig" data-bs-dismiss="modal" #replicateModalCloseButton>
                         Cancel
+                    </button>
+                    <button type="button" class="btn btn-primary" [disabled]="replicatingConfig" (click)="replicateLookupConfig()">
+                        <span *ngIf="!replicatingConfig">Replicate</span>
+                        <span *ngIf="replicatingConfig">Replicating</span>
+                        <i style="margin-left: 3px;" class="spinner-border spinner-border-sm" *ngIf="replicatingConfig "></i>
                     </button>
                 </div>
             </div>

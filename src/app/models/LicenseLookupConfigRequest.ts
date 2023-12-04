@@ -15,10 +15,13 @@ export class LicenseLookupConfigRequest{
     configReportStatus:any;
     attachmentType:string='';
     attachmentSubType:string='';
+    attachmentSubTypeDescription:string='';
     taxonomyIdList : number[] = [];
     configRequests : ConfigRequest[] = [];
 
     lookupNames:string[] = [];
     removeIds:number[] = [];
     mappedIds:number[] = [];
+    removeAll:string='no';
+    attactmentSource:string='';
 }

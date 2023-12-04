@@ -94,10 +94,10 @@
                                             <!-- <a class="text-primary" data-bs-toggle="modal" data-bs-target="#showImageModal" rel="noopener noreferrer" *ngIf="config.reportStatus == 'Test pass'" >
                                                 <i class="bi bi-eye pointer" (click)="showSnapshot(config.url)"></i>
                                             </a> -->
-                                            <a class="text-primary" data-bs-toggle="modal" data-bs-target="#viewModalButton">
-                                                <i class="bi bi-eye pointer" (click)="viewMultiple()"></i>
+                                            <a class="text-primary" data-bs-toggle="modal" (click)="viewMultiple(config.id)">
+                                                <i class="bi bi-eye pointer" ></i>
                                             </a>
-                                            <i class="bi bi-eye-slash" *ngIf="config.reportStatus == 'Test fail'"></i>
+                                            <!-- <i class="bi bi-eye-slash" *ngIf="config.reportStatus == 'Test fail'"></i> -->
                                         </td>
                                     </tr>
                              
@@ -144,7 +144,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="closeImageModal()" #closeImageModalButton id="closeImageModalButton"></button>
             </div>
             <div class="modal-body text-center" style="overflow: scroll;min-height: 450px;">
-                <img [src]="selectedImage | safe" alt="" />
+                <img style="width: 100%;" [src]="selectedImage | safe" alt="" />
                 <!-- <iframe [src]="selectedImage | safe" frameborder="0" style="width:100%;min-height: 500px;"></iframe> -->
             </div>
         </div>
@@ -162,16 +162,36 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body text-center">
-                <table>
-                    <thead>
-                        <th>License Number</th>
-                        <th>View</th>
-                    </thead>
-                    <tbody>
-                        <td>345</td>
-                        <td>View</td>
-                    </tbody>
-                </table>
+                <div class="reportListing usertableinner no-wrap" *ngIf="!loadingConfigReport">
+                    <form>
+                        <table class="table" *ngIf="!shapshotLoadingToggle">
+                            <thead>
+                                <tr>
+                                    <th style="width: 10%;">License Number</th>
+                                    <th style="width: 8%;">Snapshot</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let obj of configSnapshotList; let i = index;">
+                                    <td class="tableData text-center">
+                                        <p class="mb-0">{{obj.licenseNumber?obj.licenseNumber:'N/A'}}</p>
+                                    </td>
+                                    <td class="tableData pointer">
+                                        <a class="text-primary" data-bs-toggle="modal" data-bs-target="#showImageModal" rel="noopener noreferrer"
+                                         (click)="showSnapshot(obj.url)"> View </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <app-circular-loader *ngIf="shapshotLoadingToggle"></app-circular-loader>
+                        <div class="empty-notific text-center mt-5" *ngIf="!shapshotLoadingToggle && configSnapshotList.length == 0">
+                            <div class="empty-notificinner">
+                                <img src="assets/images/allexpirable.svg" style="width: 30%;margin-right: 118px;" alt="no data found" />
+                                <h6 class="m-3 ps-6">No data found</h6>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>

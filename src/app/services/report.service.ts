@@ -44,6 +44,11 @@ export class ReportService {
     return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.provider_crawler_controller + '/test-again', {params});
   }
 
+  refreshProviderStatus(providerUuid:string):Observable<any> { 
+    const params = new HttpParams()
+    .set('providerUuid', providerUuid)
+    return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.provider_crawler_controller + "/refresh-provider", {params});
+  }
   // ------------------------------- config report section -----------------------
 
   getConfigReport(databaseHelper:DatabaseHelper, startDate:any, endDate:any, version:any, configReportStatus:any, type:string): Observable<any> {
@@ -69,6 +74,12 @@ export class ReportService {
     const params = new HttpParams()
     .set('ids', ids)
     return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.report + "/test", {params});
+  }
+
+  getScreenshot(id:any) :Observable<any> { 
+    const params = new HttpParams()
+    .set('configId', id)
+    return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.report + "/screentshot", {params});
   }
 
 }

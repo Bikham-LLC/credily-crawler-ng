@@ -10,4 +10,5 @@ export class ProviderReport{
     status : string = '';
     allocatedQueue : string = '';
     providerUuid:string='';
+    refreshProviderLoading:boolean=false;
 }
