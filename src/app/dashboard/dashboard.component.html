@@ -1,0 +1,907 @@
+<div class="container-fluid p-0">
+    <header>
+        <div class="align-items-center d-flex justify-content-between topbar">
+            <div class="logo">
+                <!-- <img src="assets/images/logo.svg" alt="" />  -->
+                <img style="width: 50px;margin-left: 10px;" src="assets/images/ProviderPassportLogo.svg" alt="">
+            </div>
+            <div class="profile-bx">
+                <div class="profiledash">
+                    <div class="dropdown">
+                        <button class="btn userprofilebtn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                            <div class="profile-bx">
+                                <img src="assets/images/user-icon.svg" alt="" />
+                            </div>
+                            {{userName}} <i class="fa-solid fa-chevron-down"></i>
+                        </button>
+                        <ul class="dropdown-menu userDropdownmenu" aria-labelledby="dropdownMenuButton1">
+                            <div class="bgfilterblur"></div>
+                            <div class="userDropdownmenuinner">
+                                <div class="userHeader">
+                                    <div class="userProfile">
+                                        <img src="assets/images/user-icon.svg" alt="" />
+                                    </div>
+                                </div>
+                                <div class="userProfileInfo">
+                                    <h3>{{userName}}</h3>
+                                </div>
+                                <div class="userProfileLink">
+                                    <a  routerLink="/account-user" routerLinkActive="active"><i class="bi bi-gear"></i>  Settings</a>
+                                </div>
+                                <div class="userLogout">
+                                    <a class="btn primarybtn userLogoutbtn pointer" (click)="logOut()">
+                                        <i class="bi bi-arrow-bar-left"></i> Log out
+                                    </a>
+                                </div>
+                               
+                            </div>
+                            
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="navigation-bar">
+            <div class="navigationitemsmain">
+                <a class="btn navigationitem" routerLinkActive="navActive" routerLink="/dashboard">
+                    Dashboard
+                </a>
+                <a routerLink="/configuration" class="btn navigationitem " routerLinkActive="navActive">
+                    Configuration
+                </a>
+                <a routerLink="/queue" class="btn navigationitem " routerLinkActive="navActive">
+                    Queue
+                </a>
+                <div class="dropdown">
+                    <button class="btn navigationitem dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Report
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </button>
+                    
+                    <ul class="navigationitemmenu dropdown-menu">
+                        <li>
+                            <a class="navigationmenuitem pointer" routerLinkActive="navActive" routerLink="/provider-report">Provider Report</a>
+                        </li>
+                        <li>
+                            <a class="navigationmenuitem pointer" routerLinkActive="navActive" routerLink="/report">Config Report</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </header>
+</div>
+
+<div class="main">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="pageTitle d-flex justify-content-between align-items-center">
+                    <h3>Dashboard</h3>
+                    <button type="button" class="btn primarybtn">Filter</button>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="dashChartCardmain">
+                    <div class="dashChartCardinner">
+                        <h3>V3</h3>
+                        <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                              <button class="nav-link active" id="pills-licenseOne-tab" data-bs-toggle="pill" data-bs-target="#pills-licenseOne" type="button" role="tab" aria-controls="pills-licenseOne" aria-selected="true">License</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                              <button class="nav-link" id="pills-boardOne-tab" data-bs-toggle="pill" data-bs-target="#pills-boardOne" type="button" role="tab" aria-controls="pills-boardOne" aria-selected="false">Board</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                              <button class="nav-link" id="pills-CommonOne-tab" data-bs-toggle="pill" data-bs-target="#pills-CommonOne" type="button" role="tab" aria-controls="pills-CommonOne" aria-selected="false">Common</button>
+                            </li>
+                          </ul>
+                          <div class="tab-content" id="pills-tabContent">
+                            <div class="tab-pane fade show active" id="pills-licenseOne" role="tabpanel" aria-labelledby="pills-licenseOne-tab">
+                                <div class="dashCharttabsinner">
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="chartsleftlabels">
+                                                <p>
+                                                    <span>
+                                                        <span class="labelColor TPA"></span>
+                                                        Total Provider Added
+                                                    </span>
+                                                    <span>20</span>
+                                                </p>
+                                                <p>
+                                                    <span><span class="labelColor TC"></span> 
+                                                    Total Configs</span>
+                                                    <span>20</span>
+                                                </p>
+                                                <p>
+                                                    <span><span class="labelColor CC"></span>
+                                                    Completed Configs</span>
+                                                    <span>20</span>
+                                                </p>
+                                                <p>
+                                                    <span><span class="labelColor NCF"></span>
+                                                    No Configs Found</span>
+                                                    <span>20</span>
+                                                </p>
+                                                <p>
+                                                    <span><span class="labelColor FC"></span>
+                                                    Failed Configs</span>
+                                                    <span>20</span>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="pills-boardOne" role="tabpanel" aria-labelledby="pills-boardOne-tab">
+                                <div class="dashCharttabsinner">
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="chartsleftlabels">
+                                                <p>
+                                                    <span>
+                                                        <span class="labelColor TPA"></span>
+                                                        Total Provider Added
+                                                    </span>
+                                                    <span>20</span>
+                                                </p>
+                                                <p>
+                                                    <span><span class="labelColor TC"></span> 
+                                                    Total Configs</span>
+                                                    <span>20</span>
+                                                </p>
+                                                <p>
+                                                    <span><span class="labelColor CC"></span>
+                                                    Completed Configs</span>
+                                                    <span>20</span>
+                                                </p>
+                                                <p>
+                                                    <span><span class="labelColor NCF"></span>
+                                                    No Configs Found</span>
+                                                    <span>20</span>
+                                                </p>
+                                                <p>
+                                                    <span><span class="labelColor FC"></span>
+                                                    Failed Configs</span>
+                                                    <span>20</span>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="pills-CommonOne" role="tabpanel" aria-labelledby="pills-CommonOne-tab">
+                                <div class="dashCharttabsinner">
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="chartsleftlabels">
+                                                <p>
+                                                    <span>
+                                                        <span class="labelColor TPA"></span>
+                                                        Total Provider Added
+                                                    </span>
+                                                    <span>20</span>
+                                                </p>
+                                                <p>
+                                                    <span><span class="labelColor TC"></span> 
+                                                    Total Configs</span>
+                                                    <span>20</span>
+                                                </p>
+                                                <p>
+                                                    <span><span class="labelColor CC"></span>
+                                                    Completed Configs</span>
+                                                    <span>20</span>
+                                                </p>
+                                                <p>
+                                                    <span><span class="labelColor NCF"></span>
+                                                    No Configs Found</span>
+                                                    <span>20</span>
+                                                </p>
+                                                <p>
+                                                    <span><span class="labelColor FC"></span>
+                                                    Failed Configs</span>
+                                                    <span>20</span>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                          </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="dashChartCardmain">
+                    <div class="dashChartCardinner">
+                        <h3>V2</h3>
+                        <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                              <button class="nav-link active" id="pills-licenseTwo-tab" data-bs-toggle="pill" data-bs-target="#pills-licenseTwo" type="button" role="tab" aria-controls="pills-licenseTwo" aria-selected="true">License</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                              <button class="nav-link" id="pills-boardTwo-tab" data-bs-toggle="pill" data-bs-target="#pills-boardTwo" type="button" role="tab" aria-controls="pills-boardTwo" aria-selected="false">Board</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                              <button class="nav-link" id="pills-CommonTwo-tab" data-bs-toggle="pill" data-bs-target="#pills-CommonTwo" type="button" role="tab" aria-controls="pills-CommonTwo" aria-selected="false">Common</button>
+                            </li>
+                          </ul>
+                          <div class="tab-content" id="pills-tabContent">
+                            <div class="tab-pane fade show active" id="pills-licenseTwo" role="tabpanel" aria-labelledby="pills-licenseTwo-tab">
+                                <div class="dashCharttabsinner">
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="chartsleftlabels">
+                                                <p>
+                                                    <span>
+                                                        <span class="labelColor TPA"></span>
+                                                        Total Provider Added
+                                                    </span>
+                                                    <span>20</span>
+                                                </p>
+                                                <p>
+                                                    <span><span class="labelColor TC"></span> 
+                                                    Total Configs</span>
+                                                    <span>20</span>
+                                                </p>
+                                                <p>
+                                                    <span><span class="labelColor CC"></span>
+                                                    Completed Configs</span>
+                                                    <span>20</span>
+                                                </p>
+                                                <p>
+                                                    <span><span class="labelColor NCF"></span>
+                                                    No Configs Found</span>
+                                                    <span>20</span>
+                                                </p>
+                                                <p>
+                                                    <span><span class="labelColor FC"></span>
+                                                    Failed Configs</span>
+                                                    <span>20</span>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="pills-boardTwo" role="tabpanel" aria-labelledby="pills-boardTwo-tab">
+                                <div class="dashCharttabsinner">
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="chartsleftlabels">
+                                                <p>
+                                                    <span>
+                                                        <span class="labelColor TPA"></span>
+                                                        Total Provider Added
+                                                    </span>
+                                                    <span>20</span>
+                                                </p>
+                                                <p>
+                                                    <span><span class="labelColor TC"></span> 
+                                                    Total Configs</span>
+                                                    <span>20</span>
+                                                </p>
+                                                <p>
+                                                    <span><span class="labelColor CC"></span>
+                                                    Completed Configs</span>
+                                                    <span>20</span>
+                                                </p>
+                                                <p>
+                                                    <span><span class="labelColor NCF"></span>
+                                                    No Configs Found</span>
+                                                    <span>20</span>
+                                                </p>
+                                                <p>
+                                                    <span><span class="labelColor FC"></span>
+                                                    Failed Configs</span>
+                                                    <span>20</span>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="pills-CommonTwo" role="tabpanel" aria-labelledby="pills-CommonTwo-tab">
+                                <div class="dashCharttabsinner">
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="chartsleftlabels">
+                                                <p>
+                                                    <span>
+                                                        <span class="labelColor TPA"></span>
+                                                        Total Provider Added
+                                                    </span>
+                                                    <span>20</span>
+                                                </p>
+                                                <p>
+                                                    <span><span class="labelColor TC"></span> 
+                                                    Total Configs</span>
+                                                    <span>20</span>
+                                                </p>
+                                                <p>
+                                                    <span><span class="labelColor CC"></span>
+                                                    Completed Configs</span>
+                                                    <span>20</span>
+                                                </p>
+                                                <p>
+                                                    <span><span class="labelColor NCF"></span>
+                                                    No Configs Found</span>
+                                                    <span>20</span>
+                                                </p>
+                                                <p>
+                                                    <span><span class="labelColor FC"></span>
+                                                    Failed Configs</span>
+                                                    <span>20</span>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                          </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="dashChartCardmain">
+                    <div class="dashChartCardinner">
+                        <h3>V3</h3>
+                        <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                              <button class="nav-link active" id="pills-licenseThree-tab" data-bs-toggle="pill" data-bs-target="#pills-licenseThree" type="button" role="tab" aria-controls="pills-licenseThree" aria-selected="true">License</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                              <button class="nav-link" id="pills-boardThree-tab" data-bs-toggle="pill" data-bs-target="#pills-boardThree" type="button" role="tab" aria-controls="pills-boardThree" aria-selected="false">Board</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                              <button class="nav-link" id="pills-CommonThree-tab" data-bs-toggle="pill" data-bs-target="#pills-CommonThree" type="button" role="tab" aria-controls="pills-CommonThree" aria-selected="false">Common</button>
+                            </li>
+                          </ul>
+                          <div class="tab-content" id="pills-tabContent">
+                            <div class="tab-pane fade show active" id="pills-licenseThree" role="tabpanel" aria-labelledby="pills-licenseThree-tab">
+                                <div class="dashCharttables">
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th style="width: 25%;">Config</th>
+                                                    <th style="width: 43%;">Board Name</th>
+                                                    <th style="width: 10%;" class="text-center">Number</th>
+                                                    <th style="width: 22%;" class="text-center">State</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>
+                                                        <div class="tableInfo">
+                                                            Most Ran Config
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="tableInfo tableInfowrap">
+                                                            Mississippi Chiropractic License Board
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="tableInfo text-center">
+                                                            20
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <div class="tableInfo">
+                                                            North Carolina
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <div class="tableInfo">
+                                                            Most Ran Config
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="tableInfo tableInfowrap">
+                                                            Mississippi Chiropractic License Board
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="tableInfo text-center">
+                                                            20
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <div class="tableInfo">
+                                                            North Carolina
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <div class="tableInfo">
+                                                            Most Ran Config
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="tableInfo tableInfowrap">
+                                                            Mississippi Chiropractic License Board
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="tableInfo text-center">
+                                                            20
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <div class="tableInfo">
+                                                            North Carolina
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                
+                                            </tbody>
+                                        </table>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="pills-boardThree" role="tabpanel" aria-labelledby="pills-boardThree-tab">
+                                <div class="dashCharttables">
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th style="width: 25%;">Config</th>
+                                                    <th style="width: 43%;">Board Name</th>
+                                                    <th style="width: 10%;" class="text-center">Number</th>
+                                                    <th style="width: 22%;" class="text-center">State</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>
+                                                        <div class="tableInfo">
+                                                            Most Ran Config
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="tableInfo tableInfowrap">
+                                                            Mississippi Chiropractic License Board
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="tableInfo text-center">
+                                                            20
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <div class="tableInfo">
+                                                            North Carolina
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <div class="tableInfo">
+                                                            Most Ran Config
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="tableInfo tableInfowrap">
+                                                            Mississippi Chiropractic License Board
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="tableInfo text-center">
+                                                            20
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <div class="tableInfo">
+                                                            North Carolina
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <div class="tableInfo">
+                                                            Most Ran Config
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="tableInfo tableInfowrap">
+                                                            Mississippi Chiropractic License Board
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="tableInfo text-center">
+                                                            20
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <div class="tableInfo">
+                                                            North Carolina
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                
+                                            </tbody>
+                                        </table>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="pills-CommonThree" role="tabpanel" aria-labelledby="pills-CommonThree-tab">
+                                <div class="dashCharttables">
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th style="width: 25%;">Config</th>
+                                                    <th style="width: 43%;">Board Name</th>
+                                                    <th style="width: 10%;" class="text-center">Number</th>
+                                                    <th style="width: 22%;" class="text-center">State</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>
+                                                        <div class="tableInfo">
+                                                            Most Ran Config
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="tableInfo tableInfowrap">
+                                                            Mississippi Chiropractic License Board
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="tableInfo text-center">
+                                                            20
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <div class="tableInfo">
+                                                            North Carolina
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <div class="tableInfo">
+                                                            Most Ran Config
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="tableInfo tableInfowrap">
+                                                            Mississippi Chiropractic License Board
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="tableInfo text-center">
+                                                            20
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <div class="tableInfo">
+                                                            North Carolina
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <div class="tableInfo">
+                                                            Most Ran Config
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="tableInfo tableInfowrap">
+                                                            Mississippi Chiropractic License Board
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="tableInfo text-center">
+                                                            20
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <div class="tableInfo">
+                                                            North Carolina
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                
+                                            </tbody>
+                                        </table>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                          </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="dashChartCardmain">
+                    <div class="dashChartCardinner">
+                        <h3>V3</h3>
+                        <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                              <button class="nav-link active" id="pills-licenseFour-tab" data-bs-toggle="pill" data-bs-target="#pills-licenseFour" type="button" role="tab" aria-controls="pills-licenseFour" aria-selected="true">License</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                              <button class="nav-link" id="pills-boardFour-tab" data-bs-toggle="pill" data-bs-target="#pills-boardFour" type="button" role="tab" aria-controls="pills-boardFour" aria-selected="false">Board</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                              <button class="nav-link" id="pills-CommonFive-tab" data-bs-toggle="pill" data-bs-target="#pills-CommonFive" type="button" role="tab" aria-controls="pills-CommonFive" aria-selected="false">Common</button>
+                            </li>
+                          </ul>
+                          <div class="tab-content" id="pills-tabContent">
+                            <div class="tab-pane fade show active" id="pills-licenseFour" role="tabpanel" aria-labelledby="pills-licenseFour-tab">
+                                <div class="dashCharttables">
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th style="width: 25%;">Config</th>
+                                                    <th style="width: 43%;">Board Name</th>
+                                                    <th style="width: 10%;" class="text-center">Number</th>
+                                                    <th style="width: 22%;" class="text-center">State</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>
+                                                        <div class="tableInfo">
+                                                            Most Ran Config
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="tableInfo tableInfowrap">
+                                                            Mississippi Chiropractic License Board
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="tableInfo text-center">
+                                                            20
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <div class="tableInfo">
+                                                            North Carolina
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <div class="tableInfo">
+                                                            Most Ran Config
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="tableInfo tableInfowrap">
+                                                            Mississippi Chiropractic License Board
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="tableInfo text-center">
+                                                            20
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <div class="tableInfo">
+                                                            North Carolina
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <div class="tableInfo">
+                                                            Most Ran Config
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="tableInfo tableInfowrap">
+                                                            Mississippi Chiropractic License Board
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="tableInfo text-center">
+                                                            20
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <div class="tableInfo">
+                                                            North Carolina
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                
+                                            </tbody>
+                                        </table>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="pills-boardFour" role="tabpanel" aria-labelledby="pills-boardFour-tab">
+                                <div class="dashCharttables">
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th style="width: 25%;">Config</th>
+                                                    <th style="width: 43%;">Board Name</th>
+                                                    <th style="width: 10%;" class="text-center">Number</th>
+                                                    <th style="width: 22%;" class="text-center">State</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>
+                                                        <div class="tableInfo">
+                                                            Most Ran Config
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="tableInfo tableInfowrap">
+                                                            Mississippi Chiropractic License Board
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="tableInfo text-center">
+                                                            20
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <div class="tableInfo">
+                                                            North Carolina
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <div class="tableInfo">
+                                                            Most Ran Config
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="tableInfo tableInfowrap">
+                                                            Mississippi Chiropractic License Board
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="tableInfo text-center">
+                                                            20
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <div class="tableInfo">
+                                                            North Carolina
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <div class="tableInfo">
+                                                            Most Ran Config
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="tableInfo tableInfowrap">
+                                                            Mississippi Chiropractic License Board
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="tableInfo text-center">
+                                                            20
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <div class="tableInfo">
+                                                            North Carolina
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                
+                                            </tbody>
+                                        </table>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="pills-CommonFive" role="tabpanel" aria-labelledby="pills-CommonFive-tab">
+                                <div class="dashCharttables">
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th style="width: 25%;">Config</th>
+                                                    <th style="width: 43%;">Board Name</th>
+                                                    <th style="width: 10%;" class="text-center">Number</th>
+                                                    <th style="width: 22%;" class="text-center">State</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>
+                                                        <div class="tableInfo">
+                                                            Most Ran Config
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="tableInfo tableInfowrap">
+                                                            Mississippi Chiropractic License Board
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="tableInfo text-center">
+                                                            20
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <div class="tableInfo">
+                                                            North Carolina
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <div class="tableInfo">
+                                                            Most Ran Config
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="tableInfo tableInfowrap">
+                                                            Mississippi Chiropractic License Board
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="tableInfo text-center">
+                                                            20
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <div class="tableInfo">
+                                                            North Carolina
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <div class="tableInfo">
+                                                            Most Ran Config
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="tableInfo tableInfowrap">
+                                                            Mississippi Chiropractic License Board
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="tableInfo text-center">
+                                                            20
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <div class="tableInfo">
+                                                            North Carolina
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                
+                                            </tbody>
+                                        </table>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                          </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
