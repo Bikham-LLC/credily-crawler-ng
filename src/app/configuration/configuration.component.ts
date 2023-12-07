@@ -34,8 +34,7 @@ export class ConfigurationComponent implements OnInit {
     this.versionList = [{ id: 'V2', itemName: 'Credily V2' }, { id: 'V3', itemName: 'Credily V3' }];
 
     this.configSearch.pipe(
-      debounceTime(600),
-      distinctUntilChanged())
+      debounceTime(600))
       .subscribe(value => {
         this.configDatabaseHelper.currentPage = 1;
         this.configDatabaseHelper.search = this.search;
@@ -44,8 +43,7 @@ export class ConfigurationComponent implements OnInit {
       });
 
     this.configSearchByLink.pipe(
-      debounceTime(600),
-      distinctUntilChanged())
+      debounceTime(600))
       .subscribe(value => {
         this.configDatabaseHelper.currentPage = 1;
         this.configDatabaseHelper.search = this.searchLink;

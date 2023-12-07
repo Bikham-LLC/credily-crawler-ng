@@ -1,11 +1,6 @@
 <app-header></app-header>
 <div class="container-fluid mt-3">
   <div class="main">
-    <!-- <div class="roletitlemain">
-        <div class="pagetitle">
-          <h3>Users</h3>
-        </div>
-      </div> -->
 
     <div class="usertablemain">
 
@@ -16,15 +11,13 @@
               ngxDaterangepickerMd [maxDate]="maxDate" [opens]="'right'" [showClearButton]="true"
               [locale]="{applyLabel: 'Apply', format: 'MM-DD-YYYY'}" [(ngModel)]="selected"
               (ngModelChange)="selectDateFilter($event)">
-            <!-- <button *ngIf="!Constant.EMPTY_STRINGS.includes(startDate) && !Constant.EMPTY_STRINGS.includes(endDate)" type="button" class="btn-close" (click)="clearDate()" ></button>             -->
           </div>
         </div>
         <div class="col-lg-4 px-1">
           <div class="lookupSearchForm">
             <div class="position-relative">
-              <!-- <i class="bi bi-search"></i> -->
               <input class="form-control" placeholder="Search by Name or NPI or email"
-                [(ngModel)]="databaseHelper.search" (keyup)="getProviderReport()">
+                [(ngModel)]="databaseHelper.search" (ngModelChange)="this.providerSearch.next($event)">
             </div>
           </div>
         </div>

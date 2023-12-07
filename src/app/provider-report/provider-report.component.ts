@@ -5,6 +5,8 @@ import { ProviderReport } from '../models/ProviderReport';
 import * as moment from 'moment';
 import { ProviderRequestCrawlerLog } from '../models/ProviderRequestCrawlerLog';
 import { Constant } from '../models/Constant';
+import { Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 @Component({
   selector: 'app-provider-report',
@@ -24,7 +26,16 @@ export class ProviderReportComponent implements OnInit {
   selectedStatus: any[] = new Array();
   statusList: any[] = new Array();
 
-  constructor( private reportService:ReportService) { }
+  providerSearch = new Subject<string>();
+  constructor( private reportService:ReportService) { 
+
+    this.providerSearch.pipe(
+      debounceTime(600))
+      .subscribe(value => {
+        this.databaseHelper.currentPage = 1;
+        this.getProviderReport();
+      });
+  }
 
   ngOnInit(): void {
 
