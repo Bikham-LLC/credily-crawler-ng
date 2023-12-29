@@ -44,6 +44,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     AngularMultiSelectModule,
     DragDropModule,
     NgxDaterangepickerMd.forRoot()
+
   ],
   providers: [ {
     provide: HTTP_INTERCEPTORS,

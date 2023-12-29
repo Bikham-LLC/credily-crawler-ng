@@ -172,10 +172,11 @@
               <tr>
                 <th style="width: 6%">S.No.</th>
                 <th style="width: 20%">Lookup Name</th>
-                <th style="width: 24%">Lookup Link</th>
+                <th style="width: 20%">Lookup Link</th>
                 <th style="width: 8%" class="text-center">Status</th>
                 <th style="width: 10%" class="text-center">State</th>
-                <th style="width: 15%" class="text-center">Created Date</th>
+                <th style="width: 11%" class="text-center">Created Date</th>
+                <th style="width: 10%" class="text-center">Re-run Count</th>
                 <th style="width: 25%;" class="text-end text-center">Action</th>
               </tr>
             </thead>
@@ -214,16 +215,22 @@
                   </div>
                 </td>
                 <td>
+                  <div class="tableinfo text-center">
+                    <span>{{log.reRunCount}}</span>
+                  </div>
+                </td>
+                <td>
                   <div class="tableinfo d-flex align-items-center justify-content-end gap-2">
-                    <Button type="button" style="height: 33px;" class="btn primaryBtn" [disabled]="log.reTestingToggle || providerTestingToggle || (Constant.EMPTY_STRINGS.includes(log.lookupName) && Constant.EMPTY_STRINGS.includes(log.lookupLink))"
-                      (click)="testAgainProviderRequest(log.id, i)">Re-run
+                    <Button tooltipClass="logTooltip" ngbTooltip={{log.reRunDate}} type="button" style="height: 33px;"
+                     class="btn primaryBtn" [disabled]="log.reTestingToggle || providerTestingToggle || (Constant.EMPTY_STRINGS.includes(log.lookupName) && Constant.EMPTY_STRINGS.includes(log.lookupLink))"
+                    (click)="testAgainProviderRequest(log.id, i)">Re-run
                       <i *ngIf="log.reTestingToggle" class="spinner-border spinner-border-sm"></i>
-                      <h6 style="height: 9px;"><i *ngIf="!log.reTestingToggle" class="bi bi-arrow-clockwise"></i></h6>
+                      <h6 style="height: 9px;font-size: 1rem;"><i *ngIf="!log.reTestingToggle" class="bi bi-arrow-clockwise"></i></h6>
                     </Button>
                     <Button type="button" style="height: 33px;"
                       [disabled]="log.reTestingToggle || Constant.EMPTY_STRINGS.includes(log.snapShotUrl) || providerTestingToggle"
                       class="btn primaryBtn" (click)="viewSnapshot(log.snapShotUrl)">View
-                      <h6 style="height: 9px;"><i class="bi bi-eye pointer"></i></h6>
+                      <h6 style="height: 9px;font-size: 1rem;"><i class="bi bi-eye pointer"></i></h6>
                     </Button>
                   </div>
                 </td>

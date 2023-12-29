@@ -12,7 +12,7 @@ body {
   color: #444;
   box-sizing: border-box;
   overflow-x: hidden;
-  font-family: "Poppins", sans-serif;
+  font-family: "Poppins", sans-serif !important;
   font-weight: 400;
 }
 
@@ -337,4 +337,9 @@ label.form-label.labelCls {
 }
 .md-drppicker .btn.btn-default {
   padding: 0 15px !important;
+}
+
+.logTooltip .tooltip-inner{
+  background-color: #444;
+  font-size: 12px;
 }

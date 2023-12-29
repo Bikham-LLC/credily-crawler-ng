@@ -138,7 +138,7 @@ export class ProviderReportComponent implements OnInit {
   closeLogModel(){
     this.closeLogsButton.nativeElement.click();
   }
-
+  
   @ViewChild('openSnapshotModalButton') openSnapshotModalButton !: ElementRef;
   imageUrl:string='';
   viewSnapshot(url:string){

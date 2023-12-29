@@ -10,4 +10,6 @@ export class ProviderRequestCrawlerLog{
     errorStatus:string='';
     crawlerStatus:string='';
     reTestingToggle:boolean=false;
+    reRunCount:number =0;
+    reRunDate:any;
 }
