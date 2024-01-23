@@ -52,7 +52,7 @@
                 <th style="width: 12%">Email</th>
                 <th style="width: 8%">Phone</th>
                 <th style="width: 6%">Version</th>
-                <th style="width: 12%">Date</th>
+                <th style="width: 12%">Updated Date</th>
                 <th style="width: 9%">Allocated Queue</th>
                 <th style="width: 11%">Status</th>
                 <th style="width: 7%">Logs</th>
@@ -93,7 +93,7 @@
                 </td>
                 <td>
                   <div class="tableinfo">
-                    <span class="badge-grey">{{obj.createdDate | date:'MM-dd-yyyy hh:mm:ss' : 'EST'}}</span>
+                    <span class="badge-grey">{{obj.updatedDate | date:'MM-dd-yyyy, hh:mm:a' : 'EST'}}</span>
                   </div>
                 </td>
                 <td>

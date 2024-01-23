@@ -7,6 +7,7 @@ export class ProviderReport{
     taxonomy : string = '';
     version : string = '';
     createdDate : string = '';
+    updatedDate : string = '';
     status : string = '';
     allocatedQueue : string = '';
     providerUuid:string='';
