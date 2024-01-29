@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Constant } from '../models/Constant';
 import { DashboardService } from '../services/dashboard-service';
-import { DashboardTotalProviderDataV2 } from '../models/DashboardTotalProviderDataV2';
-import { DashboardTotalProviderDataV3 } from '../models/DashboardTotalProviderDataV3';
 import { DatabaseHelper } from '../models/DatabaseHelper';
+import { DashboardV2ConfigDataList } from '../models/DashboardV2ConfigDataList';
+import { DashboardV3ConfigDataList } from '../models/DashboardV3ConfigDataList';
 
 @Component({
   selector: 'app-dashboard',
@@ -26,8 +26,8 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     this.getTotoalProvidersData('License Lookup', 'V2');
     this.getTotoalProvidersData('License Lookup', 'V3');
-    this.getConfigDataByLogs('License Lookup', 'V2');
-    this.getConfigDataByLogs('License Lookup', 'V3');
+    this.getConfigDataV2('License Lookup');
+    this.getConfigDataV3('License Lookup');
   }
 
   logOut() {
@@ -35,8 +35,8 @@ export class DashboardComponent implements OnInit {
     this._router.navigate(['/auth/login']);
   }
 
-  dashboardTotalCountsV2 : DashboardTotalProviderDataV2 = new DashboardTotalProviderDataV2();
-  dashboardTotalCountsV3 : DashboardTotalProviderDataV3 = new DashboardTotalProviderDataV3();
+  dashboardTotalCountsV2 : DashboardV2ConfigDataList = new DashboardV2ConfigDataList();
+  dashboardTotalCountsV3 : DashboardV3ConfigDataList = new DashboardV3ConfigDataList();
 
   v2TotalCountsLoadingToggle:boolean = false;
   v3TotalCountsLoadingToggle:boolean = false;
@@ -61,29 +61,61 @@ export class DashboardComponent implements OnInit {
   }
 
 
-  dashboardTotalProviderDataV2 : DashboardTotalProviderDataV2[] = new Array();
-  dashboardTotalProviderDataV3 : DashboardTotalProviderDataV3[] = new Array();
+  dashboardV2ConfigDataList : DashboardV2ConfigDataList[] = new Array();
+  dashboardV3ConfigDataList : DashboardV3ConfigDataList[] = new Array();
+  dashboardCountDataV2 : number =0;
+  dashboardCountDataV3 : number =0;
   v2ConfigLoadingToggle:boolean = false;
   v3ConfigLoadingToggle:boolean = false;
   databaseHelper:DatabaseHelper = new DatabaseHelper();
-  getConfigDataByLogs(type:string, version:string){
-    if(version=='V3'){
-      this.v3ConfigLoadingToggle = true;
-    }else if (version = 'V2'){
-      this.v2ConfigLoadingToggle = true;
-    }
-    this.dashboardService.getConfigDataByLogs(type, version, this.databaseHelper.currentPage, this.databaseHelper.itemsPerPage).subscribe(response=>{
-      if(version=='V3'){
-        this.dashboardTotalProviderDataV3 = response;
-        this.v3ConfigLoadingToggle = false;
-      }else{
-        this.dashboardTotalProviderDataV2 = response;
+  v2configType:string='';
+  v3configType:string='';
+  getConfigDataV2(type:string){
+    debugger
+    this.v2ConfigLoadingToggle = true;
+    this.v2configType = type;
+    this.dashboardService.getConfigDataByLogs(type, 'V2', this.V2DatabaseHelper.currentPage, this.V2DatabaseHelper.itemsPerPage).subscribe(response=>{
+      if(response.status){
+        this.dashboardV2ConfigDataList = response.object;
+        this.dashboardCountDataV2 = response.totalItems;
         this.v2ConfigLoadingToggle = false;
       }
     },error=>{
       this.v2ConfigLoadingToggle = false;
+    })
+  }
+
+  getConfigDataV3(type:string){
+    debugger
+    this.v3ConfigLoadingToggle = true;
+    this.v3configType = type;
+    this.dashboardService.getConfigDataByLogs(type, 'V3', this.v3DatabaseHelper.currentPage, this.v3DatabaseHelper.itemsPerPage).subscribe(response=>{
+      if(response.status){
+        this.dashboardV3ConfigDataList = response.object;
+        this.dashboardCountDataV3 = response.totalItems;
+        this.v3ConfigLoadingToggle = false;
+      }
+    },error=>{
       this.v3ConfigLoadingToggle = false;
     })
+  }
+
+  V2DatabaseHelper:DatabaseHelper = new DatabaseHelper();
+  pageChanged(event:any){
+    debugger
+    if(event != undefined){
+      this.V2DatabaseHelper.currentPage = event;
+      this.getConfigDataV2(this.v2configType);
+    }
+  }
+
+  v3DatabaseHelper:DatabaseHelper = new DatabaseHelper();
+  pageChangedforV3(event:any){
+    debugger
+    if(event != undefined){
+      this.v3DatabaseHelper.currentPage = event;
+      this.getConfigDataV3(this.v3configType);
+    }
   }
 
 }

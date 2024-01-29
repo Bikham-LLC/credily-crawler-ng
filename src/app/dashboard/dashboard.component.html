@@ -205,13 +205,13 @@
                         <h3>Most Ran Config For V3</h3>
                         <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
                             <li class="nav-item" role="presentation">
-                              <button class="nav-link active" id="pills-licenseThree-tab" data-bs-toggle="pill" data-bs-target="#pills-licenseThree" type="button" role="tab" aria-controls="pills-licenseThree" aria-selected="true" (click)="getConfigDataByLogs('License Lookup', 'V3')">License</button>
+                              <button class="nav-link active" id="pills-licenseThree-tab" data-bs-toggle="pill" data-bs-target="#pills-licenseThree" type="button" role="tab" aria-controls="pills-licenseThree" aria-selected="true" (click)="getConfigDataV3('License Lookup')">License</button>
                             </li>
                             <li class="nav-item" role="presentation">
-                              <button class="nav-link" id="pills-boardThree-tab" data-bs-toggle="pill" data-bs-target="#pills-licenseThree" type="button" role="tab" aria-controls="pills-boardThree" aria-selected="false" (click)="getConfigDataByLogs('Board Certification', 'V3')">Board</button>
+                              <button class="nav-link" id="pills-boardThree-tab" data-bs-toggle="pill" data-bs-target="#pills-licenseThree" type="button" role="tab" aria-controls="pills-boardThree" aria-selected="false" (click)="getConfigDataV3('Board Certification')">Board</button>
                             </li>
                             <li class="nav-item" role="presentation">
-                              <button class="nav-link" id="pills-CommonThree-tab" data-bs-toggle="pill" data-bs-target="#pills-licenseThree" type="button" role="tab" aria-controls="pills-CommonThree" aria-selected="false" (click)="getConfigDataByLogs('Common', 'V3')">Common</button>
+                              <button class="nav-link" id="pills-CommonThree-tab" data-bs-toggle="pill" data-bs-target="#pills-licenseThree" type="button" role="tab" aria-controls="pills-CommonThree" aria-selected="false" (click)="getConfigDataV3('Common')">Common</button>
                             </li>
                           </ul>
                           <div class="tab-content" id="pills-tabContent">
@@ -230,7 +230,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr *ngFor="let obj of dashboardTotalProviderDataV3; let i = index">
+                                                <tr *ngFor="let obj of dashboardV3ConfigDataList; let i = index">
                                                     <td>
                                                         <div class="tableInfo">
                                                             <!-- Most Ran Config -->
@@ -257,6 +257,22 @@
                                         </table>
                                     </div>
                                 </div>
+                                <div class="paginationmain" *ngIf="dashboardV3ConfigDataList.length>0 && !v3ConfigLoadingToggle"> 
+                                    <div class="d-flex align-items-center justify-content-between">
+                                       <p class="currentshowing mb-0">
+                                         Showing <span>{{dashboardV3ConfigDataList.length}}</span> of <span>{{dashboardCountDataV3}}</span>
+                                       </p>
+                                       <div class="col-lg-6">
+                                            <div class="card-body d-flex justify-content-end">
+                                                <ngb-pagination class="pagination pagination-separated justify-content-sm-end mb-sm-0"
+                                                [collectionSize]="dashboardCountDataV3" [rotate]="true" (pageChange)="pageChangedforV3($event)"
+                                                [pageSize]="v3DatabaseHelper.itemsPerPage" [(page)]="v3DatabaseHelper.currentPage" [maxSize]="5"
+                                                [boundaryLinks]="true">
+                                                </ngb-pagination>
+                                            </div>
+                                       </div>
+                                    </div> 
+                                </div>
                             </div>
                           </div>
                     </div>
@@ -269,13 +285,13 @@
                         <h3>Most Ran Config For V2</h3>
                         <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
                             <li class="nav-item" role="presentation">
-                              <button class="nav-link active" id="pills-licenseFour-tab" data-bs-toggle="pill" data-bs-target="#pills-licenseFour" type="button" role="tab" aria-controls="pills-licenseFour" aria-selected="true" (click)="getConfigDataByLogs('License Lookup', 'V2')">License</button>
+                              <button class="nav-link active" id="pills-licenseFour-tab" data-bs-toggle="pill" data-bs-target="#pills-licenseFour" type="button" role="tab" aria-controls="pills-licenseFour" aria-selected="true" (click)="getConfigDataV2('License Lookup')">License</button>
                             </li>
                             <li class="nav-item" role="presentation">
-                              <button class="nav-link" id="pills-boardFour-tab" data-bs-toggle="pill" data-bs-target="#pills-licenseFour" type="button" role="tab" aria-controls="pills-boardFour" aria-selected="false" (click)="getConfigDataByLogs('Board Certification', 'V2')">Board</button>
+                              <button class="nav-link" id="pills-boardFour-tab" data-bs-toggle="pill" data-bs-target="#pills-licenseFour" type="button" role="tab" aria-controls="pills-boardFour" aria-selected="false" (click)="getConfigDataV2('Board Certification')">Board</button>
                             </li>
                             <li class="nav-item" role="presentation">
-                              <button class="nav-link" id="pills-CommonFive-tab" data-bs-toggle="pill" data-bs-target="#pills-licenseFour" type="button" role="tab" aria-controls="pills-CommonFive" aria-selected="false" (click)="getConfigDataByLogs('Common', 'V2')">Common</button>
+                              <button class="nav-link" id="pills-CommonFive-tab" data-bs-toggle="pill" data-bs-target="#pills-licenseFour" type="button" role="tab" aria-controls="pills-CommonFive" aria-selected="false" (click)="getConfigDataV2('Common')">Common</button>
                             </li>
                           </ul>
                           <div class="tab-content" id="pills-tabContent">
@@ -294,7 +310,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr *ngFor="let obj of dashboardTotalProviderDataV2; let i = index">
+                                                <tr *ngFor="let obj of dashboardV2ConfigDataList; let i = index">
                                                     <td>
                                                         <div class="tableInfo">
                                                             <!-- Most Ran Config -->
@@ -320,6 +336,22 @@
                                             </tbody>
                                         </table>
                                     </div>
+                                </div>
+                                <div class="paginationmain" *ngIf="dashboardV2ConfigDataList.length>0 && !v2ConfigLoadingToggle"> 
+                                    <div class="d-flex align-items-center justify-content-between">
+                                       <p class="currentshowing mb-0">
+                                         Showing <span>{{dashboardV2ConfigDataList.length}}</span> of <span>{{dashboardCountDataV2}}</span>
+                                       </p>
+                                       <div class="col-lg-6">
+                                            <div class="card-body d-flex justify-content-end">
+                                                <ngb-pagination class="pagination pagination-separated justify-content-sm-end mb-sm-0"
+                                                [collectionSize]="dashboardCountDataV2" [rotate]="true" (pageChange)="pageChanged($event)"
+                                                [pageSize]="V2DatabaseHelper.itemsPerPage" [(page)]="V2DatabaseHelper.currentPage" [maxSize]="5"
+                                                [boundaryLinks]="true">
+                                                </ngb-pagination>
+                                            </div>
+                                       </div>
+                                    </div> 
                                 </div>
                             </div>
                           </div>

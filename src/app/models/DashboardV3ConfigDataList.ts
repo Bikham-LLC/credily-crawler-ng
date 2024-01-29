@@ -1,4 +1,4 @@
-export class DashboardTotalProviderDataV3{
+export class DashboardV3ConfigDataList{
     completedConfig:number=0;
     totalProvidersAdded:number=0;
     failedConfig:number=0;
