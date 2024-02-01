@@ -82,4 +82,11 @@ export class ReportService {
     return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.report + "/screentshot", {params});
   }
 
+  getConfigId(lookupName: string, lookupLink: string)  :Observable<any> { 
+    var params = new HttpParams()
+    .set('lookupName', lookupName)
+    .set('lookupLink', lookupLink)
+    return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.report + "/config-id", {params});
+  }
+
 }

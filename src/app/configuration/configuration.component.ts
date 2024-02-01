@@ -1,8 +1,8 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DatabaseHelper } from '../models/DatabaseHelper';
 import { LookupTaxonomy } from '../models/LookupTaxonomy';
-import { LookupTaxonomyService } from '../services/lookup-taxonomy.service';
+import { LicenseLookupService} from '../services/license-lookup.service';
 import { DataService } from '../services/data.service';
 import { ConfigRequest } from '../models/ConfigRequest';
 import { LicenseLookupConfigRequest } from '../models/LicenseLookupConfigRequest';
@@ -14,6 +14,7 @@ import { LookupConfiguration } from '../models/LookupConfiguration';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { SubAttributeMap } from '../models/SubAttributeMap';
+import { Route } from '../models/Route';
 
 @Component({
   selector: 'app-configuration',
@@ -22,6 +23,9 @@ import { SubAttributeMap } from '../models/SubAttributeMap';
 })
 export class ConfigurationComponent implements OnInit {
 
+  readonly Constant = Constant;
+  readonly Route = Route;
+
   configSearch = new Subject<string>();
   configSearchByLink = new Subject<string>();
   search: string = '';
@@ -29,8 +33,14 @@ export class ConfigurationComponent implements OnInit {
   constructor(
     private _router: Router,
     private sanitizer: DomSanitizer,
-    private lookupTaxonomyService: LookupTaxonomyService,
-    private dataService: DataService) {
+    private licenseLookupService: LicenseLookupService,
+    private dataService: DataService,
+    private route: ActivatedRoute) {
+
+
+    if (this.route.snapshot.queryParamMap.has('id')) {
+      this.configurationId = Number(this.route.snapshot.queryParamMap.get('id'));
+    }
     this.versionList = [{ id: 'V2', itemName: 'Credily V2' }, { id: 'V3', itemName: 'Credily V3' }];
 
     this.configSearch.pipe(
@@ -52,7 +62,8 @@ export class ConfigurationComponent implements OnInit {
       });
   }
 
-  readonly Constant = Constant;
+  configurationId :number =0;
+
   userName: string = 'Logged In';
   databaseHelper: DatabaseHelper = new DatabaseHelper();
   lookupTaxonomyList: LookupTaxonomy[] = new Array();
@@ -152,6 +163,7 @@ export class ConfigurationComponent implements OnInit {
     }
 
     // this.getConfiguration();
+    this.openEditModalFromReport();
   }
 
   drop(event: CdkDragDrop<any[]>) {
@@ -175,7 +187,7 @@ export class ConfigurationComponent implements OnInit {
   getConfiguration() {
     debugger
     this.loadingConfiguration = true;
-    this.lookupTaxonomyService.getConfiguration(this.configDatabaseHelper, this.startDate, this.endDate, this.credilyVersion, '', this.crawlerType).subscribe(response => {
+    this.licenseLookupService.getConfiguration(this.configDatabaseHelper, this.startDate, this.endDate, this.credilyVersion, '', this.crawlerType).subscribe(response => {
       if (response.status && response.object != null) {
         this.configList = response.object;
         this.totalConfiguration = response.totalItems;
@@ -246,7 +258,7 @@ export class ConfigurationComponent implements OnInit {
     debugger
     this.selectedLookupNames = [];
     this.mappedLookupNames = [];
-    this.lookupTaxonomyService.getLinkLookupName(lookupLink, this.crawlerType).subscribe(response => {
+    this.licenseLookupService.getLinkLookupName(lookupLink, this.crawlerType).subscribe(response => {
       if (response.dtoList != null) {
         this.allLookupNamesList = response.dtoList;
         this.allLookupNamesList.forEach(element => {
@@ -281,7 +293,7 @@ export class ConfigurationComponent implements OnInit {
   getTaxIdsWithLookupName(lookupNames: any) {
     debugger
     this.loadingLookupTaxonomy = true;
-    this.lookupTaxonomyService.getTaxIdsWithLookupName(lookupNames, this.lookupLink).subscribe(response => {
+    this.licenseLookupService.getTaxIdsWithLookupName(lookupNames, this.lookupLink).subscribe(response => {
       this.selectedTaxonomyIds = response;
       this.getMappedTaxonomy('mapped');
     }, error => {
@@ -313,7 +325,7 @@ export class ConfigurationComponent implements OnInit {
     if (!this.Constant.EMPTY_STRINGS.includes(this.lookupLink)) {
       this.taxanomyLinkLoading = true;
     }
-    this.lookupTaxonomyService.getTaxonomyLink(search, this.crawlerType).subscribe(response => {
+    this.licenseLookupService.getTaxonomyLink(search, this.crawlerType).subscribe(response => {
       if (response != null) {
         this.taxonomyLinkList = [];
         response.forEach((element: any) => {
@@ -343,7 +355,7 @@ export class ConfigurationComponent implements OnInit {
     debugger
     this.selectedTaxonomyIds = [];
     this.loadingLookupTaxonomy = true;
-    this.lookupTaxonomyService.getLinkTaxonomyIds(lookupLink, this.configId).subscribe(resp => {
+    this.licenseLookupService.getLinkTaxonomyIds(lookupLink, this.configId).subscribe(resp => {
       if (resp != null) {
         this.selectedTaxonomyIds = resp;
         if (this.selectedTaxonomyIds.length > 0) {
@@ -444,6 +456,9 @@ export class ConfigurationComponent implements OnInit {
     this.databaseHelper = new DatabaseHelper();
     this.type = 'mapped';
     this.configId = 0;
+    if(this.configurationId >0){
+      this._router.navigate([Route.CONFIGURATION_ROUTE]);
+    }
 
     // this.selectedTaxonomyIds = [];
   }
@@ -521,7 +536,7 @@ export class ConfigurationComponent implements OnInit {
     //   this.attributeList.push(temp);
     // }
 
-    this.lookupTaxonomyService.getCrawlerAttribute().subscribe(response => {
+    this.licenseLookupService.getCrawlerAttribute().subscribe(response => {
 
       this.attributeList = response.object;
 
@@ -532,7 +547,7 @@ export class ConfigurationComponent implements OnInit {
   }
 
   getClassName() {
-    this.lookupTaxonomyService.getClassName().subscribe(response => {
+    this.licenseLookupService.getClassName().subscribe(response => {
       if (response.object != null) {
         this.classList = [];
         this.selectedClass = [];
@@ -620,7 +635,6 @@ export class ConfigurationComponent implements OnInit {
     }
     if (this.cofigStepRequest.crawlerAttributeId == 17) {
       this.cofigStepRequest.lookUpElementDesc = "//" + this.customTag + "[@" + this.customAttribute + "='" + this.customValue + "']";
-      console.log(this.cofigStepRequest.lookUpElementDesc);
     }
     // console.log(this.cofigStepRequest.lookUpElementDesc);
     this.configurationStepList.push(this.cofigStepRequest);
@@ -664,7 +678,7 @@ export class ConfigurationComponent implements OnInit {
 
     this.testingConfiguration = true;
     this.isInvalidConfiguration = false;
-    this.lookupTaxonomyService.testConfiguration(this.licenseLookupConfigRequest, this.providerUuid).subscribe(response => {
+    this.licenseLookupService.testConfiguration(this.licenseLookupConfigRequest, this.providerUuid).subscribe(response => {
       this.testingConfiguration = false;
       if (response.object != null) {
         window.open(response.object, "_blank");
@@ -707,7 +721,7 @@ export class ConfigurationComponent implements OnInit {
         this.licenseLookupConfigRequest.lastTestedOn = this.lastTestedOn;
         this.licenseLookupConfigRequest.screenShotUrl = this.screenShotUrl;
         this.licenseLookupConfigRequest.configReportStatus = this.configReportStatus;
-        this.lookupTaxonomyService.updateConfiguration(this.licenseLookupConfigRequest).subscribe(response => {
+        this.licenseLookupService.updateConfiguration(this.licenseLookupConfigRequest).subscribe(response => {
           this.savingConfiguration = false;
           this.dataService.showToast('Configuration Saved Successfully.');
           this.addStepToggle = false;
@@ -721,7 +735,7 @@ export class ConfigurationComponent implements OnInit {
           this.dataService.showToast(error.error);
         })
       } else {
-        this.lookupTaxonomyService.createConfiguration(this.licenseLookupConfigRequest).subscribe(response => {
+        this.licenseLookupService.createConfiguration(this.licenseLookupConfigRequest).subscribe(response => {
           this.savingConfiguration = false;
           this.dataService.showToast('Configuration Saved Successfully.');
           this.addStepToggle = false;
@@ -758,7 +772,7 @@ export class ConfigurationComponent implements OnInit {
     this.columns = [];
     return new Promise((res) => {
       this.loadingColumn = true;
-      this.lookupTaxonomyService.getColumnName(className).subscribe(response => {
+      this.licenseLookupService.getColumnName(className).subscribe(response => {
 
         response.object.forEach((element: any) => {
 
@@ -843,7 +857,7 @@ export class ConfigurationComponent implements OnInit {
     dataObj.values = [];
     if (dataObj.type.type == 'object') {
       this.countLoader = true;
-      this.lookupTaxonomyService.getColumnName(dataObj.type.class).subscribe(response => {
+      this.licenseLookupService.getColumnName(dataObj.type.class).subscribe(response => {
 
         response.object.forEach((element: any) => {
 
@@ -873,7 +887,7 @@ export class ConfigurationComponent implements OnInit {
     dataObj.values = [];
     if (dataObj.type == 'object') {
       this.countLoader = true;
-      this.lookupTaxonomyService.getColumnName(dataObj.class).subscribe(response => {
+      this.licenseLookupService.getColumnName(dataObj.class).subscribe(response => {
 
         response.object.forEach((element: any) => {
 
@@ -1002,7 +1016,7 @@ export class ConfigurationComponent implements OnInit {
   loadingConfgurationStep: boolean = false;
   getCrawlerAttrMap(id: any) {
     this.loadingConfgurationStep = true;
-    this.lookupTaxonomyService.getCrawlerAttrMap(id).subscribe(response => {
+    this.licenseLookupService.getCrawlerAttrMap(id).subscribe(response => {
       if (response.status && response.object != null) {
         this.configurationStepList = response.object;
       }
@@ -1029,7 +1043,7 @@ export class ConfigurationComponent implements OnInit {
     // this.configList.splice(this.deletedIndex, 1);
     // this.totalConfiguration = this.totalConfiguration-1;
     this.deletingConfguration = true;
-    this.lookupTaxonomyService.deleteConfiguration(this.deletedId).subscribe(response => {
+    this.licenseLookupService.deleteConfiguration(this.deletedId).subscribe(response => {
       if (response.status) {
         this.dataService.showToast(response.message);
       }
@@ -1053,7 +1067,7 @@ export class ConfigurationComponent implements OnInit {
   replicatingConfig: boolean = false;
   replicateLookupConfig() {
     this.replicatingConfig = true;
-    this.lookupTaxonomyService.replicateLookupConfig(String(localStorage.getItem(this.Constant.ACCOUNT_UUID)), this.selectedLookupConfigId).subscribe(response => {
+    this.licenseLookupService.replicateLookupConfig(String(localStorage.getItem(this.Constant.ACCOUNT_UUID)), this.selectedLookupConfigId).subscribe(response => {
       setTimeout(() => {
         this.replicateModalCloseButton.nativeElement.click();
       }, 500)
@@ -1076,7 +1090,7 @@ export class ConfigurationComponent implements OnInit {
       return;
     }
       this.loadingLookupTaxonomy = true;
-      this.lookupTaxonomyService.getMappedTaxonomy(this.selectedTaxonomyIds, type, this.selectedStateName, this.databaseHelper).subscribe(response => {
+      this.licenseLookupService.getMappedTaxonomy(this.selectedTaxonomyIds, type, this.selectedStateName, this.databaseHelper).subscribe(response => {
         if (response.status) {
           this.lookupTaxonomyList = response.object.taxonomyList;
           this.totalLookupTaxonomy = response.object.totalItems;
@@ -1105,7 +1119,7 @@ export class ConfigurationComponent implements OnInit {
 
 
   updateStatus(id: any) {
-    this.lookupTaxonomyService.updateConfigStatus(id).subscribe(response => {
+    this.licenseLookupService.updateConfigStatus(id).subscribe(response => {
       if (response.status) {
         this.dataService.showToast("Status updated Successfully ");
       }
@@ -1128,7 +1142,7 @@ export class ConfigurationComponent implements OnInit {
   updateLookupLink() {
     debugger
     this.updatingLoader = true;
-    this.lookupTaxonomyService.updateLookupLink(this.oldLink, this.newLink).subscribe(response => {
+    this.licenseLookupService.updateLookupLink(this.oldLink, this.newLink).subscribe(response => {
       this.getTaxonomyLink('');
       this.getConfiguration();
       this.updatingLoader = false;
@@ -1163,7 +1177,7 @@ export class ConfigurationComponent implements OnInit {
 
   attachmentTypeList: any[] = new Array()
   getAttachmentType() {
-    this.lookupTaxonomyService.getAttachmentType().subscribe(response => {
+    this.licenseLookupService.getAttachmentType().subscribe(response => {
       response.forEach((e: any) => {
         var temp: { id: any, itemName: any } = { id: e.id, itemName: e.name };
         this.attTypeList.push(temp);
@@ -1189,7 +1203,7 @@ export class ConfigurationComponent implements OnInit {
   }
 
   getAttachmentSubType() {
-    this.lookupTaxonomyService.getAttachmentSubType(this.attachmentId).subscribe(response => {
+    this.licenseLookupService.getAttachmentSubType(this.attachmentId).subscribe(response => {
       response.forEach((e: any) => {
         var temp: { id: any, itemName: any, description: any, source: any  } = { id: e.id, itemName: e.name, description: e.description, source: e.source};
         this.attSubTypeList.push(temp);
@@ -1261,6 +1275,78 @@ export class ConfigurationComponent implements OnInit {
       this.licenseLookupConfigRequest.removeAll = 'yes';
       this.lookupTaxonomyList = [];
     }
+  }
+
+  openEditModalFromReport(){
+    debugger
+    if(this.configurationId>0){
+      this.licenseLookupService.getConfigById(this.configurationId).subscribe(async response=>{
+        if(response != null){
+          this.openEditModel(response);
+        }
+      },error=>{
+
+      })
+    }
+  }
+
+  openEditStepModal(step:ConfigRequest, index:number){
+    debugger
+    this.openAddConfigModal();
+    var temp : {id: any, itemName:any} = {id:step.crawlerAttributeId, itemName:step.crawlerAttribute};
+    this.selectedAttribute.push(temp);
+    this.cofigStepRequest.lookUpElementDesc = step.lookUpElementDesc;
+    // selectedEvent
+    this.cofigStepRequest.crawlerAttributeId = step.crawlerAttributeId;
+
+    // if (step.crawlerAttributeId == 17) {
+    //   this.cofigStepRequest.lookUpElementDesc = "//" + this.customTag + "[@" + this.customAttribute + "='" + this.customValue + "']";
+    // }
+
+    // this.EventList = [{ id: 'sendKey', itemName: 'Input Value' }, { id: 'click', itemName: 'Click' }, { id: 'windowClick', itemName: 'Click Window' }];
+
+    var eventTemp = {id: '', itemName:''};
+    if(step.elementEvent=='sendKey'){
+      eventTemp.id = step.elementEvent;
+      eventTemp.itemName = 'Input Value';
+    } else if(step.elementEvent=='click'){
+      eventTemp.id = step.elementEvent;
+      eventTemp.itemName = 'Click';
+    } else if(step.elementEvent=='windowClick'){
+      eventTemp.id = step.elementEvent;
+      eventTemp.itemName = 'Click Window';
+    }
+    this.selectedEvent.push(eventTemp);
+    this.cofigStepRequest.dataSourcePath = step.dataSourcePath;
+    this.cofigStepRequest.columnName = step.columnName;
+    this.cofigStepRequest.pattern = step.pattern;
+    this.cofigStepRequest.actionButton = step.actionButton;
+
+    var classTemp:{id: any, itemName : any} = {id: '', itemName : ''};
+    if(step.className == 'Static'){
+      classTemp.id = '1';
+      classTemp.itemName = step.className;
+    } else if(step.className == 'LocationProvider'){
+      classTemp.id = '2';
+      classTemp.itemName = step.className;
+    } else if(step.className == 'Provider'){
+      classTemp.id = '3';
+      classTemp.itemName = step.className;
+    } else if(step.className == 'PracticeLocation'){
+      classTemp.id = '4';
+      classTemp.itemName = step.className;
+    } else if(step.className == 'ProviderProfessionalLicense'){
+      classTemp.id = '5';
+      classTemp.itemName = step.className;
+    } else if(step.className == 'ProviderDea'){
+      classTemp.id = '6';
+      classTemp.itemName = step.className;
+    } else if(step.className == 'ProviderSpecialty'){
+      classTemp.id = '7';
+      classTemp.itemName = step.className;
+    } 
+    this.selectedClass.push(classTemp);
+    // console.log(this.selectedClass);
 
 
   }

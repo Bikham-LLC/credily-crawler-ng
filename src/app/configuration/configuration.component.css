@@ -562,9 +562,9 @@ header {
 
 span.removeSteps {
   color: #ff5959;
-  font-size: 17px;
+  font-size: 15px;
   position: absolute;
-  right: 4px;
+  right: 8px;
   top: 1px;
   cursor: pointer;
   transition: 0.1s linear;

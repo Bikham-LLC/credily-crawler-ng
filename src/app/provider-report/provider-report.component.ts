@@ -7,6 +7,8 @@ import { ProviderRequestCrawlerLog } from '../models/ProviderRequestCrawlerLog';
 import { Constant } from '../models/Constant';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { NavigationExtras, Router } from '@angular/router';
+import { Route } from '../models/Route';
 
 @Component({
   selector: 'app-provider-report',
@@ -15,6 +17,7 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 })
 export class ProviderReportComponent implements OnInit {
 
+  readonly Route = Route;
   readonly Constant = Constant;
   maxDate:any;
   selected !: { startDate: moment.Moment, endDate: moment.Moment };
@@ -27,7 +30,8 @@ export class ProviderReportComponent implements OnInit {
   statusList: any[] = new Array();
 
   providerSearch = new Subject<string>();
-  constructor( private reportService:ReportService) { 
+  constructor( private reportService:ReportService,
+    private router : Router) { 
 
     this.providerSearch.pipe(
       debounceTime(600))
@@ -168,5 +172,20 @@ export class ProviderReportComponent implements OnInit {
   refreshProviderLogs(){
     this.getProviderLogs(this.uuid);
   }
+
+  routeToConfiguration(obj:ProviderRequestCrawlerLog){
+    this.reportService.getConfigId(obj.lookupName, obj.lookupLink).subscribe(response=>{
+      if(response != null){
+        this.closeLogModel();
+        let navigateExtra : NavigationExtras = {
+          queryParams : {"id" : response},
+        };
+        this.router.navigate([this.Route.CONFIGURATION_ROUTE], navigateExtra)
+      }
+    },error=>{
+
+    })
+  }
+
 
 }

@@ -9,7 +9,7 @@ import { Constant } from '../models/Constant';
 @Injectable({
   providedIn: 'root'
 })
-export class LookupTaxonomyService {
+export class LicenseLookupService {
 
   constructor(private http: HttpClient) { }
 
@@ -154,5 +154,11 @@ export class LookupTaxonomyService {
     var params = new HttpParams()
     .set('attachmentId', attachmentId)
     return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.lookup_config_controller+ '/attachment-sub-type', {params});
+  }
+
+  getConfigById(configId:number): Observable<any>{
+    var params = new HttpParams()
+    .set('configId', configId)
+    return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.lookup_config_controller+ '/config', {params});
   }
 }

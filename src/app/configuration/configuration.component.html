@@ -194,7 +194,11 @@
                                    
                                     <div class="configStepsinner" cdkDropList (cdkDropListDropped)="drop($event)">
                                         <div class="configSteps example-box position-relative" cdkDrag *ngFor="let step of configurationStepList; let i = index">
-                                            <span class="removeSteps" title="Remove Step" (click)="removeStep(i)"><i class="bi bi-dash-circle-fill"></i></span>
+                                            <span class="removeSteps" title="Remove Step">
+                                                <i class="bi bi-pen text-primary" style="cursor: pointer;font-size: 12px;margin-right: 10px;" (click)="openEditStepModal(step, i)"></i>
+                                                <i class="bi bi-dash-circle-fill" (click)="removeStep(i)"></i>
+                                            </span>
+                                            <!-- <span class="text-primary" ></span> -->
                                             <label class="me-2 text-center">Step {{i+1}}</label>
                                             <p>Crawler Attribute : {{step.crawlerAttribute}}, Lookup Element : {{step.lookUpElementDesc}}, Element Event : {{step.elementEvent}}, Entity Name : {{step.className}}, Pattern : {{step.pattern}}, dataSourcePath : {{step.dataSourcePath}}, actionButton : {{step.actionButton}}
                                                 <span *ngIf="!Constant.EMPTY_STRINGS.includes(step.className) && step.className.toLowerCase()=='static'">Value : {{step.columnName}}</span> <span *ngIf=" (!Constant.EMPTY_STRINGS.includes(step.className) && step.className.toLowerCase()!='static') || Constant.EMPTY_STRINGS.includes(step.className)"> Column Name : {{step.columnName}}</span></p>
