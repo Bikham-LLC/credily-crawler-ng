@@ -475,7 +475,7 @@ export class ConfigurationComponent implements OnInit {
   savingConfiguration: boolean = false;
 
   licenseLookupConfigRequest: LicenseLookupConfigRequest = new LicenseLookupConfigRequest();
-  cofigStepRequest: ConfigRequest = new ConfigRequest();
+  cofnigStepRequest: ConfigRequest = new ConfigRequest();
   configurationStepList: ConfigRequest[] = new Array();
 
   dropdownSettingsAttribute!: { singleSelection: boolean; text: string; enableSearchFilter: boolean; autoPosition: boolean };
@@ -501,7 +501,6 @@ export class ConfigurationComponent implements OnInit {
   mappedLookupNames: any[] = new Array();
 
   openAddConfigModal() {
-    // this.iframeUrl = this.lookupLink;
     this.attributeList = [];
     this.classList = [];
     this.columnList = [];
@@ -515,7 +514,7 @@ export class ConfigurationComponent implements OnInit {
     this.selectedColumnNames = '';
     this.customValue = '';
     this.attTypeList = [];
-    this.cofigStepRequest = new ConfigRequest();
+    this.cofnigStepRequest = new ConfigRequest();
     this.addConfigStepModalButton.nativeElement.click();
     this.getArribute();
     this.getClassName();
@@ -550,7 +549,7 @@ export class ConfigurationComponent implements OnInit {
     this.licenseLookupService.getClassName().subscribe(response => {
       if (response.object != null) {
         this.classList = [];
-        this.selectedClass = [];
+        // this.selectedClass = [];
         Object.keys(response.object).forEach((key, index) => {
           var temp: { id: any, itemName: any } = { id: key, itemName: response.object[key] };
           this.classList.push(temp);
@@ -563,11 +562,11 @@ export class ConfigurationComponent implements OnInit {
 
   selectCrawlerAttribute(event: any) {
     debugger
-    this.cofigStepRequest.crawlerAttributeId = 0;
+    this.cofnigStepRequest.crawlerAttributeId = 0;
     if (event[0] != undefined) {
       this.selectedAttribute = event;
-      this.cofigStepRequest.crawlerAttributeId = event[0].id;
-      this.cofigStepRequest.crawlerAttribute = event[0].itemName;
+      this.cofnigStepRequest.crawlerAttributeId = event[0].id;
+      this.cofnigStepRequest.crawlerAttribute = event[0].itemName;
       this.selectedEvent = [];
       if (event[0].id == 6) {
         this.EventList = [
@@ -595,23 +594,23 @@ export class ConfigurationComponent implements OnInit {
 
   selectCrawlerEvent(event: any) {
     debugger
-    this.cofigStepRequest.elementEvent = '';
+    this.cofnigStepRequest.elementEvent = '';
     if (event[0] != undefined) {
       this.selectedEvent = event;
-      this.cofigStepRequest.elementEvent = event[0].id;
+      this.cofnigStepRequest.elementEvent = event[0].id;
     }
   }
 
   selectClassName(event: any) {
     debugger
-    this.cofigStepRequest.className = '';
+    this.cofnigStepRequest.className = '';
     this.columnList = [];
     this.subClassToggle = false;
     if (event[0] != undefined) {
       this.selectedClass = event;
-      this.cofigStepRequest.className = event[0].itemName;
-      if (this.cofigStepRequest.className.toLowerCase() != 'static') {
-        this.getPrimaryColumn(this.cofigStepRequest.className);
+      this.cofnigStepRequest.className = event[0].itemName;
+      if (this.cofnigStepRequest.className.toLowerCase() != 'static') {
+        this.getPrimaryColumn(this.cofnigStepRequest.className);
         this.appUpdateSubStructureModalButton.nativeElement.click();
       }
 
@@ -633,20 +632,19 @@ export class ConfigurationComponent implements OnInit {
       this.addStepFormInvalid = true;
       return;
     }
-    if (this.cofigStepRequest.crawlerAttributeId == 17) {
-      this.cofigStepRequest.lookUpElementDesc = "//" + this.customTag + "[@" + this.customAttribute + "='" + this.customValue + "']";
+    if (this.cofnigStepRequest.crawlerAttributeId == 17) {
+      this.cofnigStepRequest.lookUpElementDesc = "//" + this.customTag + "[@" + this.customAttribute + "='" + this.customValue + "']";
     }
-    // console.log(this.cofigStepRequest.lookUpElementDesc);
-    this.configurationStepList.push(this.cofigStepRequest);
+    if(!this.isEditStepToggle){
+      this.configurationStepList.push(this.cofnigStepRequest);
+    } else {
+      this.editStep(this.editStepIndex, this.cofnigStepRequest);
+    }
     this.closeAddStepModal.nativeElement.click();
-    // this.attributeList = [];
-    // this.classList = [];
-    // this.columnList = [];
-    // this.selectedAttribute = [];
-    // this.selectedClass = [];
-    // this.selectedColumn = [];
-    // this.selectedEvent = [];
-    // this.EventList = [];
+  }
+
+  closeStepModal(){
+    this.closeAddStepModal.nativeElement.click();
   }
 
   providerUuid: string = '';
@@ -674,7 +672,7 @@ export class ConfigurationComponent implements OnInit {
     this.licenseLookupConfigRequest.taxonomyIdList = this.selectedTaxonomyIds;
     this.licenseLookupConfigRequest.userAccountUuid = String(localStorage.getItem(this.Constant.ACCOUNT_UUID));
     this.licenseLookupConfigRequest.configRequests = this.configurationStepList;
-    this.licenseLookupConfigRequest.configRequests[this.index].subAttributeMapList = this.cofigStepRequest.subAttributeMapList;
+    this.licenseLookupConfigRequest.configRequests[this.index].subAttributeMapList = this.cofnigStepRequest.subAttributeMapList;
 
     this.testingConfiguration = true;
     this.isInvalidConfiguration = false;
@@ -713,7 +711,7 @@ export class ConfigurationComponent implements OnInit {
     this.licenseLookupConfigRequest.userAccountUuid = String(localStorage.getItem(this.Constant.ACCOUNT_UUID));
     this.licenseLookupConfigRequest.configRequests = this.configurationStepList;
     this.licenseLookupConfigRequest.lookupConfigId = this.selectedLookupConfigId;
-    this.licenseLookupConfigRequest.configRequests[this.index].subAttributeMapList = this.cofigStepRequest.subAttributeMapList;
+    this.licenseLookupConfigRequest.configRequests[this.index].subAttributeMapList = this.cofnigStepRequest.subAttributeMapList;
     if (!this.isInvalidConfiguration) {
 
       if (this.selectedLookupConfigId > 0) {
@@ -951,15 +949,15 @@ export class ConfigurationComponent implements OnInit {
     // } else {
     //   this.selectedEntity.val = this.selectedEntity.val + this.selectedColumns
     // }
-    // this.cofigStepRequest.columnName = this.selectedEntity.val;
+    // this.cofnigStepRequest.columnName = this.selectedEntity.val;
     // if(this.index > 0){
 
-    //   this.cofigStepRequest.subAttributeMapList[this.index].columnName = this.selectedColumnNames;
+    //   this.cofnigStepRequest.subAttributeMapList[this.index].columnName = this.selectedColumnNames;
     // } else {
-    //   this.cofigStepRequest.columnName = this.selectedColumnNames;
+    //   this.cofnigStepRequest.columnName = this.selectedColumnNames;
     // }
     this.selectedColumnNames = this.selectedColumnNames.slice(0, -1);
-    this.cofigStepRequest.columnName = this.selectedColumnNames;
+    this.cofnigStepRequest.columnName = this.selectedColumnNames;
     this.openAddStepAndCloseColumn();
   }
 
@@ -1112,10 +1110,10 @@ export class ConfigurationComponent implements OnInit {
     this.showTaxonomyListToggle = !this.showTaxonomyListToggle;
   }
 
-  @ViewChild('saveUuidModalButton') saveUuidModalButton!: ElementRef;
-  uuidSaveModal() {
-    this.saveUuidModalButton.nativeElement.click();
-  }
+  // @ViewChild('saveUuidModalButton') saveUuidModalButton!: ElementRef;
+  // uuidSaveModal() {
+  //   this.saveUuidModalButton.nativeElement.click();
+  // }
 
 
   updateStatus(id: any) {
@@ -1226,13 +1224,13 @@ export class ConfigurationComponent implements OnInit {
     }
   }
   addSubStep() {
-    this.cofigStepRequest.subAttributeMapList.push(new SubAttributeMap());
+    this.cofnigStepRequest.subAttributeMapList.push(new SubAttributeMap());
   }
 
   removeSubStep(index: number) {
-    this.cofigStepRequest.subAttributeMapList.splice(index, 1);
-    this.cofigStepRequest.subAttributeMapList[index].className = '';
-    this.cofigStepRequest.subAttributeMapList[index].columnName = '';
+    this.cofnigStepRequest.subAttributeMapList.splice(index, 1);
+    this.cofnigStepRequest.subAttributeMapList[index].className = '';
+    this.cofnigStepRequest.subAttributeMapList[index].columnName = '';
   }
 
   index: number = 0;
@@ -1240,15 +1238,15 @@ export class ConfigurationComponent implements OnInit {
   selectSubClassName(event: any, index: number) {
     debugger
     this.subClassToggle = false;
-    this.cofigStepRequest.subAttributeMapList[index].className = '';
+    this.cofnigStepRequest.subAttributeMapList[index].className = '';
     this.columnList = [];
     this.index = index;
     if (event[0] != undefined) {
       this.subClassToggle = true;
-      this.cofigStepRequest.subAttributeMapList[index].selectedClass = event;
-      this.cofigStepRequest.subAttributeMapList[index].className = event[0].itemName;
-      if (this.cofigStepRequest.subAttributeMapList[index].className.toLowerCase() != 'static') {
-        this.getPrimaryColumn(this.cofigStepRequest.subAttributeMapList[index].className);
+      this.cofnigStepRequest.subAttributeMapList[index].selectedClass = event;
+      this.cofnigStepRequest.subAttributeMapList[index].className = event[0].itemName;
+      if (this.cofnigStepRequest.subAttributeMapList[index].className.toLowerCase() != 'static') {
+        this.getPrimaryColumn(this.cofnigStepRequest.subAttributeMapList[index].className);
         this.appUpdateSubStructureModalButton.nativeElement.click();
       }
 
@@ -1261,7 +1259,7 @@ export class ConfigurationComponent implements OnInit {
   addSubCloumnNameObj() {
     debugger
     this.selectedColumnNames = this.selectedColumnNames.slice(0, -1);
-    this.cofigStepRequest.subAttributeMapList[this.index].columnName = this.selectedColumnNames;
+    this.cofnigStepRequest.subAttributeMapList[this.index].columnName = this.selectedColumnNames;
     this.openAddStepAndCloseColumn();
   }
 
@@ -1290,65 +1288,104 @@ export class ConfigurationComponent implements OnInit {
     }
   }
 
+  isEditStepToggle: boolean = false;
+  editStepIndex : number= 0;
   openEditStepModal(step:ConfigRequest, index:number){
     debugger
+    this.isEditStepToggle = true;
+    this.editStepIndex = index;
     this.openAddConfigModal();
+    
     var temp : {id: any, itemName:any} = {id:step.crawlerAttributeId, itemName:step.crawlerAttribute};
     this.selectedAttribute.push(temp);
-    this.cofigStepRequest.lookUpElementDesc = step.lookUpElementDesc;
+    this.cofnigStepRequest.lookUpElementDesc = this.configurationStepList[index].lookUpElementDesc
     // selectedEvent
-    this.cofigStepRequest.crawlerAttributeId = step.crawlerAttributeId;
+    this.cofnigStepRequest.crawlerAttributeId = this.configurationStepList[index].crawlerAttributeId;
 
     // if (step.crawlerAttributeId == 17) {
-    //   this.cofigStepRequest.lookUpElementDesc = "//" + this.customTag + "[@" + this.customAttribute + "='" + this.customValue + "']";
+    //   this.cofnigStepRequest.lookUpElementDesc = "//" + this.customTag + "[@" + this.customAttribute + "='" + this.customValue + "']";
     // }
 
-    // this.EventList = [{ id: 'sendKey', itemName: 'Input Value' }, { id: 'click', itemName: 'Click' }, { id: 'windowClick', itemName: 'Click Window' }];
 
     var eventTemp = {id: '', itemName:''};
-    if(step.elementEvent=='sendKey'){
-      eventTemp.id = step.elementEvent;
-      eventTemp.itemName = 'Input Value';
-    } else if(step.elementEvent=='click'){
-      eventTemp.id = step.elementEvent;
-      eventTemp.itemName = 'Click';
-    } else if(step.elementEvent=='windowClick'){
-      eventTemp.id = step.elementEvent;
-      eventTemp.itemName = 'Click Window';
+    if(step.elementEvent != null){
+      if (this.configurationStepList[index].crawlerAttributeId == 6) {
+        this.EventList = [
+          { id: '2', itemName: '2 Second' }, { id: '4', itemName: '4 Second' },
+          { id: '6', itemName: '6 Second' }, { id: '8', itemName: '8 Second' },
+          { id: '10', itemName: '10 Second' }
+        ];
+        if(step.elementEvent == '2'){
+          eventTemp.id = step.elementEvent;
+          eventTemp.itemName = '2 Second';
+        } else if(step.elementEvent == '4'){
+          eventTemp.id = step.elementEvent;
+          eventTemp.itemName = '4 Second';
+        } else if(step.elementEvent == '6'){
+          eventTemp.id = step.elementEvent;
+          eventTemp.itemName = '6 Second';
+        } else if(step.elementEvent == '8'){
+          eventTemp.id = step.elementEvent;
+          eventTemp.itemName = '8 Second';
+        } else if(step.elementEvent == '10'){
+          eventTemp.id = step.elementEvent;
+          eventTemp.itemName = '10 Second';
+        }
+      } else {
+        if(step.elementEvent=='sendKey'){
+          eventTemp.id = step.elementEvent;
+          eventTemp.itemName = 'Input Value';
+        } else if(step.elementEvent=='click'){
+          eventTemp.id = step.elementEvent;
+          eventTemp.itemName = 'Click';
+        } else if(step.elementEvent=='windowClick'){
+          eventTemp.id = step.elementEvent;
+          eventTemp.itemName = 'Click Window';
+        }
+      }
+      this.selectedEvent.push(eventTemp);
     }
-    this.selectedEvent.push(eventTemp);
-    this.cofigStepRequest.dataSourcePath = step.dataSourcePath;
-    this.cofigStepRequest.columnName = step.columnName;
-    this.cofigStepRequest.pattern = step.pattern;
-    this.cofigStepRequest.actionButton = step.actionButton;
+    
+    this.cofnigStepRequest.dataSourcePath = step.dataSourcePath;
+    this.cofnigStepRequest.columnName = step.columnName;
+    this.cofnigStepRequest.pattern = step.pattern;
+    this.cofnigStepRequest.actionButton = step.actionButton;
 
     var classTemp:{id: any, itemName : any} = {id: '', itemName : ''};
-    if(step.className == 'Static'){
-      classTemp.id = '1';
-      classTemp.itemName = step.className;
-    } else if(step.className == 'LocationProvider'){
-      classTemp.id = '2';
-      classTemp.itemName = step.className;
-    } else if(step.className == 'Provider'){
-      classTemp.id = '3';
-      classTemp.itemName = step.className;
-    } else if(step.className == 'PracticeLocation'){
-      classTemp.id = '4';
-      classTemp.itemName = step.className;
-    } else if(step.className == 'ProviderProfessionalLicense'){
-      classTemp.id = '5';
-      classTemp.itemName = step.className;
-    } else if(step.className == 'ProviderDea'){
-      classTemp.id = '6';
-      classTemp.itemName = step.className;
-    } else if(step.className == 'ProviderSpecialty'){
-      classTemp.id = '7';
-      classTemp.itemName = step.className;
-    } 
-    this.selectedClass.push(classTemp);
+    if(step.className != null){
+      if(step.className == 'Static'){
+        classTemp.id = '1';
+        classTemp.itemName = step.className;
+      } else if(step.className == 'LocationProvider'){
+        classTemp.id = '2';
+        classTemp.itemName = step.className;
+      } else if(step.className == 'Provider'){
+        classTemp.id = '3';
+        classTemp.itemName = step.className;
+      } else if(step.className == 'PracticeLocation'){
+        classTemp.id = '4';
+        classTemp.itemName = step.className;
+      } else if(step.className == 'ProviderProfessionalLicense'){
+        classTemp.id = '5';
+        classTemp.itemName = step.className;
+      } else if(step.className == 'ProviderDea'){
+        classTemp.id = '6';
+        classTemp.itemName = step.className;
+      } else if(step.className == 'ProviderSpecialty'){
+        classTemp.id = '7';
+        classTemp.itemName = step.className;
+      } 
+      this.selectedClass.push(classTemp);
+    }
+    
     // console.log(this.selectedClass);
 
+    this.cofnigStepRequest.columnName = step.columnName;
 
+  }
+
+   editStep(index:number, cofnigStepRequest: ConfigRequest){
+    this.configurationStepList.splice(index, 1, cofnigStepRequest);
   }
 
 }

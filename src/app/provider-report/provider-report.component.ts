@@ -23,7 +23,7 @@ export class ProviderReportComponent implements OnInit {
   selected !: { startDate: moment.Moment, endDate: moment.Moment };
   startDate: any = null;
   endDate: any = null;
-  requestStatusJson:string[]=['IN QUEUE', 'IN PROCESS', 'COMPLETED', 'NO CONFIG', 'AWAIT QUEUE'];
+  requestStatusJson:string[]=['IN QUEUE', 'IN PROCESS', 'COMPLETED', 'NO CONFIG FOUND', 'AWAIT QUEUE'];
 
   dropdownSettingsStatus !: { singleSelection: boolean; text: string; enableSearchFilter: boolean; autoPosition: boolean };
   selectedStatus: any[] = new Array();

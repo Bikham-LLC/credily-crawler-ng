@@ -192,7 +192,7 @@
 
                                 <div class="configStepsouter" *ngIf="!loadingConfgurationStep && configurationStepList.length>0">
                                    
-                                    <div class="configStepsinner" cdkDropList (cdkDropListDropped)="drop($event)">
+                                    <div class="configStepsinner" [ngClass]="{'pe-none': savingConfiguration}" cdkDropList (cdkDropListDropped)="drop($event)">
                                         <div class="configSteps example-box position-relative" cdkDrag *ngFor="let step of configurationStepList; let i = index">
                                             <span class="removeSteps" title="Remove Step">
                                                 <i class="bi bi-pen text-primary" style="cursor: pointer;font-size: 12px;margin-right: 10px;" (click)="openEditStepModal(step, i)"></i>
@@ -207,7 +207,10 @@
 
                                     <div class="configAction d-flex justify-content-end align-items-center">
                                         <button class="btn btn-secondary m-2" [disabled]="testingConfiguration || savingConfiguration" (click)="openUuidModal()">Test Configuration</button>
-                                        <button class="btn primaryBtn" [disabled]="savingConfiguration" (click)="uuidSaveModal()">Save Configuration</button>
+                                        <button class="btn primaryBtn" [disabled]="savingConfiguration" (click)="saveConfiguration()">Save Configuration
+                                            <i class="spinner-border spinner-border-sm" *ngIf="savingConfiguration"></i>
+                                        </button>
+                                        <!-- <button class="btn primaryBtn" [disabled]="savingConfiguration" (click)="uuidSaveModal()">Save Configuration</button> -->
                                     </div>
                                 </div>
                             </div>
@@ -223,7 +226,7 @@
     <button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#configModal" #lookupModalButton>Launch Modal</button>
     <button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#addConfigStepModal" #addConfigStepModalButton>Launch Modal</button>
     <button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#uuidModal" #uuidModalButton>Launch Modal</button>
-    <button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#saveUuidModal" #saveUuidModalButton>Launch Modal</button>
+    <!-- <button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#saveUuidModal" #saveUuidModalButton>Launch Modal</button> -->
     <button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#appUpdateSubStructureModal" #appUpdateSubStructureModalButton>Launch Modal</button>
   
     <!-- select taxonomy modal -->
@@ -491,7 +494,7 @@
                 <form  #addStepForm="ngForm" ngNativeValidate (ngSubmit)="addConfigurationStep()" >
                     <div class="modal-header">
                         <h5 class="modal-title" id="stepModalLabel">Add Configuration Step</h5>
-                        <button type="button" class="close" data-bs-dismiss="modal" aria-bs-label="Close" #closeAddStepModal >
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-bs-label="Close" #closeAddStepModal (click)="closeStepModal()" >
                             <span aria-bs-hidden="true">&times;</span>
                         </button>
                     </div>
@@ -507,10 +510,10 @@
                                                     <angular2-multiselect id="attribute" name="attribute" [data]="attributeList" [settings]="dropdownSettingsAttribute" [(ngModel)]="selectedAttribute" (ngModelChange)="selectCrawlerAttribute($event)" required>
                                                     </angular2-multiselect>
                                                 </div>
-                                                <small *ngIf="addStepForm.submitted && addStepFormInvalid && cofigStepRequest.crawlerAttributeId<=0" style="color: red;">Select Crawler Attribute!</small>
+                                                <small *ngIf="addStepForm.submitted && addStepFormInvalid && cofnigStepRequest.crawlerAttributeId<=0" style="color: red;">Select Crawler Attribute!</small>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6" *ngIf="cofigStepRequest.crawlerAttributeId == 17">
+                                        <div class="col-lg-6" *ngIf="cofnigStepRequest.crawlerAttributeId == 17">
                                             <div class="lookupSearchForm">
                                                 <div class="position-relative">
                                                     <label class="m-1">Custom Tag</label>
@@ -518,7 +521,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6" *ngIf="cofigStepRequest.crawlerAttributeId == 17">
+                                        <div class="col-lg-6" *ngIf="cofnigStepRequest.crawlerAttributeId == 17">
                                             <div class="lookupSearchForm">
                                                 <div class="position-relative">
                                                     <label class="m-1">Custom Attribute Name</label>
@@ -526,7 +529,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6" *ngIf="cofigStepRequest.crawlerAttributeId == 17">
+                                        <div class="col-lg-6" *ngIf="cofnigStepRequest.crawlerAttributeId == 17">
                                             <div class="lookupSearchForm">
                                                 <div class="position-relative">
                                                     <label class="m-1">Custom Value</label>
@@ -534,116 +537,116 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6" *ngIf="!Constant.LOOKUP_HIDE.includes(cofigStepRequest.crawlerAttributeId)">
+                                        <div class="col-lg-6" *ngIf="!Constant.LOOKUP_HIDE.includes(cofnigStepRequest.crawlerAttributeId)">
                                             <div class="lookupSearchForm">
-                                                <div class="position-relative" *ngIf="cofigStepRequest.crawlerAttributeId != 32 && cofigStepRequest.crawlerAttributeId != 38">
+                                                <div class="position-relative" *ngIf="cofnigStepRequest.crawlerAttributeId != 32 && cofnigStepRequest.crawlerAttributeId != 38">
                                                     <label class="m-1" >Lookup Element</label>
-                                                    <input type="text" class="form-control" name="lElement" placeholder="Enter Lookup Element" [(ngModel)]="cofigStepRequest.lookUpElementDesc" required>
+                                                    <input type="text" class="form-control" name="lElement" placeholder="Enter Lookup Element" [(ngModel)]="cofnigStepRequest.lookUpElementDesc" required>
                                                 </div>
-                                                <div class="position-relative" *ngIf="cofigStepRequest.crawlerAttributeId == 32">
+                                                <div class="position-relative" *ngIf="cofnigStepRequest.crawlerAttributeId == 32">
                                                     <label class="m-1">Crop Element 1</label>
-                                                    <input type="text" class="form-control" name="lElement" placeholder="Enter Crop Element 1" [(ngModel)]="cofigStepRequest.lookUpElementDesc" required>
+                                                    <input type="text" class="form-control" name="lElement" placeholder="Enter Crop Element 1" [(ngModel)]="cofnigStepRequest.lookUpElementDesc" required>
                                                 </div>
-                                                <div class="position-relative" *ngIf="cofigStepRequest.crawlerAttributeId == 38">
+                                                <div class="position-relative" *ngIf="cofnigStepRequest.crawlerAttributeId == 38">
                                                     <label class="m-1">Prefix</label>
-                                                    <input type="text" class="form-control" name="lElement" placeholder="Enter prefix list path" [(ngModel)]="cofigStepRequest.lookUpElementDesc">
+                                                    <input type="text" class="form-control" name="lElement" placeholder="Enter prefix list path" [(ngModel)]="cofnigStepRequest.lookUpElementDesc">
                                                 </div>
                                             </div>
                                         </div>
 
-                                        <div class="col-lg-6" *ngIf="!Constant.EVENT_HIDE.includes(cofigStepRequest.crawlerAttributeId)">
+                                        <div class="col-lg-6" *ngIf="!Constant.EVENT_HIDE.includes(cofnigStepRequest.crawlerAttributeId)">
                                             <div class="lookupSearchForm">
                                                 <div class="position-relative">
-                                                    <label class="m-1" *ngIf="cofigStepRequest.crawlerAttributeId == 6 ">Delay Time</label>
-                                                    <label class="m-1" *ngIf="cofigStepRequest.crawlerAttributeId != 6 ">Element Event</label>
+                                                    <label class="m-1" *ngIf="cofnigStepRequest.crawlerAttributeId == 6 ">Delay Time</label>
+                                                    <label class="m-1" *ngIf="cofnigStepRequest.crawlerAttributeId != 6 ">Element Event</label>
                                                     <angular2-multiselect id="className" name="className" [data]="EventList" [settings]="dropdownSettingsEvent" [(ngModel)]="selectedEvent" (ngModelChange)="selectCrawlerEvent($event)" required>
                                                     </angular2-multiselect>
                                                 </div>
-                                                <small *ngIf="addStepForm.submitted && addStepFormInvalid && Constant.EMPTY_STRINGS.includes(cofigStepRequest.elementEvent)" style="color: red;">Select Event/Delay!</small>
+                                                <small *ngIf="addStepForm.submitted && addStepFormInvalid && Constant.EMPTY_STRINGS.includes(cofnigStepRequest.elementEvent)" style="color: red;">Select Event/Delay!</small>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6" *ngIf="cofigStepRequest.crawlerAttributeId == 27 || cofigStepRequest.crawlerAttributeId == 32">
+                                        <div class="col-lg-6" *ngIf="cofnigStepRequest.crawlerAttributeId == 27 || cofnigStepRequest.crawlerAttributeId == 32">
                                             <div class="lookupSearchForm">
-                                                <div class="position-relative" *ngIf="cofigStepRequest.crawlerAttributeId != 32">
+                                                <div class="position-relative" *ngIf="cofnigStepRequest.crawlerAttributeId != 32">
                                                     <label class="m-1">List path</label>
-                                                    <input type="text" class="form-control" name="listPath" placeholder="Enter list path" [(ngModel)]="cofigStepRequest.dataSourcePath" maxlength="255" required>
+                                                    <input type="text" class="form-control" name="listPath" placeholder="Enter list path" [(ngModel)]="cofnigStepRequest.dataSourcePath" maxlength="255" required>
                                                 </div>
-                                                <div class="position-relative" *ngIf="cofigStepRequest.crawlerAttributeId == 32">
-                                                    <label class="m-1" *ngIf="cofigStepRequest.crawlerAttributeId == 32">Crop Element 2</label>
-                                                    <input type="text" class="form-control" name="listPath" placeholder="Enter Crop Element 2" [(ngModel)]="cofigStepRequest.dataSourcePath">
+                                                <div class="position-relative" *ngIf="cofnigStepRequest.crawlerAttributeId == 32">
+                                                    <label class="m-1" *ngIf="cofnigStepRequest.crawlerAttributeId == 32">Crop Element 2</label>
+                                                    <input type="text" class="form-control" name="listPath" placeholder="Enter Crop Element 2" [(ngModel)]="cofnigStepRequest.dataSourcePath">
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6" *ngIf="!Constant.ENTITY_HIDE.includes(cofigStepRequest.crawlerAttributeId)">
+                                        <div class="col-lg-6" *ngIf="!Constant.ENTITY_HIDE.includes(cofnigStepRequest.crawlerAttributeId)">
                                             <div class="lookupSearchForm">
                                                 <div class="position-relative">
                                                     <label class="m-1">Entity Name</label>
-                                                    <angular2-multiselect id="entityName" name="entityName" [data]="classList" [settings]="dropdownSettingsClass" [(ngModel)]="selectedClass" (ngModelChange)="selectClassName($event)">
+                                                    <angular2-multiselect id="entityName1" name="entityName1" [data]="classList" [settings]="dropdownSettingsClass" [(ngModel)]="selectedClass" (ngModelChange)="selectClassName($event)">
                                                     </angular2-multiselect>
                                                 </div>
                                             </div>
                                         </div>
 
-                                        <div class="col-lg-6" *ngIf="!Constant.EMPTY_STRINGS.includes(cofigStepRequest.className) && cofigStepRequest.className.toLowerCase() == 'static' || cofigStepRequest.crawlerAttributeId == 32 || cofigStepRequest.crawlerAttributeId == 40">
+                                        <div class="col-lg-6" *ngIf="!Constant.EMPTY_STRINGS.includes(cofnigStepRequest.className) && cofnigStepRequest.className.toLowerCase() == 'static' || cofnigStepRequest.crawlerAttributeId == 32 || cofnigStepRequest.crawlerAttributeId == 40">
                                             <div class="lookupSearchForm">
-                                                <div class="position-relative" *ngIf="cofigStepRequest.crawlerAttributeId != 32">
+                                                <div class="position-relative" *ngIf="cofnigStepRequest.crawlerAttributeId != 32">
                                                     <label class="m-1">Column Name</label>
-                                                    <input type="text" class="form-control" name="cName1" placeholder="Enter Column Name" [(ngModel)]="cofigStepRequest.columnName" maxlength="155" required>
+                                                    <input type="text" class="form-control" name="cName1" placeholder="Enter Column Name" [(ngModel)]="cofnigStepRequest.columnName" maxlength="155" required>
                                                 </div>
-                                                <div class="position-relative" *ngIf="cofigStepRequest.crawlerAttributeId == 32">
-                                                    <label class="m-1" *ngIf="cofigStepRequest.crawlerAttributeId == 32">Crop Element 3</label>
-                                                    <input type="text" class="form-control" name="cName1" placeholder="Enter Crop Element 3" [(ngModel)]="cofigStepRequest.columnName" maxlength="155">
+                                                <div class="position-relative" *ngIf="cofnigStepRequest.crawlerAttributeId == 32">
+                                                    <label class="m-1" *ngIf="cofnigStepRequest.crawlerAttributeId == 32">Crop Element 3</label>
+                                                    <input type="text" class="form-control" name="cName1" placeholder="Enter Crop Element 3" [(ngModel)]="cofnigStepRequest.columnName" maxlength="155">
                                                 </div>
                                             </div>
                                         </div>
 
-                                        <!-- <div class="col-lg-6" *ngIf="cofigStepRequest.crawlerAttributeId == 28 || cofigStepRequest.crawlerAttributeId == 5 || cofigStepRequest.crawlerAttributeId == 20 || cofigStepRequest.crawlerAttributeId == 32 || cofigStepRequest.crawlerAttributeId == 38"> -->
-                                        <div class="col-lg-6" *ngIf="Constant.PATTERN_SHOW.includes(cofigStepRequest.crawlerAttributeId)">
+                                        <!-- <div class="col-lg-6" *ngIf="cofnigStepRequest.crawlerAttributeId == 28 || cofnigStepRequest.crawlerAttributeId == 5 || cofnigStepRequest.crawlerAttributeId == 20 || cofnigStepRequest.crawlerAttributeId == 32 || cofnigStepRequest.crawlerAttributeId == 38"> -->
+                                        <div class="col-lg-6" *ngIf="Constant.PATTERN_SHOW.includes(cofnigStepRequest.crawlerAttributeId)">
                                             <div class="lookupSearchForm">
-                                                <div class="position-relative" *ngIf="cofigStepRequest.crawlerAttributeId != 32 && cofigStepRequest.crawlerAttributeId != 38">
+                                                <div class="position-relative" *ngIf="cofnigStepRequest.crawlerAttributeId != 32 && cofnigStepRequest.crawlerAttributeId != 38">
                                                     <label class="m-1">Pattern</label>
-                                                    <input type="text" class="form-control" name="pattern" placeholder="Enter pattern for search criteria" [(ngModel)]="cofigStepRequest.pattern" maxlength="155">
+                                                    <input type="text" class="form-control" name="pattern" placeholder="Enter pattern for search criteria" [(ngModel)]="cofnigStepRequest.pattern" maxlength="155">
                                                 </div>
-                                                <div class="position-relative" *ngIf="cofigStepRequest.crawlerAttributeId == 32">
+                                                <div class="position-relative" *ngIf="cofnigStepRequest.crawlerAttributeId == 32">
                                                     <label class="m-1">Crop Element 4</label>
-                                                    <input type="text" class="form-control" name="pattern" placeholder="Enter Crop Element 4" [(ngModel)]="cofigStepRequest.pattern" maxlength="155">
+                                                    <input type="text" class="form-control" name="pattern" placeholder="Enter Crop Element 4" [(ngModel)]="cofnigStepRequest.pattern" maxlength="155">
                                                 </div>
-                                                <div class="position-relative" *ngIf="cofigStepRequest.crawlerAttributeId == 38">
+                                                <div class="position-relative" *ngIf="cofnigStepRequest.crawlerAttributeId == 38">
                                                     <label class="m-1">Middle Element 1</label>
-                                                    <input type="text" class="form-control" name="pattern" placeholder="Enter middle element 1" [(ngModel)]="cofigStepRequest.pattern" maxlength="155">
+                                                    <input type="text" class="form-control" name="pattern" placeholder="Enter middle element 1" [(ngModel)]="cofnigStepRequest.pattern" maxlength="155">
                                                 </div>
                                             </div>
                                         </div>
 
-                                        <div class="col-lg-6" *ngIf="cofigStepRequest.crawlerAttributeId == 28 || cofigStepRequest.crawlerAttributeId == 29 || cofigStepRequest.crawlerAttributeId == 38">
+                                        <div class="col-lg-6" *ngIf="cofnigStepRequest.crawlerAttributeId == 28 || cofnigStepRequest.crawlerAttributeId == 29 || cofnigStepRequest.crawlerAttributeId == 38">
                                             <div class="lookupSearchForm">
-                                                <div class="position-relative" *ngIf="cofigStepRequest.crawlerAttributeId != 38">
+                                                <div class="position-relative" *ngIf="cofnigStepRequest.crawlerAttributeId != 38">
                                                     <label class="m-1">Source path</label>
-                                                    <input type="text" class="form-control" name="dataSourcePath" placeholder="Enter pattern for search criteria" [(ngModel)]="cofigStepRequest.dataSourcePath" maxlength="155" required>
+                                                    <input type="text" class="form-control" name="dataSourcePath" placeholder="Enter pattern for search criteria" [(ngModel)]="cofnigStepRequest.dataSourcePath" maxlength="155" required>
                                                 </div>
-                                                <div class="position-relative" *ngIf="cofigStepRequest.crawlerAttributeId == 38">
+                                                <div class="position-relative" *ngIf="cofnigStepRequest.crawlerAttributeId == 38">
                                                     <label class="m-1">MiddleElement 2</label>
-                                                    <input type="text" class="form-control" name="dataSourcePath" placeholder="Enter middle element 2" [(ngModel)]="cofigStepRequest.dataSourcePath" maxlength="155">
+                                                    <input type="text" class="form-control" name="dataSourcePath" placeholder="Enter middle element 2" [(ngModel)]="cofnigStepRequest.dataSourcePath" maxlength="155">
                                                 </div>
                                             </div>
                                         </div>
 
-                                        <div class="col-lg-6" *ngIf="cofigStepRequest.crawlerAttributeId == 28 || cofigStepRequest.crawlerAttributeId == 29 || cofigStepRequest.crawlerAttributeId == 38">
+                                        <div class="col-lg-6" *ngIf="cofnigStepRequest.crawlerAttributeId == 28 || cofnigStepRequest.crawlerAttributeId == 29 || cofnigStepRequest.crawlerAttributeId == 38">
                                             <div class="lookupSearchForm">
-                                                <div class="position-relative" *ngIf="cofigStepRequest.crawlerAttributeId != 38">
+                                                <div class="position-relative" *ngIf="cofnigStepRequest.crawlerAttributeId != 38">
                                                     <label class="m-1">Action Button</label>
-                                                    <input type="text" class="form-control" name="actButton" placeholder="Enter action button path" [(ngModel)]="cofigStepRequest.actionButton" maxlength="155" required>
+                                                    <input type="text" class="form-control" name="actButton" placeholder="Enter action button path" [(ngModel)]="cofnigStepRequest.actionButton" maxlength="155" required>
                                                 </div>
-                                                <div class="position-relative" *ngIf="cofigStepRequest.crawlerAttributeId == 38">
+                                                <div class="position-relative" *ngIf="cofnigStepRequest.crawlerAttributeId == 38">
                                                     <label class="m-1">Suffix</label>
-                                                    <input type="text" class="form-control" name="actButton" placeholder="Enter suffix" [(ngModel)]="cofigStepRequest.actionButton" maxlength="155">
+                                                    <input type="text" class="form-control" name="actButton" placeholder="Enter suffix" [(ngModel)]="cofnigStepRequest.actionButton" maxlength="155">
                                                 </div>
                                             </div>
                                         </div>
 
                                         <div>
                                             <div class="lookupSearch">
-                                                <div class="row border m-0 pb-2 pt-2 mb-2 row" style="background: #fafafad4; border-radius: 5px;" *ngFor="let obj of cofigStepRequest.subAttributeMapList; let i = index;">
+                                                <div class="row border m-0 pb-2 pt-2 mb-2 row" style="background: #fafafad4; border-radius: 5px;" *ngFor="let obj of cofnigStepRequest.subAttributeMapList; let i = index;">
                                                     <div class="col-lg-12">
                                                         <div class="align-items-center d-flex gap-2 justify-content-end my-1">
                                                             <button type="button" class="btn primaryBtn" style="background-color: #cc0000 !important;" (click)="removeSubStep(i)">Remove Step</button>
@@ -685,7 +688,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button *ngIf="cofigStepRequest.crawlerAttributeId == 28 || cofigStepRequest.crawlerAttributeId == 29" type="button" class="btn primaryBtn" (click)="addSubStep()" >Add Sub Step</button>
+                        <button *ngIf="cofnigStepRequest.crawlerAttributeId == 28 || cofnigStepRequest.crawlerAttributeId == 29" type="button" class="btn primaryBtn" (click)="addSubStep()" >Add Sub Step</button>
                         <button type="submit" class="btn primaryBtn">Submit</button>
                     </div>
                 </form>
@@ -699,7 +702,7 @@
             <div class="modal-content">
                 <form  #providerUuidForm="ngForm" ngNativeValidate (ngSubmit)="testConfiguration()" >
                     <div class="modal-header">
-                        <h5 class="modal-title" id="uuidModalLabel">New Configuration</h5>
+                        <h5 class="modal-title" id="uuidModalLabel">Test Configuration</h5>
                         <button type="button" class="close" [disabled]="testingConfiguration" data-bs-dismiss="modal" aria-bs-label="Close" #closeUuidModal (click)="isInvalidConfiguration=false; providerUuid = '' ">
                             <span aria-bs-hidden="true">&times;</span>
                         </button>
@@ -890,7 +893,7 @@
 
 
     <!-- Save Provider Uuid Modal -->
-    <div class="modal fade" id="saveUuidModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-bs-labelledby="uuidModalLabel" aria-bs-hidden="true">
+    <!-- <div class="modal fade" id="saveUuidModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-bs-labelledby="uuidModalLabel" aria-bs-hidden="true">
         <div class="modal-dialog modal-ls">
             <div class="modal-content">
                 <form  #providerUuidForm="ngForm" ngNativeValidate (ngSubmit)="saveConfiguration()" >
@@ -926,7 +929,5 @@
                 </form>
             </div>
         </div>
-    </div>
-
-
+    </div> -->
 </div>
