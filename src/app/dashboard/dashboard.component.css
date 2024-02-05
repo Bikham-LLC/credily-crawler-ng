@@ -561,9 +561,9 @@ span.removeSteps {
   padding: 1rem;
 }
 .chartsleftlabels > p {
-    margin-bottom: 8px;
-    color: #000;
-    font-size: 12px;
+  margin-bottom: 8px;
+  color: #000;
+  font-size: 12px;
   font-weight: 500;
   line-height: 22px;
   text-transform: capitalize;
@@ -623,6 +623,121 @@ span.removeSteps {
   overflow-y: auto;
 }
 
-.dashCharttables::-webkit-scrollbar{
-    display: none;
+.dashCharttables::-webkit-scrollbar {
+  display: none;
+}
+
+.dashHeadCount {
+  border-radius: 4px;
+  border: 1px solid #66bd6d;
+  color: #000;
+  font-size: 10px;
+  font-weight: 400;
+  line-height: 17px;
+  text-transform: capitalize;
+  padding: 4px 12px 4px;
+  margin-bottom: 0px;
+  display: flex;
+  align-items: center;
+  column-gap: 10px;
+}
+.dashHeadCount > span {
+  color: #04844b;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 14px;
+}
+
+.dashHeadTitle {
+  border-radius: 4px;
+  background: #f3f2f2;
+  color: #000;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+  padding: 1px 14px;
+}
+
+.customRow .col-lg-2 {
+  width: 20%;
+}
+
+.dashInfoInner {
+  display: flex;
+  align-items: center;
+  column-gap: 10px;
+  justify-content: space-between;
+}
+
+.dashInfoLabel {
+  color: #000;
+  font-size: 10px;
+  font-weight: 400;
+  line-height: 14px;
+  text-transform: capitalize;
+}
+.dashInfoCount {
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 14px;
+}
+.dashInfoCount i {
+  font-size: 12px;
+}
+
+.dashInfoCard {
+  /* background-color: #f0f0f0; */
+  padding: 10px 10px;
+  border-radius: 4px;
+}
+
+.totalConfig {
+  background-color: #fef7e1;
+}
+.totalConfig .dashInfoCount {
+  color: #e1ac05;
+}
+.cmpltConfig {
+  background-color: #ecf8f8;
+}
+.cmpltConfig .dashInfoCount {
+  color: #3babab;
+}
+.notFndConfig {
+  background-color: #ebf5ff;
+}
+.notFndConfig .dashInfoCount {
+  color: #0062b8;
+}
+.failedConfig {
+  background-color: #fdefed;
+}
+.failedConfig .dashInfoCount {
+  color: #e55138;
+}
+
+.dashInfoTitle {
+  color: #000;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 24px;
+}
+.dashsmallBtn {
+  text-align: center;
+  font-size: 8px;
+  font-weight: 500;
+  line-height: 14px;
+  text-transform: capitalize;
+  width: 100%;
+  border: none;
+  padding: 4px 5px 3px;
+  border-radius: 4px;
+}
+
+.dashCharttables .table tr th {
+  background-color: #f5f6f5;
+  font-weight: 400;
+  font-size: 14px;
+  border: none;
 }

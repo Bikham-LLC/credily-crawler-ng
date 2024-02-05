@@ -26,7 +26,7 @@
                                     <h3>{{userName}}</h3>
                                 </div>
                                 <div class="userProfileLink">
-                                    <a  routerLink="/account-user" routerLinkActive="active"><i class="bi bi-gear"></i>  Settings</a>
+                                    <a routerLink="/account-user" routerLinkActive="active"><i class="bi bi-gear"></i>  Settings</a>
                                 </div>
                                 <div class="userLogout">
                                     <a class="btn primarybtn userLogoutbtn pointer" (click)="logOut()">
@@ -86,7 +86,166 @@
             <div class="col-lg-6">
                 <div class="dashChartCardmain">
                     <div class="dashChartCardinner">
-                        <h3>V3</h3>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h3 class="dashHeadTitle">V3</h3>
+                            <p class="dashHeadCount">Total Provider Added <span>250</span></p>                        
+                        </div>
+                        
+                        <div class="dashChartCardbody mt-2">
+                            <div class="dashChartCardbodyInner">
+                                <div class="row mb-2 align-items-center">
+                                    <div class="col-lg-2 px-2">
+                                        <p class="mb-0 dashInfoTitle">License</p>
+                                    </div>
+                                    <div class="col-lg-10 px-2 pe-3">
+                                        <div class="row customRow">
+                                            <div class="col-lg-2 px-2">
+                                                <div class="dashInfoCard totalConfig">
+                                                    <div class="dashInfoInner">
+                                                        <p class="dashInfoLabel mb-0">Total<br>Configs</p>
+                                                        <span class="dashInfoCount">250</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-2 px-2">
+                                                <div class="dashInfoCard cmpltConfig">
+                                                    <div class="dashInfoInner">
+                                                        <p class="dashInfoLabel mb-0">Completed<br>Configs</p>
+                                                        <span class="dashInfoCount">250</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-2 px-2">
+                                                <div class="dashInfoCard notFndConfig">
+                                                    <div class="dashInfoInner">
+                                                        <p class="dashInfoLabel mb-0">No Configs<br>Found</p>
+                                                        <span class="dashInfoCount">250</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-2 px-2">
+                                                <div class="dashInfoCard failedConfig">
+                                                    <div class="dashInfoInner">
+                                                        <p class="dashInfoLabel mb-0">Failed<br>Configs</p>
+                                                        <span class="dashInfoCount">250 <i class="bi bi-arrow-right"></i></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-2 px-2">
+                                                <button type="button" class="dashsmallBtn" style="background-color: #FFF1E0; color: #E08F2B;">
+                                                    Re-run pending 2222
+                                                </button>
+                                                <button type="button" class="dashsmallBtn" style="background-color: #FEE4DF; color: #FE2C2C;">
+                                                    Re-run Failed 2222
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-2 align-items-center">
+                                    <div class="col-lg-2 px-2">
+                                        <p class="mb-0 dashInfoTitle">Board</p>
+                                    </div>
+                                    <div class="col-lg-10 px-2 pe-3">
+                                        <div class="row customRow">
+                                            <div class="col-lg-2 px-2">
+                                                <div class="dashInfoCard totalConfig">
+                                                    <div class="dashInfoInner">
+                                                        <p class="dashInfoLabel mb-0">Total<br>Configs</p>
+                                                        <span class="dashInfoCount">250</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-2 px-2">
+                                                <div class="dashInfoCard cmpltConfig">
+                                                    <div class="dashInfoInner">
+                                                        <p class="dashInfoLabel mb-0">Completed<br>Configs</p>
+                                                        <span class="dashInfoCount">250</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-2 px-2">
+                                                <div class="dashInfoCard notFndConfig">
+                                                    <div class="dashInfoInner">
+                                                        <p class="dashInfoLabel mb-0">No Configs<br>Found</p>
+                                                        <span class="dashInfoCount">250</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-2 px-2">
+                                                <div class="dashInfoCard failedConfig">
+                                                    <div class="dashInfoInner">
+                                                        <p class="dashInfoLabel mb-0">Failed<br>Configs</p>
+                                                        <span class="dashInfoCount">250 <i class="bi bi-arrow-right"></i></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-2 px-2">
+                                                <button type="button" class="dashsmallBtn" style="background-color: #FFF1E0; color: #E08F2B;">
+                                                    Re-run pending 2222
+                                                </button>
+                                                <button type="button" class="dashsmallBtn" style="background-color: #FEE4DF; color: #FE2C2C;">
+                                                    Re-run Failed 2222
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-2 align-items-center">
+                                    <div class="col-lg-2 px-2">
+                                        <p class="mb-0 dashInfoTitle">Common</p>
+                                    </div>
+                                    <div class="col-lg-10 px-2 pe-3">
+                                        <div class="row customRow">
+                                            <div class="col-lg-2 px-2">
+                                                <div class="dashInfoCard totalConfig">
+                                                    <div class="dashInfoInner">
+                                                        <p class="dashInfoLabel mb-0">Total<br>Configs</p>
+                                                        <span class="dashInfoCount">250</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-2 px-2">
+                                                <div class="dashInfoCard cmpltConfig">
+                                                    <div class="dashInfoInner">
+                                                        <p class="dashInfoLabel mb-0">Completed<br>Configs</p>
+                                                        <span class="dashInfoCount">250</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-2 px-2">
+                                                <div class="dashInfoCard notFndConfig">
+                                                    <div class="dashInfoInner">
+                                                        <p class="dashInfoLabel mb-0">No Configs<br>Found</p>
+                                                        <span class="dashInfoCount">250</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-2 px-2">
+                                                <div class="dashInfoCard failedConfig">
+                                                    <div class="dashInfoInner">
+                                                        <p class="dashInfoLabel mb-0">Failed<br>Configs</p>
+                                                        <span class="dashInfoCount">250 <i class="bi bi-arrow-right"></i></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-2 px-2">
+                                                <button type="button" class="dashsmallBtn" style="background-color: #FFF1E0; color: #E08F2B;">
+                                                    Re-run pending 2222
+                                                </button>
+                                                <button type="button" class="dashsmallBtn" style="background-color: #FEE4DF; color: #FE2C2C;">
+                                                    Re-run Failed 2222
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
                         <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
                             <li class="nav-item" role="presentation">
                               <button class="nav-link active" id="pills-licenseOne-tab" data-bs-toggle="pill" data-bs-target="#pills-licenseOne" type="button" role="tab" aria-controls="pills-licenseOne" aria-selected="true" (click)="getTotoalProvidersData('License Lookup','V3')">License</button>
@@ -144,7 +303,167 @@
             <div class="col-lg-6">
                 <div class="dashChartCardmain">
                     <div class="dashChartCardinner">
-                        <h3>V2</h3>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h3 class="dashHeadTitle">V2</h3>
+                            <p class="dashHeadCount">Total Provider Added <span>250</span></p>                        
+                        </div>
+                        
+                        <div class="dashChartCardbody mt-2">
+                            <div class="dashChartCardbodyInner">
+                                <div class="row mb-2 align-items-center">
+                                    <div class="col-lg-2 px-2">
+                                        <p class="mb-0 dashInfoTitle">License</p>
+                                    </div>
+                                    <div class="col-lg-10 px-2 pe-3">
+                                        <div class="row customRow">
+                                            <div class="col-lg-2 px-2">
+                                                <div class="dashInfoCard totalConfig">
+                                                    <div class="dashInfoInner">
+                                                        <p class="dashInfoLabel mb-0">Total<br>Configs</p>
+                                                        <span class="dashInfoCount">250</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-2 px-2">
+                                                <div class="dashInfoCard cmpltConfig">
+                                                    <div class="dashInfoInner">
+                                                        <p class="dashInfoLabel mb-0">Completed<br>Configs</p>
+                                                        <span class="dashInfoCount">250</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-2 px-2">
+                                                <div class="dashInfoCard notFndConfig">
+                                                    <div class="dashInfoInner">
+                                                        <p class="dashInfoLabel mb-0">No Configs<br>Found</p>
+                                                        <span class="dashInfoCount">250</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-2 px-2">
+                                                <div class="dashInfoCard failedConfig">
+                                                    <div class="dashInfoInner">
+                                                        <p class="dashInfoLabel mb-0">Failed<br>Configs</p>
+                                                        <span class="dashInfoCount">250 <i class="bi bi-arrow-right"></i></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-2 px-2">
+                                                <button type="button" class="dashsmallBtn" style="background-color: #FFF1E0; color: #E08F2B;">
+                                                    Re-run pending 2222
+                                                </button>
+                                                <button type="button" class="dashsmallBtn" style="background-color: #FEE4DF; color: #FE2C2C;">
+                                                    Re-run Failed 2222
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-2 align-items-center">
+                                    <div class="col-lg-2 px-2">
+                                        <p class="mb-0 dashInfoTitle">Board</p>
+                                    </div>
+                                    <div class="col-lg-10 px-2 pe-3">
+                                        <div class="row customRow">
+                                            <div class="col-lg-2 px-2">
+                                                <div class="dashInfoCard totalConfig">
+                                                    <div class="dashInfoInner">
+                                                        <p class="dashInfoLabel mb-0">Total<br>Configs</p>
+                                                        <span class="dashInfoCount">250</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-2 px-2">
+                                                <div class="dashInfoCard cmpltConfig">
+                                                    <div class="dashInfoInner">
+                                                        <p class="dashInfoLabel mb-0">Completed<br>Configs</p>
+                                                        <span class="dashInfoCount">250</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-2 px-2">
+                                                <div class="dashInfoCard notFndConfig">
+                                                    <div class="dashInfoInner">
+                                                        <p class="dashInfoLabel mb-0">No Configs<br>Found</p>
+                                                        <span class="dashInfoCount">250</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-2 px-2">
+                                                <div class="dashInfoCard failedConfig">
+                                                    <div class="dashInfoInner">
+                                                        <p class="dashInfoLabel mb-0">Failed<br>Configs</p>
+                                                        <span class="dashInfoCount">250 <i class="bi bi-arrow-right"></i></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-2 px-2">
+                                                <button type="button" class="dashsmallBtn" style="background-color: #FFF1E0; color: #E08F2B;">
+                                                    Re-run pending 2222
+                                                </button>
+                                                <button type="button" class="dashsmallBtn" style="background-color: #FEE4DF; color: #FE2C2C;">
+                                                    Re-run Failed 2222
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-2 align-items-center">
+                                    <div class="col-lg-2 px-2">
+                                        <p class="mb-0 dashInfoTitle">Common</p>
+                                    </div>
+                                    <div class="col-lg-10 px-2 pe-3">
+                                        <div class="row customRow">
+                                            <div class="col-lg-2 px-2">
+                                                <div class="dashInfoCard totalConfig">
+                                                    <div class="dashInfoInner">
+                                                        <p class="dashInfoLabel mb-0">Total<br>Configs</p>
+                                                        <span class="dashInfoCount">250</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-2 px-2">
+                                                <div class="dashInfoCard cmpltConfig">
+                                                    <div class="dashInfoInner">
+                                                        <p class="dashInfoLabel mb-0">Completed<br>Configs</p>
+                                                        <span class="dashInfoCount">250</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-2 px-2">
+                                                <div class="dashInfoCard notFndConfig">
+                                                    <div class="dashInfoInner">
+                                                        <p class="dashInfoLabel mb-0">No Configs<br>Found</p>
+                                                        <span class="dashInfoCount">250</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-2 px-2">
+                                                <div class="dashInfoCard failedConfig">
+                                                    <div class="dashInfoInner">
+                                                        <p class="dashInfoLabel mb-0">Failed<br>Configs</p>
+                                                        <span class="dashInfoCount">250 <i class="bi bi-arrow-right"></i></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-2 px-2">
+                                                <button type="button" class="dashsmallBtn" style="background-color: #FFF1E0; color: #E08F2B;">
+                                                    Re-run pending 2222
+                                                </button>
+                                                <button type="button" class="dashsmallBtn" style="background-color: #FEE4DF; color: #FE2C2C;">
+                                                    Re-run Failed 2222
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+
                         <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
                             <li class="nav-item" role="presentation">
                               <button class="nav-link active" id="pills-licenseTwo-tab" data-bs-toggle="pill" data-bs-target="#pills-licenseTwo" type="button" role="tab" aria-controls="pills-licenseTwo" aria-selected="true" (click)="getTotoalProvidersData('License Lookup','V2')">License</button>
@@ -223,8 +542,8 @@
                                             <thead>
                                                 <tr>
                                                     <!-- <th style="width: 25%;">Config </th> -->
-                                                    <th style="width: 25%;">Config Name</th>
-                                                    <th style="width: 43%;">Config Link</th>
+                                                    <th style="width: 40%;">Board Name</th>
+                                                    <th style="width: 22%;">Config</th>
                                                     <th style="width: 10%;" class="text-center">Number</th>
                                                     <th style="width: 22%;" class="text-center">State</th>
                                                 </tr>
@@ -239,7 +558,10 @@
                                                     </td>
                                                     <td>
                                                         <div class="tableInfo tableInfowrap">
-                                                            {{obj.lookupLink}}
+                                                            <p class="mb-0 pointer">Link
+                                                                <a href="#!" class="text-primary ms-1"><i class="bi bi-box-arrow-up-right"></i></a>
+                                                            </p>
+                                                            <!-- {{obj.lookupLink}} -->
                                                         </div>
                                                     </td>
                                                     <td>
@@ -303,8 +625,8 @@
                                             <thead>
                                                 <tr>
                                                     <!-- <th style="width: 25%;">Config </th> -->
-                                                    <th style="width: 25%;">Config Name</th>
-                                                    <th style="width: 43%;">Config Link</th>
+                                                    <th style="width: 40%;">Board Name</th>
+                                                    <th style="width: 22%;">Config</th>
                                                     <th style="width: 10%;" class="text-center">Number</th>
                                                     <th style="width: 22%;" class="text-center">State</th>
                                                 </tr>
@@ -319,7 +641,10 @@
                                                     </td>
                                                     <td>
                                                         <div class="tableInfo tableInfowrap">
-                                                            {{obj.lookupLink}}
+                                                            <p class="mb-0 pointer">Link
+                                                                <a  href="#!" class="text-primary ms-1"><i class="bi bi-box-arrow-up-right"></i></a>
+                                                            </p>
+                                                            <!-- {{obj.lookupLink}} -->
                                                         </div>
                                                     </td>
                                                     <td>
