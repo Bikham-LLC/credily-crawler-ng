@@ -351,16 +351,29 @@ label.form-label.labelCls {
 }
 
 .npi-badge {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
+  display: inline-block;
   padding: 2px 10px;
-  width: fit-content;
-  height: 24px;
-  border-radius: 6px;
-  color:#111928;
+  color: #111928;
   font-size: 12px;
   font-weight: 400;
   line-height: 20px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  max-width: 120px;
+  width: 100%;
+  text-align: center;
+  border-radius: 6px;
+}
+.statusPending {
+  background-color: #fff3c3;
+  color: #ffa800;
+}
+.statusSuccesful {
+  background-color: #effaf0;
+  color: #04844b;
+}
+.statusFailed {
+  background-color: #fef3f3;
+  color: #e74c2b;
 }

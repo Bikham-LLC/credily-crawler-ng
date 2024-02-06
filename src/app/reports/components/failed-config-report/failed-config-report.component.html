@@ -3,21 +3,23 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th style="width: 20%;">
+                    <th style="width: 16%;">
                         <span style="cursor: pointer;" > Config Name <i class="bi bi-arrow-down-up"></i> </span>
                     </th>
-                    <th style="width: 10%;">State</th>
-                    <th style="width: 10%;">Provider Name</th>
+                    <th style="width: 10%;" class="text-center">
+                        <span style="cursor: pointer;" > State <i class="bi bi-arrow-down-up"></i> </span>
+                    </th>
+                    <th style="width: 13%;">Provider Name</th>
                     <th style="width: 10%;">NPI Number</th>
-                    <th style="width: 10%;">Updated Date</th>
+                    <th style="width: 15%;">Updated Date</th>
                     <th style="width: 10%;">Status</th>
-                    <th style="width: 10%;">Count</th>
-                    <th style="width: 10%;">Actions</th>
-                    <th style="width: 10%;">Re-Run</th>
+                    <th style="width: 6%;" class="text-center">Count</th>
+                    <th style="width: 6%;" class="text-center">Actions</th>
+                    <th style="width: 14%;">Re-Run</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
+                <tr *ngFor="let e of [].constructor(15); let i = index">
                     <td>
                         <div class="tableinfo line-clamp">skparjapati@gmail.com</div>
                     </td>
@@ -25,7 +27,9 @@
                         <div class="tableinfo">(904)-509-2139</div>
                     </td> -->
                     <td>
-                        <div class="tableinfo">New York</div>
+                        <div class="tableinfo text-center">
+                            <a href="#!" class="text-primary "><i class="bi bi-box-arrow-up-right me-1"></i></a>New York
+                        </div>
                     </td>
                     <td>
                         <div class="tableinfo">John Doe</div>
@@ -36,22 +40,34 @@
                         </div>
                     </td>
                     <td>
-                        <div class="tableinfo">
+                        <div class="tableinfo text-muted">
                             02/23/2023 19:00 
                         </div>
                     </td>
                     <td>
                         <div class="tableinfo">
-                            <span>Re-Run Pending</span>
+                            <span class="npi-badge statusPending mx-auto">Re-Run Pending</span>
+                            <!-- <span class="npi-badge statusSuccesful">Re-Run Successful</span>
+                            <span class="npi-badge statusFailed">Re-Run Failed</span> -->
                         </div>
                     </td>
                     <td>
-                        <div class="tableinfo">
+                        <div class="tableinfo text-center">
                             <span>05</span>
                         </div>
                     </td>
                     <td>
-                        <div class="tableinfo"></div>
+                        <div class="tableinfo text-center">
+                            <span class="text-primary text-decoration-underline pointer">View</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="tableinfo">
+                            <div class="d-flex align-items-center gap-2">
+                                <button type="button" class="btn primarybtn">Re-Run</button>
+                                <span class="cmpletedRun">Completed?</span>
+                            </div>
+                        </div>
                     </td>
                     
                 </tr>
