@@ -1,0 +1,99 @@
+
+<div class="searchRowMain mt-3">
+    <div class="row align-items-center justify-content-between">
+        <div class="col-lg-4">
+                <div class="position-relative">
+                    <input id="searchname" name="searchname" placeholder="Search" class="form-control" 
+                    style="padding:0px 15px 0px 38px"/>
+                    <i class="bi bi-search search-icon"></i>
+                </div>
+        </div>
+        <div class="col-lg-8">
+            <div class="d-flex justify-content-end align-items-center gap-2">
+                <button type="button" class="daterangeBtn">
+                    Feb 2024
+                    <i class="bi bi-grid"></i>
+                </button>
+                <button type="button" class="tblFilterBtn">
+                    <i class="bi bi-check2"></i>
+                    Completed
+                    <span class="filterCount bg-success text-white" >00</span>
+                </button>
+                <button type="button" class="tblFilterBtn">
+                    <i class="bi bi-exclamation-triangle"></i>
+                    Partially Completed
+                    <span class="filterCount bg-warning">00</span>
+                </button>
+                <!-- <button type="button" class="tblFilterBtn ">
+                    <i class="bi bi-check2"></i>
+                    Re-Run Failed
+                    <span class="filterCount bg-failed text-white">00</span>
+                </button> -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="usertable mt-3 ng-star-inserted">
+    <div class="usertableinner table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th style="width: 25%;">
+                        <span style="cursor: pointer;"> Lookup Name <i class="bi bi-arrow-down-up"></i></span>
+                    </th>
+                    <th style="width: 25%;">Link</th>
+                    <th style="width: 14%;">Status</th>
+                    <th style="width: 14%;">Tested Date</th>
+                    <th style="width: 10%;">Snapshot</th>
+                    <th style="width: 12%;">Logs</th>
+                </tr>
+            </thead>
+            
+            <tbody>
+                <tr *ngFor="let e of [].constructor(15); let i = index">
+                    <td>
+                        <div class="tableinfo">Florida License Board</div>
+                    </td>
+                    
+                    <td>
+                        <div class="tableinfo ">
+                            <a href="#!" class="text-primary text-decoration-none">Link</a>
+                        </div>
+                    </td>
+                   
+                    <td>
+                        <div class="tableinfo d-flex align-items-center justify-content-start gap-2">
+                            <a href="#!" class="text-primary text-decoration-none"><i class="bi bi-box-arrow-up-right"></i></a>
+                            <span class="npi-badge statusSuccesful">Success</span>
+                        </div>
+                    </td>
+                    <td>
+                        <!-- <div class="tableinfo">
+                            <span class="npi-badge statusPending mx-auto">Re-Run Pending</span>
+                            <span class="npi-badge statusSuccesful">Re-Run Successful</span>
+                            <span class="npi-badge statusFailed">Re-Run Failed</span>
+                        </div> -->
+                        <div class="tableinfo text-muted">
+                            02/23/2023 19:00
+                        </div>
+                    </td>
+                    
+                    <td>
+                        <div class="tableinfo">
+                            <div class="d-flex align-items-center gap-2">
+                                <button type="button" class="btn primarybtn">View</button>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="tableinfo ">
+                            <a href="#!" class="text-primary">View</a>
+                        </div>
+                    </td>
+                    
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

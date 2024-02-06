@@ -1,3 +1,35 @@
+
+<div class="searchRowMain mt-3">
+    <div class="row align-items-center justify-content-between">
+        <div class="col-lg-4">
+                <div class="position-relative">
+                    <input id="searchname" name="searchname" placeholder="Search" class="form-control" 
+                    style="padding:0px 15px 0px 38px"/>
+                    <i class="bi bi-search search-icon"></i>
+                </div>
+        </div>
+        <div class="col-lg-8">
+            <div class="d-flex justify-content-end align-items-center gap-2">
+                <button type="button" class="tblFilterBtn">
+                    <i class="bi bi-check2"></i>
+                    Re-Run Successful
+                    <span class="filterCount bg-success text-white" >00</span>
+                </button>
+                <button type="button" class="tblFilterBtn">
+                    <i class="bi bi-exclamation-triangle"></i>
+                    Re-Run Pending
+                    <span class="filterCount bg-warning">00</span>
+                </button>
+                <button type="button" class="tblFilterBtn ">
+                    <i class="bi bi-x-circle"></i>
+                    Re-Run Failed
+                    <span class="filterCount bg-failed text-white">00</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="usertable mt-3 ng-star-inserted">
     <div class="usertableinner table-responsive">
         <table class="table">
@@ -39,6 +71,8 @@
                             <span class="badge-grey npi-badge">4455154555</span>
                         </div>
                     </td>
+                    
+
                     <td>
                         <div class="tableinfo text-muted">
                             02/23/2023 19:00 
@@ -65,7 +99,7 @@
                         <div class="tableinfo">
                             <div class="d-flex align-items-center gap-2">
                                 <button type="button" class="btn primarybtn">Re-Run</button>
-                                <span class="cmpletedRun">Completed?</span>
+                                <span class="cmpletedRun pointer" data-bs-toggle="modal" data-bs-target="#completedModal">Completed?</span>
                             </div>
                         </div>
                     </td>
@@ -73,5 +107,33 @@
                 </tr>
             </tbody>
         </table>
+    </div>
+</div>
+
+
+<button type="button" data-bs-toggle="modal" data-bs-target="#completedModal" class="btn btn-primary d-none">Launch Modal</button>
+
+<div id="completedModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-bs-labelledby="exampleModalLabel" aria-bs-hidden="true" class="modal fade" aria-modal="true" role="dialog">
+    <div class="modal-dialog completeddialougModal modal-dialog-centered">
+        <div class="modal-content">
+            <form>
+                <div class="modal-header border-0 pb-0">
+                    <h5 id="exampleModalLabel" class="modal-title">Define the issue and the solution implemented</h5>
+                    <!-- <button type="button" data-bs-dismiss="modal" aria-bs-label="Close" class="close"><span aria-bs-hidden="true">×</span></button> -->
+                </div>
+                <div class="modal-body">
+                    <div class="commentMainbx">
+                        <div class="commentInnerbx">
+                            <p>Add Comments</p>
+                        </div>
+                        <span>12th Jan 2023 5:53 pm</span>
+                    </div>
+                </div>
+                <div class="modal-footer border-0 pt-0">
+                    <button type="button" data-bs-dismiss="modal" class="btn primarycancelbtn" style="border-color: #f05252 !important;">Close</button>
+                    <button type="submit" class="btn primaryBtn">Save changes</button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
