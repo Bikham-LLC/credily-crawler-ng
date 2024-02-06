@@ -2,7 +2,6 @@
     <header>
         <div class="align-items-center d-flex justify-content-between topbar">
             <div class="logo">
-                <!-- <img src="assets/images/logo.svg" alt="" />  -->
                 <img style="width: 50px;margin-left: 10px;" src="assets/images/ProviderPassportLogo.svg" alt="">
             </div>
             <div class="profile-bx">
@@ -88,7 +87,7 @@
                     <div class="dashChartCardinner">
                         <div class="d-flex justify-content-between align-items-center">
                             <h3 class="dashHeadTitle">V3</h3>
-                            <p class="dashHeadCount">Total Provider Added <span>250</span></p>                        
+                            <p class="dashHeadCount">Total Provider Added <span>{{dashboardTotalCountsV3.totalProvidersAdded}}</span></p>                        
                         </div>
                         
                         <div class="dashChartCardbody mt-2">
@@ -103,7 +102,7 @@
                                                 <div class="dashInfoCard totalConfig">
                                                     <div class="dashInfoInner">
                                                         <p class="dashInfoLabel mb-0">Total<br>Configs</p>
-                                                        <span class="dashInfoCount">250</span>
+                                                        <span class="dashInfoCount">{{dashboardTotalCountsV3.licenseTotalConfigs}}</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -111,15 +110,15 @@
                                                 <div class="dashInfoCard cmpltConfig">
                                                     <div class="dashInfoInner">
                                                         <p class="dashInfoLabel mb-0">Completed<br>Configs</p>
-                                                        <span class="dashInfoCount">250</span>
+                                                        <span class="dashInfoCount">{{dashboardTotalCountsV3.licenseCompletedConfig}}</span>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="col-lg-2 px-2 pe-0">
                                                 <div class="dashInfoCard notFndConfig">
                                                     <div class="dashInfoInner">
-                                                        <p class="dashInfoLabel mb-0">No Configs<br>Found</p>
-                                                        <span class="dashInfoCount">250</span>
+                                                        <p class="dashInfoLabel mb-0">No Configs<br>Providers</p>
+                                                        <span class="dashInfoCount">{{dashboardTotalCountsV3.licenseNoConfigFound}}</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -127,16 +126,16 @@
                                                 <div class="dashInfoCard failedConfig">
                                                     <div class="dashInfoInner">
                                                         <p class="dashInfoLabel mb-0">Failed<br>Configs</p>
-                                                        <span class="dashInfoCount">250 <i class="bi bi-arrow-right"></i></span>
+                                                        <span class="dashInfoCount">{{dashboardTotalCountsV3.licenseFailedConfig}} <i class="bi bi-arrow-right"></i></span>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="col-lg-2 px-2">
                                                 <button type="button" class="dashsmallBtn" style="background-color: #FFF1E0; color: #E08F2B;">
-                                                    Re-run pending 2222
+                                                    Re-run pending {{dashboardTotalCountsV3.licenseReRunPending}}
                                                 </button>
                                                 <button type="button" class="dashsmallBtn" style="background-color: #FEE4DF; color: #FE2C2C;">
-                                                    Re-run Failed 2222
+                                                    Re-run Failed {{dashboardTotalCountsV3.licenseReRunFailed}}
                                                 </button>
                                             </div>
                                         </div>
@@ -152,7 +151,7 @@
                                                 <div class="dashInfoCard totalConfig">
                                                     <div class="dashInfoInner">
                                                         <p class="dashInfoLabel mb-0">Total<br>Configs</p>
-                                                        <span class="dashInfoCount">250</span>
+                                                        <span class="dashInfoCount">{{dashboardTotalCountsV3.boardTotalConfigs}}</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -160,15 +159,15 @@
                                                 <div class="dashInfoCard cmpltConfig">
                                                     <div class="dashInfoInner">
                                                         <p class="dashInfoLabel mb-0">Completed<br>Configs</p>
-                                                        <span class="dashInfoCount">250</span>
+                                                        <span class="dashInfoCount">{{dashboardTotalCountsV3.boardCompletedConfig}}</span>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="col-lg-2 px-2 pe-0">
                                                 <div class="dashInfoCard notFndConfig">
                                                     <div class="dashInfoInner">
-                                                        <p class="dashInfoLabel mb-0">No Configs<br>Found</p>
-                                                        <span class="dashInfoCount">250</span>
+                                                        <p class="dashInfoLabel mb-0">No Configs<br>Providers</p>
+                                                        <span class="dashInfoCount">{{dashboardTotalCountsV3.boardNoConfigFound}}</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -176,16 +175,16 @@
                                                 <div class="dashInfoCard failedConfig">
                                                     <div class="dashInfoInner">
                                                         <p class="dashInfoLabel mb-0">Failed<br>Configs</p>
-                                                        <span class="dashInfoCount">250 <i class="bi bi-arrow-right"></i></span>
+                                                        <span class="dashInfoCount">{{dashboardTotalCountsV3.boardFailedConfig}} <i class="bi bi-arrow-right"></i></span>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="col-lg-2 px-2">
                                                 <button type="button" class="dashsmallBtn" style="background-color: #FFF1E0; color: #E08F2B;">
-                                                    Re-run pending 2222
+                                                    Re-run pending {{dashboardTotalCountsV3.boardReRunPending}}
                                                 </button>
                                                 <button type="button" class="dashsmallBtn" style="background-color: #FEE4DF; color: #FE2C2C;">
-                                                    Re-run Failed 2222
+                                                    Re-run Failed {{dashboardTotalCountsV3.boardReRunFailed}}
                                                 </button>
                                             </div>
                                         </div>
@@ -201,7 +200,7 @@
                                                 <div class="dashInfoCard totalConfig">
                                                     <div class="dashInfoInner">
                                                         <p class="dashInfoLabel mb-0">Total<br>Configs</p>
-                                                        <span class="dashInfoCount">250</span>
+                                                        <span class="dashInfoCount">{{dashboardTotalCountsV3.commonTotalConfigs}}</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -209,15 +208,15 @@
                                                 <div class="dashInfoCard cmpltConfig">
                                                     <div class="dashInfoInner">
                                                         <p class="dashInfoLabel mb-0">Completed<br>Configs</p>
-                                                        <span class="dashInfoCount">250</span>
+                                                        <span class="dashInfoCount">{{dashboardTotalCountsV3.commonCompletedConfig}}</span>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="col-lg-2 px-2 pe-0">
                                                 <div class="dashInfoCard notFndConfig">
                                                     <div class="dashInfoInner">
-                                                        <p class="dashInfoLabel mb-0">No Configs<br>Found</p>
-                                                        <span class="dashInfoCount">250</span>
+                                                        <p class="dashInfoLabel mb-0">No Configs<br>Providers</p>
+                                                        <span class="dashInfoCount">{{dashboardTotalCountsV3.commonNoConfigFound}}</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -225,16 +224,16 @@
                                                 <div class="dashInfoCard failedConfig">
                                                     <div class="dashInfoInner">
                                                         <p class="dashInfoLabel mb-0">Failed<br>Configs</p>
-                                                        <span class="dashInfoCount">250 <i class="bi bi-arrow-right"></i></span>
+                                                        <span class="dashInfoCount">{{dashboardTotalCountsV3.commonFailedConfig}} <i class="bi bi-arrow-right"></i></span>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="col-lg-2 px-2">
                                                 <button type="button" class="dashsmallBtn" style="background-color: #FFF1E0; color: #E08F2B;">
-                                                    Re-run pending 2222
+                                                    Re-run pending {{dashboardTotalCountsV3.commonReRunPending}}
                                                 </button>
                                                 <button type="button" class="dashsmallBtn" style="background-color: #FEE4DF; color: #FE2C2C;">
-                                                    Re-run Failed 2222
+                                                    Re-run Failed {{dashboardTotalCountsV3.commonReRunFailed}}
                                                 </button>
                                             </div>
                                         </div>
@@ -242,61 +241,6 @@
                                 </div>
                             </div>
                         </div>
-
-
-
-
-                        <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
-                            <li class="nav-item" role="presentation">
-                              <button class="nav-link active" id="pills-licenseOne-tab" data-bs-toggle="pill" data-bs-target="#pills-licenseOne" type="button" role="tab" aria-controls="pills-licenseOne" aria-selected="true" (click)="getTotoalProvidersData('License Lookup','V3')">License</button>
-                            </li>
-                            <li class="nav-item" role="presentation">
-                              <button class="nav-link" id="pills-boardOne-tab" data-bs-toggle="pill" data-bs-target="#pills-licenseOne" type="button" role="tab" aria-controls="pills-boardOne" aria-selected="false" (click)="getTotoalProvidersData('Board Certification','V3')">Board</button>
-                            </li>
-                            <li class="nav-item" role="presentation">
-                              <button class="nav-link" id="pills-CommonOne-tab" data-bs-toggle="pill" data-bs-target="#pills-licenseOne" type="button" role="tab" aria-controls="pills-CommonOne" aria-selected="false" (click)="getTotoalProvidersData('common','V3')">Common</button>
-                            </li>
-                          </ul>
-                          <div class="tab-content" id="pills-tabContent">
-                            <div class="tab-pane fade show active" id="pills-licenseOne" role="tabpanel" aria-labelledby="pills-licenseOne-tab">
-                                <div class="dashCharttabsinner">
-                                    <div class="row">
-                                        <div class="col-lg-6">
-                                            <app-circular-loader *ngIf="v3TotalCountsLoadingToggle"></app-circular-loader>
-                                            <div class="chartsleftlabels" *ngIf="!v3TotalCountsLoadingToggle">
-                                                <p>
-                                                    <span>
-                                                        <span class="labelColor TPA"></span>
-                                                        Total Provider Added
-                                                    </span>
-                                                    <span>{{dashboardTotalCountsV3.totalProvidersAdded}}</span>
-                                                </p>
-                                                <p>
-                                                    <span><span class="labelColor TC"></span> 
-                                                    Total Configs</span>
-                                                    <span>{{dashboardTotalCountsV3.totalConfigs}}</span>
-                                                </p>
-                                                <p>
-                                                    <span><span class="labelColor CC"></span>
-                                                    Completed Configs</span>
-                                                    <span>{{dashboardTotalCountsV3.completedConfig}}</span>
-                                                </p>
-                                                <p>
-                                                    <span><span class="labelColor NCF"></span>
-                                                    No Configs Found</span>
-                                                    <span>{{dashboardTotalCountsV3.noConfigFound}}</span>
-                                                </p>
-                                                <p>
-                                                    <span><span class="labelColor FC"></span>
-                                                    Failed Configs</span>
-                                                    <span>{{dashboardTotalCountsV3.failedConfig}}</span>
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                          </div>
                     </div>
                 </div>
             </div>
@@ -305,7 +249,7 @@
                     <div class="dashChartCardinner">
                         <div class="d-flex justify-content-between align-items-center">
                             <h3 class="dashHeadTitle">V2</h3>
-                            <p class="dashHeadCount">Total Provider Added <span>250</span></p>                        
+                            <p class="dashHeadCount">Total Provider Added <span>{{dashboardTotalCountsV2.totalProvidersAdded}}</span></p>                        
                         </div>
                         
                         <div class="dashChartCardbody mt-2">
@@ -320,7 +264,7 @@
                                                 <div class="dashInfoCard totalConfig">
                                                     <div class="dashInfoInner">
                                                         <p class="dashInfoLabel mb-0">Total<br>Configs</p>
-                                                        <span class="dashInfoCount">250</span>
+                                                        <span class="dashInfoCount">{{dashboardTotalCountsV2.licenseTotalConfigs}}</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -328,15 +272,15 @@
                                                 <div class="dashInfoCard cmpltConfig">
                                                     <div class="dashInfoInner">
                                                         <p class="dashInfoLabel mb-0">Completed<br>Configs</p>
-                                                        <span class="dashInfoCount">250</span>
+                                                        <span class="dashInfoCount">{{dashboardTotalCountsV2.licenseCompletedConfig}}</span>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="col-lg-2 px-2 pe-0">
                                                 <div class="dashInfoCard notFndConfig">
                                                     <div class="dashInfoInner">
-                                                        <p class="dashInfoLabel mb-0">No Configs<br>Found</p>
-                                                        <span class="dashInfoCount">250</span>
+                                                        <p class="dashInfoLabel mb-0">No Configs<br>Providers</p>
+                                                        <span class="dashInfoCount">{{dashboardTotalCountsV2.licenseNoConfigFound}}</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -344,16 +288,16 @@
                                                 <div class="dashInfoCard failedConfig">
                                                     <div class="dashInfoInner">
                                                         <p class="dashInfoLabel mb-0">Failed<br>Configs</p>
-                                                        <span class="dashInfoCount">250 <i class="bi bi-arrow-right"></i></span>
+                                                        <span class="dashInfoCount">{{dashboardTotalCountsV2.licenseFailedConfig}} <i class="bi bi-arrow-right"></i></span>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="col-lg-2 px-2">
                                                 <button type="button" class="dashsmallBtn" style="background-color: #FFF1E0; color: #E08F2B;">
-                                                    Re-run pending 2222
+                                                    Re-run pending {{dashboardTotalCountsV2.licenseReRunPending}}
                                                 </button>
                                                 <button type="button" class="dashsmallBtn" style="background-color: #FEE4DF; color: #FE2C2C;">
-                                                    Re-run Failed 2222
+                                                    Re-run Failed {{dashboardTotalCountsV2.licenseReRunFailed}}
                                                 </button>
                                             </div>
                                         </div>
@@ -369,7 +313,7 @@
                                                 <div class="dashInfoCard totalConfig">
                                                     <div class="dashInfoInner">
                                                         <p class="dashInfoLabel mb-0">Total<br>Configs</p>
-                                                        <span class="dashInfoCount">250</span>
+                                                        <span class="dashInfoCount">{{dashboardTotalCountsV2.boardTotalConfigs}}</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -377,15 +321,15 @@
                                                 <div class="dashInfoCard cmpltConfig">
                                                     <div class="dashInfoInner">
                                                         <p class="dashInfoLabel mb-0">Completed<br>Configs</p>
-                                                        <span class="dashInfoCount">250</span>
+                                                        <span class="dashInfoCount">{{dashboardTotalCountsV2.boardCompletedConfig}}</span>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="col-lg-2 px-2 pe-0">
                                                 <div class="dashInfoCard notFndConfig">
                                                     <div class="dashInfoInner">
-                                                        <p class="dashInfoLabel mb-0">No Configs<br>Found</p>
-                                                        <span class="dashInfoCount">250</span>
+                                                        <p class="dashInfoLabel mb-0">No Configs<br>Providers</p>
+                                                        <span class="dashInfoCount">{{dashboardTotalCountsV2.boardNoConfigFound}}</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -393,16 +337,16 @@
                                                 <div class="dashInfoCard failedConfig">
                                                     <div class="dashInfoInner">
                                                         <p class="dashInfoLabel mb-0">Failed<br>Configs</p>
-                                                        <span class="dashInfoCount">250 <i class="bi bi-arrow-right"></i></span>
+                                                        <span class="dashInfoCount">{{dashboardTotalCountsV2.boardFailedConfig}} <i class="bi bi-arrow-right"></i></span>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="col-lg-2 px-2">
                                                 <button type="button" class="dashsmallBtn" style="background-color: #FFF1E0; color: #E08F2B;">
-                                                    Re-run pending 2222
+                                                    Re-run pending {{dashboardTotalCountsV2.boardReRunPending}}
                                                 </button>
                                                 <button type="button" class="dashsmallBtn" style="background-color: #FEE4DF; color: #FE2C2C;">
-                                                    Re-run Failed 2222
+                                                    Re-run Failed {{dashboardTotalCountsV2.boardReRunFailed}}
                                                 </button>
                                             </div>
                                         </div>
@@ -418,7 +362,7 @@
                                                 <div class="dashInfoCard totalConfig">
                                                     <div class="dashInfoInner">
                                                         <p class="dashInfoLabel mb-0">Total<br>Configs</p>
-                                                        <span class="dashInfoCount">250</span>
+                                                        <span class="dashInfoCount">{{dashboardTotalCountsV2.commonTotalConfigs}}</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -426,7 +370,7 @@
                                                 <div class="dashInfoCard cmpltConfig">
                                                     <div class="dashInfoInner">
                                                         <p class="dashInfoLabel mb-0">Completed<br>Configs</p>
-                                                        <span class="dashInfoCount">250</span>
+                                                        <span class="dashInfoCount">{{dashboardTotalCountsV2.commonCompletedConfig}}</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -434,7 +378,7 @@
                                                 <div class="dashInfoCard notFndConfig">
                                                     <div class="dashInfoInner">
                                                         <p class="dashInfoLabel mb-0">No Configs<br>Found</p>
-                                                        <span class="dashInfoCount">250</span>
+                                                        <span class="dashInfoCount">{{dashboardTotalCountsV2.commonNoConfigFound}}</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -442,16 +386,16 @@
                                                 <div class="dashInfoCard failedConfig">
                                                     <div class="dashInfoInner">
                                                         <p class="dashInfoLabel mb-0">Failed<br>Configs</p>
-                                                        <span class="dashInfoCount">250 <i class="bi bi-arrow-right"></i></span>
+                                                        <span class="dashInfoCount">{{dashboardTotalCountsV2.commonFailedConfig}} <i class="bi bi-arrow-right"></i></span>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="col-lg-2 px-2">
                                                 <button type="button" class="dashsmallBtn" style="background-color: #FFF1E0; color: #E08F2B;">
-                                                    Re-run pending 2222
+                                                    Re-run pending {{dashboardTotalCountsV2.boardReRunPending}}
                                                 </button>
                                                 <button type="button" class="dashsmallBtn" style="background-color: #FEE4DF; color: #FE2C2C;">
-                                                    Re-run Failed 2222
+                                                    Re-run Failed {{dashboardTotalCountsV2.boardReRunFailed}}
                                                 </button>
                                             </div>
                                         </div>
@@ -459,69 +403,13 @@
                                 </div>
                             </div>
                         </div>
-
-
-
-
-
-                        <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
-                            <li class="nav-item" role="presentation">
-                              <button class="nav-link active" id="pills-licenseTwo-tab" data-bs-toggle="pill" data-bs-target="#pills-licenseTwo" type="button" role="tab" aria-controls="pills-licenseTwo" aria-selected="true" (click)="getTotoalProvidersData('License Lookup','V2')">License</button>
-                            </li>
-                            <li class="nav-item" role="presentation">
-                              <button class="nav-link" id="pills-boardTwo-tab" data-bs-toggle="pill" data-bs-target="#pills-licenseTwo" type="button" role="tab" aria-controls="pills-boardTwo" aria-selected="false" (click)="getTotoalProvidersData('Board Certification','V2')">Board</button>
-                            </li>
-                            <li class="nav-item" role="presentation">
-                              <button class="nav-link" id="pills-CommonTwo-tab" data-bs-toggle="pill" data-bs-target="#pills-licenseTwo" type="button" role="tab" aria-controls="pills-CommonTwo" aria-selected="false" (click)="getTotoalProvidersData('Common','V2')">Common</button>
-                            </li>
-                          </ul>
-                          <div class="tab-content" id="pills-tabContent">
-                            <div class="tab-pane fade show active" id="pills-licenseTwo" role="tabpanel" aria-labelledby="pills-licenseTwo-tab">
-                                <div class="dashCharttabsinner">
-                                    <div class="row">
-                                        <div class="col-lg-6">
-                                            <app-circular-loader *ngIf="v2TotalCountsLoadingToggle"></app-circular-loader>
-                                            <div class="chartsleftlabels" *ngIf="!v2TotalCountsLoadingToggle">
-                                                <p>
-                                                    <span>
-                                                        <span class="labelColor TPA"></span>
-                                                        Total Provider Added
-                                                    </span>
-                                                    <span>{{dashboardTotalCountsV2.totalProvidersAdded}}</span>
-                                                </p>
-                                                <p>
-                                                    <span><span class="labelColor TC"></span> 
-                                                    Total Configs</span>
-                                                    <span>{{dashboardTotalCountsV2.totalConfigs}}</span>
-                                                </p>
-                                                <p>
-                                                    <span><span class="labelColor CC"></span>
-                                                    Completed Configs</span>
-                                                    <span>{{dashboardTotalCountsV2.completedConfig}}</span>
-                                                </p>
-                                                <p>
-                                                    <span><span class="labelColor NCF"></span>
-                                                    No Configs Found</span>
-                                                    <span>{{dashboardTotalCountsV2.noConfigFound}}</span>
-                                                </p>
-                                                <p>
-                                                    <span><span class="labelColor FC"></span>
-                                                    Failed Configs</span>
-                                                    <span>{{dashboardTotalCountsV2.failedConfig}}</span>
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                          </div>
                     </div>
                 </div>
             </div>
             <div class="col-lg-6">
                 <div class="dashChartCardmain">
                     <div class="dashChartCardinner">
-                        <h3>Most Ran Config For V3</h3>
+                        <h3>V3 (Most Failed Configs)</h3>
                         <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
                             <li class="nav-item" role="presentation">
                               <button class="nav-link active" id="pills-licenseThree-tab" data-bs-toggle="pill" data-bs-target="#pills-licenseThree" type="button" role="tab" aria-controls="pills-licenseThree" aria-selected="true" (click)="getConfigDataV3('License Lookup')">License</button>
@@ -541,7 +429,6 @@
                                         <table class="table">
                                             <thead>
                                                 <tr>
-                                                    <!-- <th style="width: 25%;">Config </th> -->
                                                     <th style="width: 40%;">Board Name</th>
                                                     <th style="width: 22%;">Config</th>
                                                     <th style="width: 10%;" class="text-center">Number</th>
@@ -552,16 +439,14 @@
                                                 <tr *ngFor="let obj of dashboardV3ConfigDataList; let i = index">
                                                     <td>
                                                         <div class="tableInfo">
-                                                            <!-- Most Ran Config -->
                                                             {{obj.lookupName}}
                                                         </div>
                                                     </td>
                                                     <td>
                                                         <div class="tableInfo tableInfowrap">
-                                                            <p class="mb-0 pointer">Link
-                                                                <a href="#!" class="text-primary ms-1"><i class="bi bi-box-arrow-up-right"></i></a>
+                                                            <p class="mb-0 pointer">
+                                                                <a [href]="obj.lookupLink" target="_blank" class="text-primary ms-1"><i class="bi bi-box-arrow-up-right"></i></a>
                                                             </p>
-                                                            <!-- {{obj.lookupLink}} -->
                                                         </div>
                                                     </td>
                                                     <td>
@@ -604,7 +489,7 @@
             <div class="col-lg-6">
                 <div class="dashChartCardmain">
                     <div class="dashChartCardinner">
-                        <h3>Most Ran Config For V2</h3>
+                        <h3>V2 (Most Failed Configs)</h3>
                         <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
                             <li class="nav-item" role="presentation">
                               <button class="nav-link active" id="pills-licenseFour-tab" data-bs-toggle="pill" data-bs-target="#pills-licenseFour" type="button" role="tab" aria-controls="pills-licenseFour" aria-selected="true" (click)="getConfigDataV2('License Lookup')">License</button>
@@ -624,7 +509,6 @@
                                         <table class="table">
                                             <thead>
                                                 <tr>
-                                                    <!-- <th style="width: 25%;">Config </th> -->
                                                     <th style="width: 40%;">Board Name</th>
                                                     <th style="width: 22%;">Config</th>
                                                     <th style="width: 10%;" class="text-center">Number</th>
@@ -635,16 +519,14 @@
                                                 <tr *ngFor="let obj of dashboardV2ConfigDataList; let i = index">
                                                     <td>
                                                         <div class="tableInfo">
-                                                             <!-- Most Ran Config -->
                                                             {{obj.lookupName}}
                                                         </div>
                                                     </td>
                                                     <td>
                                                         <div class="tableInfo tableInfowrap">
-                                                            <p class="mb-0 pointer">Link
-                                                                <a  href="#!" class="text-primary ms-1"><i class="bi bi-box-arrow-up-right"></i></a>
+                                                            <p class="mb-0 pointer">
+                                                                <a  [href]="obj.lookupLink" target="_blank" class="text-primary ms-1"><i class="bi bi-box-arrow-up-right"></i></a>
                                                             </p>
-                                                            <!-- {{obj.lookupLink}} -->
                                                         </div>
                                                     </td>
                                                     <td>
