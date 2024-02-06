@@ -1,0 +1,74 @@
+
+<div class="searchRowMain mt-3">
+    <div class="row align-items-center justify-content-between">
+        <div class="col-lg-4">
+                <div class="position-relative">
+                    <input id="searchname" name="searchname" placeholder="Search" class="form-control" 
+                    style="padding:0px 15px 0px 38px"/>
+                    <i class="bi bi-search search-icon"></i>
+                </div>
+        </div>
+        <div class="col-lg-8">
+            <div class="d-flex justify-content-end align-items-center gap-2">
+                <button type="button" class="daterangeBtn">
+                    Feb 2024
+                    <i class="bi bi-grid"></i>
+                </button>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="usertable mt-3 ng-star-inserted">
+    <div class="usertableinner table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th style="width: 15%;">
+                        <span style="cursor: pointer;"> Provider Name <i class="bi bi-arrow-down-up"></i></span>
+                    </th>
+                    <th style="width: 13%;">NPI Number</th>
+                    <th style="width: 15%;">Taxonomy</th>
+                    <th style="width: 9%;">State</th>
+                    <th style="width: 12%;">Credential</th>
+                    
+                    <th style="width: 8%;">
+                        <span style="cursor: pointer;"> Version <i class="bi bi-arrow-down-up"></i></span>
+                    </th>
+                    <th style="width: 12%;">Updated Date</th>
+                    
+                    <th style="width: 10%;">Logs</th>
+                </tr>
+            </thead>
+            
+            
+            <tbody>
+                
+                <tr *ngFor="let e of [].constructor(15); let i = index">
+                    <td><div class="tableinfo">John Doe</div></td>
+                    <td>
+                        <div class="tableinfo"><span class="badge-grey npi-badge">4455154555</span></div>
+                    </td>
+                    <td><div class="tableinfo line-clamp">21000005X- Internal Medicine</div></td>
+                    <td><div class="tableinfo">California</div></td>
+                    
+                    
+                    <td>
+                        <div class="tableinfo"><span class="npi-badge statusPending mx-auto">License</span></div>
+                    </td>
+                    <td><div class="tableinfo">v2</div></td>
+                    <td><div class="tableinfo text-muted">02/23/2023 19:00</div></td>
+                    <td>
+                        <div class="tableinfo">
+                            <div class="d-flex align-items-center gap-2">
+                                <button type="button" class="btn primarybtn">Re-run</button>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                
+            </tbody>
+        </table>
+    </div>
+</div>

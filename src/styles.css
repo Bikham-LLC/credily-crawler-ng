@@ -192,7 +192,7 @@ ol li {
   border-top: 0;
 }
 .usertableinner .table td {
-  font-weight: 400;
+  font-weight: 500;
   font-size: 12px;
   line-height: 20px;
   color: #3e3e3c;
@@ -327,8 +327,11 @@ label.form-label.labelCls {
   background-color: #04844b !important;
 }
 .bg-warning {
-  /* background-color: #ffff00 !important; */
-  background-color: #ffb75d !important;
+  background-color: #ffff00 !important;
+  /* background-color: #ffb75d !important; */
+}
+.bg-failed{
+  background-color: #FF0000 !important;
 }
 .inlineTaxoformstate app-state-dropdown .selected-list .c-btn {
   border-radius: 4px 0px 0px 4px !important;
@@ -351,16 +354,29 @@ label.form-label.labelCls {
 }
 
 .npi-badge {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
+  display: inline-block;
   padding: 2px 10px;
-  width: fit-content;
-  height: 24px;
-  border-radius: 6px;
-  color:#111928;
+  color: #111928;
   font-size: 12px;
   font-weight: 400;
   line-height: 20px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  max-width: 120px;
+  width: fit-content;
+  text-align: center;
+  border-radius: 6px;
+}
+.statusPending {
+  background-color: #fff3c3;
+  color: #ffa800;
+}
+.statusSuccesful {
+  background-color: #effaf0;
+  color: #04844b;
+}
+.statusFailed {
+  background-color: #fef3f3;
+  color: #e74c2b;
 }
