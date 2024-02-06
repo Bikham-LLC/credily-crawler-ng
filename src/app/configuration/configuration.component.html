@@ -2,218 +2,257 @@
 <!-- <a > <i class="bi bi-arrow-left"></i> Back </a> -->
 <div class="main">
     <div class="container-fluid">
-
-        <div class="dashboardArea">
-            <div class="dashNav-paneinner">
-
-                <div class="emptyNotif" *ngIf="!addStepToggle">
-                        <div class="row mb-3">
-                            <div class="col-lg-9 px-2">
-                                <div class="row px-1">
-                                    <div class="col-lg-3 px-2">
-                                        <div class="position-relative">
-                                            <input class="form-control" id="searchname" name="searchname" placeholder="Search by lookup name" [(ngModel)]="search" (ngModelChange)="this.configSearch.next($event)">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3 px-2">
-                                        <div class="position-relative">
-                                            <input class="form-control" id="searchlink" name="searchlink" placeholder="Search by lookup link" [(ngModel)]="searchLink" (ngModelChange)="this.configSearchByLink.next($event)">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3 px-2">
-                                        <div class="lookupSearchForm">
-                                            <angular2-multiselect id="version" name="version" [data]="versionList" [settings]="dropdownSettingsVersion" [(ngModel)]="selectedVersions" (ngModelChange)="searchSelectVersion($event)" required>
-                                            </angular2-multiselect>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3 px-2">
-                                        <div class="dateRangeFilter">
-                                            <input type="text" autocomplete="off" class="form-control" name="daterange" placeholder="Select Date Range" ngxDaterangepickerMd [showClearButton]="true" [maxDate]="maxDate" [opens]="'right'" [locale]="{applyLabel: 'Apply', format: 'MM-DD-YYYY'}" [(ngModel)]="selected" (ngModelChange)="selectDateFilter($event)">
-                                            <!-- <input type="text" autocomplete="off" class="form-control" name="daterange" placeholder="Select Date Range" ngxDaterangepickerMd [maxDate]="maxDate" [opens]="'right'" [locale]="{applyLabel: 'Apply', format: 'MM-DD-YYYY', clearLabel: 'Clear', cancelLabel: 'Cancel'}" [(ngModel)]="selected" (ngModelChange)="selectDateFilter($event)" (clearClicked)="clearDateFilter()"> -->                                    
+        
+                <div class="dashboardArea" *ngIf="!addStepToggle">
+                    <div class="dashNav-paneinner">
+                        <div class="emptyNotif" *ngIf="!addStepToggle">
+                                <div class="row mb-3">
+                                    <div class="col-lg-9 px-2">
+                                        <div class="row px-1">
+                                            <div class="col-lg-3 px-2">
+                                                <div class="position-relative">
+                                                    <input class="form-control" id="searchname" name="searchname" placeholder="Search by lookup name" [(ngModel)]="search" (ngModelChange)="this.configSearch.next($event)">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-3 px-2">
+                                                <div class="position-relative">
+                                                    <input class="form-control" id="searchlink" name="searchlink" placeholder="Search by lookup link" [(ngModel)]="searchLink" (ngModelChange)="this.configSearchByLink.next($event)">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-3 px-2">
+                                                <div class="lookupSearchForm">
+                                                    <angular2-multiselect id="version" name="version" [data]="versionList" [settings]="dropdownSettingsVersion" [(ngModel)]="selectedVersions" (ngModelChange)="searchSelectVersion($event)" required>
+                                                    </angular2-multiselect>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-3 px-2">
+                                                <div class="dateRangeFilter">
+                                                    <input type="text" autocomplete="off" class="form-control" name="daterange" placeholder="Select Date Range" ngxDaterangepickerMd [showClearButton]="true" [maxDate]="maxDate" [opens]="'right'" [locale]="{applyLabel: 'Apply', format: 'MM-DD-YYYY'}" [(ngModel)]="selected" (ngModelChange)="selectDateFilter($event)">
+                                                    <!-- <input type="text" autocomplete="off" class="form-control" name="daterange" placeholder="Select Date Range" ngxDaterangepickerMd [maxDate]="maxDate" [opens]="'right'" [locale]="{applyLabel: 'Apply', format: 'MM-DD-YYYY', clearLabel: 'Clear', cancelLabel: 'Cancel'}" [(ngModel)]="selected" (ngModelChange)="selectDateFilter($event)" (clearClicked)="clearDateFilter()"> -->                                    
+                                                </div>
+                                            </div>
+                                            
                                         </div>
                                     </div>
                                     
-                                </div>
-                            </div>
-                            
-                            <div class="col-lg-3 px-2 d-flex justify-content-end align-items-start">
-                                <button class="btn primarybtn" (click)="openLookupModal()">
-                                    <span *ngIf="crawlerType == Constant.CRAWLER_TYPE_LICENSE_LOOKUP">                                        
-                                        Create Lookup Configuration
-                                    </span>
-                                    <span *ngIf="crawlerType == Constant.CRAWLER_TYPE_BOARD_CERTIFICATION">
-                                        Create Board Configuration
-                                    </span>
-                                    <span *ngIf="crawlerType == Constant.CRAWLER_TYPE_COMMON_LINKS">
-                                        Create Common Configuration
-                                    </span>
-
-                                </button>
-                            </div>
-                            <div class="col-lg-12 px-2 d-flex justify-content-start align-items-start">
-                                <button class="btn mt-2 me-2" [ngClass]="{'primarybtn':crawlerType==Constant.CRAWLER_TYPE_LICENSE_LOOKUP}" (click)="getConfigurationWithType(Constant.CRAWLER_TYPE_LICENSE_LOOKUP)">License Lookup</button>
-                                <button class="btn mt-2" [ngClass]="{'primarybtn':crawlerType==Constant.CRAWLER_TYPE_BOARD_CERTIFICATION}" (click)="getConfigurationWithType(Constant.CRAWLER_TYPE_BOARD_CERTIFICATION)">Board Certification</button>
-                                <button class="btn mt-2" [ngClass]="{'primarybtn':crawlerType==Constant.CRAWLER_TYPE_COMMON_LINKS}" (click)="getConfigurationWithType(Constant.CRAWLER_TYPE_COMMON_LINKS)">Common</button>
-                            </div>
-                                
-                        </div>
-                        <div class="dashNav-paneinner table-responsive">
-                            <div class="empty-notific mt-4" *ngIf="!loadingConfiguration && configList.length == 0">
-                                <div class="empty-notificinner text-center">
-                                    <div class="empty-notificinnerimg">
-                                        <img src="assets/images/nodocument.svg" alt="" style="width:30%">
+                                    <div class="col-lg-3 px-2 d-flex justify-content-end align-items-start">
+                                        <button class="btn primarybtn" (click)="openLookupModal()">
+                                            <span *ngIf="crawlerType == Constant.CRAWLER_TYPE_LICENSE_LOOKUP">                                        
+                                                Create Lookup Configuration
+                                            </span>
+                                            <span *ngIf="crawlerType == Constant.CRAWLER_TYPE_BOARD_CERTIFICATION">
+                                                Create Board Configuration
+                                            </span>
+                                            <span *ngIf="crawlerType == Constant.CRAWLER_TYPE_COMMON_LINKS">
+                                                Create Common Configuration
+                                            </span>
+        
+                                        </button>
                                     </div>
-                                    <h5>No Configuration Found.</h5>
+                                    <div class="col-lg-12 px-2 d-flex justify-content-start align-items-start">
+                                        <button class="btn mt-2 me-2" [ngClass]="{'primarybtn':crawlerType==Constant.CRAWLER_TYPE_LICENSE_LOOKUP}" (click)="getConfigurationWithType(Constant.CRAWLER_TYPE_LICENSE_LOOKUP)">License Lookup</button>
+                                        <button class="btn mt-2" [ngClass]="{'primarybtn':crawlerType==Constant.CRAWLER_TYPE_BOARD_CERTIFICATION}" (click)="getConfigurationWithType(Constant.CRAWLER_TYPE_BOARD_CERTIFICATION)">Board Certification</button>
+                                        <button class="btn mt-2" [ngClass]="{'primarybtn':crawlerType==Constant.CRAWLER_TYPE_COMMON_LINKS}" (click)="getConfigurationWithType(Constant.CRAWLER_TYPE_COMMON_LINKS)">Common</button>
+                                    </div>
+                                        
                                 </div>
-                            </div>
-                        
-                            <div class=" p-5" *ngIf="loadingConfiguration">
-                                <app-circular-loader></app-circular-loader>
-                            </div>
-                            <div class="reportListing usertableinner no-wrap" *ngIf="!loadingConfiguration && configList.length > 0">
-                                <table class="table">
-                                    <thead>
-                                        <tr>
-                                            <th class="tableDead" style="width: 5%;">
-                                                <p class="mb-0 text-center">S No.</p>
-                                            </th>
-                                            <th class="tableDead" style="width: 15%;">
-                                                <p class="mb-0">Lookup Name</p>
-                                            </th>
-                                            <th class="tableDead" style="width: 25%;">
-                                                <p class="mb-0">Link</p>
-                                            </th>
-                                            <th style="width: 10%;">Version</th>
-                                            <th style="width: 10%;">Added By</th>
-                                            <th style="width: 10%;">Status</th>
-                                            <th style="width: 10%;">Created Date</th>
-                                            <th style="width: 10%;">Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr *ngFor="let config of configList; let i = index">
-                                            <td class="tableData">
-                                                <p class="mb-0 text-center">{{ (configDatabaseHelper.currentPage -1) * 10 + (i+1) }}</p>
-                                            </td>
-                                            <td class="tableData ">
-                                                <p class="mb-0 line-clamp">{{config.lookupName}}</p>
-                                            </td>
-                                            <td class="tableData lookupLiks">
-                                                <p class="mb-0">{{config.lookupLink}}</p>
-                                            </td>
-                                            <td class="tableData lookupLiks">
-                                                <p class="mb-0">{{config.version}}</p>
-                                            </td>
-                                            <td class="tableData text-center">
-                                                <p class="mb-0">{{config.addedBy}}</p>
-                                            </td>
-                                            <td class="tableData text-center">
-                                                <div class="col-lg-8 px-2">
-                                                    <div class="form-check form-switch">
-                                                        <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" name="configstatus" [checked]="config.configStatus == 'Active'" (click)="updateStatus(config.id)">
-                                                        <label></label>
-                                                    </div>
+                                <div class="dashNav-paneinner table-responsive">
+                                    <div class="empty-notific mt-4" *ngIf="!loadingConfiguration && configList.length == 0">
+                                        <div class="empty-notificinner text-center">
+                                            <div class="empty-notificinnerimg">
+                                                <img src="assets/images/nodocument.svg" alt="" style="width:30%">
+                                            </div>
+                                            <h5>No Configuration Found.</h5>
+                                        </div>
+                                    </div>
+                                
+                                    <div class=" p-5" *ngIf="loadingConfiguration">
+                                        <app-circular-loader></app-circular-loader>
+                                    </div>
+                                    <div class="reportListing usertableinner no-wrap" *ngIf="!loadingConfiguration && configList.length > 0">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th class="tableDead" style="width: 5%;">
+                                                        <p class="mb-0 text-center">S No.</p>
+                                                    </th>
+                                                    <th class="tableDead" style="width: 15%;">
+                                                        <p class="mb-0">Lookup Name</p>
+                                                    </th>
+                                                    <th class="tableDead" style="width: 25%;">
+                                                        <p class="mb-0">Link</p>
+                                                    </th>
+                                                    <th style="width: 10%;">Version</th>
+                                                    <th style="width: 10%;">Added By</th>
+                                                    <th style="width: 10%;">Status</th>
+                                                    <th style="width: 10%;">Created Date</th>
+                                                    <th style="width: 10%;">Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let config of configList; let i = index">
+                                                    <td class="tableData">
+                                                        <p class="mb-0 text-center">{{ (configDatabaseHelper.currentPage -1) * 10 + (i+1) }}</p>
+                                                    </td>
+                                                    <td class="tableData ">
+                                                        <p class="mb-0 line-clamp">{{config.lookupName}}</p>
+                                                    </td>
+                                                    <td class="tableData lookupLiks">
+                                                        <p class="mb-0">{{config.lookupLink}}</p>
+                                                    </td>
+                                                    <td class="tableData lookupLiks">
+                                                        <p class="mb-0">{{config.version}}</p>
+                                                    </td>
+                                                    <td class="tableData text-center">
+                                                        <p class="mb-0">{{config.addedBy}}</p>
+                                                    </td>
+                                                    <td class="tableData text-center">
+                                                        <div class="col-lg-8 px-2">
+                                                            <div class="form-check form-switch">
+                                                                <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" name="configstatus" [checked]="config.configStatus == 'Active'" (click)="updateStatus(config.id)">
+                                                                <label></label>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="tableData text-center">
+                                                        <p class="badge-grey mb-0">{{config.createdDate | date:'MM-dd-yyyy' : 'EST'}}</p>
+                                                    </td>
+                                                    <td class="tableData text-center">
+                                                        <span class="tbleditBtn"><i class="bi bi-pen" style="cursor: pointer;" (click)="openEditModel(config)"></i></span>
+                                                        <span class="tbldeleteBtn"><i class="bi bi-trash ms-2" style="cursor: pointer;" (click)="deleteConfiguration(config.id, i)"></i></span>
+                                                        <span class="tblreplicateBtn"><i class="bi bi-clipboard-plus ms-2" style="cursor: pointer;" (click)="replicateConfig(config.id)"></i></span>
+                                                        <!-- <span><i class="bi bi-clipboard-plus ms-2"></i></span> -->
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="row justify-content-center" *ngIf="configList.length>0 && !loadingConfiguration">  
+                                        <div class="paginationmain w-100 px-3 mt-2">
+                                            <div class="d-flex align-items-center justify-content-between">
+                                                <p class="currentshowing mb-0">
+                                                    Showing <span>{{configList.length}}</span> of <span>{{totalConfiguration}}</span>  
+                                                </p>
+                                                <div class="d-flex justify-content-end">
+                                                    <ngb-pagination [collectionSize]="totalConfiguration" [rotate]="true" (pageChange)="configPageChanged($event)" [pageSize]="configDatabaseHelper.itemsPerPage" [(page)]="configDatabaseHelper.currentPage" [maxSize]="5" [boundaryLinks]="true">
+                                                    </ngb-pagination>
                                                 </div>
-                                            </td>
-                                            <td class="tableData text-center">
-                                                <p class="badge-grey mb-0">{{config.createdDate | date:'MM-dd-yyyy' : 'EST'}}</p>
-                                            </td>
-                                            <td class="tableData text-center">
-                                                <span class="tbleditBtn"><i class="bi bi-pen" style="cursor: pointer;" (click)="openEditModel(config)"></i></span>
-                                                <span class="tbldeleteBtn"><i class="bi bi-trash ms-2" style="cursor: pointer;" (click)="deleteConfiguration(config.id, i)"></i></span>
-                                                <span class="tblreplicateBtn"><i class="bi bi-clipboard-plus ms-2" style="cursor: pointer;" (click)="replicateConfig(config.id)"></i></span>
-                                                <!-- <span><i class="bi bi-clipboard-plus ms-2"></i></span> -->
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="row justify-content-center" *ngIf="configList.length>0 && !loadingConfiguration">  
-                                <div class="paginationmain w-100 px-3 mt-2">
-                                    <div class="d-flex align-items-center justify-content-between">
-                                        <p class="currentshowing mb-0">
-                                            Showing <span>{{configList.length}}</span> of <span>{{totalConfiguration}}</span>  
-                                        </p>
-                                        <div class="d-flex justify-content-end">
-                                            <ngb-pagination [collectionSize]="totalConfiguration" [rotate]="true" (pageChange)="configPageChanged($event)" [pageSize]="configDatabaseHelper.itemsPerPage" [(page)]="configDatabaseHelper.currentPage" [maxSize]="5" [boundaryLinks]="true">
-                                            </ngb-pagination>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            <!-- <app-configuration-listing></app-configuration-listing> -->
                         </div>
-                    <!-- <app-configuration-listing></app-configuration-listing> -->
+                    </div>
                 </div>
 
-                <div class="configMaininfo" *ngIf="addStepToggle">
-                    <div class="row">
-
-                        <!-- <div class="col-lg-6">
-                            <h6>
-                                <a [href]="lookupLink" target="_blank" rel="noopener noreferrer">Click </a> to view in next tab.
-                            </h6>
-                            <div class="position-relative">
-                                <div class="loaderSpin"  *ngIf="loadingIframe">
-                                    <div class="text-center">
-                                        <div class="spinner-border text-primary" role="status"></div>
-                                        <div>Loading...</div>
+                <div class="dashboardArea" *ngIf="addStepToggle">
+                    <div class="dashNav-paneinner">
+                        <div class="row">
+                            <div class="col-lg-8 px-2">
+                                <div class="configMaininfo" *ngIf="addStepToggle">
+                                    <div class="row">
+                
+                                        <!-- <div class="col-lg-6">
+                                            <h6>
+                                                <a [href]="lookupLink" target="_blank" rel="noopener noreferrer">Click </a> to view in next tab.
+                                            </h6>
+                                            <div class="position-relative">
+                                                <div class="loaderSpin"  *ngIf="loadingIframe">
+                                                    <div class="text-center">
+                                                        <div class="spinner-border text-primary" role="status"></div>
+                                                        <div>Loading...</div>
+                                                    </div>
+                                                </div>
+                                                <iframe style="width:100%; height:80vh;" [src]="src"  (load)="onLoad()"></iframe>
+                
+                                            </div>
+                                        </div> -->
+                                        
+                                        <div class="col-lg-12 px-2 position-relative">
+                                            <div class="configSetupBox">
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <h3>Configuration <a [href]="lookupLink" target="_blank" rel="noopener noreferrer"><i class="bi bi-box-arrow-up-right" style="cursor: pointer"></i></a></h3>
+                
+                
+                
+                                                    <div class="d-flex justify-content-end align-items-center gap-2">
+                                                        <button class="btn primaryBtn viewCommentBtn">View Comments</button>
+                                                        <button class="btn primaryBtn" (click)="openAddConfigModal()">Add Steps</button>
+                                                        <button class="btn primaryBtn svConfigBtn" [disabled]="savingConfiguration" (click)="saveConfiguration()">Save Configuration</button>
+                                                        <button class="btn primaryBtn tstConfigBtn" [disabled]="testingConfiguration || savingConfiguration" (click)="openUuidModal()">Test Config <i class="spinner-border spinner-border-sm" *ngIf="savingConfiguration"></i></button>
+                                                    </div>
+                                                </div>
+                                                <div class="empty-notific" style="margin-top: 10%;" *ngIf="!loadingConfgurationStep && configurationStepList.length==0">
+                                                    <div class="empty-notificinner text-center">
+                                                        <div class="empty-notificinnerimg">
+                                                            <img src="assets/images/nodocument.svg" alt="" style="width:40%">
+                                                        </div>
+                                                        <h5>No Step Added.</h5>
+                                                        <div class="d-flex justify-content-center mt-4">
+                                                            <button class="btn primaryBtn" (click)="openAddConfigModal()">Add Steps</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class=" p-5" *ngIf="loadingConfgurationStep">
+                                                    <app-circular-loader></app-circular-loader>
+                                                </div>
+                
+                                                <div class="configStepsouter" *ngIf="!loadingConfgurationStep && configurationStepList.length>0">
+                                                
+                                                    <div class="configStepsinner" [ngClass]="{'pe-none': savingConfiguration}" cdkDropList (cdkDropListDropped)="drop($event)">
+                                                        <div class="configSteps example-box position-relative" cdkDrag *ngFor="let step of configurationStepList; let i = index">
+                                                            <span class="removeSteps" title="Remove Step">
+                                                                <i class="bi bi-pen text-primary" style="cursor: pointer;font-size: 12px;margin-right: 10px;" (click)="openEditStepModal(step, i)"></i>
+                                                                <i class="bi bi-dash-circle-fill" (click)="removeStep(i)"></i>
+                                                            </span>
+                                                            <!-- <span class="text-primary" ></span> -->
+                                                            <label class="me-2 text-center">Step {{i+1}}</label>
+                                                            <p>Crawler Attribute : {{step.crawlerAttribute}}, Lookup Element : {{step.lookUpElementDesc}}, Element Event : {{step.elementEvent}}, Entity Name : {{step.className}}, Pattern : {{step.pattern}}, dataSourcePath : {{step.dataSourcePath}}, actionButton : {{step.actionButton}}
+                                                                <span *ngIf="!Constant.EMPTY_STRINGS.includes(step.className) && step.className.toLowerCase()=='static'">Value : {{step.columnName}}</span> <span *ngIf=" (!Constant.EMPTY_STRINGS.includes(step.className) && step.className.toLowerCase()!='static') || Constant.EMPTY_STRINGS.includes(step.className)"> Column Name : {{step.columnName}}</span></p>
+                                                        </div>
+                                                    </div>
+                
+                                                    <!-- <div class="configAction d-flex justify-content-end align-items-center">
+                                                        <button class="btn btn-secondary m-2" [disabled]="testingConfiguration || savingConfiguration" (click)="openUuidModal()">Test Configuration</button>
+                                                        <button class="btn primaryBtn" [disabled]="savingConfiguration" (click)="saveConfiguration()">Save Configuration
+                                                            <i class="spinner-border spinner-border-sm" *ngIf="savingConfiguration"></i>
+                                                        </button>
+                                                        <button class="btn primaryBtn" [disabled]="savingConfiguration" (click)="uuidSaveModal()">Save Configuration</button>
+                                                    </div> -->
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                                <iframe style="width:100%; height:80vh;" [src]="src"  (load)="onLoad()"></iframe>
-
                             </div>
-                        </div> -->
-                        
-                        <div class="col-lg-12 px-2 position-relative">
-                            <div class="configSetupBox">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <h3>Configuration <a [href]="lookupLink" target="_blank" rel="noopener noreferrer"><i class="bi bi-box-arrow-up-right" style="cursor: pointer"></i></a></h3>
-                                    <button class="btn primaryBtn" (click)="openAddConfigModal()">Add Steps</button>
-                                </div>
-                                <div class="empty-notific" style="margin-top: 10%;" *ngIf="!loadingConfgurationStep && configurationStepList.length==0">
-                                    <div class="empty-notificinner text-center">
-                                        <div class="empty-notificinnerimg">
-                                            <img src="assets/images/nodocument.svg" alt="" style="width:40%">
+                            <div class="col-lg-4 px-2">
+                                <div class="commentMainBx">
+                                    <div class="commentInner">
+                                        <div class="cmmntHead d-flex justify-content-between align-items-center">
+                                            <h3>Comments</h3>
+                                            <p>Last updated <strong>14 Feb 2024(5:00 pm)</strong></p>
                                         </div>
-                                        <h5>No Step Added.</h5>
-                                        <div class="d-flex justify-content-center mt-4">
-                                            <button class="btn primaryBtn" (click)="openAddConfigModal()">Add Steps</button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class=" p-5" *ngIf="loadingConfgurationStep">
-                                    <app-circular-loader></app-circular-loader>
-                                </div>
+                                        <div class="cmmntBody">
+                                            <div class="cmmntBodyInner">
+                                                <h3>Notes</h3>
 
-                                <div class="configStepsouter" *ngIf="!loadingConfgurationStep && configurationStepList.length>0">
-                                   
-                                    <div class="configStepsinner" [ngClass]="{'pe-none': savingConfiguration}" cdkDropList (cdkDropListDropped)="drop($event)">
-                                        <div class="configSteps example-box position-relative" cdkDrag *ngFor="let step of configurationStepList; let i = index">
-                                            <span class="removeSteps" title="Remove Step">
-                                                <i class="bi bi-pen text-primary" style="cursor: pointer;font-size: 12px;margin-right: 10px;" (click)="openEditStepModal(step, i)"></i>
-                                                <i class="bi bi-dash-circle-fill" (click)="removeStep(i)"></i>
-                                            </span>
-                                            <!-- <span class="text-primary" ></span> -->
-                                            <label class="me-2 text-center">Step {{i+1}}</label>
-                                            <p>Crawler Attribute : {{step.crawlerAttribute}}, Lookup Element : {{step.lookUpElementDesc}}, Element Event : {{step.elementEvent}}, Entity Name : {{step.className}}, Pattern : {{step.pattern}}, dataSourcePath : {{step.dataSourcePath}}, actionButton : {{step.actionButton}}
-                                                <span *ngIf="!Constant.EMPTY_STRINGS.includes(step.className) && step.className.toLowerCase()=='static'">Value : {{step.columnName}}</span> <span *ngIf=" (!Constant.EMPTY_STRINGS.includes(step.className) && step.className.toLowerCase()!='static') || Constant.EMPTY_STRINGS.includes(step.className)"> Column Name : {{step.columnName}}</span></p>
+                                                <div class="cmmntslistingMain">
+                                                    <div class="cmmntslistingInner">
+                                                        <div class="cmnntCard" *ngFor="let e of [].constructor(5); let i = index">
+                                                            <p>Lorem ipsum Dolor Sit amet Lorem ipsum Dolor Sit amet Lorem ipsum Dolor Sit amet Lorem ipsum Dolor Sit amet.</p>
+                                                            <span><strong>12th Jan 2023 5:53 pm</strong></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
-
-                                    <div class="configAction d-flex justify-content-end align-items-center">
-                                        <button class="btn btn-secondary m-2" [disabled]="testingConfiguration || savingConfiguration" (click)="openUuidModal()">Test Configuration</button>
-                                        <button class="btn primaryBtn" [disabled]="savingConfiguration" (click)="saveConfiguration()">Save Configuration
-                                            <i class="spinner-border spinner-border-sm" *ngIf="savingConfiguration"></i>
-                                        </button>
-                                        <!-- <button class="btn primaryBtn" [disabled]="savingConfiguration" (click)="uuidSaveModal()">Save Configuration</button> -->
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
     </div>
 
 
