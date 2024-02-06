@@ -431,8 +431,8 @@
                           <div class="tab-content" id="pills-tabContent">
                             <div class="tab-pane fade show active" id="pills-licenseThree" role="tabpanel" aria-labelledby="pills-licenseThree-tab">
                                 <app-circular-loader *ngIf="v3ConfigLoadingToggle"></app-circular-loader>
-                                <div class="dashCharttables" *ngIf="!v3ConfigLoadingToggle">
-                                    <div class="table-responsive">
+                                <div class="dashCharttables" >
+                                    <div class="table-responsive" *ngIf="!v3ConfigLoadingToggle && dashboardV3ConfigDataList.length>0">
                                         <table class="table">
                                             <thead>
                                                 <tr>
@@ -470,6 +470,15 @@
                                             </tbody>
                                         </table>
                                     </div>
+                                    <div class="empty-notific mt-3" *ngIf="dashboardV3ConfigDataList.length == 0 && !v3ConfigLoadingToggle">
+                                        <div class="empty-notificinner" >
+                                            <div class="empty-notificinnerimg">
+                                                <img src="assets/images/allexpirable.svg" alt=""
+                                                    style="margin-left:27%; width:30%">
+                                            </div>
+                                            <h6 class="mt-2 text-muted" style="margin-left: 38%;">No data found</h6>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="paginationmain" *ngIf="dashboardV3ConfigDataList.length>0 && !v3ConfigLoadingToggle"> 
                                     <div class="d-flex align-items-center justify-content-between">
@@ -487,6 +496,7 @@
                                        </div>
                                     </div> 
                                 </div>
+                               
                             </div>
                           </div>
                     </div>
@@ -511,8 +521,8 @@
                           <div class="tab-content" id="pills-tabContent">
                             <div class="tab-pane fade show active" id="pills-licenseFour" role="tabpanel" aria-labelledby="pills-licenseFour-tab">
                                 <app-circular-loader *ngIf="v2ConfigLoadingToggle"></app-circular-loader>
-                                <div class="dashCharttables" *ngIf="!v2ConfigLoadingToggle">
-                                    <div class="table-responsive">
+                                <div class="dashCharttables">
+                                    <div class="table-responsive" *ngIf="!v2ConfigLoadingToggle && dashboardV2ConfigDataList.length>0">
                                         <table class="table">
                                             <thead>
                                                 <tr>
@@ -549,6 +559,15 @@
                                                 </tr>
                                             </tbody>
                                         </table>
+                                    </div>
+                                    <div class="empty-notific mt-3" *ngIf="dashboardV2ConfigDataList.length == 0 && !v2ConfigLoadingToggle">
+                                        <div class="empty-notificinner" >
+                                            <div class="empty-notificinnerimg">
+                                                <img src="assets/images/allexpirable.svg" alt=""
+                                                    style="margin-left:27%; width:30%">
+                                            </div>
+                                            <h6 class="mt-2 text-muted" style="margin-left: 38%;">No data found</h6>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="paginationmain" *ngIf="dashboardV2ConfigDataList.length>0 && !v2ConfigLoadingToggle"> 
