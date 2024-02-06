@@ -46,6 +46,9 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     NgxDaterangepickerMd.forRoot()
 
   ],
+  exports:[
+    HeaderComponent
+  ],
   providers: [ {
     provide: HTTP_INTERCEPTORS,
     useClass: TokenInterceptorService,

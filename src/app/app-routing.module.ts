@@ -16,7 +16,8 @@ const routes: Routes = [
   { path: 'provider-report', component: ProviderReportComponent},
   { path: 'queue', component: QueueComponent},
   { path: 'dashboard', component: DashboardComponent},
-  { path: 'auth', loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule) }];
+  { path: 'auth', loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule) },
+  { path: 'reports', loadChildren: () => import('./reports/reports.module').then(m => m.ReportsModule) }];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes, { useHash: true })],

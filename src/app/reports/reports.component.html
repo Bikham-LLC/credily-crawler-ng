@@ -1,0 +1,95 @@
+<!-- Report Module -->
+<div class="container-fluid p-0">
+    <header>
+        <div class="align-items-center d-flex justify-content-between topbar">
+            <div class="logo">
+                <!-- <img src="assets/images/logo.svg" alt="" />  -->
+                <img style="width: 50px;margin-left: 10px;" src="assets/images/ProviderPassportLogo.svg" alt="">
+            </div>
+            <div class="profile-bx">
+                <div class="profiledash">
+                    <div class="dropdown">
+                        <button class="btn userprofilebtn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                            <div class="profile-bx">
+                                <img src="assets/images/user-icon.svg" alt="" />
+                            </div>
+                            {{userName}} <i class="fa-solid fa-chevron-down"></i>
+                        </button>
+                        <ul class="dropdown-menu userDropdownmenu" aria-labelledby="dropdownMenuButton1">
+                            <div class="bgfilterblur"></div>
+                            <div class="userDropdownmenuinner">
+                                <div class="userHeader">
+                                    <div class="userProfile">
+                                        <img src="assets/images/user-icon.svg" alt="" />
+                                    </div>
+                                </div>
+                                <div class="userProfileInfo">
+                                    <h3>{{userName}}</h3>
+                                </div>
+                                <div class="userProfileLink">
+                                    <a  routerLink="/account-user" routerLinkActive="active"><i class="bi bi-gear"></i>  Settings</a>
+                                </div>
+                                <div class="userLogout">
+                                    <a class="btn primarybtn userLogoutbtn pointer" (click)="logOut()">
+                                        <i class="bi bi-arrow-bar-left"></i> Log out
+                                    </a>
+                                </div>
+                               
+                            </div>
+                            
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="navigation-bar">
+            <div class="navigationitemsmain">
+                <a class="btn navigationitem" routerLinkActive="navActive" routerLink="/dashboard">
+                    Dashboard
+                </a>
+                <a routerLink="/configuration" class="btn navigationitem " routerLinkActive="navActive">
+                    Configuration
+                </a>
+                <a routerLink="/queue" class="btn navigationitem " routerLinkActive="navActive">
+                    Queue
+                </a>
+                <div class="dropdown">
+                    <button class="btn navigationitem dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Report
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </button>
+                    
+                    <ul class="navigationitemmenu dropdown-menu">
+                        <li>
+                            <a class="navigationmenuitem pointer" routerLinkActive="navActive" routerLink="/provider-report">Provider Report</a>
+                        </li>
+                        <li>
+                            <a class="navigationmenuitem pointer" routerLinkActive="navActive" routerLink="/report">Config Report</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </header>
+</div>
+
+<div class="main">
+    <div class="container-fluid">
+
+        <div class="rprtsTabsMain">
+            <!-- <div class="rprtsTabsInner">
+                <button type="button" class="rprtsTabsBtn"></button>
+            </div> -->
+            <div class="nav invite-btntabs">
+                <button type="button" class="invite-btn active" routerLink="/reports/failed-cofing-report">Failed Config Report</button>
+                <button type="button" class="invite-btn">Provider Report</button>
+                <button type="button" class="invite-btn">Test Report</button>
+                <button type="button" class="invite-btn">No Config Found</button>
+            </div>            
+        </div>
+
+
+        <router-outlet></router-outlet>
+    </div>
+</div>
+

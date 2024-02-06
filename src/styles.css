@@ -16,7 +16,7 @@ body {
   font-weight: 400;
 }
 
-.pointer{
+.pointer {
   cursor: pointer !important;
 }
 a {
@@ -165,8 +165,8 @@ ol li {
 }
 
 .usertableinner thead {
-  border: 1px solid #fafaf9;
-  border-bottom: 0px !important;
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
 }
 
 .usertableinner .table th,
@@ -181,21 +181,22 @@ ol li {
   color: #333;
   /* box-shadow: 0px 2px 0px #dddbda; */
   border-top: 0px;
-  border: 1px solid #f1f1f1;
+  border: none;
   /* padding: 12px 12px; */
   background-color: #fbfbfb;
   /* box-shadow: 0px 2px 0px #dddbda; */
 }
 
 .usertableinner tbody {
-  border: 1px solid #f0f0f0;
+  border: 10x solid #f0f0f0;
   border-top: 0;
 }
 .usertableinner .table td {
-  font-weight: 500;
+  font-weight: 400;
   font-size: 12px;
   line-height: 20px;
   color: #3e3e3c;
+  border-bottom: 1px solid #eee;
 }
 
 .sr-only {
@@ -332,14 +333,34 @@ label.form-label.labelCls {
 .inlineTaxoformstate app-state-dropdown .selected-list .c-btn {
   border-radius: 4px 0px 0px 4px !important;
 }
-.md-drppicker .btn.btn-default>svg {
+.md-drppicker .btn.btn-default > svg {
   display: none !important;
 }
 .md-drppicker .btn.btn-default {
   padding: 0 15px !important;
 }
 
-.logTooltip .tooltip-inner{
+.logTooltip .tooltip-inner {
   background-color: #444;
   font-size: 12px;
+}
+
+.badge-grey,
+.npi-badge {
+  background: #f3f4f6;
+}
+
+.npi-badge {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 2px 10px;
+  width: fit-content;
+  height: 24px;
+  border-radius: 6px;
+  color:#111928;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 20px;
 }
