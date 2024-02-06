@@ -11,19 +11,23 @@ export class DashboardService{
   key: Keys = new Keys();
   constructor(private http: HttpClient) { }
 
-  getTotoalProvidersData(configType:string, version:string):Observable<any>{
+  getTotoalProvidersCount(configType:string, version:string, startDate:string, endDate:string):Observable<any>{
     const params = new HttpParams()
     .set('configType', configType)
     .set('version', version)
+    .set('startDate', startDate)
+    .set('endDate', endDate)
     return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.dashboard, {params});
   }
 
-  getConfigDataByLogs(configType:string, version:string,currentPage:number, itemsPerPage:number):Observable<any>{
+  getConfigDataByLogs(configType:string, version:string,currentPage:number, itemsPerPage:number, startDate:string, endDate:string):Observable<any>{
     const params = new HttpParams()
     .set('configType', configType)
     .set('version', version)
     .set('currentPage', currentPage)
     .set('itemsPerPage', itemsPerPage)
+    .set('startDate', startDate)
+    .set('endDate', endDate)
     return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.dashboard + '/config-data', {params});
   }
 }

@@ -72,16 +72,23 @@
 </div>
 
 <div class="main">
-    <div class="container-fluid">
+    <div class="container-fluid" >
         <div class="row">
             <div class="col-lg-12">
                 <div class="pageTitle d-flex justify-content-between align-items-center">
                     <h3>Dashboard</h3>
-                    <button type="button" class="btn primarybtn">Filter</button>
+                    <!-- <button type="button" class="btn primarybtn">Filter</button> -->
+                    <div class="col-lg-4">
+                        <div class="dateRangeFilter">
+                            <input type="text" autocomplete="off" class="form-control" name="daterange" placeholder="Select Date Range" ngxDaterangepickerMd [showClearButton]="true" [opens]="'left'" [locale]="{applyLabel: 'Apply', format: 'MM-DD-YYYY'}" [(ngModel)]="selected" (ngModelChange)="selectDateFilter($event)">
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
-        <div class="row">
+        <app-circular-loader *ngIf="v2TotalCountsLoadingToggle && v3TotalCountsLoadingToggle"></app-circular-loader>
+        <div class="row" *ngIf="!v2TotalCountsLoadingToggle && !v3TotalCountsLoadingToggle">
             <div class="col-lg-6">
                 <div class="dashChartCardmain">
                     <div class="dashChartCardinner">
@@ -117,7 +124,7 @@
                                             <div class="col-lg-2 px-2 pe-0">
                                                 <div class="dashInfoCard notFndConfig">
                                                     <div class="dashInfoInner">
-                                                        <p class="dashInfoLabel mb-0">No Configs<br>Providers</p>
+                                                        <p class="dashInfoLabel mb-0">No Configs<br>Found</p>
                                                         <span class="dashInfoCount">{{dashboardTotalCountsV3.licenseNoConfigFound}}</span>
                                                     </div>
                                                 </div>
@@ -166,7 +173,7 @@
                                             <div class="col-lg-2 px-2 pe-0">
                                                 <div class="dashInfoCard notFndConfig">
                                                     <div class="dashInfoInner">
-                                                        <p class="dashInfoLabel mb-0">No Configs<br>Providers</p>
+                                                        <p class="dashInfoLabel mb-0">No Configs<br>Found</p>
                                                         <span class="dashInfoCount">{{dashboardTotalCountsV3.boardNoConfigFound}}</span>
                                                     </div>
                                                 </div>
@@ -215,7 +222,7 @@
                                             <div class="col-lg-2 px-2 pe-0">
                                                 <div class="dashInfoCard notFndConfig">
                                                     <div class="dashInfoInner">
-                                                        <p class="dashInfoLabel mb-0">No Configs<br>Providers</p>
+                                                        <p class="dashInfoLabel mb-0">No Configs<br>Found</p>
                                                         <span class="dashInfoCount">{{dashboardTotalCountsV3.commonNoConfigFound}}</span>
                                                     </div>
                                                 </div>
@@ -279,7 +286,7 @@
                                             <div class="col-lg-2 px-2 pe-0">
                                                 <div class="dashInfoCard notFndConfig">
                                                     <div class="dashInfoInner">
-                                                        <p class="dashInfoLabel mb-0">No Configs<br>Providers</p>
+                                                        <p class="dashInfoLabel mb-0">No Configs<br>Found</p>
                                                         <span class="dashInfoCount">{{dashboardTotalCountsV2.licenseNoConfigFound}}</span>
                                                     </div>
                                                 </div>
@@ -328,7 +335,7 @@
                                             <div class="col-lg-2 px-2 pe-0">
                                                 <div class="dashInfoCard notFndConfig">
                                                     <div class="dashInfoInner">
-                                                        <p class="dashInfoLabel mb-0">No Configs<br>Providers</p>
+                                                        <p class="dashInfoLabel mb-0">No Configs<br>Found</p>
                                                         <span class="dashInfoCount">{{dashboardTotalCountsV2.boardNoConfigFound}}</span>
                                                     </div>
                                                 </div>

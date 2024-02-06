@@ -941,21 +941,6 @@ export class ConfigurationComponent implements OnInit {
 
   addCloumnNameObj() {
     debugger
-
-    // if (!this.Constant.EMPTY_STRINGS.includes(this.selectedNestedsubColumn)) {
-    //   this.selectedEntity.val = this.selectedEntity.val + this.selectedColumns + "." + this.selectedNestedColumns + "." + this.selectedNestedsubColumn;
-    // } else if (!this.Constant.EMPTY_STRINGS.includes(this.selectedNestedColumns)) {
-    //   this.selectedEntity.val = this.selectedEntity.val + this.selectedColumns + "." + this.selectedNestedColumns;
-    // } else {
-    //   this.selectedEntity.val = this.selectedEntity.val + this.selectedColumns
-    // }
-    // this.cofnigStepRequest.columnName = this.selectedEntity.val;
-    // if(this.index > 0){
-
-    //   this.cofnigStepRequest.subAttributeMapList[this.index].columnName = this.selectedColumnNames;
-    // } else {
-    //   this.cofnigStepRequest.columnName = this.selectedColumnNames;
-    // }
     this.selectedColumnNames = this.selectedColumnNames.slice(0, -1);
     this.cofnigStepRequest.columnName = this.selectedColumnNames;
     this.openAddStepAndCloseColumn();
@@ -1038,8 +1023,6 @@ export class ConfigurationComponent implements OnInit {
   @ViewChild('deleteCloseModalButton') deleteCloseModalButton!: ElementRef;
   confirmDeleteConfiguration() {
     debugger
-    // this.configList.splice(this.deletedIndex, 1);
-    // this.totalConfiguration = this.totalConfiguration-1;
     this.deletingConfguration = true;
     this.licenseLookupService.deleteConfiguration(this.deletedId).subscribe(response => {
       if (response.status) {
@@ -1109,13 +1092,6 @@ export class ConfigurationComponent implements OnInit {
   showTaxonomyDiv() {
     this.showTaxonomyListToggle = !this.showTaxonomyListToggle;
   }
-
-  // @ViewChild('saveUuidModalButton') saveUuidModalButton!: ElementRef;
-  // uuidSaveModal() {
-  //   this.saveUuidModalButton.nativeElement.click();
-  // }
-
-
   updateStatus(id: any) {
     this.licenseLookupService.updateConfigStatus(id).subscribe(response => {
       if (response.status) {
@@ -1299,7 +1275,6 @@ export class ConfigurationComponent implements OnInit {
     var temp : {id: any, itemName:any} = {id:step.crawlerAttributeId, itemName:step.crawlerAttribute};
     this.selectedAttribute.push(temp);
     this.cofnigStepRequest.lookUpElementDesc = this.configurationStepList[index].lookUpElementDesc
-    // selectedEvent
     this.cofnigStepRequest.crawlerAttributeId = this.configurationStepList[index].crawlerAttributeId;
 
     // if (step.crawlerAttributeId == 17) {
@@ -1377,8 +1352,6 @@ export class ConfigurationComponent implements OnInit {
       } 
       this.selectedClass.push(classTemp);
     }
-    
-    // console.log(this.selectedClass);
 
     this.cofnigStepRequest.columnName = step.columnName;
 
@@ -1386,6 +1359,12 @@ export class ConfigurationComponent implements OnInit {
 
    editStep(index:number, cofnigStepRequest: ConfigRequest){
     this.configurationStepList.splice(index, 1, cofnigStepRequest);
+  }
+
+  showCommentsToggle:boolean = false;
+  showAndHideComments(){
+    debugger
+    this.showCommentsToggle = !this.showCommentsToggle;
   }
 
 }
