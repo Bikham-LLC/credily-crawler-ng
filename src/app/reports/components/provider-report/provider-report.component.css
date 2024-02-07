@@ -61,3 +61,21 @@
   align-items: center;
   column-gap: 10px;
 }
+.modal-confirm .modal-content {
+  padding: 15px;
+  border-radius: 6px;
+  border: none;
+  text-align: center;
+  font-size: 14px;
+}
+.modal-custom {
+  max-width: 90%;
+  width: 100%;
+}
+.textClamp>span {
+  display: block;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  max-width: 220px;
+}

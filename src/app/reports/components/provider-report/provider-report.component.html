@@ -1,3 +1,4 @@
+<!-- <app-header></app-header> -->
 
 <div class="searchRowMain mt-3">
     <div class="row align-items-center justify-content-between">
@@ -24,11 +25,6 @@
                     Partially Completed
                     <span class="filterCount bg-warning">00</span>
                 </button>
-                <!-- <button type="button" class="tblFilterBtn ">
-                    <i class="bi bi-check2"></i>
-                    Re-Run Failed
-                    <span class="filterCount bg-failed text-white">00</span>
-                </button> -->
             </div>
         </div>
     </div>
@@ -36,7 +32,7 @@
 
 <div class="usertable mt-3 ng-star-inserted">
     <div class="usertableinner table-responsive">
-        <table class="table">
+        <table class="table" *ngIf="providerReports.length>0 && !fetchingReport">
             <thead>
                 <tr>
                     <th style="width: 15%;">
@@ -55,46 +51,47 @@
             </thead>
             
             <tbody>
-                <tr *ngFor="let e of [].constructor(15); let i = index">
+                <tr *ngFor="let obj of providerReports; let i = index">
                     <td>
-                        <div class="tableinfo">John Doe</div>
+                        <div class="tableinfo">{{obj.providerName}}</div>
                     </td>
                     <td>
                         <div class="tableinfo">
-                            <span class="badge-grey npi-badge">4455154555</span>
+                            <span class="badge-grey npi-badge">{{obj.npi}}</span>
                         </div>
                     </td>
                     <td>
-                        <div class="tableinfo line-clamp">skparjapati@gmail.com</div>
+                        <div class="tableinfo line-clamp">{{obj.email}}</div>
                     </td>
                     <td>
                         <div class="tableinfo ">
-                            1122112244
+                            {{obj.phone}}
                         </div>
                     </td>
                     <td>
                         <div class="tableinfo ">
-                            v2
+                            {{obj.version}}
                         </div>
                     </td>
                    
                     <td>
                         <div class="tableinfo text-muted">
-                            02/23/2023 19:00 
+                            {{obj.updatedDate | date:'MM-dd-yyyy, hh:mm:a' : 'EST'}}
                         </div>
                     </td>
                     <td>
                         <div class="tableinfo">
-                            <span class="npi-badge statusPending mx-auto">Re-Run Pending</span>
-                            <!-- <span class="npi-badge statusSuccesful">Re-Run Successful</span>
-                            <span class="npi-badge statusFailed">Re-Run Failed</span> -->
+                            <span class=" mx-auto"><span
+                                [ngClass]="{'statusactive':obj.status.toUpperCase()=='COMPLETED', 'statusinactive':obj.status =='NO CONFIG FOUND', 'statuspending':(obj.status.toUpperCase()!='COMPLETED' && obj.status.toUpperCase()!='NO CONFIG FOUND') }">
+                                {{obj.status | titlecase}}
+                              </span></span>
                         </div>
                     </td>
                     
                     <td>
                         <div class="tableinfo">
                             <div class="d-flex align-items-center gap-2">
-                                <button type="button" class="btn primarybtn">View</button>
+                                <button type="button" class="btn primarybtn" (click)="viewLogs(obj.providerUuid)">View</button>
                             </div>
                         </div>
                     </td>
@@ -102,5 +99,145 @@
                 </tr>
             </tbody>
         </table>
+        <app-circular-loader *ngIf="fetchingReport"></app-circular-loader>
+        <div class="paginationmain mt-5" *ngIf=" !fetchingReport && totalProviderReport>providerReports.length">
+          <div class="d-flex align-items-center justify-content-between">
+            <p class="currentshowing mb-0">
+              Showing <span>{{providerReports.length}}</span> of <span>{{totalProviderReport}}</span>
+            </p>
+            <div class="col-lg-6">
+              <div class="card-body d-flex justify-content-end">
+                <ngb-pagination class="pagination pagination-separated justify-content-sm-end mb-sm-0"
+                  [collectionSize]="totalProviderReport" [rotate]="true" (pageChange)="pageChanged($event)"
+                  [pageSize]="databaseHelper.itemsPerPage" [(page)]="databaseHelper.currentPage" [maxSize]="5"
+                  [boundaryLinks]="true">
+                </ngb-pagination>
+              </div>
+            </div>
+          </div>
+        </div>
     </div>
+</div>
+
+
+
+<button data-bs-toggle="modal" style="display: none;" data-bs-target="#viewLogs" id="viewLogsButton" #viewLogsButton></button>
+<div class="modal blur-bg-2" id="viewLogs" tabindex="-1" aria-labelledby="viewEditLabel" data-bs-backdrop="static"
+  aria-hidden="true">
+  <div class="modal-dialog modal-custom modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header d-flex justify-content-between align-items-center">
+        <div><b>Logs</b></div>
+        <span class="pointer" style="margin-left: 12px;" (click)="refreshProviderLogs()">
+          <i *ngIf="!logLoadingToggle" class="bi bi-arrow-repeat" style="font-size: 17px;color: #003fdaeb;"></i>
+          <i *ngIf="logLoadingToggle" class="spinner-border spinner-border-sm" style="color: #003fdaeb;"></i>
+        </span>
+        <button type="button" class="btn-close" [disabled]="providerTestingToggle" data-bs-dismiss="modal" id="closeLogsButton" #closeLogsButton aria-label="Close" (click)="closeLogModel()"></button>
+      </div>
+      <div class="modal-body">
+        <div>
+          <table class="table" *ngIf="!logLoadingToggle && providerCrawlerLogList.length>0">
+            <thead>
+              <tr>
+                <th style="width: 6%">S.No.</th>
+                <th style="width: 20%">Lookup Name</th>
+                <th style="width: 20%">Lookup Link</th>
+                <th style="width: 8%" class="text-center">Status</th>
+                <th style="width: 10%" class="text-center">State</th>
+                <th style="width: 11%" class="text-center">Created Date</th>
+                <th style="width: 10%" class="text-center">Re-run Count</th>
+                <th style="width: 25%;" class="text-end text-center">Action</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr *ngFor="let log of providerCrawlerLogList; let i =index;">
+                <td>
+                  <div class="tableinfo">
+                    {{i+1}}
+                  </div>
+                </td>
+                <td>
+                  <div class="tableinfo textClamp">
+                    <span> {{log.lookupName}}</span>
+                  </div>
+                </td>
+                <td>
+                  <div class="tableinfo textClamp d-flex">
+                    <span class="tbleditBtn text-primary"><i class="bi bi-box-arrow-up-left" style="cursor: pointer" (click)="routeToConfiguration(log)"></i></span>
+                    <span>{{log.lookupLink}}</span>
+                  </div>
+                </td>
+                <td>
+                  <div class="tableinfo text-center">
+                    <span *ngIf="log.errorStatus!=null" class="statusinactive">{{log.errorStatus?log.errorStatus:'N/A'}}</span>
+                    <span *ngIf="log.errorStatus==null" [ngClass]="{'statusactive':log.crawlerStatus=='COMPLETED', 'statuspending' :log.crawlerStatus=='PENDING'}" >{{log.crawlerStatus}}</span>
+                  </div>
+                </td>
+                <td>
+                  <div class="tableinfo text-center">
+                    <span>{{log.stateName?log.stateName:'----'}}</span>
+                  </div>
+                </td>
+                <td>
+                  <div class="tableinfo text-center">
+                    <span class="badge-grey">{{log.createdDate | date:'MM-dd-yyyy hh:mm:ss' : 'EST'}}</span>
+                  </div>
+                </td>
+                <td>
+                  <div class="tableinfo text-center">
+                    <span>{{log.reRunCount}}</span>
+                  </div>
+                </td>
+                <td>
+                  <div class="tableinfo d-flex align-items-center justify-content-end gap-2">
+                    <Button tooltipClass="logTooltip" type="button" style="height: 33px;"
+                     class="btn primaryBtn" [disabled]="log.reTestingToggle || providerTestingToggle || (Constant.EMPTY_STRINGS.includes(log.lookupName) && Constant.EMPTY_STRINGS.includes(log.lookupLink))"
+                    (click)="testAgainProviderRequest(log.id, i)">Re-run
+                      <i *ngIf="log.reTestingToggle" class="spinner-border spinner-border-sm"></i>
+                      <h6 style="height: 9px;font-size: 1rem;"><i *ngIf="!log.reTestingToggle" class="bi bi-arrow-clockwise"></i></h6>
+                    </Button>
+                    <Button type="button" style="height: 33px;"
+                      [disabled]="log.reTestingToggle || Constant.EMPTY_STRINGS.includes(log.snapShotUrl) || providerTestingToggle"
+                      class="btn primaryBtn" (click)="viewSnapshot(log.snapShotUrl)">View
+                      <h6 style="height: 9px;font-size: 1rem;"><i class="bi bi-eye pointer"></i></h6>
+                    </Button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <!-- Empty notification -->
+          <div class="empty-notific text-center" style="margin: 13% 10% 13% 3%;"
+            *ngIf="!logLoadingToggle && providerCrawlerLogList.length==0">
+            <div class="empty-notificinner">
+
+              <img src="assets/images/allexpirable.svg" style="width: 25%;" alt="no data found" />
+              <h6 class="m-3 ps-5">No data found</h6>
+            </div>
+          </div>
+          <app-circular-loader *ngIf="logLoadingToggle"></app-circular-loader>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- show image modal -->
+<button type="button" #openSnapshotModalButton id="openSnapshotModalButton" class="d-none" data-bs-toggle="modal"
+  data-bs-target="#showImageModal"></button>
+<div class="modal blur-bg-2" id="showImageModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false"
+  aria-labelledby="shareModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" style="max-width:95%;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Snapshot</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+          (click)="closeSnapshotModal()" #closeSnapshotModalButton id="closeSnapshotModalButton"></button>
+      </div>
+      <div class="modal-body text-center" style="overflow: scroll;min-height: 450px;">
+        <img [src]="imageUrl | safe" alt="" />
+      </div>
+    </div>
+  </div>
 </div>

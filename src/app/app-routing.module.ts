@@ -17,7 +17,7 @@ const routes: Routes = [
   { path: 'queue', component: QueueComponent},
   { path: 'dashboard', component: DashboardComponent},
   { path: 'auth', loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule) },
-  { path: 'reports', loadChildren: () => import('./reports/reports.module').then(m => m.ReportsModule) }];
+  { path: 'reports', loadChildren: () => import('./reports/reports.module').then(m => m.ReportsModule) },];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes, { useHash: true })],

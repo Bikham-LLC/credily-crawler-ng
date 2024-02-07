@@ -7,6 +7,8 @@ import { FailedConfigReportComponent } from './components/failed-config-report/f
 import { ProviderReportComponent } from './components/provider-report/provider-report.component';
 import { TestReportComponent } from './components/test-report/test-report.component';
 import { NoconfigFoundReportComponent } from './components/noconfig-found-report/noconfig-found-report.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { SharedModule } from '../shared/shared.module';
 
 
 
@@ -17,15 +19,16 @@ import { NoconfigFoundReportComponent } from './components/noconfig-found-report
         FailedConfigReportComponent,
         ProviderReportComponent,
         TestReportComponent,
-        NoconfigFoundReportComponent
+        NoconfigFoundReportComponent,
         // HeaderComponent
-    ],
-    exports: [
-    // HeaderComponent,
+       
     ],
     imports: [
         CommonModule,
-        ReportsRoutingModule
+        ReportsRoutingModule,
+        NgbModule,
+        SharedModule,
     ]
+    
 })
 export class ReportsModule { }
