@@ -89,4 +89,17 @@ export class ReportService {
     return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.report + "/config-id", {params});
   }
 
+  getFailedConfigs(databaseHelper:DatabaseHelper, searchFilter:string) :Observable<any> { 
+    var params = new HttpParams()
+    .set('searchFilter', searchFilter)
+    .set('search', databaseHelper.search)
+    .set('currentPage', databaseHelper.currentPage)
+    .set('itemsPerPage', databaseHelper.itemsPerPage)
+    return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.report + "/failed-config-report", {params});
+  }
+
+  getFailedConfigsCount() :Observable<any> { 
+    return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.report + '/failed-config-report-count');
+  }
+
 }

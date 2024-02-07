@@ -9,6 +9,7 @@ import { TestReportComponent } from './components/test-report/test-report.compon
 import { NoconfigFoundReportComponent } from './components/noconfig-found-report/noconfig-found-report.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SharedModule } from '../shared/shared.module';
+import { FormsModule } from '@angular/forms';
 
 
 
@@ -27,6 +28,7 @@ import { SharedModule } from '../shared/shared.module';
         CommonModule,
         ReportsRoutingModule,
         NgbModule,
+        FormsModule,
         SharedModule,
     ]
     
