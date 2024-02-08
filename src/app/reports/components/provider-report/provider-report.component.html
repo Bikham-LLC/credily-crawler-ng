@@ -2,19 +2,24 @@
 
 <div class="searchRowMain mt-3">
     <div class="row align-items-center justify-content-between">
-        <div class="col-lg-4">
+        <div class="col-lg-3">
                 <div class="position-relative">
-                    <input id="searchname" name="searchname" placeholder="Search" class="form-control" 
-                    style="padding:0px 15px 0px 38px"/>
+                  <input id="searchname" name="searchname" placeholder="Search" class="form-control" style="padding:0px 15px 0px 38px"
+                  [(ngModel)]="databaseHelper.search" (ngModelChange)="this.providerSearch.next($event)"/>
                     <i class="bi bi-search search-icon"></i>
                 </div>
         </div>
-        <div class="col-lg-8">
+        <div class="col-lg-9">
             <div class="d-flex justify-content-end align-items-center gap-2">
-                <button type="button" class="daterangeBtn">
+              <div class="col-lg-3">
+                <div class="dateRangeFilter">
+                    <input type="text" autocomplete="off" class="form-control" name="daterange" placeholder="Select Date Range" ngxDaterangepickerMd [showClearButton]="true" [opens]="'left'" [locale]="{applyLabel: 'Apply', format: 'MM-DD-YYYY'}" [(ngModel)]="selected" (ngModelChange)="selectDateFilter($event)">
+                </div>
+            </div>
+                <!-- <button type="button" class="daterangeBtn">
                     Feb 2024
                     <i class="bi bi-grid"></i>
-                </button>
+                </button> -->
                 <button type="button" class="tblFilterBtn">
                     <i class="bi bi-check2"></i>
                     Completed
@@ -76,7 +81,7 @@
                    
                     <td>
                         <div class="tableinfo text-muted">
-                            {{obj.updatedDate | date:'MM-dd-yyyy, hh:mm:a' : 'EST'}}
+                            {{obj.updatedDate | date:'MM/dd/yyyy, hh:mm:a'}}
                         </div>
                     </td>
                     <td>
@@ -92,6 +97,10 @@
                         <div class="tableinfo">
                             <div class="d-flex align-items-center gap-2">
                                 <button type="button" class="btn primarybtn" (click)="viewLogs(obj.providerUuid)">View</button>
+                                <!-- <span *ngIf="Constant.REFRESH_HIDE.includes(obj.status)" (click)="refreshProviderStatus(obj.providerUuid, i)">
+                                  <i *ngIf="!providerReports[i].refreshProviderLoading" class="bi bi-arrow-repeat" style="font-size: 17px;color: #003fdaeb;"></i>
+                                  <i *ngIf="providerReports[i].refreshProviderLoading"class="spinner-border spinner-border-sm" style="color: #003fdaeb;"></i>
+                                </span> -->
                             </div>
                         </div>
                     </td>

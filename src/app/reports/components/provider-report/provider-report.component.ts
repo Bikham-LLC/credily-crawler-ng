@@ -1,5 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
+import * as moment from 'moment';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { Constant } from 'src/app/models/Constant';
@@ -18,15 +19,7 @@ export class ProviderReportComponent implements OnInit {
 
   readonly Route = Route;
   readonly Constant = Constant;
-  maxDate:any;
-  selected !: { startDate: moment.Moment, endDate: moment.Moment };
-  startDate: any = null;
-  endDate: any = null;
-  requestStatusJson:string[]=['IN QUEUE', 'IN PROCESS', 'COMPLETED', 'NO CONFIG FOUND', 'AWAIT QUEUE'];
-
-  dropdownSettingsStatus !: { singleSelection: boolean; text: string; enableSearchFilter: boolean; autoPosition: boolean };
-  selectedStatus: any[] = new Array();
-  statusList: any[] = new Array();
+ 
 
   providerSearch = new Subject<string>();
   constructor( private reportService:ReportService,
@@ -41,15 +34,7 @@ export class ProviderReportComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
-    this.dropdownSettingsStatus = {
-      singleSelection: true,
-      text: 'Select Status',
-      enableSearchFilter: false,
-      autoPosition: false
-    }
-    this.getStatus();
-    this.getProviderReport();
+    // this.getProviderReport();
   }
 
   databaseHelper:DatabaseHelper = new DatabaseHelper();
@@ -58,32 +43,21 @@ export class ProviderReportComponent implements OnInit {
   fetchingReport:boolean=false;
   status:string='';
 
-  getStatus(){
-    this.statusList = [];
-    this.requestStatusJson.forEach(e=>{
-      var temp: { id: any, itemName: any} = { id: e, itemName: e };
-      this.statusList.push(temp);
-    })
-    this.statusList = JSON.parse(JSON.stringify(this.statusList));
-  }
 
+  selected : { startDate: moment.Moment, endDate: moment.Moment } = {startDate:moment().subtract(30, 'days'), endDate: moment()};
+  startDate: any = null;
+  endDate: any = null;
   selectDateFilter(event: any) {
     debugger
     if (this.selected != undefined && this.selected != null && this.selected.startDate != undefined && this.selected.endDate != undefined && this.selected != null) {
       this.startDate = new Date(this.selected.startDate.toDate()).toDateString();
       this.endDate = new Date(this.selected.endDate.toDate()).toDateString();
+    } else {
+      this.selected = {startDate:moment().subtract(30, 'days'), endDate: moment()};
+      return;
     }
     this.getProviderReport();
 
-  }
-  selectVersion(event: any) {
-    debugger
-    this.status = '';
-    if (event[0] != undefined) {
-      this.selectedStatus = event;
-      this.status = event[0].id;
-    }
-    this.getProviderReport();
   }
 
   getProviderReport(){

@@ -42,7 +42,7 @@ export class FailedConfigReportComponent implements OnInit {
   reRunFailed:number =0;
   reRunPending:number =0;
   getFailedConfigsCount(){
-    this.reportService.getFailedConfigsCount().subscribe(response=>{
+    this.reportService.getFailedConfigsCount(this.startDate, this.endDate).subscribe(response=>{
       if(response != null){
         this.reRunSucessful = response.reRunSucessful;
         this.reRunFailed = response.reRunFailed;

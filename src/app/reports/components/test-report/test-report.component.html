@@ -155,7 +155,7 @@
                                 <tr>
                                     <th style="width: 10%;">License Number</th>
                                     <th style="width: 8%;">Snapshot</th>
-                                    <th style="width: 8%;">Tested Date</th>
+                                    <th style="width: 8%;">Last Tested On</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -168,7 +168,8 @@
                                          (click)="viewSnapshot(obj.url)"> View </a>
                                     </td>
                                     <td class="tableData pointer">
-                                        <span class="mb-0">02/07/2024 13:22 </span>
+                                        <span *ngIf="!Constant.EMPTY_STRINGS.includes(obj.testedDate)" class="mb-0">{{obj.testedDate | date: 'MM/dd/yyyy HH:mm'}} </span>
+                                        <span *ngIf="Constant.EMPTY_STRINGS.includes(obj.testedDate)" class="mb-0">--- </span>
                                     </td>
                                 </tr>
                             </tbody>
