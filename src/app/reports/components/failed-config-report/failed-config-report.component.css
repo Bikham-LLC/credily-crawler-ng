@@ -80,3 +80,20 @@
   display: block;
   text-align: right;
 }
+.textClamp {
+  display: block;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  max-width: 220px;
+}
+
+.tblFilterBtnactive{
+  background-color: #0071d2;
+    color: #fff;
+    border-color: #0071d2;
+}
+.tblFilterBtnactive .filterCount {
+  background-color: #fff !important;
+  color: #111 !important;
+}

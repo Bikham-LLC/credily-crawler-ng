@@ -4,6 +4,7 @@ import { Keys } from '../models/key';
 import { DatabaseHelper } from '../models/DatabaseHelper';
 import { Observable } from 'rxjs';
 import { Constant } from '../models/Constant';
+import { CommentRequest } from '../models/CommentRequest';
 
 @Injectable({
   providedIn: 'root'
@@ -89,8 +90,10 @@ export class ReportService {
     return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.report + "/config-id", {params});
   }
 
-  getFailedConfigs(databaseHelper:DatabaseHelper, searchFilter:string) :Observable<any> { 
+  getFailedConfigs(startDate:string, endDate:string, databaseHelper:DatabaseHelper, searchFilter:string) :Observable<any> { 
     var params = new HttpParams()
+    .set('startDate', startDate)
+    .set('endDate', endDate)
     .set('searchFilter', searchFilter)
     .set('search', databaseHelper.search)
     .set('currentPage', databaseHelper.currentPage)
@@ -100,6 +103,10 @@ export class ReportService {
 
   getFailedConfigsCount() :Observable<any> { 
     return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.report + '/failed-config-report-count');
+  }
+
+  createConfigComment(commentRequest:CommentRequest) :Observable<any> { 
+    return this.http.post<any>(this.key.server_url + this.key.api_version_one + this.key.report + '/comment', commentRequest);
   }
 
 }

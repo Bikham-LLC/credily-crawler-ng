@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { SafePipe } from '../pipe/safe.pipe';
 import { FormsModule } from '@angular/forms';
 import { CircularLoaderComponent } from '../circular-loader/circular-loader.component';
+import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
 // import { HeaderComponent } from '../header/header.component';
 
 
@@ -15,11 +16,13 @@ import { CircularLoaderComponent } from '../circular-loader/circular-loader.comp
   ],
   imports: [
     CommonModule,
-    FormsModule
+    FormsModule,
+    NgxDaterangepickerMd.forRoot(),
   ],
   exports :[
     SafePipe,
     CircularLoaderComponent,
+    NgxDaterangepickerMd
     // HeaderComponent
   ]
 })

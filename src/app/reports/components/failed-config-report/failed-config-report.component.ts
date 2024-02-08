@@ -3,6 +3,7 @@ import { NavigationExtras, Router } from '@angular/router';
 import * as moment from 'moment';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
+import { CommentRequest } from 'src/app/models/CommentRequest';
 import { Constant } from 'src/app/models/Constant';
 import { DatabaseHelper } from 'src/app/models/DatabaseHelper';
 import { FailedConfigDTO } from 'src/app/models/FailedConfigDTO';
@@ -33,8 +34,8 @@ export class FailedConfigReportComponent implements OnInit {
     }
 
   ngOnInit(): void {
-    this.getFailedConfigs(this.searchFilter);
-    this.getFailedConfigsCount();
+    // this.getFailedConfigs(this.searchFilter);
+    // this.getFailedConfigsCount();
   }
 
   reRunSucessful:number =0;
@@ -52,6 +53,23 @@ export class FailedConfigReportComponent implements OnInit {
     })
   }
 
+  
+  selected : { startDate: moment.Moment, endDate: moment.Moment } = {startDate:moment().subtract(30, 'days'), endDate: moment()};
+  startDate: any = null;
+  endDate: any = null;
+  selectDateFilter(event: any) {
+    debugger
+    if (this.selected != undefined && this.selected != null && this.selected.startDate != undefined && this.selected.endDate != undefined && this.selected != null) {
+      this.startDate = new Date(this.selected.startDate.toDate()).toDateString();
+      this.endDate = new Date(this.selected.endDate.toDate()).toDateString();
+    } else {
+      this.selected = {startDate:moment().subtract(30, 'days'), endDate: moment()};
+      return;
+    }
+    this.getFailedConfigs(this.searchFilter);
+    this.getFailedConfigsCount();
+  }
+
   searchFilter:string ='';
   configLoadingToggle:boolean = false;
   databaseHelper: DatabaseHelper = new DatabaseHelper();
@@ -60,7 +78,7 @@ export class FailedConfigReportComponent implements OnInit {
   getFailedConfigs(searchFilter:string){
     this.configLoadingToggle = true;
     this.searchFilter = searchFilter;
-    this.reportService.getFailedConfigs(this.databaseHelper, this.searchFilter).subscribe(response=>{
+    this.reportService.getFailedConfigs(this.startDate, this.endDate, this.databaseHelper, this.searchFilter).subscribe(response=>{
       if(response != null){
         this.failedConfigList = response.list;
         this.totalConfigsCount = response.totalItems;
@@ -103,6 +121,38 @@ export class FailedConfigReportComponent implements OnInit {
     setTimeout(() => {
       this.openSnapshotModalButton.nativeElement.click();
     }, 100);
+  }
+
+  @ViewChild('completeModalButton') completeModalButton !: ElementRef;
+  comment:string='';
+  openCommentModal(obj:FailedConfigDTO){
+    this.comment = '';
+    this.commentRequest.configLink = obj.configLink;
+    this.commentRequest.configName = obj.configName;
+    this.commentRequest.logId = obj.id;
+    this.completeModalButton.nativeElement.click();
+  }
+  
+  @ViewChild('closeCommentModalButton') closeCommentModalButton !: ElementRef;
+  closeCommentModal(){
+    this.closeCommentModalButton.nativeElement.click();
+  }
+
+  commentRequest:CommentRequest = new CommentRequest();
+  commentSavingToggle:boolean = false;
+  currentTime: any = moment().format('Do MMM YYYY, h:mm a');
+  createConfigComment(){
+    debugger
+    this.commentSavingToggle = true;
+    this.commentRequest.comment = this.comment;
+    this.reportService.createConfigComment(this.commentRequest).subscribe(response=>{
+      if(response){
+        this.closeCommentModal();
+      }
+      this.commentSavingToggle = false;
+    },error=>{
+      this.commentSavingToggle = false;
+    })
   }
 
 }

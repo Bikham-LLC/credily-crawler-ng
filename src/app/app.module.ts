@@ -13,7 +13,6 @@ import { AccountUserComponent } from './account-user/account-user.component';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import { ReportComponent } from './report/report.component';
 import { ProviderReportComponent } from './provider-report/provider-report.component';
-import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
 import { TokenInterceptorService } from './services/token-interceptor.service';
 import { QueueComponent } from './queue/queue.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -40,7 +39,7 @@ import { HeaderComponent } from './header/header.component';
     NgbModule,
     AngularMultiSelectModule,
     DragDropModule,
-    NgxDaterangepickerMd.forRoot(),
+    // NgxDaterangepickerMd.forRoot(),
     SharedModule
 
   ],

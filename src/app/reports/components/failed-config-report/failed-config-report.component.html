@@ -1,26 +1,31 @@
 
 <div class="searchRowMain mt-3">
     <div class="row align-items-center justify-content-between">
-        <div class="col-lg-4">
+        <div class="col-lg-3">
             <div class="position-relative">
                 <input id="searchname" name="searchname" placeholder="Search" class="form-control" style="padding:0px 15px 0px 38px"
                 [(ngModel)]="databaseHelper.search" (ngModelChange)="this.providerSearch.next($event)"/>
                 <i class="bi bi-search search-icon"></i>
             </div>
         </div>
-        <div class="col-lg-8">
-            <div class="d-flex justify-content-end align-items-center gap-2">
-                <button type="button" class="tblFilterBtn" (click)="getFailedConfigs('successful')">
+        <div class="col-lg-9 ">
+            <div  class="d-flex justify-content-end align-items-center gap-2">
+                <div class="col-lg-3">
+                    <div class="dateRangeFilter">
+                        <input type="text" autocomplete="off" class="form-control" name="daterange" placeholder="Select Date Range" ngxDaterangepickerMd [showClearButton]="true" [opens]="'left'" [locale]="{applyLabel: 'Apply', format: 'MM-DD-YYYY'}" [(ngModel)]="selected" (ngModelChange)="selectDateFilter($event)">
+                    </div>
+                </div>
+                <button type="button" class="tblFilterBtn " [ngClass]="{'tblFilterBtnactive': searchFilter == 'successful'}" (click)="getFailedConfigs('successful')">
                     <i class="bi bi-check2"></i>
                     Re-Run Successful
                     <span class="filterCount bg-success text-white" >{{reRunSucessful}}</span>
                 </button>
-                <button type="button" class="tblFilterBtn" (click)="getFailedConfigs('pending')">
+                <button type="button" class="tblFilterBtn" [ngClass]="{'tblFilterBtnactive': searchFilter == 'pending'}" (click)="getFailedConfigs('pending')">
                     <i class="bi bi-exclamation-triangle"></i>
                     Re-Run Pending
                     <span class="filterCount bg-warning">{{reRunPending}}</span>
                 </button>
-                <button type="button" class="tblFilterBtn" (click)="getFailedConfigs('failed')">
+                <button type="button" class="tblFilterBtn" [ngClass]="{'tblFilterBtnactive': searchFilter == 'failed'}" (click)="getFailedConfigs('failed')">
                     <i class="bi bi-x-circle"></i>
                     Re-Run Failed
                     <span class="filterCount bg-failed text-white">{{reRunFailed}}</span>
@@ -53,8 +58,8 @@
             <tbody>
                 <tr *ngFor="let obj of failedConfigList; let i = index">
                     <td>
-                        <div class="tableinfo d-flex">
-                            <div class="tableinfo line-clamp">{{obj.configName}}</div>
+                        <div class="tableinfo d-flex ">
+                            <div class="tableinfo textClamp">{{obj.configName}}</div>
                         </div>
                         
                     </td>
@@ -97,7 +102,7 @@
                         <div class="tableinfo">
                             <div class="d-flex align-items-center gap-2">
                                 <button type="button" class="btn primarybtn">Re-Run</button>
-                                <span class="cmpletedRun pointer" data-bs-toggle="modal" data-bs-target="#completedModal">Completed?</span>
+                                <span *ngIf="obj.status == 'Re-Run Sucessful'" class="cmpletedRun pointer" (click)="openCommentModal(obj)">Completed?</span>
                             </div>
                         </div>
                     </td>
@@ -131,27 +136,27 @@
 </div>
 
 
-<button type="button" data-bs-toggle="modal" data-bs-target="#completedModal" class="btn btn-primary d-none">Launch Modal</button>
-
+<button type="button" data-bs-toggle="modal" data-bs-target="#completedModal" #completeModalButton class="btn btn-primary d-none">Launch Modal</button>
 <div id="completedModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-bs-labelledby="exampleModalLabel" aria-bs-hidden="true" class="modal fade" aria-modal="true" role="dialog">
     <div class="modal-dialog completeddialougModal modal-dialog-centered">
         <div class="modal-content">
-            <form>
+            <form ngNativeValidate (ngSubmit)="createConfigComment()" >
                 <div class="modal-header border-0 pb-0">
                     <h5 id="exampleModalLabel" class="modal-title">Define the issue and the solution implemented</h5>
+                    <button type="button" class="btn-close d-none" data-bs-dismiss="modal" aria-label="Close" #closeCommentModalButton id="closeCommentModalButton"></button>
                 </div>
                 <div class="modal-body">
                     <div class="commentMainbx">
                         <div class="commentInnerbx">
                             <p>Add Comments</p>
-                            <Textarea class="form-control" row="10" style="min-height: 150px; resize: none;"></Textarea>
+                            <textarea class="form-control" id="cId" name="comment" row="10" style="min-height: 150px; resize: none;" [(ngModel)]="comment" required></textarea>
                         </div>
-                        <span>12th Jan 2023 5:53 pm</span>
+                        <span>{{currentTime}}</span>
                     </div>
                 </div>
                 <div class="modal-footer border-0 pt-0">
-                    <button type="button" data-bs-dismiss="modal" class="btn primarycancelbtn" style="border-color: #f05252 !important;">Close</button>
-                    <button type="submit" class="btn primaryBtn">Save changes</button>
+                    <button type="button" class="btn primarycancelbtn" style="border-color: #f05252 !important;" [disabled]="commentSavingToggle" (click)="closeCommentModal()">Close</button>
+                    <button type="submit" class="btn primaryBtn" [disabled]="commentSavingToggle" >Save Comment<i class="spinner-border spinner-border-sm" role="status" *ngIf="commentSavingToggle"></i></button>
                 </div>
             </form>
         </div>
