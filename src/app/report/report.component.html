@@ -169,16 +169,20 @@
                                 <tr>
                                     <th style="width: 10%;">License Number</th>
                                     <th style="width: 8%;">Snapshot</th>
+                                    <th style="width: 8%;">Tested Date</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr *ngFor="let obj of configSnapshotList; let i = index;">
                                     <td class="tableData text-center">
-                                        <p class="mb-0">{{obj.licenseNumber?obj.licenseNumber:'N/A'}}</p>
+                                        <span class="mb-0">{{obj.licenseNumber?obj.licenseNumber:'N/A'}}</span>
                                     </td>
                                     <td class="tableData pointer">
                                         <a class="text-primary" data-bs-toggle="modal" data-bs-target="#showImageModal" rel="noopener noreferrer"
                                          (click)="showSnapshot(obj.url)"> View </a>
+                                    </td>
+                                    <td class="tableData pointer">
+                                        <span class="mb-0">02/07/2024 13:22 </span>
                                     </td>
                                 </tr>
                             </tbody>

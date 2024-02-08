@@ -52,7 +52,7 @@ export class ReportService {
   }
   // ------------------------------- config report section -----------------------
 
-  getConfigReport(databaseHelper:DatabaseHelper, startDate:any, endDate:any, version:any, configReportStatus:any, type:string): Observable<any> {
+  getConfigReport(databaseHelper:DatabaseHelper, startDate:any, endDate:any, configReportStatus:any): Observable<any> {
     if(databaseHelper==undefined || databaseHelper==null){
       databaseHelper = new DatabaseHelper();
     }
@@ -61,7 +61,6 @@ export class ReportService {
     .set('searchBy', databaseHelper.searchBy)
     .set('currentPage', databaseHelper.currentPage)
     .set('itemsPerPage', databaseHelper.itemsPerPage)
-    .set('version', version)
     .set('configReportStatus', configReportStatus)
     if(!Constant.EMPTY_STRINGS.includes(startDate) && !Constant.EMPTY_STRINGS.includes(startDate)){
       params = params.set('startDate', startDate)

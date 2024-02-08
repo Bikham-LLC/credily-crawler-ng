@@ -66,7 +66,7 @@ export class ReportComponent implements OnInit {
   configDatabaseHelper: DatabaseHelper = new DatabaseHelper();
   getConfigReport() {
     this.loadingConfigReport = true;
-    this.reportService.getConfigReport(this.configDatabaseHelper, this.startDate, this.endDate, this.version, this.reportStatus,'').subscribe(response => {
+    this.reportService.getConfigReport(this.configDatabaseHelper, this.startDate, this.endDate, this.reportStatus).subscribe(response => {
       if (response.status && response.object != null) {
         this.configList = response.object;
         this.totalConfiguration = response.totalItems;

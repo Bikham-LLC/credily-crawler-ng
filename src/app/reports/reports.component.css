@@ -544,3 +544,10 @@ span.removeSteps {
 .invite-btn:last-child {
     border-radius: 0 20px 20px 0;
 }
+.textClamp {
+  display: block;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  max-width: 220px;
+}

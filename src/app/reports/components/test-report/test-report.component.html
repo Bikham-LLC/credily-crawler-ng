@@ -1,41 +1,45 @@
-
 <div class="searchRowMain mt-3">
     <div class="row align-items-center justify-content-between">
-        <div class="col-lg-4">
+        <div class="col-lg-3">
                 <div class="position-relative">
-                    <input id="searchname" name="searchname" placeholder="Search" class="form-control" 
-                    style="padding:0px 15px 0px 38px"/>
+                    <input id="searchname" name="searchname" placeholder="Search" class="form-control" style="padding:0px 15px 0px 38px"
+                [(ngModel)]="databaseHelper.search" (ngModelChange)="this.configSearch.next($event)"/>
                     <i class="bi bi-search search-icon"></i>
                 </div>
         </div>
-        <div class="col-lg-8">
+        <div class="col-lg-9">
             <div class="d-flex justify-content-end align-items-center gap-2">
-                <button type="button" class="daterangeBtn">
+                <div class="col-lg-3">
+                    <div class="dateRangeFilter">
+                        <input type="text" autocomplete="off" class="form-control" name="daterange" placeholder="Select Date Range" ngxDaterangepickerMd [showClearButton]="true" [opens]="'left'" [locale]="{applyLabel: 'Apply', format: 'MM-DD-YYYY'}" [(ngModel)]="selected" (ngModelChange)="selectDateFilter($event)">
+                    </div>
+                </div>
+                <!-- <button type="button" class="daterangeBtn">
                     Feb 2024
                     <i class="bi bi-grid"></i>
-                </button>
+                </button> -->
                 <button type="button" class="tblFilterBtn">
                     <i class="bi bi-check2"></i>
                     Completed
                     <span class="filterCount bg-success text-white" >00</span>
                 </button>
-                <button type="button" class="tblFilterBtn">
+                <!-- <button type="button" class="tblFilterBtn">
                     <i class="bi bi-exclamation-triangle"></i>
                     Partially Completed
                     <span class="filterCount bg-warning">00</span>
-                </button>
-                <!-- <button type="button" class="tblFilterBtn ">
-                    <i class="bi bi-check2"></i>
-                    Re-Run Failed
-                    <span class="filterCount bg-failed text-white">00</span>
                 </button> -->
+                <button type="button" class="tblFilterBtn ">
+                    <i class="bi bi-x-circle"></i>
+                    Failed
+                    <span class="filterCount bg-failed text-white">00</span>
+                </button>
             </div>
         </div>
     </div>
 </div>
-
+<app-circular-loader *ngIf="loadingConfigReport"></app-circular-loader>
 <div class="usertable mt-3 ng-star-inserted">
-    <div class="usertableinner table-responsive">
+    <div class="usertableinner table-responsive" *ngIf="!loadingConfigReport && configList.length > 0">
         <table class="table">
             <thead>
                 <tr>
@@ -51,21 +55,21 @@
             </thead>
             
             <tbody>
-                <tr *ngFor="let e of [].constructor(15); let i = index">
+                <tr *ngFor="let obj of configList; let i = index">
                     <td>
-                        <div class="tableinfo">Florida License Board</div>
+                        <div class="tableinfo textClamp">{{obj.lookupName}}</div>
                     </td>
                     
                     <td>
-                        <div class="tableinfo ">
-                            <a href="#!" class="text-primary text-decoration-none">Link</a>
+                        <div class="tableinfo d-flex">
+                            <span class="text-primary text-decoration-none textClamp">{{obj.lookupLink}}</span>
                         </div>
                     </td>
                    
                     <td>
                         <div class="tableinfo d-flex align-items-center justify-content-start gap-2">
-                            <a href="#!" class="text-primary text-decoration-none"><i class="bi bi-box-arrow-up-right"></i></a>
-                            <span class="npi-badge statusSuccesful">Success</span>
+                            <span class="text-primary pointer"><i class="bi bi-box-arrow-up-right me-1" (click)="routeToConfiguration(obj.lookupName, obj.lookupLink)"></i> </span>
+                            <span class="npi-badge statusSuccesful">{{obj.configStatus}}</span>
                         </div>
                     </td>
                     <td>
@@ -75,25 +79,110 @@
                             <span class="npi-badge statusFailed">Re-Run Failed</span>
                         </div> -->
                         <div class="tableinfo text-muted">
-                            02/23/2023 19:00
+                            {{obj.lastTestedOn | date:'MM/dd/yyyy HH:mm'}}
                         </div>
                     </td>
                     
                     <td>
                         <div class="tableinfo">
                             <div class="d-flex align-items-center gap-2">
-                                <button type="button" class="btn primarybtn">View</button>
+                                <button *ngIf="!Constant.EMPTY_STRINGS.includes(obj.url)" type="button" class="btn primarybtn" (click)="viewSnapshot(obj.url)">View</button>
+                                <button *ngIf="Constant.EMPTY_STRINGS.includes(obj.url)" type="button" class="btn primarybtn" disabled>View</button>
                             </div>
                         </div>
                     </td>
                     <td>
                         <div class="tableinfo ">
-                            <a href="#!" class="text-primary">View</a>
+                            <span class="text-primary pointer" (click)="viewMultipleSnapshots(obj.id)">View</span>
                         </div>
                     </td>
-                    
                 </tr>
             </tbody>
         </table>
     </div>
+    <div class="row justify-content-center mt-4" *ngIf="!loadingConfigReport && configList.length > 0">   
+        <div class="paginationmain w-100 px-3 mt-2">
+            <div class="d-flex align-items-center justify-content-between">
+                <p class="currentshowing mb-0">
+                    Showing <span>{{configList.length}}</span> of <span>{{totalConfiguration}}</span>  
+                </p>
+                <div class="d-flex justify-content-end">
+                    <ngb-pagination [collectionSize]="totalConfiguration" [rotate]="true" (pageChange)="configPageChanged($event)" [pageSize]="databaseHelper.itemsPerPage" [(page)]="databaseHelper.currentPage" [maxSize]="5" [boundaryLinks]="true">
+                    </ngb-pagination>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="empty-notific text-center" *ngIf="!loadingConfigReport && configList.length == 0">
+        <div class="empty-notificinner">
+            <img src="assets/images/allexpirable.svg" style="width: 16%;margin-right: 80px;margin-top: 14%;" alt="no data found" />
+            <h6 class="m-3 ps-6">No data found</h6>
+        </div>
+    </div>
 </div>
+
+
+<!---------------------------- show image modal ---------------------->
+<button type="button" #openSnapshotModalButton id="openSnapshotModalButton" class="d-none" data-bs-toggle="modal" data-bs-target="#showImageModal"></button>
+<div class="modal blur-bg-2" id="showImageModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="shareModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="max-width:95%;">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Snapshot</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="closeSnapshotModal()" #closeSnapshotModalButton id="closeSnapshotModalButton"></button>
+        </div>
+        <div class="modal-body text-center" style="overflow: scroll;min-height: 450px;">
+            <img [src]="imageUrl | safe" alt="" />
+        </div>
+        </div>
+    </div>
+</div>
+
+<!---------------------------- View Modal For Multiple License & Url ---------------------->
+<button type="button" class="d-none" id="viewModalButton" #viewModalButton data-bs-toggle="modal" data-bs-target= "#viewModal"></button>
+<div class="modal blur-bg-2" id="viewModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm" style="max-width:30%;">
+        <div class="modal-content" style="margin-top:30%;">
+            <div class="modal-header">
+                <h5 class="modal-title">Config Report Snapshot</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center">
+                <div class="reportListing usertableinner no-wrap" *ngIf="!loadingConfigReport">
+                    <form>
+                        <table class="table" *ngIf="!shapshotLoadingToggle">
+                            <thead>
+                                <tr>
+                                    <th style="width: 10%;">License Number</th>
+                                    <th style="width: 8%;">Snapshot</th>
+                                    <th style="width: 8%;">Tested Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let obj of configSnapshotList; let i = index;">
+                                    <td class="tableData text-center">
+                                        <span class="mb-0">{{obj.licenseNumber?obj.licenseNumber:'N/A'}}</span>
+                                    </td>
+                                    <td class="tableData pointer">
+                                        <a class="text-primary" data-bs-toggle="modal" data-bs-target="#showImageModal" rel="noopener noreferrer"
+                                         (click)="viewSnapshot(obj.url)"> View </a>
+                                    </td>
+                                    <td class="tableData pointer">
+                                        <span class="mb-0">02/07/2024 13:22 </span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <app-circular-loader *ngIf="shapshotLoadingToggle"></app-circular-loader>
+                        <div class="empty-notific text-center mt-5" *ngIf="!shapshotLoadingToggle && configSnapshotList.length == 0">
+                            <div class="empty-notificinner">
+                                <img src="assets/images/allexpirable.svg" style="width: 30%;margin-right: 118px;" alt="no data found" />
+                                <h6 class="m-3 ps-6">No data found</h6>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>  
