@@ -29,7 +29,7 @@ export class ProviderReportComponent implements OnInit {
       debounceTime(600))
       .subscribe(value => {
         this.databaseHelper.currentPage = 1;
-        this.getProviderReport();
+        this.getProviderReport(this.filterType);
       });
   }
 
@@ -56,13 +56,28 @@ export class ProviderReportComponent implements OnInit {
       this.selected = {startDate:moment().subtract(30, 'days'), endDate: moment()};
       return;
     }
-    this.getProviderReport();
-
+    this.getProviderReport(this.filterType);
+    this.getProviderReportCount();
   }
 
-  getProviderReport(){
+  completedCount:number =0;
+  partiallyCompletedCount:number =0;
+  getProviderReportCount(){
+    this.reportService.getProviderReportCount(this.startDate, this.endDate).subscribe(response=>{
+      if(response != null){
+        this.completedCount = response.completedCount;
+        this.partiallyCompletedCount = response.partiallyCompletedCount;
+      }
+    },error=>{
+
+    })
+  }
+
+  filterType:string= '';
+  getProviderReport(filterType:string){
     this.fetchingReport = true;
-    this.reportService.getProviderReport(this.databaseHelper, this.status, this.startDate, this.endDate).subscribe(response => {
+    this.filterType = filterType;
+    this.reportService.getProviderReport(this.databaseHelper, this.filterType, this.startDate, this.endDate).subscribe(response => {
       if(response!=null){
         this.providerReports = response.object;
         this.totalProviderReport = response.totalItems;
@@ -75,7 +90,7 @@ export class ProviderReportComponent implements OnInit {
 
   pageChanged(event:any){
     this.databaseHelper.currentPage = event;
-    this.getProviderReport();
+    this.getProviderReport(this.filterType);
   }
 
   @ViewChild('viewLogsButton') viewLogsButton!: ElementRef;

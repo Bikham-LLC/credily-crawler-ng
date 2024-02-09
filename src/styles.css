@@ -380,3 +380,10 @@ label.form-label.labelCls {
   background-color: #fef3f3;
   color: #e74c2b;
 }
+.textClamp {
+  display: block;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  max-width: 220px;
+}

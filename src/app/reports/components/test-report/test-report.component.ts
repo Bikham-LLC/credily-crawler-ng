@@ -53,6 +53,20 @@ export class TestReportComponent implements OnInit {
       return;
     }
     this.getConfigReport(this.statusFilter);
+    this.getCountTestConfigReport();
+  }
+
+  completedCount : number =0;
+  failedCount : number =0;
+  getCountTestConfigReport(){
+    this.reportService.getCountTestConfigReport(this.startDate, this.endDate).subscribe(response=>{
+      if(response != null){
+        this.completedCount = response.completedCount;
+        this.failedCount = response.failedCount;
+      }
+    },error=>{
+
+    })
   }
 
   statusFilter : string = '';
@@ -65,7 +79,7 @@ export class TestReportComponent implements OnInit {
     this.statusFilter = statusFilter;
     this.startDate = new Date(this.selected.startDate.toDate()).toDateString();
     this.endDate = new Date(this.selected.endDate.toDate()).toDateString();
-    this.reportService.getConfigReport(this.databaseHelper, this.startDate, this.endDate, this.statusFilter).subscribe(response => {
+    this.reportService.getTestConfigReport(this.databaseHelper, this.startDate, this.endDate, this.statusFilter).subscribe(response => {
       if (response.status && response.object != null) {
         this.configList = response.object;
         this.totalConfiguration = response.totalItems;

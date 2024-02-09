@@ -1365,6 +1365,23 @@ export class ConfigurationComponent implements OnInit {
   showAndHideComments(){
     debugger
     this.showCommentsToggle = !this.showCommentsToggle;
+    if(this.showCommentsToggle){
+      this.getConfigCommentById();
+    }
+  }
+
+  configCommentList : any[] = new Array();
+  commentLastUpdatedDate:any;
+  getConfigCommentById(){
+    this.licenseLookupService.getConfigCommentById(this.selectedLookupConfigId).subscribe(response=>{
+      if(response != null){
+        this.configCommentList = response.list;
+        this.commentLastUpdatedDate = response.lastUpdatedDate;
+
+      }
+    },error=>{
+
+    })
   }
 
 }

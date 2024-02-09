@@ -1,5 +1,3 @@
-<!-- <app-header></app-header> -->
-
 <div class="searchRowMain mt-3">
     <div class="row align-items-center justify-content-between">
         <div class="col-lg-3">
@@ -16,19 +14,15 @@
                     <input type="text" autocomplete="off" class="form-control" name="daterange" placeholder="Select Date Range" ngxDaterangepickerMd [showClearButton]="true" [opens]="'left'" [locale]="{applyLabel: 'Apply', format: 'MM-DD-YYYY'}" [(ngModel)]="selected" (ngModelChange)="selectDateFilter($event)">
                 </div>
             </div>
-                <!-- <button type="button" class="daterangeBtn">
-                    Feb 2024
-                    <i class="bi bi-grid"></i>
-                </button> -->
-                <button type="button" class="tblFilterBtn">
+                <button type="button" class="tblFilterBtn" [ngClass]="{'tblFilterBtnactive': filterType == 'completed'}" (click)="getProviderReport('completed')">
                     <i class="bi bi-check2"></i>
                     Completed
-                    <span class="filterCount bg-success text-white" >00</span>
+                    <span class="filterCount bg-success text-white" >{{completedCount}}</span>
                 </button>
-                <button type="button" class="tblFilterBtn">
+                <button type="button" class="tblFilterBtn" [ngClass]="{'tblFilterBtnactive': filterType == 'partiallyCompleted'}" (click)="getProviderReport('partiallyCompleted')">
                     <i class="bi bi-exclamation-triangle"></i>
                     Partially Completed
-                    <span class="filterCount bg-warning">00</span>
+                    <span class="filterCount bg-warning">{{partiallyCompletedCount}}</span>
                 </button>
             </div>
         </div>
@@ -66,7 +60,7 @@
                         </div>
                     </td>
                     <td>
-                        <div class="tableinfo line-clamp">{{obj.email}}</div>
+                        <div class="tableinfo textClamp">{{obj.email}}</div>
                     </td>
                     <td>
                         <div class="tableinfo ">
@@ -109,7 +103,7 @@
             </tbody>
         </table>
         <app-circular-loader *ngIf="fetchingReport"></app-circular-loader>
-        <div class="paginationmain mt-5" *ngIf=" !fetchingReport && totalProviderReport>providerReports.length">
+        <div class="paginationmain mt-5" *ngIf=" !fetchingReport && providerReports.length >0">
           <div class="d-flex align-items-center justify-content-between">
             <p class="currentshowing mb-0">
               Showing <span>{{providerReports.length}}</span> of <span>{{totalProviderReport}}</span>
@@ -125,6 +119,15 @@
             </div>
           </div>
         </div>
+        <!-- Empty notification -->
+        <div class="empty-notific text-center" style="margin: 13% 10% 13% 3%;"
+        *ngIf="!fetchingReport && providerReports.length==0">
+        <div class="empty-notificinner">
+
+          <img src="assets/images/allexpirable.svg" style="width: 18%;" alt="no data found" />
+          <h6 class="m-3 ps-5">No data found</h6>
+        </div>
+      </div>
     </div>
 </div>
 

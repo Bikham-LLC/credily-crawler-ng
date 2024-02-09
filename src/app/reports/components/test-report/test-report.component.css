@@ -61,4 +61,20 @@
     align-items: center;
     column-gap: 10px;
   }
+  .textClamp1 {
+    display: block;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    max-width: 390px;
+  }
+  .tblFilterBtnactive{
+    background-color: #0071d2;
+      color: #fff;
+      border-color: #0071d2;
+  }
+  .tblFilterBtnactive .filterCount {
+    background-color: #fff !important;
+    color: #111 !important;
+  }
   

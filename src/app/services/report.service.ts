@@ -15,7 +15,7 @@ export class ReportService {
 
   key: Keys = new Keys();
 
-  getProviderReport(databaseHelper:DatabaseHelper, status:any, startDate:any, endDate:any): Observable<any> {
+  getProviderReport(databaseHelper:DatabaseHelper, filterType:any, startDate:any, endDate:any): Observable<any> {
     if(databaseHelper==undefined || databaseHelper==null){
       databaseHelper = new DatabaseHelper();
     }
@@ -24,13 +24,20 @@ export class ReportService {
     .set('searchBy', databaseHelper.searchBy)
     .set('currentPage', databaseHelper.currentPage)
     .set('itemsPerPage', databaseHelper.itemsPerPage)
-    .set('status', status)
+    .set('filterType', filterType)
     if(!Constant.EMPTY_STRINGS.includes(startDate) && !Constant.EMPTY_STRINGS.includes(startDate)){
       params = params.set('startDate', startDate)
       .set('endDate', endDate)
     }
     
     return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.report + '/provider-config-report', {params});
+  }
+
+  getProviderReportCount(startDate:string, endDate:string):Observable<any> {
+    var params = new HttpParams()
+    .set('startDate', startDate)
+    .set('endDate', endDate)
+    return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.report + '/provider-config-report-count', {params});
   }
 
   getProviderLogs(providerUuid:string):Observable<any> {
@@ -52,7 +59,7 @@ export class ReportService {
   }
   // ------------------------------- config report section -----------------------
 
-  getConfigReport(databaseHelper:DatabaseHelper, startDate:any, endDate:any, configReportStatus:any): Observable<any> {
+  getTestConfigReport(databaseHelper:DatabaseHelper, startDate:any, endDate:any, configReportStatus:any): Observable<any> {
     if(databaseHelper==undefined || databaseHelper==null){
       databaseHelper = new DatabaseHelper();
     }
@@ -66,7 +73,14 @@ export class ReportService {
       params = params.set('startDate', startDate)
       .set('endDate', endDate)
     }
-    return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.report + '/config-status', {params});
+    return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.report + '/test-report', {params});
+  }
+
+  getCountTestConfigReport(startDate:string, endDate:string): Observable<any> {
+    var params = new HttpParams()
+    .set('startDate', startDate)
+    .set('endDate', endDate)
+    return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.report + '/test-report-count', {params});
   }
 
 

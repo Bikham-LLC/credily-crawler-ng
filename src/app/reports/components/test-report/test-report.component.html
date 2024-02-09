@@ -14,24 +14,15 @@
                         <input type="text" autocomplete="off" class="form-control" name="daterange" placeholder="Select Date Range" ngxDaterangepickerMd [showClearButton]="true" [opens]="'left'" [locale]="{applyLabel: 'Apply', format: 'MM-DD-YYYY'}" [(ngModel)]="selected" (ngModelChange)="selectDateFilter($event)">
                     </div>
                 </div>
-                <!-- <button type="button" class="daterangeBtn">
-                    Feb 2024
-                    <i class="bi bi-grid"></i>
-                </button> -->
-                <button type="button" class="tblFilterBtn">
+                <button type="button" class="tblFilterBtn" [ngClass]="{'tblFilterBtnactive': statusFilter == 'Test Pass'}" (click)="getConfigReport('Test Pass')">
                     <i class="bi bi-check2"></i>
                     Completed
-                    <span class="filterCount bg-success text-white" >00</span>
+                    <span class="filterCount bg-success text-white" >{{completedCount}}</span>
                 </button>
-                <!-- <button type="button" class="tblFilterBtn">
-                    <i class="bi bi-exclamation-triangle"></i>
-                    Partially Completed
-                    <span class="filterCount bg-warning">00</span>
-                </button> -->
-                <button type="button" class="tblFilterBtn ">
+                <button type="button" class="tblFilterBtn" [ngClass]="{'tblFilterBtnactive': statusFilter == 'Test Fail'}" (click)="getConfigReport('Test Fail')">
                     <i class="bi bi-x-circle"></i>
                     Failed
-                    <span class="filterCount bg-failed text-white">00</span>
+                    <span class="filterCount bg-failed text-white">{{failedCount}}</span>
                 </button>
             </div>
         </div>
@@ -57,12 +48,12 @@
             <tbody>
                 <tr *ngFor="let obj of configList; let i = index">
                     <td>
-                        <div class="tableinfo textClamp">{{obj.lookupName}}</div>
+                        <div class="tableinfo textClamp1">{{obj.lookupName}}</div>
                     </td>
                     
                     <td>
                         <div class="tableinfo d-flex">
-                            <span class="text-primary text-decoration-none textClamp">{{obj.lookupLink}}</span>
+                            <span class="text-primary text-decoration-none textClamp1">{{obj.lookupLink}}</span>
                         </div>
                     </td>
                    

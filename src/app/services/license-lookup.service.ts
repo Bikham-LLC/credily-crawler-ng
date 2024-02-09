@@ -161,4 +161,12 @@ export class LicenseLookupService {
     .set('configId', configId)
     return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.lookup_config_controller+ '/config', {params});
   }
+
+  getConfigCommentById(configId:number): Observable<any>{
+    var params = new HttpParams()
+    .set('configId', configId)
+    return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.lookup_config_controller+ '/config-comment', {params});
+  }
+
+
 }

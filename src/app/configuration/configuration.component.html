@@ -205,18 +205,26 @@
                                     <div class="commentInner">
                                         <div class="cmmntHead d-flex justify-content-between align-items-center">
                                             <h3>Comments</h3>
-                                            <p>Last updated <strong>14 Feb 2024(5:00 pm)</strong></p>
+                                            <p *ngIf="!Constant.EMPTY_STRINGS.includes(commentLastUpdatedDate)">Last updated <strong>{{commentLastUpdatedDate | date : 'dd MMM yyyy (HH:mm a)'}}</strong></p>
                                         </div>
                                         <div class="cmmntBody">
                                             <div class="cmmntBodyInner">
                                                 <h3>Notes</h3>
 
-                                                <div class="cmmntslistingMain">
+                                                <div class="cmmntslistingMain" *ngIf="configCommentList.length>0">
                                                     <div class="cmmntslistingInner">
-                                                        <div class="cmnntCard" *ngFor="let e of [].constructor(5); let i = index">
-                                                            <p>Lorem ipsum Dolor Sit amet Lorem ipsum Dolor Sit amet Lorem ipsum Dolor Sit amet Lorem ipsum Dolor Sit amet.</p>
-                                                            <span><strong>12th Jan 2023 5:53 pm</strong></span>
+                                                        <div class="cmnntCard" *ngFor="let obj of configCommentList; let i = index">
+                                                            <p>{{obj.comment}}</p>
+                                                            <span><strong>{{obj.createdDate | date : 'dd MMM YYYY hh:mm a'}}</strong></span>
                                                         </div>
+                                                    </div>
+                                                </div>
+                                                <div class="empty-notific" style="margin-top: 20%;" *ngIf="configCommentList.length==0">
+                                                    <div class="empty-notificinner text-center">
+                                                        <div class="empty-notificinnerimg">
+                                                            <img src="assets/images/nodocument.svg" alt="" style="width:45%">
+                                                        </div>
+                                                        <h5 style="padding-right: 50px;">No Data Found.</h5>
                                                     </div>
                                                 </div>
                                             </div>
