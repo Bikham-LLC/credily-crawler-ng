@@ -128,7 +128,7 @@ export class ProviderReportComponent implements OnInit {
   testAgainProviderRequest(logId:number, index:number){
     this.providerTestingToggle = true;
     this.providerCrawlerLogList[index].reTestingToggle = true;
-    this.reportService.testAgainProviderRequest(logId).subscribe(response=>{
+    this.reportService.reRunProviderLog(logId).subscribe(response=>{
       this.providerCrawlerLogList[index].reTestingToggle = false;
       this.providerTestingToggle = false;
       this.getProviderLogs(this.uuid);

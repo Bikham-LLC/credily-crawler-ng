@@ -10,4 +10,5 @@ export class FailedConfigDTO{
 	reRunCount:number=0;
     snapshotUrl:string='';
 	status:string='';
+	reTestingToggle:boolean=false;
 }

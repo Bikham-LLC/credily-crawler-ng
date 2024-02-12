@@ -115,13 +115,18 @@ export class TestReportComponent implements OnInit {
   @ViewChild('closeSnapshotModalButton') closeSnapshotModalButton !: ElementRef;
   closeSnapshotModal(){
     this.closeSnapshotModalButton.nativeElement.click();
+    if(this.viewTime == 'secondView'){
+      this.viewMultipleSnapshots(this.logId);
+    }
   }
 
   @ViewChild('openSnapshotModalButton') openSnapshotModalButton !: ElementRef;
   imageUrl:string='';
-  viewSnapshot(url:string){
+  viewTime:string = '';
+  viewSnapshot(url:string, view:string){
     debugger
     this.imageUrl = url;
+    this.viewTime = view;
     setTimeout(() => {
       this.openSnapshotModalButton.nativeElement.click();
     }, 100);
@@ -131,7 +136,9 @@ export class TestReportComponent implements OnInit {
 
   @ViewChild('viewModalButton') viewModalButton! : ElementRef;
   
+  logId:number = 0;
   viewMultipleSnapshots(id:number){
+    this.logId = id;
     this.viewModalButton.nativeElement.click(); 
     this.getScreenshot(id);
   }

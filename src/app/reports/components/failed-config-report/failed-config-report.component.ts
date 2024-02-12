@@ -29,7 +29,7 @@ export class FailedConfigReportComponent implements OnInit {
       debounceTime(600))
       .subscribe(value => {
         this.databaseHelper.currentPage = 1;
-        this.getFailedConfigs(this.searchFilter);
+        this.getFailedConfigs(this.configType);
       });
     }
 
@@ -66,19 +66,19 @@ export class FailedConfigReportComponent implements OnInit {
       this.selected = {startDate:moment().subtract(30, 'days'), endDate: moment()};
       return;
     }
-    this.getFailedConfigs(this.searchFilter);
+    this.getFailedConfigs(this.configType);
     this.getFailedConfigsCount();
   }
 
-  searchFilter:string ='';
+  configType:string ='';
   configLoadingToggle:boolean = false;
   databaseHelper: DatabaseHelper = new DatabaseHelper();
   failedConfigList : FailedConfigDTO[] = new Array();
   totalConfigsCount:number=0;
-  getFailedConfigs(searchFilter:string){
+  getFailedConfigs(configType:string){
     this.configLoadingToggle = true;
-    this.searchFilter = searchFilter;
-    this.reportService.getFailedConfigs(this.startDate, this.endDate, this.databaseHelper, this.searchFilter).subscribe(response=>{
+    this.configType = configType;
+    this.reportService.getFailedConfigs(this.startDate, this.endDate, this.databaseHelper, this.configType).subscribe(response=>{
       if(response != null){
         this.failedConfigList = response.list;
         this.totalConfigsCount = response.totalItems;
@@ -91,7 +91,7 @@ export class FailedConfigReportComponent implements OnInit {
 
   pageChanged(event:any){
     this.databaseHelper.currentPage = event;
-    this.getFailedConfigs(this.searchFilter);
+    this.getFailedConfigs(this.configType);
   }
 
   routeToConfiguration(lookupName: string, lookupLink:string){
@@ -152,6 +152,23 @@ export class FailedConfigReportComponent implements OnInit {
       this.commentSavingToggle = false;
     },error=>{
       this.commentSavingToggle = false;
+    })
+  }
+
+
+  logRerunToggle:boolean = false;
+  reRunProviderLog(logId:number, index:number){
+    this.logRerunToggle = true;
+    this.failedConfigList[index].reTestingToggle = true;
+    this.reportService.reRunProviderLog(logId).subscribe(response=>{
+      if(response){
+        this.getFailedConfigs(this.configType); 
+      }
+      this.logRerunToggle = false;
+      this.failedConfigList[index].reTestingToggle = false;
+    },error=>{
+      this.failedConfigList[index].reTestingToggle = false;
+      this.logRerunToggle = false;
     })
   }
 

@@ -15,6 +15,20 @@ export class ReportService {
 
   key: Keys = new Keys();
 
+  getProviderLogs(providerUuid:string):Observable<any> {
+    var params = new HttpParams()
+    .set('providerUuid', providerUuid)
+    return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.provider_crawler_controller + '/logs', {params});
+  }
+
+
+  refreshProviderStatus(providerUuid:string):Observable<any> { 
+    const params = new HttpParams()
+    .set('providerUuid', providerUuid)
+    return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.provider_crawler_controller + "/refresh-provider", {params});
+  }
+  // ------------------------------- config report section -----------------------
+
   getProviderReport(databaseHelper:DatabaseHelper, filterType:any, startDate:any, endDate:any): Observable<any> {
     if(databaseHelper==undefined || databaseHelper==null){
       databaseHelper = new DatabaseHelper();
@@ -39,25 +53,13 @@ export class ReportService {
     .set('endDate', endDate)
     return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.report + '/provider-config-report-count', {params});
   }
-
-  getProviderLogs(providerUuid:string):Observable<any> {
-    var params = new HttpParams()
-    .set('providerUuid', providerUuid)
-    return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.provider_crawler_controller + '/logs', {params});
-  }
-
-  testAgainProviderRequest(logId:number):Observable<any> {
+  
+  reRunProviderLog(logId:number):Observable<any> {
     var params = new HttpParams()
     .set('logId', logId)
-    return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.provider_crawler_controller + '/test-again', {params});
+    return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.report + '/re-run-log', {params});
   }
 
-  refreshProviderStatus(providerUuid:string):Observable<any> { 
-    const params = new HttpParams()
-    .set('providerUuid', providerUuid)
-    return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.provider_crawler_controller + "/refresh-provider", {params});
-  }
-  // ------------------------------- config report section -----------------------
 
   getTestConfigReport(databaseHelper:DatabaseHelper, startDate:any, endDate:any, configReportStatus:any): Observable<any> {
     if(databaseHelper==undefined || databaseHelper==null){

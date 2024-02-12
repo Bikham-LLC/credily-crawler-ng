@@ -205,7 +205,7 @@
                   <div class="tableinfo d-flex align-items-center justify-content-end gap-2">
                     <Button tooltipClass="logTooltip" type="button" style="height: 33px;"
                      class="btn primaryBtn" [disabled]="log.reTestingToggle || providerTestingToggle || (Constant.EMPTY_STRINGS.includes(log.lookupName) && Constant.EMPTY_STRINGS.includes(log.lookupLink))"
-                    (click)="testAgainProviderRequest(log.id, i)">Re-run
+                    (click)="reRunProviderLog(log.id, i)">Re-run
                       <i *ngIf="log.reTestingToggle" class="spinner-border spinner-border-sm"></i>
                       <h6 style="height: 9px;font-size: 1rem;"><i *ngIf="!log.reTestingToggle" class="bi bi-arrow-clockwise"></i></h6>
                     </Button>

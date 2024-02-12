@@ -15,17 +15,17 @@
                         <input type="text" autocomplete="off" class="form-control" name="daterange" placeholder="Select Date Range" ngxDaterangepickerMd [showClearButton]="true" [opens]="'left'" [locale]="{applyLabel: 'Apply', format: 'MM-DD-YYYY'}" [(ngModel)]="selected" (ngModelChange)="selectDateFilter($event)">
                     </div>
                 </div>
-                <button type="button" class="tblFilterBtn " [ngClass]="{'tblFilterBtnactive': searchFilter == 'successful'}" (click)="getFailedConfigs('successful')">
+                <button type="button" class="tblFilterBtn " [ngClass]="{'tblFilterBtnactive': configType == 'successful'}" (click)="getFailedConfigs('successful')">
                     <i class="bi bi-check2"></i>
                     Re-Run Successful
                     <span class="filterCount bg-success text-white" >{{reRunSucessful}}</span>
                 </button>
-                <button type="button" class="tblFilterBtn" [ngClass]="{'tblFilterBtnactive': searchFilter == 'pending'}" (click)="getFailedConfigs('pending')">
+                <button type="button" class="tblFilterBtn" [ngClass]="{'tblFilterBtnactive': configType == 'pending'}" (click)="getFailedConfigs('pending')">
                     <i class="bi bi-exclamation-triangle"></i>
                     Re-Run Pending
                     <span class="filterCount bg-warning">{{reRunPending}}</span>
                 </button>
-                <button type="button" class="tblFilterBtn" [ngClass]="{'tblFilterBtnactive': searchFilter == 'failed'}" (click)="getFailedConfigs('failed')">
+                <button type="button" class="tblFilterBtn" [ngClass]="{'tblFilterBtnactive': configType == 'failed'}" (click)="getFailedConfigs('failed')">
                     <i class="bi bi-x-circle"></i>
                     Re-Run Failed
                     <span class="filterCount bg-failed text-white">{{reRunFailed}}</span>
@@ -101,7 +101,9 @@
                     <td>
                         <div class="tableinfo">
                             <div class="d-flex align-items-center gap-2">
-                                <button type="button" class="btn primarybtn">Re-Run</button>
+                                <button type="button" [disabled]="logRerunToggle" class="btn primarybtn" (click)="reRunProviderLog(obj.id, i)">
+                                    Re-Run <i *ngIf="obj.reTestingToggle" class="spinner-border spinner-border-sm" role="status"></i>
+                                </button>
                                 <span *ngIf="obj.status == 'Re-Run Sucessful'" class="cmpletedRun pointer" (click)="openCommentModal(obj)">Completed?</span>
                             </div>
                         </div>
