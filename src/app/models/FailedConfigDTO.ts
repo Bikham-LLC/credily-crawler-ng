@@ -6,6 +6,7 @@ export class FailedConfigDTO{
 	state:string='';
 	providerName:string='';
 	npi:string='';
+	version:string='';
 	updatedDate:string='';
 	reRunCount:number=0;
     snapshotUrl:string='';

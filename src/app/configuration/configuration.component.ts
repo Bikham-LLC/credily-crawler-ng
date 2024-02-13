@@ -195,7 +195,6 @@ export class ConfigurationComponent implements OnInit {
       this.loadingConfiguration = false;
     }, error => {
       this.loadingConfiguration = false;
-      this.dataService.showToast(error.error);
     })
   }
 

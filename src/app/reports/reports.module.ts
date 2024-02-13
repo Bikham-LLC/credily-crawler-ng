@@ -10,6 +10,7 @@ import { NoconfigFoundReportComponent } from './components/noconfig-found-report
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SharedModule } from '../shared/shared.module';
 import { FormsModule } from '@angular/forms';
+import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
 
 
 
@@ -30,6 +31,7 @@ import { FormsModule } from '@angular/forms';
         NgbModule,
         FormsModule,
         SharedModule,
+        AngularMultiSelectModule
     ]
     
 })

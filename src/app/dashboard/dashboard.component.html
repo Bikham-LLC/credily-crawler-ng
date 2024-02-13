@@ -57,7 +57,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-lg-2 px-2 pe-0">
-                                                <div class="dashInfoCard failedConfig">
+                                                <div class="dashInfoCard failedConfig pointer" (click)="routeToFailedConfigReport('V3')">
                                                     <div class="dashInfoInner">
                                                         <p class="dashInfoLabel mb-0">Failed<br>Configs</p>
                                                         <span class="dashInfoCount">{{dashboardTotalCountsV3.licenseFailedConfig}} <i class="bi bi-arrow-right"></i></span>
@@ -106,7 +106,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-lg-2 px-2 pe-0">
-                                                <div class="dashInfoCard failedConfig">
+                                                <div class="dashInfoCard failedConfig pointer" (click)="routeToFailedConfigReport('V3')">
                                                     <div class="dashInfoInner">
                                                         <p class="dashInfoLabel mb-0">Failed<br>Configs</p>
                                                         <span class="dashInfoCount">{{dashboardTotalCountsV3.boardFailedConfig}} <i class="bi bi-arrow-right"></i></span>
@@ -155,7 +155,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-lg-2 px-2 pe-0">
-                                                <div class="dashInfoCard failedConfig">
+                                                <div class="dashInfoCard failedConfig pointer" (click)="routeToFailedConfigReport('V3')">
                                                     <div class="dashInfoInner">
                                                         <p class="dashInfoLabel mb-0">Failed<br>Configs</p>
                                                         <span class="dashInfoCount">{{dashboardTotalCountsV3.commonFailedConfig}} <i class="bi bi-arrow-right"></i></span>
@@ -219,7 +219,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-lg-2 px-2 pe-0">
-                                                <div class="dashInfoCard failedConfig">
+                                                <div class="dashInfoCard failedConfig pointer" (click)="routeToFailedConfigReport('V2')">
                                                     <div class="dashInfoInner">
                                                         <p class="dashInfoLabel mb-0">Failed<br>Configs</p>
                                                         <span class="dashInfoCount">{{dashboardTotalCountsV2.licenseFailedConfig}} <i class="bi bi-arrow-right"></i></span>
@@ -268,8 +268,8 @@
                                                 </div>
                                             </div>
                                             <div class="col-lg-2 px-2 pe-0">
-                                                <div class="dashInfoCard failedConfig">
-                                                    <div class="dashInfoInner">
+                                                <div class="dashInfoCard failedConfig pointer" (click)="routeToFailedConfigReport('V2')"> 
+                                                    <div class="dashInfoInner"> 
                                                         <p class="dashInfoLabel mb-0">Failed<br>Configs</p>
                                                         <span class="dashInfoCount">{{dashboardTotalCountsV2.boardFailedConfig}} <i class="bi bi-arrow-right"></i></span>
                                                     </div>
@@ -317,7 +317,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-lg-2 px-2 pe-0">
-                                                <div class="dashInfoCard failedConfig">
+                                                <div class="dashInfoCard failedConfig pointer" (click)="routeToFailedConfigReport('V2')"> 
                                                     <div class="dashInfoInner">
                                                         <p class="dashInfoLabel mb-0">Failed<br>Configs</p>
                                                         <span class="dashInfoCount">{{dashboardTotalCountsV2.commonFailedConfig}} <i class="bi bi-arrow-right"></i></span>

@@ -88,7 +88,7 @@ export class ProviderReportComponent implements OnInit {
 
   getProviderReport(){
     this.fetchingReport = true;
-    this.reportService.getProviderReport(this.databaseHelper, this.status, this.startDate, this.endDate).subscribe(response => {
+    this.reportService.getProviderReport(this.databaseHelper, this.status, this.startDate, this.endDate, '').subscribe(response => {
       if(response!=null){
         this.providerReports = response.object;
         this.totalProviderReport = response.totalItems;

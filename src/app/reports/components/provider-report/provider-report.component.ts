@@ -20,6 +20,9 @@ export class ProviderReportComponent implements OnInit {
   readonly Route = Route;
   readonly Constant = Constant;
  
+  dropdownSettingsVersion!: { singleSelection: boolean; text: string; enableSearchFilter: boolean; autoPosition: boolean, badgeShowLimit: number; };
+  versionList: any[] = [{id:'V2', itemName:'V2'}, {id:'V3', itemName:'V3'}];
+  selectedVersion: any[] = new Array();
 
   providerSearch = new Subject<string>();
   constructor( private reportService:ReportService,
@@ -34,7 +37,13 @@ export class ProviderReportComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // this.getProviderReport();
+    this.dropdownSettingsVersion = {
+      singleSelection: true,
+      text: 'Select Version',
+      enableSearchFilter: false,
+      autoPosition: false,
+      badgeShowLimit: 1
+    };
   }
 
   databaseHelper:DatabaseHelper = new DatabaseHelper();
@@ -73,11 +82,27 @@ export class ProviderReportComponent implements OnInit {
     })
   }
 
+  versionFilterToggle:boolean = false;
+  filterByVersion(){
+    this.versionFilterToggle = !this.versionFilterToggle;
+  }
+
+  version:string='';
+  selectVersion(event:any){
+    debugger
+    this.version = '';
+    if(event != undefined && event.length > 0){
+      this.version = event[0].id;
+    }
+    this.getProviderReport(this.filterType);
+    this.versionFilterToggle = false
+  }
+
   filterType:string= '';
   getProviderReport(filterType:string){
     this.fetchingReport = true;
     this.filterType = filterType;
-    this.reportService.getProviderReport(this.databaseHelper, this.filterType, this.startDate, this.endDate).subscribe(response => {
+    this.reportService.getProviderReport(this.databaseHelper, this.filterType, this.startDate, this.endDate, this.version).subscribe(response => {
       if(response!=null){
         this.providerReports = response.object;
         this.totalProviderReport = response.totalItems;

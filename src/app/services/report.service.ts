@@ -29,7 +29,7 @@ export class ReportService {
   }
   // ------------------------------- config report section -----------------------
 
-  getProviderReport(databaseHelper:DatabaseHelper, filterType:any, startDate:any, endDate:any): Observable<any> {
+  getProviderReport(databaseHelper:DatabaseHelper, filterType:any, startDate:any, endDate:any, version:string): Observable<any> {
     if(databaseHelper==undefined || databaseHelper==null){
       databaseHelper = new DatabaseHelper();
     }
@@ -39,6 +39,7 @@ export class ReportService {
     .set('currentPage', databaseHelper.currentPage)
     .set('itemsPerPage', databaseHelper.itemsPerPage)
     .set('filterType', filterType)
+    .set('version', version)
     if(!Constant.EMPTY_STRINGS.includes(startDate) && !Constant.EMPTY_STRINGS.includes(startDate)){
       params = params.set('startDate', startDate)
       .set('endDate', endDate)
@@ -105,11 +106,12 @@ export class ReportService {
     return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.report + "/config-id", {params});
   }
 
-  getFailedConfigs(startDate:string, endDate:string, databaseHelper:DatabaseHelper, searchFilter:string) :Observable<any> { 
+  getFailedConfigs(startDate:string, endDate:string, databaseHelper:DatabaseHelper, searchFilter:string, version:string) :Observable<any> { 
     var params = new HttpParams()
     .set('startDate', startDate)
     .set('endDate', endDate)
     .set('searchFilter', searchFilter)
+    .set('version', version)
     .set('search', databaseHelper.search)
     .set('currentPage', databaseHelper.currentPage)
     .set('itemsPerPage', databaseHelper.itemsPerPage)
@@ -125,6 +127,18 @@ export class ReportService {
 
   createConfigComment(commentRequest:CommentRequest) :Observable<any> { 
     return this.http.post<any>(this.key.server_url + this.key.api_version_one + this.key.report + '/comment', commentRequest);
+  }
+
+
+  getNoConfigFoundReport(startDate:string, endDate:string, databaseHelper:DatabaseHelper, searchFilter:string) :Observable<any> { 
+    var params = new HttpParams()
+    .set('startDate', startDate)
+    .set('endDate', endDate)
+    .set('searchFilter', searchFilter)
+    .set('search', databaseHelper.search)
+    .set('currentPage', databaseHelper.currentPage)
+    .set('itemsPerPage', databaseHelper.itemsPerPage)
+    return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.report + "/no-config-found-report", {params});
   }
 
 }

@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationExtras, Router } from '@angular/router';
 import { Constant } from '../models/Constant';
 import { DashboardService } from '../services/dashboard-service';
 import { DatabaseHelper } from '../models/DatabaseHelper';
 import { DashboardV2ConfigDataList } from '../models/DashboardV2ConfigDataList';
 import { DashboardV3ConfigDataList } from '../models/DashboardV3ConfigDataList';
 import * as moment from 'moment';
+import { Route } from '../models/Route';
 
 @Component({
   selector: 'app-dashboard',
@@ -136,6 +137,13 @@ export class DashboardComponent implements OnInit {
       this.v3DatabaseHelper.currentPage = event;
       this.getConfigDataV3(this.v3configType);
     }
+  }
+
+  routeToFailedConfigReport(version:string){
+    let navigationExtras : NavigationExtras = {
+      queryParams : { 'version' : version},
+    }
+    this._router.navigate([Route.FAILED_CONFIG_REPORT], navigationExtras);
   }
 
 

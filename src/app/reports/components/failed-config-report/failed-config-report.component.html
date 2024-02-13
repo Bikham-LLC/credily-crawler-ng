@@ -41,17 +41,30 @@
             <thead>
                 <tr>
                     <th style="width: 16%;">
-                        <span style="cursor: pointer;" > Config Name <i class="bi bi-arrow-down-up"></i> </span>
+                        <span style="cursor: pointer;" > Config Name</span>
                     </th>
-                    <th style="width: 10%;" class="text-center">
-                        <span style="cursor: pointer;" > State <i class="bi bi-arrow-down-up"></i> </span>
+                    <th style="width: 10%;">
+                        <span style="cursor: pointer;" > State</span>
                     </th>
                     <th style="width: 13%;">Provider Name</th>
                     <th style="width: 10%;">NPI Number</th>
-                    <th style="width: 15%;">Updated Date</th>
-                    <th style="width: 12%;">Status</th>
-                    <th style="width: 6%;" class="text-center">Count</th>
-                    <th style="width: 6%;" class="text-center">Actions</th>
+                    <th style="width: 10%;">Updated Date</th>
+                    <th style="width: 9%;">
+                        <span *ngIf="!versionFilterToggle" (click)="filterByVersion()" style="cursor: pointer;">
+                            version 
+                            <i class="bi bi-funnel-fill" *ngIf="selectedVersion.length == 0"></i>
+                            <i *ngIf="selectedVersion.length > 0" class="bi bi-funnel-fill">
+                                <sup class="filterActive">{{selectedVersion.length}}</sup>
+                            </i>
+                        </span>
+                        <angular2-multiselect *ngIf="versionFilterToggle" id="versionSelectBox" name="versionSelectBox" [data]="versionList" [settings]="dropdownSettingsVersion" [(ngModel)]="selectedVersion" #versionSelectBox="ngModel" (ngModelChange)="selectVersion($event)"
+                            required>
+                        </angular2-multiselect>                              
+                    </th>
+                    <th style="width: 11%;">Status</th>
+                   
+                    <th style="width: 5%;">Count</th>
+                    <th style="width: 5%;" class="text-center">Actions</th>
                     <th style="width: 14%;">Re-Run</th>
                 </tr>
             </thead>
@@ -64,7 +77,7 @@
                         
                     </td>
                     <td>
-                        <div class="tableinfo text-center">
+                        <div class="tableinfo">
                             <span class="text-primary pointer"><i class="bi bi-box-arrow-up-right me-1" (click)="routeToConfiguration(obj.configName, obj.configLink)"></i> </span>
                             <span>{{obj.state?obj.state:'----'}} </span>
                         </div>
@@ -83,12 +96,17 @@
                         </div>
                     </td>
                     <td>
+                        <div class="tableinfo text-muted">
+                           {{obj.version}}
+                        </div>
+                    </td>
+                    <td>
                         <div class="tableinfo">
                             <span class="npi-badge mx-auto" [ngClass]="{'statusSuccesful': obj.status == 'Re-Run Sucessful','statusPending': obj.status == 'Re-Run Pending','statusFailed': obj.status == 'Re-Run Failed'}" >{{obj.status}}</span>
                         </div>
                     </td>
                     <td>
-                        <div class="tableinfo text-center">
+                        <div class="tableinfo">
                             <span>{{obj.reRunCount}}</span>
                         </div>
                     </td>

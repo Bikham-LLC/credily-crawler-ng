@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { NavigationExtras, Router } from '@angular/router';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import * as moment from 'moment';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
@@ -21,10 +21,21 @@ export class FailedConfigReportComponent implements OnInit {
   readonly Route = Route;
   readonly Constant = Constant;
 
+
+
+  dropdownSettingsVersion!: { singleSelection: boolean; text: string; enableSearchFilter: boolean; autoPosition: boolean, badgeShowLimit: number; };
+  versionList: any[] = [{id:'V2', itemName:'V2'}, {id:'V3', itemName:'V3'}];
+  selectedVersion: any[] = new Array();
+
   providerSearch = new Subject<string>();
   constructor(private reportService : ReportService,
-    private router : Router) { 
-
+    private router : Router,
+    private activatedRoute: ActivatedRoute) { 
+    
+      if (this.activatedRoute.snapshot.queryParamMap.has('version')) {
+        this.routeVersion = this.activatedRoute.snapshot.queryParamMap.get('version');
+      }
+      
       this.providerSearch.pipe(
       debounceTime(600))
       .subscribe(value => {
@@ -34,8 +45,13 @@ export class FailedConfigReportComponent implements OnInit {
     }
 
   ngOnInit(): void {
-    // this.getFailedConfigs(this.searchFilter);
-    // this.getFailedConfigsCount();
+    this.dropdownSettingsVersion = {
+      singleSelection: true,
+      text: 'Select Version',
+      enableSearchFilter: false,
+      autoPosition: false,
+      badgeShowLimit: 1
+    };
   }
 
   reRunSucessful:number =0;
@@ -53,6 +69,21 @@ export class FailedConfigReportComponent implements OnInit {
     })
   }
 
+  versionFilterToggle:boolean = false;
+  filterByVersion(){
+    this.versionFilterToggle = !this.versionFilterToggle;
+  }
+  routeVersion:any;
+  version:string=''
+  selectVersion(event:any){
+    debugger
+    this.version = '';
+    if(event != undefined && event.length > 0){
+      this.version = event[0].id;
+    }
+    this.getFailedConfigs(this.configType);
+    this.versionFilterToggle = false
+  }
   
   selected : { startDate: moment.Moment, endDate: moment.Moment } = {startDate:moment().subtract(30, 'days'), endDate: moment()};
   startDate: any = null;
@@ -66,10 +97,17 @@ export class FailedConfigReportComponent implements OnInit {
       this.selected = {startDate:moment().subtract(30, 'days'), endDate: moment()};
       return;
     }
+
+    if(this.routeVersion != null){
+      this.versionFilterToggle = true;
+      this.version = this.routeVersion;
+      var temp : {id:any, itemName: any} = {id: this.routeVersion, itemName : this.routeVersion};
+      this.selectedVersion.push(temp);
+      
+    }
     this.getFailedConfigs(this.configType);
     this.getFailedConfigsCount();
   }
-
   configType:string ='';
   configLoadingToggle:boolean = false;
   databaseHelper: DatabaseHelper = new DatabaseHelper();
@@ -78,7 +116,7 @@ export class FailedConfigReportComponent implements OnInit {
   getFailedConfigs(configType:string){
     this.configLoadingToggle = true;
     this.configType = configType;
-    this.reportService.getFailedConfigs(this.startDate, this.endDate, this.databaseHelper, this.configType).subscribe(response=>{
+    this.reportService.getFailedConfigs(this.startDate, this.endDate, this.databaseHelper, this.configType, this.version).subscribe(response=>{
       if(response != null){
         this.failedConfigList = response.list;
         this.totalConfigsCount = response.totalItems;

@@ -35,14 +35,23 @@
             <thead>
                 <tr>
                     <th style="width: 15%;">
-                        <span style="cursor: pointer;"> Provider Name <i class="bi bi-arrow-down-up"></i></span>
+                        <span style="cursor: pointer;"> Provider Name </span>
                     </th>
                     <th style="width: 13%;">NPI Number</th>
                     <th style="width: 15%;">Email</th>
                     <th style="width: 9%;">Phone</th>
-                    <th style="width: 8%;">
-                        <span style="cursor: pointer;"> Version <i class="bi bi-arrow-down-up"></i></span>
-                    </th>
+                    <th style="width: 9%;">
+                      <span *ngIf="!versionFilterToggle" (click)="filterByVersion()" style="cursor: pointer;">
+                          version 
+                          <i class="bi bi-funnel-fill" *ngIf="selectedVersion.length == 0"></i>
+                          <i *ngIf="selectedVersion.length > 0" class="bi bi-funnel-fill">
+                              <sup class="filterActive">{{selectedVersion.length}}</sup>
+                          </i>
+                      </span>
+                      <angular2-multiselect *ngIf="versionFilterToggle" id="versionSelectBox" name="versionSelectBox" [data]="versionList" [settings]="dropdownSettingsVersion" [(ngModel)]="selectedVersion" #versionSelectBox="ngModel" (ngModelChange)="selectVersion($event)"
+                          required>
+                      </angular2-multiselect>                              
+                  </th>
                     <th style="width: 12%;">Updated Date</th>
                     <th style="width: 12%;">Status</th>
                     <th style="width: 10%;">Logs</th>
