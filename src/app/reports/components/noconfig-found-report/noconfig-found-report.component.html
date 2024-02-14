@@ -3,62 +3,67 @@
     <div class="row align-items-center justify-content-between">
         <div class="col-lg-4">
                 <div class="position-relative">
-                    <input id="searchname" name="searchname" placeholder="Search" class="form-control" 
-                    style="padding:0px 15px 0px 38px"/>
+                    <input id="searchname" name="searchname" placeholder="Search" class="form-control" style="padding:0px 15px 0px 38px"
+                [(ngModel)]="databaseHelper.search" (ngModelChange)="this.providerSearch.next($event)"/>
                     <i class="bi bi-search search-icon"></i>
                 </div>
         </div>
-        <div class="col-lg-8">
-            <div class="d-flex justify-content-end align-items-center gap-2">
-                <button type="button" class="daterangeBtn">
-                    Feb 2024
-                    <i class="bi bi-grid"></i>
-                </button>
-                
+        <div class="col-lg-4">
+            <div class="align-items-center gap-2">
+                <div class="dateRangeFilter">
+                    <input type="text" autocomplete="off" class="form-control" name="daterange" placeholder="Select Date Range" ngxDaterangepickerMd [showClearButton]="true" [opens]="'left'" [locale]="{applyLabel: 'Apply', format: 'MM-DD-YYYY'}" [(ngModel)]="selected" (ngModelChange)="selectDateFilter($event)">
+                </div>
             </div>
         </div>
     </div>
 </div>
 
 <div class="usertable mt-3 ng-star-inserted">
-    <div class="usertableinner table-responsive">
+    <div class="usertableinner table-responsive" *ngIf="!noConfigLoadingToggle">
         <table class="table">
             <thead>
                 <tr>
                     <th style="width: 15%;">
-                        <span style="cursor: pointer;"> Provider Name <i class="bi bi-arrow-down-up"></i></span>
+                        <span style="cursor: pointer;"> Provider Name</span>
                     </th>
                     <th style="width: 13%;">NPI Number</th>
                     <th style="width: 15%;">Taxonomy</th>
                     <th style="width: 9%;">State</th>
                     <th style="width: 12%;">Credential</th>
                     
-                    <th style="width: 8%;">
+                    <!-- <th style="width: 8%;">
                         <span style="cursor: pointer;"> Version <i class="bi bi-arrow-down-up"></i></span>
+                    </th> -->
+                    <th style="width: 9%;">
+                        <span *ngIf="!versionFilterToggle" (click)="filterByVersion()" style="cursor: pointer;">
+                            version 
+                            <i class="bi bi-funnel-fill" *ngIf="selectedVersion.length == 0"></i>
+                            <i *ngIf="selectedVersion.length > 0" class="bi bi-funnel-fill">
+                                <sup class="filterActive">{{selectedVersion.length}}</sup>
+                            </i>
+                        </span>
+                        <angular2-multiselect *ngIf="versionFilterToggle" id="versionSelectBox" name="versionSelectBox" [data]="versionList" [settings]="dropdownSettingsVersion" [(ngModel)]="selectedVersion" #versionSelectBox="ngModel" (ngModelChange)="selectVersion($event)"
+                            required>
+                        </angular2-multiselect>                              
                     </th>
                     <th style="width: 12%;">Updated Date</th>
                     
                     <th style="width: 10%;">Logs</th>
                 </tr>
             </thead>
-            
-            
-            <tbody>
-                
-                <tr *ngFor="let e of [].constructor(15); let i = index">
-                    <td><div class="tableinfo">John Doe</div></td>
+            <tbody *ngIf="noConfigFoundList.length>0 && !noConfigLoadingToggle">
+                <tr *ngFor="let obj of noConfigFoundList; let i = index">
+                    <td><div class="tableinfo">{{obj.providerName}}</div></td>
                     <td>
-                        <div class="tableinfo"><span class="badge-grey npi-badge">4455154555</span></div>
+                        <div class="tableinfo"><span class="badge-grey npi-badge">{{obj.npi}}</span></div>
                     </td>
-                    <td><div class="tableinfo line-clamp">21000005X- Internal Medicine</div></td>
-                    <td><div class="tableinfo">California</div></td>
-                    
-                    
+                    <td><div class="tableinfo line-clamp">{{obj.taxonomy}}</div></td>
+                    <td><div class="tableinfo">{{obj.state}}</div></td>
                     <td>
-                        <div class="tableinfo"><span class="npi-badge statusPending mx-auto">License</span></div>
+                        <div class="tableinfo"><span class="npi-badge statusPending mx-auto">{{obj.credential}}</span></div>
                     </td>
-                    <td><div class="tableinfo">v2</div></td>
-                    <td><div class="tableinfo text-muted">02/23/2023 19:00</div></td>
+                    <td><div class="tableinfo">{{obj.version}}</div></td>
+                    <td><div class="tableinfo text-muted">{{obj.updatedDate | date : 'MM/dd/yyyy, HH:mm'}}</div></td>
                     <td>
                         <div class="tableinfo">
                             <div class="d-flex align-items-center gap-2">
@@ -67,8 +72,31 @@
                         </div>
                     </td>
                 </tr>
-                
             </tbody>
         </table>
+        <div class="paginationmain mt-5" *ngIf="noConfigFoundList.length>0 && !noConfigLoadingToggle">
+            <div class="d-flex align-items-center justify-content-between">
+              <p class="currentshowing mb-0">
+                Showing <span>{{noConfigFoundList.length}}</span> of <span>{{totalItems}}</span>
+              </p>
+              <div class="col-lg-6">
+                <div class="card-body d-flex justify-content-end">
+                  <ngb-pagination class="pagination pagination-separated justify-content-sm-end mb-sm-0"
+                    [collectionSize]="totalItems" [rotate]="true" (pageChange)="pageChanged($event)"
+                    [pageSize]="databaseHelper.itemsPerPage" [(page)]="databaseHelper.currentPage" [maxSize]="5"
+                    [boundaryLinks]="true">
+                  </ngb-pagination>
+                </div>
+              </div>
+            </div>
+        </div>
     </div>
+    <div class="empty-notific text-center" style="margin: 13% 10% 13% 3%;" *ngIf="noConfigFoundList.length==0 && !noConfigLoadingToggle">
+        <div class="empty-notificinner">
+          <img src="assets/images/allexpirable.svg" style="width: 20%;" alt="no data found" />
+          <h6 class="m-3 ps-5">No data found</h6>
+        </div>
+    </div>
+    <app-circular-loader *ngIf="noConfigLoadingToggle"></app-circular-loader>
+
 </div>

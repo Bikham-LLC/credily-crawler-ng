@@ -15,13 +15,6 @@ export class ReportService {
 
   key: Keys = new Keys();
 
-  getProviderLogs(providerUuid:string):Observable<any> {
-    var params = new HttpParams()
-    .set('providerUuid', providerUuid)
-    return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.provider_crawler_controller + '/logs', {params});
-  }
-
-
   refreshProviderStatus(providerUuid:string):Observable<any> { 
     const params = new HttpParams()
     .set('providerUuid', providerUuid)
@@ -53,6 +46,12 @@ export class ReportService {
     .set('startDate', startDate)
     .set('endDate', endDate)
     return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.report + '/provider-config-report-count', {params});
+  }
+
+  getProviderLogs(providerUuid:string):Observable<any> {
+    var params = new HttpParams()
+    .set('providerUuid', providerUuid)
+    return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.report + '/logs', {params});
   }
   
   reRunProviderLog(logId:number):Observable<any> {
@@ -130,11 +129,11 @@ export class ReportService {
   }
 
 
-  getNoConfigFoundReport(startDate:string, endDate:string, databaseHelper:DatabaseHelper, searchFilter:string) :Observable<any> { 
+  getNoConfigFoundReport(startDate:string, endDate:string, databaseHelper:DatabaseHelper, version:string) :Observable<any> { 
     var params = new HttpParams()
     .set('startDate', startDate)
     .set('endDate', endDate)
-    .set('searchFilter', searchFilter)
+    .set('version', version)
     .set('search', databaseHelper.search)
     .set('currentPage', databaseHelper.currentPage)
     .set('itemsPerPage', databaseHelper.itemsPerPage)
