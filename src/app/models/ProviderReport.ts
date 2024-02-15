@@ -11,5 +11,6 @@ export class ProviderReport{
     status : string = '';
     allocatedQueue : string = '';
     providerUuid:string='';
+    isProviderDeleted:number=0;
     refreshProviderLoading:boolean=false;
 }

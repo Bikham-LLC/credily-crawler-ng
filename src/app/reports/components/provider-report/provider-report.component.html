@@ -31,7 +31,7 @@
 
 <div class="usertable mt-3 ng-star-inserted">
     <div class="usertableinner table-responsive">
-        <table class="table" *ngIf="providerReports.length>0 && !fetchingReport">
+        <table class="table" *ngIf="providerList.length>0 && !fetchingReport">
             <thead>
                 <tr>
                     <th style="width: 15%;">
@@ -59,68 +59,68 @@
             </thead>
             
             <tbody>
-                <tr *ngFor="let obj of providerReports; let i = index">
-                    <td>
-                        <div class="tableinfo">{{obj.providerName}}</div>
-                    </td>
-                    <td>
-                        <div class="tableinfo">
-                            <span class="badge-grey npi-badge">{{obj.npi}}</span>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="tableinfo textClamp">{{obj.email}}</div>
-                    </td>
-                    <td>
-                        <div class="tableinfo ">
-                            {{obj.phone}}
-                        </div>
-                    </td>
-                    <td>
-                        <div class="tableinfo ">
-                            {{obj.version}}
-                        </div>
-                    </td>
-                   
-                    <td>
-                        <div class="tableinfo text-muted">
-                            {{obj.updatedDate | date:'MM/dd/yyyy, hh:mm:a'}}
-                        </div>
-                    </td>
-                    <td>
-                        <div class="tableinfo">
-                            <span class=" mx-auto"><span
-                                [ngClass]="{'statusactive':obj.status.toUpperCase()=='COMPLETED', 'statusinactive':obj.status =='NO CONFIG FOUND', 'statuspending':(obj.status.toUpperCase()!='COMPLETED' && obj.status.toUpperCase()!='NO CONFIG FOUND') }">
-                                {{obj.status | titlecase}}
-                              </span></span>
-                        </div>
-                    </td>
-                    
-                    <td>
-                        <div class="tableinfo">
-                            <div class="d-flex align-items-center gap-2">
-                                <button type="button" class="btn primarybtn" (click)="viewLogs(obj.providerUuid)">View</button>
-                                <!-- <span *ngIf="Constant.REFRESH_HIDE.includes(obj.status)" (click)="refreshProviderStatus(obj.providerUuid, i)">
-                                  <i *ngIf="!providerReports[i].refreshProviderLoading" class="bi bi-arrow-repeat" style="font-size: 17px;color: #003fdaeb;"></i>
-                                  <i *ngIf="providerReports[i].refreshProviderLoading"class="spinner-border spinner-border-sm" style="color: #003fdaeb;"></i>
-                                </span> -->
-                            </div>
-                        </div>
-                    </td>
+                <tr [ngClass]="{'danger-border': obj.isProviderDeleted == 1}" *ngFor="let obj of providerList; let i = index">
+                  <td>
+                      <div class="tableinfo" >{{obj.providerName}}</div>
+                  </td>
+                  <td>
+                      <div class="tableinfo">
+                          <span class="badge-grey npi-badge">{{obj.npi}}</span>
+                      </div>
+                  </td>
+                  <td>
+                      <div class="tableinfo textClamp">{{obj.email}}</div>
+                  </td>
+                  <td>
+                      <div class="tableinfo ">
+                          {{obj.phone}}
+                      </div>
+                  </td>
+                  <td>
+                      <div class="tableinfo ">
+                          {{obj.version}}
+                      </div>
+                  </td>
+                  
+                  <td>
+                      <div class="tableinfo text-muted">
+                          {{obj.updatedDate | date:'MM/dd/yyyy, hh:mm:a'}}
+                      </div>
+                  </td>
+                  <td>
+                      <div class="tableinfo">
+                          <span class=" mx-auto"><span
+                              [ngClass]="{'statusactive':obj.status.toUpperCase()=='COMPLETED', 'statusinactive':obj.status =='NO CONFIG FOUND', 'statuspending':(obj.status.toUpperCase()!='COMPLETED' && obj.status.toUpperCase()!='NO CONFIG FOUND') }">
+                              {{obj.status | titlecase}}
+                            </span></span>
+                      </div>
+                  </td>
+                  
+                  <td>
+                      <div class="tableinfo">
+                          <div class="d-flex align-items-center gap-2">
+                              <button type="button" class="btn primarybtn" (click)="viewLogs(obj.providerUuid)">View</button>
+                              <!-- <span *ngIf="Constant.REFRESH_HIDE.includes(obj.status)" (click)="refreshProviderStatus(obj.providerUuid, i)">
+                                <i *ngIf="!providerList[i].refreshProviderLoading" class="bi bi-arrow-repeat" style="font-size: 17px;color: #003fdaeb;"></i>
+                                <i *ngIf="providerList[i].refreshProviderLoading"class="spinner-border spinner-border-sm" style="color: #003fdaeb;"></i>
+                              </span> -->
+                          </div>
+                      </div>
+                  </td>
                     
                 </tr>
             </tbody>
         </table>
         <app-circular-loader *ngIf="fetchingReport"></app-circular-loader>
-        <div class="paginationmain mt-5" *ngIf=" !fetchingReport && providerReports.length >0">
+        <div class="paginationmain mt-5" *ngIf=" !fetchingReport && providerList.length >0">
           <div class="d-flex align-items-center justify-content-between">
             <p class="currentshowing mb-0">
-              Showing <span>{{providerReports.length}}</span> of <span>{{totalProviderReport}}</span>
+              Showing <span>{{providerList.length}}</span> of <span>{{totalProviders}}</span>
             </p>
             <div class="col-lg-6">
               <div class="card-body d-flex justify-content-end">
                 <ngb-pagination class="pagination pagination-separated justify-content-sm-end mb-sm-0"
-                  [collectionSize]="totalProviderReport" [rotate]="true" (pageChange)="pageChanged($event)"
+                  [collectionSize]="totalProviders" [rotate]="true" (pageChange)="pageChanged($event)"
                   [pageSize]="databaseHelper.itemsPerPage" [(page)]="databaseHelper.currentPage" [maxSize]="5"
                   [boundaryLinks]="true">
                 </ngb-pagination>
@@ -130,7 +130,7 @@
         </div>
         <!-- Empty notification -->
         <div class="empty-notific text-center" style="margin: 13% 10% 13% 3%;"
-        *ngIf="!fetchingReport && providerReports.length==0">
+        *ngIf="!fetchingReport && providerList.length==0">
         <div class="empty-notificinner">
 
           <img src="assets/images/allexpirable.svg" style="width: 18%;" alt="no data found" />

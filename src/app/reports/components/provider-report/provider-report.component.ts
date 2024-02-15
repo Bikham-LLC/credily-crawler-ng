@@ -47,8 +47,8 @@ export class ProviderReportComponent implements OnInit {
   }
 
   databaseHelper:DatabaseHelper = new DatabaseHelper();
-  providerReports:ProviderReport[] = new Array();
-  totalProviderReport:number=0;
+  providerList:ProviderReport[] = new Array();
+  totalProviders:number=0;
   fetchingReport:boolean=false;
   status:string='';
 
@@ -109,8 +109,8 @@ export class ProviderReportComponent implements OnInit {
     }
     this.reportService.getProviderReport(this.databaseHelper, this.filterType, this.startDate, this.endDate, this.version).subscribe(response => {
       if(response!=null){
-        this.providerReports = response.object;
-        this.totalProviderReport = response.totalItems;
+        this.providerList = response.object;
+        this.totalProviders = response.totalItems;
       }
       this.fetchingReport = false;
     }, error => {
@@ -182,12 +182,12 @@ export class ProviderReportComponent implements OnInit {
 
   refreshProviderStatus(providerUuid:string, index:number){
     debugger
-    this.providerReports[index].refreshProviderLoading = true;
+    this.providerList[index].refreshProviderLoading = true;
     this.reportService.refreshProviderStatus(providerUuid).subscribe(response=>{
-      this.providerReports[index].status = response.object;
-      this.providerReports[index].refreshProviderLoading = false;
+      this.providerList[index].status = response.object;
+      this.providerList[index].refreshProviderLoading = false;
     },error=>{
-      this.providerReports[index].refreshProviderLoading = false;
+      this.providerList[index].refreshProviderLoading = false;
     })
   }
 
