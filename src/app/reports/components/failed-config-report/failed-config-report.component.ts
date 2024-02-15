@@ -115,7 +115,11 @@ export class FailedConfigReportComponent implements OnInit {
   totalConfigsCount:number=0;
   getFailedConfigs(configType:string){
     this.configLoadingToggle = true;
-    this.configType = configType;
+    if(this.configType == configType){
+      this.configType = '';
+    } else {
+      this.configType = configType;
+    }
     this.reportService.getFailedConfigs(this.startDate, this.endDate, this.databaseHelper, this.configType, this.version).subscribe(response=>{
       if(response != null){
         this.failedConfigList = response.list;

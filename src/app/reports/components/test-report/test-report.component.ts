@@ -76,7 +76,11 @@ export class TestReportComponent implements OnInit {
   databaseHelper: DatabaseHelper = new DatabaseHelper();
   getConfigReport(statusFilter:string) {
     this.loadingConfigReport = true;
-    this.statusFilter = statusFilter;
+    if(this.statusFilter == statusFilter){
+      this.statusFilter = '';
+    } else {
+      this.statusFilter = statusFilter;
+    }
     this.startDate = new Date(this.selected.startDate.toDate()).toDateString();
     this.endDate = new Date(this.selected.endDate.toDate()).toDateString();
     this.reportService.getTestConfigReport(this.databaseHelper, this.startDate, this.endDate, this.statusFilter).subscribe(response => {

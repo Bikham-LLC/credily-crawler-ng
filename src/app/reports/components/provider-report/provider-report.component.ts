@@ -2,7 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
 import * as moment from 'moment';
 import { Subject } from 'rxjs';
-import { debounceTime } from 'rxjs/operators';
+import { debounceTime, filter } from 'rxjs/operators';
 import { Constant } from 'src/app/models/Constant';
 import { DatabaseHelper } from 'src/app/models/DatabaseHelper';
 import { ProviderReport } from 'src/app/models/ProviderReport';
@@ -101,7 +101,11 @@ export class ProviderReportComponent implements OnInit {
   filterType:string= '';
   getProviderReport(filterType:string){
     this.fetchingReport = true;
-    this.filterType = filterType;
+    if(this.filterType == filterType){
+      this.filterType = '';
+    } else {
+      this.filterType = filterType;
+    }
     this.reportService.getProviderReport(this.databaseHelper, this.filterType, this.startDate, this.endDate, this.version).subscribe(response => {
       if(response!=null){
         this.providerReports = response.object;

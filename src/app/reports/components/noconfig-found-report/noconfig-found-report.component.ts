@@ -91,5 +91,6 @@ export class NoconfigFoundReportComponent implements OnInit {
 
   pageChanged(event:any){
     this.databaseHelper.currentPage = event;
+    this.getNoConfigFoundReport();
   }
 }
