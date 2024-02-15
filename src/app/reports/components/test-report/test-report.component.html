@@ -14,12 +14,12 @@
                         <input type="text" autocomplete="off" class="form-control" name="daterange" placeholder="Select Date Range" ngxDaterangepickerMd [showClearButton]="true" [opens]="'left'" [locale]="{applyLabel: 'Apply', format: 'MM-DD-YYYY'}" [(ngModel)]="selected" (ngModelChange)="selectDateFilter($event)">
                     </div>
                 </div>
-                <button type="button" class="tblFilterBtn" [ngClass]="{'tblFilterBtnactive': statusFilter == 'Test Pass'}" (click)="getConfigReport('Test Pass')">
+                <button type="button" class="tblFilterBtn" [ngClass]="{'tblFilterBtnactive': statusFilter == 'Test Pass'}" (click)="getConfigReport('Test Pass', 0)">
                     <i class="bi bi-check2"></i>
                     Completed
                     <span class="filterCount bg-success text-white" >{{completedCount}}</span>
                 </button>
-                <button type="button" class="tblFilterBtn" [ngClass]="{'tblFilterBtnactive': statusFilter == 'Test Fail'}" (click)="getConfigReport('Test Fail')">
+                <button type="button" class="tblFilterBtn" [ngClass]="{'tblFilterBtnactive': statusFilter == 'Test Fail'}" (click)="getConfigReport('Test Fail', 0)">
                     <i class="bi bi-x-circle"></i>
                     Failed
                     <span class="filterCount bg-failed text-white">{{failedCount}}</span>

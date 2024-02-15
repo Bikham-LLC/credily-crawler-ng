@@ -40,7 +40,7 @@ export class FailedConfigReportComponent implements OnInit {
       debounceTime(600))
       .subscribe(value => {
         this.databaseHelper.currentPage = 1;
-        this.getFailedConfigs(this.configType);
+        this.getFailedConfigs(this.configType, 0);
       });
     }
 
@@ -81,7 +81,7 @@ export class FailedConfigReportComponent implements OnInit {
     if(event != undefined && event.length > 0){
       this.version = event[0].id;
     }
-    this.getFailedConfigs(this.configType);
+    this.getFailedConfigs(this.configType, 0);
     this.versionFilterToggle = false
   }
   
@@ -105,7 +105,7 @@ export class FailedConfigReportComponent implements OnInit {
       this.selectedVersion.push(temp);
       
     }
-    this.getFailedConfigs(this.configType);
+    this.getFailedConfigs(this.configType, 0);
     this.getFailedConfigsCount();
   }
   configType:string ='';
@@ -113,9 +113,9 @@ export class FailedConfigReportComponent implements OnInit {
   databaseHelper: DatabaseHelper = new DatabaseHelper();
   failedConfigList : FailedConfigDTO[] = new Array();
   totalConfigsCount:number=0;
-  getFailedConfigs(configType:string){
+  getFailedConfigs(configType:string, isPageChanged:number){
     this.configLoadingToggle = true;
-    if(this.configType == configType){
+    if(this.configType == configType && isPageChanged != 1){
       this.configType = '';
     } else {
       this.configType = configType;
@@ -133,7 +133,7 @@ export class FailedConfigReportComponent implements OnInit {
 
   pageChanged(event:any){
     this.databaseHelper.currentPage = event;
-    this.getFailedConfigs(this.configType);
+    this.getFailedConfigs(this.configType, 1);
   }
 
   routeToConfiguration(lookupName: string, lookupLink:string){
@@ -204,7 +204,7 @@ export class FailedConfigReportComponent implements OnInit {
     this.failedConfigList[index].reTestingToggle = true;
     this.reportService.reRunProviderLog(logId).subscribe(response=>{
       if(response){
-        this.getFailedConfigs(this.configType); 
+        this.getFailedConfigs(this.configType, 0); 
       }
       this.logRerunToggle = false;
       this.failedConfigList[index].reTestingToggle = false;

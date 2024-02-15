@@ -14,12 +14,12 @@
                     <input type="text" autocomplete="off" class="form-control" name="daterange" placeholder="Select Date Range" ngxDaterangepickerMd [showClearButton]="true" [opens]="'left'" [locale]="{applyLabel: 'Apply', format: 'MM-DD-YYYY'}" [(ngModel)]="selected" (ngModelChange)="selectDateFilter($event)">
                 </div>
             </div>
-                <button type="button" class="tblFilterBtn" [ngClass]="{'tblFilterBtnactive': filterType == 'completed'}" (click)="getProviderReport('completed')">
+                <button type="button" class="tblFilterBtn" [ngClass]="{'tblFilterBtnactive': filterType == 'completed'}" (click)="getProviderReport('completed', 0)">
                     <i class="bi bi-check2"></i>
                     Completed
                     <span class="filterCount bg-success text-white" >{{completedCount}}</span>
                 </button>
-                <button type="button" class="tblFilterBtn" [ngClass]="{'tblFilterBtnactive': filterType == 'partiallyCompleted'}" (click)="getProviderReport('partiallyCompleted')">
+                <button type="button" class="tblFilterBtn" [ngClass]="{'tblFilterBtnactive': filterType == 'partiallyCompleted'}" (click)="getProviderReport('partiallyCompleted', 0)">
                     <i class="bi bi-exclamation-triangle"></i>
                     Partially Completed
                     <span class="filterCount bg-warning">{{partiallyCompletedCount}}</span>

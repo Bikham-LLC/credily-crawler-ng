@@ -15,17 +15,17 @@
                         <input type="text" autocomplete="off" class="form-control" name="daterange" placeholder="Select Date Range" ngxDaterangepickerMd [showClearButton]="true" [opens]="'left'" [locale]="{applyLabel: 'Apply', format: 'MM-DD-YYYY'}" [(ngModel)]="selected" (ngModelChange)="selectDateFilter($event)">
                     </div>
                 </div>
-                <button type="button" class="tblFilterBtn " [ngClass]="{'tblFilterBtnactive': configType == 'successful'}" (click)="getFailedConfigs('successful')">
+                <button type="button" class="tblFilterBtn " [ngClass]="{'tblFilterBtnactive': configType == 'successful'}" (click)="getFailedConfigs('successful', 0)">
                     <i class="bi bi-check2"></i>
                     Re-Run Successful
                     <span class="filterCount bg-success text-white" >{{reRunSucessful}}</span>
                 </button>
-                <button type="button" class="tblFilterBtn" [ngClass]="{'tblFilterBtnactive': configType == 'pending'}" (click)="getFailedConfigs('pending')">
+                <button type="button" class="tblFilterBtn" [ngClass]="{'tblFilterBtnactive': configType == 'pending'}" (click)="getFailedConfigs('pending', 0)">
                     <i class="bi bi-exclamation-triangle"></i>
                     Re-Run Pending
                     <span class="filterCount bg-warning">{{reRunPending}}</span>
                 </button>
-                <button type="button" class="tblFilterBtn" [ngClass]="{'tblFilterBtnactive': configType == 'failed'}" (click)="getFailedConfigs('failed')">
+                <button type="button" class="tblFilterBtn" [ngClass]="{'tblFilterBtnactive': configType == 'failed'}" (click)="getFailedConfigs('failed', 0)">
                     <i class="bi bi-x-circle"></i>
                     Re-Run Failed
                     <span class="filterCount bg-failed text-white">{{reRunFailed}}</span>

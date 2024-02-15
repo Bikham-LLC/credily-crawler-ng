@@ -32,7 +32,7 @@ export class ProviderReportComponent implements OnInit {
       debounceTime(600))
       .subscribe(value => {
         this.databaseHelper.currentPage = 1;
-        this.getProviderReport(this.filterType);
+        this.getProviderReport(this.filterType, 0);
       });
   }
 
@@ -65,7 +65,7 @@ export class ProviderReportComponent implements OnInit {
       this.selected = {startDate:moment().subtract(30, 'days'), endDate: moment()};
       return;
     }
-    this.getProviderReport(this.filterType);
+    this.getProviderReport(this.filterType, 0);
     this.getProviderReportCount();
   }
 
@@ -94,14 +94,15 @@ export class ProviderReportComponent implements OnInit {
     if(event != undefined && event.length > 0){
       this.version = event[0].id;
     }
-    this.getProviderReport(this.filterType);
+    this.getProviderReport(this.filterType, 0);
     this.versionFilterToggle = false
   }
 
   filterType:string= '';
-  getProviderReport(filterType:string){
+  getProviderReport(filterType:string, isPageChange:number){
+    debugger
     this.fetchingReport = true;
-    if(this.filterType == filterType){
+    if(this.filterType == filterType && isPageChange != 1){
       this.filterType = '';
     } else {
       this.filterType = filterType;
@@ -118,8 +119,9 @@ export class ProviderReportComponent implements OnInit {
   }
 
   pageChanged(event:any){
+    debugger
     this.databaseHelper.currentPage = event;
-    this.getProviderReport(this.filterType);
+    this.getProviderReport(this.filterType, 1);
   }
 
   @ViewChild('viewLogsButton') viewLogsButton!: ElementRef;

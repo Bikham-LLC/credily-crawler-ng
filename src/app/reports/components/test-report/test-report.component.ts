@@ -31,7 +31,7 @@ export class TestReportComponent implements OnInit {
       debounceTime(600))
       .subscribe(value => {
         this.databaseHelper.currentPage = 1;
-        this.getConfigReport(this.statusFilter);
+        this.getConfigReport(this.statusFilter, 0);
       });
 
     
@@ -52,7 +52,7 @@ export class TestReportComponent implements OnInit {
       this.selected = {startDate:moment().subtract(30, 'days'), endDate: moment()};
       return;
     }
-    this.getConfigReport(this.statusFilter);
+    this.getConfigReport(this.statusFilter, 0);
     this.getCountTestConfigReport();
   }
 
@@ -74,9 +74,9 @@ export class TestReportComponent implements OnInit {
   configList: TestReport[] = new Array();
   totalConfiguration: number = 0;
   databaseHelper: DatabaseHelper = new DatabaseHelper();
-  getConfigReport(statusFilter:string) {
+  getConfigReport(statusFilter:string, isPageChanged:number) {
     this.loadingConfigReport = true;
-    if(this.statusFilter == statusFilter){
+    if(this.statusFilter == statusFilter && isPageChanged != 1){
       this.statusFilter = '';
     } else {
       this.statusFilter = statusFilter;
@@ -99,7 +99,7 @@ export class TestReportComponent implements OnInit {
   configPageChanged(event: any) {
     if (event != this.databaseHelper.currentPage) {
       this.databaseHelper.currentPage = event;
-      this.getConfigReport(this.statusFilter);
+      this.getConfigReport(this.statusFilter, 1);
     }
   }
 
