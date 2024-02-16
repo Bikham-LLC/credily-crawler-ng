@@ -59,7 +59,8 @@
             </thead>
             
             <tbody>
-                <tr [ngClass]="{'danger-border': obj.isProviderDeleted == 1}" *ngFor="let obj of providerList; let i = index">
+                <tr *ngFor="let obj of providerList; let i = index">
+                  <!-- [ngClass]="{'danger-border': obj.isProviderDeleted == 1}" -->
                   <td>
                       <div class="tableinfo" >{{obj.providerName}}</div>
                   </td>
@@ -104,6 +105,7 @@
                                 <i *ngIf="!providerList[i].refreshProviderLoading" class="bi bi-arrow-repeat" style="font-size: 17px;color: #003fdaeb;"></i>
                                 <i *ngIf="providerList[i].refreshProviderLoading"class="spinner-border spinner-border-sm" style="color: #003fdaeb;"></i>
                               </span> -->
+                              <span *ngIf="obj.isProviderDeleted == 1" style="margin-left: 13px" class="text-danger" >Deleted!</span>
                           </div>
                       </div>
                   </td>
