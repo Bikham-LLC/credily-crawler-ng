@@ -30,11 +30,4 @@ export class HeaderComponent implements OnInit {
     this._router.navigate(['/auth/login']);
   }
 
-
-  reportName:string='';
-  routeToReport(path:string){
-    debugger
-    this._router.navigate([path]);
-    this.reportName = path;
-  }
 }
