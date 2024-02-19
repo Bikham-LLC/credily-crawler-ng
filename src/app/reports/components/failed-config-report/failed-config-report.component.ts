@@ -142,7 +142,7 @@ export class FailedConfigReportComponent implements OnInit {
         let navigateExtra : NavigationExtras = {
           queryParams : {"id" : response},
         };
-        this.router.navigate([this.Route.CONFIGURATION_ROUTE], navigateExtra)
+        this.router.navigate([this.Route.HOME_CONFIGURATION_ROUTE], navigateExtra)
       }
     },error=>{
 

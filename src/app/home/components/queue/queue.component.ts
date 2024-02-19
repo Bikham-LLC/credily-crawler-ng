@@ -1,10 +1,9 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { Constant } from '../models/Constant';
-import { DataService } from '../services/data.service';
-import { QueueService } from '../services/queue.service';
-import { DatabaseHelper } from '../models/DatabaseHelper';
-import { QueueInstance } from '../models/QueueInstance';
 import { Router } from '@angular/router';
+import { Constant } from 'src/app/models/Constant';
+import { DatabaseHelper } from 'src/app/models/DatabaseHelper';
+import { QueueInstance } from 'src/app/models/QueueInstance';
+import { QueueService } from 'src/app/services/queue.service';
 
 @Component({
   selector: 'app-queue',

@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
-import { Constant } from '../models/Constant';
-import { DashboardService } from '../services/dashboard-service';
-import { DatabaseHelper } from '../models/DatabaseHelper';
-import { DashboardV2ConfigDataList } from '../models/DashboardV2ConfigDataList';
-import { DashboardV3ConfigDataList } from '../models/DashboardV3ConfigDataList';
 import * as moment from 'moment';
-import { Route } from '../models/Route';
+import { Constant } from 'src/app/models/Constant';
+import { DashboardV2ConfigDataList } from 'src/app/models/DashboardV2ConfigDataList';
+import { DashboardV3ConfigDataList } from 'src/app/models/DashboardV3ConfigDataList';
+import { DatabaseHelper } from 'src/app/models/DatabaseHelper';
+import { Route } from 'src/app/models/Route';
+import { DashboardService } from 'src/app/services/dashboard-service';
 
 @Component({
   selector: 'app-dashboard',

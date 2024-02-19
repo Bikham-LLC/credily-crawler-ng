@@ -22,7 +22,6 @@ import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
         ProviderReportComponent,
         TestReportComponent,
         NoconfigFoundReportComponent,
-        // HeaderComponent
        
     ],
     imports: [

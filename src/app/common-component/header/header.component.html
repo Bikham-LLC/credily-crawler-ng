@@ -26,7 +26,7 @@
                                     <h3>{{userName}}</h3>
                                 </div>
                                 <div class="userProfileLink">
-                                    <a  routerLink="/account-user" routerLinkActive="active"><i class="bi bi-gear"></i>  Settings</a>
+                                    <a [routerLink]="Route.HOME_USER_ROUTE" routerLinkActive="active"><i class="bi bi-gear"></i>  Settings</a>
                                 </div>
                                 <div class="userLogout">
                                     <a class="btn primarybtn userLogoutbtn pointer" (click)="logOut()">
@@ -43,33 +43,33 @@
         </div>
         <div class="navigation-bar">
             <div class="navigationitemsmain">
-                <a class="btn navigationitem" routerLinkActive="navActive" routerLink="/dashboard">
+                <a class="btn navigationitem" routerLinkActive="navActive" [routerLink]="Route.HOME_DASHBOARD_ROUTE">
                     Dashboard
                 </a>
-                <a routerLink="/configuration" class="btn navigationitem " routerLinkActive="navActive">
+                <a [routerLink]="Route.HOME_CONFIGURATION_ROUTE" class="btn navigationitem " routerLinkActive="navActive">
                     Configuration
                 </a>
-                <a routerLink="/queue" class="btn navigationitem " routerLinkActive="navActive">
+                <a [routerLink]="Route.HOME_QUEUE_ROUTE" class="btn navigationitem " routerLinkActive="navActive">
                     Queue
                 </a>
                 <div class="dropdown">
-                    <button class="btn navigationitem dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <button class="btn navigationitem dropdown-toggle" [ngClass]="{'navActive': _router.url.includes('reports/')}" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Report
                         <i class="fa-solid fa-chevron-down"></i>
                     </button>
                     
                     <ul class="navigationitemmenu dropdown-menu">
                         <li>
-                            <a class="navigationmenuitem pointer" routerLinkActive="navActive" routerLink="/reports/failed-cofing-report">Failed Config Report</a>
+                            <a class="navigationmenuitem pointer" routerLinkActive="navActive" [routerLink]="Route.FAILED_CONFIG_REPORT">Failed Config Report</a>
                         </li>
                         <li>
-                            <a class="navigationmenuitem pointer" routerLinkActive="navActive" routerLink="/reports/provider-report">Provider Report</a>
+                            <a class="navigationmenuitem pointer" routerLinkActive="navActive" [routerLink]="Route.PROVIDER_REPORT">Provider Report</a>
                         </li>
                         <li>
-                            <a class="navigationmenuitem pointer" routerLinkActive="navActive" routerLink="/reports/noconfig-found-report">No-Config Found Report</a>
+                            <a class="navigationmenuitem pointer" routerLinkActive="navActive" [routerLink]="Route.NO_CONFIG_FOUND_REPORT">No-Config Found Report</a>
                         </li>
                         <li>
-                            <a class="navigationmenuitem pointer" routerLinkActive="navActive" routerLink="/reports/test-report">Test Report</a>
+                            <a class="navigationmenuitem pointer" routerLinkActive="navActive" [routerLink]="Route.TEST_REPORT">Test Report</a>
                         </li>
                     </ul>
                 </div>

@@ -1,8 +1,9 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { DataService } from '../services/data.service';
-import { AuthService } from '../services/auth.service';
-import { UserAccountRequest } from '../models/UserAccountRequest';
-import { DatabaseHelper } from '../models/DatabaseHelper';
+import { DatabaseHelper } from 'src/app/models/DatabaseHelper';
+import { Route } from 'src/app/models/Route';
+import { UserAccountRequest } from 'src/app/models/UserAccountRequest';
+import { AuthService } from 'src/app/services/auth.service';
+import { DataService } from 'src/app/services/data.service';
 
 @Component({
   selector: 'app-account-user',
@@ -14,6 +15,7 @@ export class AccountUserComponent implements OnInit {
   constructor(private dataService:DataService,
     private authService : AuthService) { }
 
+  readonly Route = Route;
   ngOnInit(): void {
     this.getAllUser();
   }

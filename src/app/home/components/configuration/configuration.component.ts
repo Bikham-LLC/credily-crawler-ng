@@ -1,20 +1,20 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DatabaseHelper } from '../models/DatabaseHelper';
-import { LookupTaxonomy } from '../models/LookupTaxonomy';
-import { LicenseLookupService} from '../services/license-lookup.service';
-import { DataService } from '../services/data.service';
-import { ConfigRequest } from '../models/ConfigRequest';
-import { LicenseLookupConfigRequest } from '../models/LicenseLookupConfigRequest';
-import { Constant } from '../models/Constant';
-import { FormStructure } from '../models/formStructure';
 import { CdkDragDrop, CdkDropList, CdkDrag, moveItemInArray } from '@angular/cdk/drag-drop';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { LookupConfiguration } from '../models/LookupConfiguration';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
-import { SubAttributeMap } from '../models/SubAttributeMap';
-import { Route } from '../models/Route';
+import { Constant } from 'src/app/models/Constant';
+import { Route } from 'src/app/models/Route';
+import { LicenseLookupService } from 'src/app/services/license-lookup.service';
+import { DataService } from 'src/app/services/data.service';
+import { DatabaseHelper } from 'src/app/models/DatabaseHelper';
+import { LookupTaxonomy } from 'src/app/models/LookupTaxonomy';
+import { LookupConfiguration } from 'src/app/models/LookupConfiguration';
+import { ConfigRequest } from 'src/app/models/ConfigRequest';
+import { LicenseLookupConfigRequest } from 'src/app/models/LicenseLookupConfigRequest';
+import { FormStructure } from 'src/app/models/formStructure';
+import { SubAttributeMap } from 'src/app/models/SubAttributeMap';
 
 @Component({
   selector: 'app-configuration',
@@ -456,7 +456,7 @@ export class ConfigurationComponent implements OnInit {
     this.type = 'mapped';
     this.configId = 0;
     if(this.configurationId >0){
-      this._router.navigate([Route.CONFIGURATION_ROUTE]);
+      this._router.navigate([Route.HOME_CONFIGURATION_ROUTE]);
     }
 
     // this.selectedTaxonomyIds = [];

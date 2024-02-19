@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Constant } from 'src/app/models/Constant';
+import { Route } from 'src/app/models/Route';
 import { AuthService } from 'src/app/services/auth.service';
 import { DataService } from 'src/app/services/data.service';
 
@@ -68,7 +69,7 @@ export class LoginComponent implements OnInit {
         localStorage.setItem(this.Constant.USER_NAME, response.object.userName);
         localStorage.setItem(this.Constant.USER_EMAIL, response.object.userEmail);
   
-        this._router.navigate(['/configuration']);
+        this._router.navigate([Route.HOME_CONFIGURATION_ROUTE]);
       }else{
         this.dataService.showToast(response.message);
       }
