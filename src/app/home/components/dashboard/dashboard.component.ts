@@ -29,7 +29,7 @@ export class DashboardComponent implements OnInit {
     
   }
 
-  selected : { startDate: moment.Moment, endDate: moment.Moment } = {startDate:moment().subtract(30, 'days'), endDate: moment()};
+  selected : { startDate: moment.Moment, endDate: moment.Moment } = {startDate:moment().subtract(1, 'day'), endDate: moment()};
   startDate: any = null;
   endDate: any = null;
   selectDateFilter(event: any) {
@@ -38,7 +38,7 @@ export class DashboardComponent implements OnInit {
       this.startDate = new Date(this.selected.startDate.toDate()).toDateString();
       this.endDate = new Date(this.selected.endDate.toDate()).toDateString();
     } else {
-      this.selected = {startDate:moment().subtract(30, 'days'), endDate: moment()};
+      this.selected = {startDate:moment().subtract(1, 'day'), endDate: moment()};
       return;
     }
     this.getTotoalProvidersCountV2('License Lookup', 'V2');
