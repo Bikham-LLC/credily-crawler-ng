@@ -36,7 +36,7 @@
 </div>
 
 <div class="usertable mt-3 ng-star-inserted">
-    <div class="usertableinner table-responsive" *ngIf="failedConfigList.length>0 && !configLoadingToggle">
+    <div class="usertableinner">
         <table class="table">
             <thead>
                 <tr>
@@ -68,7 +68,7 @@
                     <th style="width: 14%;">Re-Run</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody *ngIf="failedConfigList.length>0 && !configLoadingToggle">
                 <tr *ngFor="let obj of failedConfigList; let i = index">
                     <td>
                         <div class="tableinfo d-flex ">
@@ -129,7 +129,7 @@
                 </tr>
             </tbody>
         </table>
-        <div class="paginationmain mt-5">
+        <div class="paginationmain mt-5" *ngIf="failedConfigList.length>0 && !configLoadingToggle">
             <div class="d-flex align-items-center justify-content-between">
               <p class="currentshowing mb-0">
                 Showing <span>{{failedConfigList.length}}</span> of <span>{{totalConfigsCount}}</span>
@@ -146,7 +146,7 @@
             </div>
         </div>
     </div>
-    <div class="empty-notific text-center" style="margin: 13% 10% 13% 3%;" *ngIf="failedConfigList.length==0 && !configLoadingToggle">
+    <div class="empty-notific text-center" style="margin: 10% 10% 13% 3%;" *ngIf="failedConfigList.length==0 && !configLoadingToggle">
         <div class="empty-notificinner">
           <img src="assets/images/allexpirable.svg" style="width: 20%;" alt="no data found" />
           <h6 class="m-3 ps-5">No data found</h6>

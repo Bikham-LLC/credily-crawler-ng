@@ -35,6 +35,15 @@ export class FailedConfigReportComponent implements OnInit {
       if (this.activatedRoute.snapshot.queryParamMap.has('version')) {
         this.routeVersion = this.activatedRoute.snapshot.queryParamMap.get('version');
       }
+
+      if(this.activatedRoute.snapshot.queryParamMap.has('d1') && this.activatedRoute.snapshot.queryParamMap.has('d2')) {
+        this.startDate = this.activatedRoute.snapshot.queryParamMap.get('d1');
+        this.endDate = this.activatedRoute.snapshot.queryParamMap.get('d2')
+        this.selected = {startDate:moment(this.startDate), endDate:moment(this.endDate)};
+        this.dashboardDateFilterToggle = true;
+      } else {
+        this.selected = {startDate:moment().subtract(30, 'days'), endDate: moment()};
+      }
       
       this.providerSearch.pipe(
       debounceTime(600))
@@ -44,6 +53,7 @@ export class FailedConfigReportComponent implements OnInit {
       });
     }
 
+    dashboardDateFilterToggle:boolean = false;
   ngOnInit(): void {
     this.dropdownSettingsVersion = {
       singleSelection: true,
@@ -58,7 +68,7 @@ export class FailedConfigReportComponent implements OnInit {
   reRunFailed:number =0;
   reRunPending:number =0;
   getFailedConfigsCount(){
-    this.reportService.getFailedConfigsCount(this.startDate, this.endDate).subscribe(response=>{
+    this.reportService.getFailedConfigsCount(this.startDate, this.endDate, this.version).subscribe(response=>{
       if(response != null){
         this.reRunSucessful = response.reRunSucessful;
         this.reRunFailed = response.reRunFailed;
@@ -81,18 +91,20 @@ export class FailedConfigReportComponent implements OnInit {
     if(event != undefined && event.length > 0){
       this.version = event[0].id;
     }
-    this.getFailedConfigs(this.configType, 0);
+    this.getFailedConfigs(this.configType, 1);
+    this.getFailedConfigsCount();
     this.versionFilterToggle = false
   }
   
-  selected : { startDate: moment.Moment, endDate: moment.Moment } = {startDate:moment().subtract(30, 'days'), endDate: moment()};
+  // selected : { startDate: moment.Moment, endDate: moment.Moment } = {startDate:moment().subtract(30, 'days'), endDate: moment()};
+  selected : any;
   startDate: any = null;
   endDate: any = null;
   selectDateFilter(event: any) {
     debugger
     if (this.selected != undefined && this.selected != null && this.selected.startDate != undefined && this.selected.endDate != undefined && this.selected != null) {
       this.startDate = new Date(this.selected.startDate.toDate()).toDateString();
-      this.endDate = new Date(this.selected.endDate.toDate()).toDateString();
+      this.endDate = new Date(this.selected.endDate.toDate()).toDateString(); 
     } else {
       this.selected = {startDate:moment().subtract(30, 'days'), endDate: moment()};
       return;

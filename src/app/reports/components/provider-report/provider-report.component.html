@@ -31,7 +31,7 @@
 
 <div class="usertable mt-3 ng-star-inserted">
     <div class="usertableinner table-responsive">
-        <table class="table" *ngIf="providerList.length>0 && !fetchingReport">
+        <table class="table">
             <thead>
                 <tr>
                     <th style="width: 15%;">
@@ -58,7 +58,7 @@
                 </tr>
             </thead>
             
-            <tbody>
+            <tbody *ngIf="providerList.length>0 && !fetchingReport">
                 <tr *ngFor="let obj of providerList; let i = index">
                   <!-- [ngClass]="{'danger-border': obj.isProviderDeleted == 1}" -->
                   <td>
@@ -131,10 +131,8 @@
           </div>
         </div>
         <!-- Empty notification -->
-        <div class="empty-notific text-center" style="margin: 13% 10% 13% 3%;"
-        *ngIf="!fetchingReport && providerList.length==0">
+        <div class="empty-notific text-center" style="margin: 13% 10% 13% 3%;" *ngIf="!fetchingReport && providerList.length==0">
         <div class="empty-notificinner">
-
           <img src="assets/images/allexpirable.svg" style="width: 18%;" alt="no data found" />
           <h6 class="m-3 ps-5">No data found</h6>
         </div>

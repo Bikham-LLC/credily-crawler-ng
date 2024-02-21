@@ -72,7 +72,7 @@ export class ProviderReportComponent implements OnInit {
   completedCount:number =0;
   partiallyCompletedCount:number =0;
   getProviderReportCount(){
-    this.reportService.getProviderReportCount(this.startDate, this.endDate).subscribe(response=>{
+    this.reportService.getProviderReportCount(this.startDate, this.endDate, this.version).subscribe(response=>{
       if(response != null){
         this.completedCount = response.completedCount;
         this.partiallyCompletedCount = response.partiallyCompletedCount;
@@ -94,7 +94,8 @@ export class ProviderReportComponent implements OnInit {
     if(event != undefined && event.length > 0){
       this.version = event[0].id;
     }
-    this.getProviderReport(this.filterType, 0);
+    this.getProviderReport(this.filterType, 1);
+    this.getProviderReportCount();
     this.versionFilterToggle = false
   }
 

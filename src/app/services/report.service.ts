@@ -41,10 +41,11 @@ export class ReportService {
     return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.report + '/provider-config-report', {params});
   }
 
-  getProviderReportCount(startDate:string, endDate:string):Observable<any> {
+  getProviderReportCount(startDate:string, endDate:string, version:string):Observable<any> {
     var params = new HttpParams()
     .set('startDate', startDate)
     .set('endDate', endDate)
+    .set('version', version)
     return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.report + '/provider-config-report-count', {params});
   }
 
@@ -117,10 +118,11 @@ export class ReportService {
     return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.report + "/failed-config-report", {params});
   }
 
-  getFailedConfigsCount(startDate:string, endDate:string) :Observable<any> { 
+  getFailedConfigsCount(startDate:string, endDate:string, version:string) :Observable<any> { 
     var params = new HttpParams()
     .set('startDate', startDate)
     .set('endDate', endDate)
+    .set('version', version)
     return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.report + '/failed-config-report-count', {params});
   }
 

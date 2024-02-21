@@ -141,7 +141,7 @@ export class DashboardComponent implements OnInit {
 
   routeToFailedConfigReport(version:string){
     let navigationExtras : NavigationExtras = {
-      queryParams : { 'version' : version},
+      queryParams : { 'version' : version, 'd1': this.startDate, 'd2':this.endDate},
     }
     this._router.navigate([Route.FAILED_CONFIG_REPORT], navigationExtras);
   }
