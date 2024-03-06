@@ -81,7 +81,7 @@
                                                     <th style="width: 10%;">Version</th>
                                                     <th style="width: 10%;">Added By</th>
                                                     <th style="width: 10%;">Status</th>
-                                                    <th style="width: 10%;">Created Date</th>
+                                                    <th style="width: 10%;">Updated Date</th>
                                                     <th style="width: 10%;">Action</th>
                                                 </tr>
                                             </thead>
@@ -111,7 +111,7 @@
                                                         </div>
                                                     </td>
                                                     <td class="tableData text-center">
-                                                        <p class="badge-grey mb-0">{{config.createdDate | date:'MM-dd-yyyy' : 'EST'}}</p>
+                                                        <p class="badge-grey mb-0">{{config.updatedDate | date:'MM-dd-yyyy' : 'EST'}}</p>
                                                     </td>
                                                     <td class="tableData text-center">
                                                         <span class="tbleditBtn"><i class="bi bi-pen" style="cursor: pointer;" (click)="openEditModel(config)"></i></span>
@@ -168,10 +168,10 @@
                                                 <div class="empty-notific" style="margin-top: 10%;" *ngIf="!loadingConfgurationStep && configurationStepList.length==0">
                                                     <div class="empty-notificinner text-center">
                                                         <div class="empty-notificinnerimg">
-                                                            <img src="assets/images/nodocument.svg" alt="" style="width:40%">
+                                                            <img src="assets/images/nodocument.svg" alt="" style="width:20%">
                                                         </div>
-                                                        <h5>No Step Added.</h5>
-                                                        <div class="d-flex justify-content-center mt-4">
+                                                        <h5 style="margin-right: 7%;">No Step Added.</h5>
+                                                        <div class="d-flex justify-content-center mt-4" style="margin-right: 7%;">
                                                             <button class="btn primaryBtn" (click)="openAddConfigModal()">Add Steps</button>
                                                         </div>
                                                     </div>

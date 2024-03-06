@@ -23,7 +23,7 @@ export class LoginComponent implements OnInit {
     private dataService: DataService,
     private _router: Router) {
       if(!this.Constant.EMPTY_STRINGS.includes(localStorage.getItem(this.Constant.TOKEN))){
-        this._router.navigate(['/configuration']);
+        this._router.navigate([Route.HOME_CONFIGURATION_ROUTE]);
       }
      }
 

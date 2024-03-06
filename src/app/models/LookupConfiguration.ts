@@ -11,7 +11,7 @@ export class LookupConfiguration{
     url:any;
     attachmentType:string='';
     attachmentSubType:string='';
-    createdDate:any;
+    updatedDate:any;
     configStatus:string='';
     toggle:boolean=false;
 }
