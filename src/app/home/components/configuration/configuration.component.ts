@@ -205,7 +205,7 @@ export class ConfigurationComponent implements OnInit {
     }
   }
 
-  openLookupModal() {
+  openConfigModal() {
     this.selectedTaxonomyIds = [];
     this.lookupTaxonomyList = [];
     this.selectedTaxonomyLink = [];
