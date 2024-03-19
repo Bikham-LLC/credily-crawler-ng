@@ -1282,7 +1282,7 @@ export class ConfigurationComponent implements OnInit {
 
 
     var eventTemp = {id: '', itemName:''};
-    if(step.elementEvent != null){
+    if(!this.Constant.EMPTY_STRINGS.includes(step.elementEvent)){
       if (this.configurationStepList[index].crawlerAttributeId == 6) {
         this.EventList = [
           { id: '2', itemName: '2 Second' }, { id: '4', itemName: '4 Second' },
@@ -1326,7 +1326,7 @@ export class ConfigurationComponent implements OnInit {
     this.cofnigStepRequest.actionButton = step.actionButton;
 
     var classTemp:{id: any, itemName : any} = {id: '', itemName : ''};
-    if(step.className != null){
+    if(!this.Constant.EMPTY_STRINGS.includes(step.className)){
       if(step.className == 'Static'){
         classTemp.id = '1';
         classTemp.itemName = step.className;
