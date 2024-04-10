@@ -5,6 +5,7 @@ import { NoconfigFoundReportComponent } from './components/noconfig-found-report
 import { ProviderReportComponent } from './components/provider-report/provider-report.component';
 import { TestReportComponent } from './components/test-report/test-report.component';
 import { ReportsComponent } from './reports.component';
+import { OcrReportComponent } from './components/ocr-report/ocr-report.component';
 
 const routes: Routes = [{ 
   path: '', component: ReportsComponent,
@@ -12,7 +13,8 @@ const routes: Routes = [{
     {path: 'failed-cofing-report', component: FailedConfigReportComponent},
     {path: 'provider-report', component: ProviderReportComponent},
     {path: 'test-report', component: TestReportComponent},
-    {path: 'noconfig-found-report', component: NoconfigFoundReportComponent}
+    {path: 'noconfig-found-report', component: NoconfigFoundReportComponent},
+    {path: 'ocr-report', component: OcrReportComponent}
   ] 
 
 }];

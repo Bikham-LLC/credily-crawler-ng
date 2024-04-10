@@ -11,6 +11,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SharedModule } from '../shared/shared.module';
 import { FormsModule } from '@angular/forms';
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
+import { OcrReportComponent } from './components/ocr-report/ocr-report.component';
 
 
 
@@ -22,6 +23,7 @@ import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
         ProviderReportComponent,
         TestReportComponent,
         NoconfigFoundReportComponent,
+        OcrReportComponent,
        
     ],
     imports: [

@@ -142,4 +142,16 @@ export class ReportService {
     return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.report + "/no-config-found-report", {params});
   }
 
+
+  getOcrProviderAttachment(version:string, startDate:string, endDate:string, databaseHelper:DatabaseHelper) :Observable<any> { 
+    var params = new HttpParams()
+    .set('version', version)
+    .set('startDate', startDate)
+    .set('endDate', endDate)
+    .set('search', databaseHelper.search)
+    .set('currentPage', databaseHelper.currentPage)
+    .set('itemsPerPage', databaseHelper.itemsPerPage)
+    return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.report + "/ocr-provider", {params});
+  }
+
 }

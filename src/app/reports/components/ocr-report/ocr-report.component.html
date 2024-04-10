@@ -1,0 +1,85 @@
+
+<div class="searchRowMain mt-3">
+    <div class="row align-items-center justify-content-between">
+        <div class="col-lg-4">
+                <div class="position-relative">
+                    <input id="searchname" name="searchname" placeholder="Search" class="form-control" style="padding:0px 15px 0px 38px"
+                [(ngModel)]="databaseHelper.search" (ngModelChange)="this.providerSearch.next($event)"/>
+                    <i class="bi bi-search search-icon"></i>
+                </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="align-items-center gap-2">
+                <div class="dateRangeFilter">
+                    <input type="text" autocomplete="off" class="form-control" name="daterange" placeholder="Select Date Range" ngxDaterangepickerMd [showClearButton]="true" [opens]="'left'" [locale]="{applyLabel: 'Apply', format: 'MM-DD-YYYY'}" [(ngModel)]="selected">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div>
+        <div class="d-flex justify-content-start align-items-start gap-2">
+            <button class="btn mt-2" [ngClass]="{'primarybtn': version =='V3', 'secondrybtn': version =='V2'}" (click)="getAttachmentWithVersion('V3')">Credily V3</button>
+            <button class="btn mt-2" [ngClass]="{'primarybtn': version =='V2', 'secondrybtn': version =='V3'}" (click)="getAttachmentWithVersion('V2')">Credily V2</button>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="dashboardArea mt-3">
+    <div class="dashNav-paneinner table-responsive">
+        <div class="reportListing usertableinner no-wrap" *ngIf="!providerLoadingToggle && providerAttachmentList.length>0">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th style="width: 15%;"><span style="cursor: pointer;"> Provider Name</span></th>
+                        <th style="width: 13%;">NPI Number</th>
+                        <th style="width: 15%;">Email</th>
+                        <th style="width: 9%;">Document Name</th>
+                        <th style="width: 9%;">Actions</th>
+                    </tr>
+                </thead>
+                <tbody >
+                    <tr *ngFor="let obj of providerAttachmentList">
+                        <td><div class="tableinfo">{{obj.firstName}} {{obj.lastName}}</div></td>
+                        <td>
+                            <div class="tableinfo"><span class="badge-grey npi-badge">{{obj.npi}}</span></div>
+                        </td>
+                        <td>
+                            <div class="tableinfo line-clamp">{{obj.email}}</div>
+                        </td>
+                        <td>
+                            <div class="tableinfo">{{obj.docName}}</div>
+                        </td>
+                        <td>
+                            <div class="tableinfo">
+                                <i class="bi bi-eye pointer" style="color: rgb(23, 108, 227);"></i>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="row justify-content-center" *ngIf="!providerLoadingToggle && providerAttachmentList.length>0">  
+                <div class="paginationmain w-100 px-3 mt-2">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <p class="currentshowing mb-0">
+                            Showing <span>{{providerAttachmentList.length}}</span> of <span>{{totalProviderAttachment}}</span>  
+                        </p>
+                        <div class="d-flex justify-content-end">
+                            <ngb-pagination [collectionSize]="totalProviderAttachment" [rotate]="true" (pageChange)="pageChange($event)" [pageSize]="databaseHelper.itemsPerPage" [(page)]="databaseHelper.currentPage" [maxSize]="5" [boundaryLinks]="true">
+                            </ngb-pagination>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="empty-notific text-center" style="margin: 13% 10% 13% 3%;" *ngIf="!providerLoadingToggle && providerAttachmentList.length==0">
+            <div class="empty-notificinner">
+              <img src="assets/images/allexpirable.svg" style="width: 20%;" alt="no data found" />
+              <h6 class="m-3 ps-5">No data found</h6>
+            </div>
+        </div>
+    </div>
+    <app-circular-loader *ngIf="providerLoadingToggle"></app-circular-loader>
+</div>
+
