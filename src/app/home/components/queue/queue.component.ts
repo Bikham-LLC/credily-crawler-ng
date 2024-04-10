@@ -70,14 +70,15 @@ export class QueueComponent implements OnInit {
     this.queueService.createQueue(this.queueName, this.maxRequest).subscribe(response=>{
       if(response.status){
         this.getAllQueue();
+        this.closeQueueModel.nativeElement.click();
       }
       this.creatingQueueSpinner = false;
     },error=>{
       this.creatingQueueSpinner = false;
     })
-    setTimeout(() => {
-      this.closeQueueModel.nativeElement.click();
-    }, 500)
+    // setTimeout(() => {
+    //   this.closeQueueModel.nativeElement.click();
+    // }, 500)
 
     if(this.queueId > 0){
       this.creatingQueueSpinner = true;

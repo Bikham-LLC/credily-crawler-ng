@@ -500,8 +500,7 @@
                         <button type="button" class="btn primarycancelbtn" style="border-color: #F05252 !important;" data-bs-dismiss="modal" #closeTaxomonModalButton (click)="closeTaxonomyModal()">Close</button>
                         <button type="submit" class="btn primaryBtn" [disabled]="mapLookupTaxonomyForm.invalid || updateLinkToggle || taxanomyLinkLoading || loadingLookupTaxonomy">
                             <span *ngIf="configId==0">Save</span> 
-                            <span *ngIf="configId>0">Update</span> 
-                            changes
+                            <span *ngIf="configId>0">Update</span> changes
                         </button>
                     </div>
                 </form>
