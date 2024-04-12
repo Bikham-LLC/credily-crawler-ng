@@ -151,7 +151,14 @@ export class ReportService {
     .set('search', databaseHelper.search)
     .set('currentPage', databaseHelper.currentPage)
     .set('itemsPerPage', databaseHelper.itemsPerPage)
-    return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.report + "/ocr-provider", {params});
+    return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.report + "/provider-attachment", {params});
+  }
+
+  getAttachmentOcrData(version:string, attachmentId:number) :Observable<any> { 
+    var params = new HttpParams()
+    .set('version', version)
+    .set('attachmentId', attachmentId)
+    return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.report + "/attachment-ocr", {params});
   }
 
 }
