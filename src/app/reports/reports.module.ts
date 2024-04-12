@@ -15,7 +15,6 @@ import { OcrReportComponent } from './components/ocr-report/ocr-report.component
 
 
 
-
 @NgModule({
     declarations: [
         ReportsComponent,
@@ -32,7 +31,7 @@ import { OcrReportComponent } from './components/ocr-report/ocr-report.component
         NgbModule,
         FormsModule,
         SharedModule,
-        AngularMultiSelectModule
+        AngularMultiSelectModule,
     ]
     
 })

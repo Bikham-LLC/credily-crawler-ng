@@ -11,7 +11,7 @@
         <div class="col-lg-4">
             <div class="align-items-center gap-2">
                 <div class="dateRangeFilter">
-                    <input type="text" autocomplete="off" class="form-control" name="daterange" placeholder="Select Date Range" ngxDaterangepickerMd [showClearButton]="true" [opens]="'left'" [locale]="{applyLabel: 'Apply', format: 'MM-DD-YYYY'}" [(ngModel)]="selected">
+                    <input type="text" autocomplete="off" class="form-control" name="daterange" placeholder="Select Date Range" ngxDaterangepickerMd [showClearButton]="true" [opens]="'left'" [locale]="{applyLabel: 'Apply', format: 'MM-DD-YYYY'}" [(ngModel)]="selected" (ngModelChange)="selectDateFilter($event)">
                 </div>
             </div>
         </div>
@@ -36,6 +36,7 @@
                         <th style="width: 13%;">NPI Number</th>
                         <th style="width: 15%;">Email</th>
                         <th style="width: 9%;">Document Name</th>
+                        <th style="width: 15%;">Update Date</th>
                         <th style="width: 9%;">Actions</th>
                     </tr>
                 </thead>
@@ -52,8 +53,12 @@
                             <div class="tableinfo line-clamp">{{obj.docName}}</div>
                         </td>
                         <td>
-                            <div class="tableinfo">
-                                <i class="bi bi-eye pointer" style="color: rgb(23, 108, 227);" (click)="openOcrDataModal(obj.attachmentId)"></i>
+                            <div class="tableinfo line-clamp">{{obj.updatedDate | date : 'MM-dd-yyyy'}}</div>
+                        </td>
+                        <td>
+                            <div class="d-flex gap-2 pointer">
+                                <svg (click)="openImageModal(obj.docUrl)" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none"><path _ngcontent-bgf-c74="" d="M13.1774 4.68958L9.71073 1.22292C9.61046 1.12265 9.47499 1.06665 9.33366 1.06665H3.73366C3.14433 1.06665 2.66699 1.54398 2.66699 2.13332V13.8667C2.66699 14.456 3.14433 14.9333 3.73366 14.9333H12.267C12.8563 14.9333 13.3337 14.456 13.3337 13.8667V5.06665C13.3337 4.92532 13.2777 4.78985 13.1774 4.68958ZM9.60033 11.2H5.33366C5.03926 11.2 4.80033 10.9611 4.80033 10.6667C4.80033 10.3723 5.03926 10.1333 5.33366 10.1333H9.60033C9.89473 10.1333 10.1337 10.3723 10.1337 10.6667C10.1337 10.9611 9.89473 11.2 9.60033 11.2ZM10.667 9.06665H5.33366C5.03926 9.06665 4.80033 8.82772 4.80033 8.53332C4.80033 8.23892 5.03926 7.99998 5.33366 7.99998H10.667C10.9614 7.99998 11.2003 8.23892 11.2003 8.53332C11.2003 8.82772 10.9614 9.06665 10.667 9.06665ZM9.60033 5.33332C9.30593 5.33332 9.06699 5.09438 9.06699 4.79998V2.08212L12.3182 5.33332H9.60033Z" fill="#058AFF"></path></svg>
+                                <i class="bi bi-eye" style="color: rgb(23, 108, 227);" (click)="openOcrDataModal(obj.attachmentId)"  ></i>
                             </div>
                         </td>
                     </tr>
@@ -107,9 +112,9 @@
                       <table class="table" *ngIf="!ocrDataLoadingToggle">
                         <tbody>
                           <tr *ngFor="let myMapObj of keys">
-                              <td>{{myMapObj}}</td>
+                              <td>{{myMapObj | titlecase}}</td>
                               <td> : </td>
-                              <td>{{myMap[myMapObj]}}</td>
+                              <td>{{myMap[myMapObj] | titlecase}}</td>
                           </tr>
                         </tbody>
                       </table>
@@ -119,4 +124,21 @@
         </div>
     </div>
   </div>
+
+  <!-- show image modal -->
+<button type="button" #openSnapshotModalButton id="openSnapshotModalButton" class="d-none" data-bs-toggle="modal" data-bs-target="#showImageModal"></button>
+<div class="modal blur-bg-2" id="showImageModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="shareModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="max-width:95%;">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Snapshot</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"  #closeSnapshotModalButton id="closeSnapshotModalButton"></button>
+        </div>
+        <div class="modal-body text-center" style="overflow: scroll;min-height: 450px;">
+            <app-circular-loader *ngIf="imageLoadingToggle"></app-circular-loader>
+            <iframe *ngIf="!imageLoadingToggle" [src]="imageUrl | safe" alt="" style="height: 60vh;width: 100%;"></iframe>
+        </div>
+        </div>
+    </div>
+</div>
 

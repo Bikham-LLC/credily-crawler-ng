@@ -25,7 +25,7 @@ export class OcrReportComponent implements OnInit {
     }
 
   ngOnInit(): void {
-    this.getOcrProviderAttachment();
+    // this.getOcrProviderAttachment();
 
   }
 
@@ -35,10 +35,20 @@ export class OcrReportComponent implements OnInit {
     this.getOcrProviderAttachment();
   }
 
+  selectDateFilter(event: any) {
+    debugger
+    if (this.selected != undefined && this.selected != null && this.selected.startDate != undefined && this.selected.endDate != undefined && this.selected != null) {
+      this.startDate = this.selected.startDate.format('YYYY-MM-DD');
+      this.endDate = this.selected.endDate.format('YYYY-MM-DD');
+    }
+    this.getOcrProviderAttachment();
+
+  }
+
 
   selected : { startDate: moment.Moment, endDate: moment.Moment } = {startDate:moment().subtract(30, 'days'), endDate: moment()};
-  startDate: any = this.selected.startDate.format('yyyy-MM-DD');
-  endDate: any = this.selected.endDate.format('yyyy-MM-DD');
+  startDate: any = null;
+  endDate: any = null;
   databaseHelper: DatabaseHelper = new DatabaseHelper();
   providerLoadingToggle:boolean = false;
   providerAttachmentList: ProviderAttachmentDTO[] = [];
@@ -86,6 +96,18 @@ export class OcrReportComponent implements OnInit {
   openOcrDataModal(attachmentId:number){
     this.getAttachmentOcrData(attachmentId);
     this.showOcrDataModalButton.nativeElement.click();
+  }
+  
+  @ViewChild('openSnapshotModalButton') openSnapshotModalButton!:ElementRef
+  imageUrl:string='';
+  imageLoadingToggle:boolean =false;
+  openImageModal(imageUrl:string){
+    this.imageLoadingToggle =true;
+    this.imageUrl = imageUrl;
+    this.openSnapshotModalButton.nativeElement.click();
+    setTimeout(()=>{
+      this.imageLoadingToggle =false;
+    },1000)
   }
   
 

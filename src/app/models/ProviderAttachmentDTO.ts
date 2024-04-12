@@ -5,5 +5,7 @@ export class ProviderAttachmentDTO{
     npi:string='';
     email:string='';
     docName:string='';
+    docUrl:string='';
+    updatedDate:string='';
     attachmentId:number=0;
 }
