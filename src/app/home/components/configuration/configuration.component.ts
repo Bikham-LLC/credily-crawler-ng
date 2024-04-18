@@ -729,7 +729,7 @@ export class ConfigurationComponent implements OnInit {
           this.getConfiguration();
         }, error => {
           this.savingConfiguration = false;
-          this.dataService.showToast(error.error);
+          this.dataService.showToast('Something went wrong!');
         })
       } else {
         this.licenseLookupService.createConfiguration(this.licenseLookupConfigRequest).subscribe(response => {
@@ -743,7 +743,7 @@ export class ConfigurationComponent implements OnInit {
           this.getConfiguration();
         }, error => {
           this.savingConfiguration = false;
-          this.dataService.showToast(error.error);
+          this.dataService.showToast('Something went wrong!');
         })
       }
     }

@@ -3,8 +3,8 @@ export class Keys{
     /**
      * Server url key
      */
-    server_url: string = "https://crawler.providerpassport.info";
-    // server_url: string = "http://localhost:8081";
+    // server_url: string = "https://crawler.providerpassport.info";
+    server_url: string = "http://localhost:8081";
     // server_url: string = "http://107.22.50.170:8081";
 
 
