@@ -60,7 +60,7 @@
                     <td>
                         <div class="tableinfo d-flex align-items-center justify-content-start gap-2">
                             <span class="text-primary pointer"><i class="bi bi-box-arrow-up-right me-1" (click)="routeToConfiguration(obj.lookupName, obj.lookupLink)"></i> </span>
-                            <span class="npi-badge statusSuccesful">{{obj.configStatus}}</span>
+                            <span class="npi-badge" [ngClass]="{'statusSuccesful': obj.configStatus == 'Test pass', 'statusFailed': obj.configStatus == 'Test fail'}">{{obj.configStatus}}</span>
                         </div>
                     </td>
                     <td>
@@ -123,7 +123,8 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="closeSnapshotModal()" #closeSnapshotModalButton id="closeSnapshotModalButton"></button>
         </div>
         <div class="modal-body text-center" style="overflow: scroll;min-height: 450px;">
-            <img [src]="imageUrl | safe" alt="" />
+            <app-circular-loader *ngIf="imageLoadingToggle"></app-circular-loader>
+            <img *ngIf="!imageLoadingToggle" [src]="imageUrl | safe" alt="" />
         </div>
         </div>
     </div>

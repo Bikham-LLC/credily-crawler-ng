@@ -168,10 +168,15 @@ export class ProviderReportComponent implements OnInit {
   
   @ViewChild('openSnapshotModalButton') openSnapshotModalButton !: ElementRef;
   imageUrl:string='';
+  imageLoadingToggle:boolean = false;
   viewSnapshot(url:string){
     debugger
+    this.imageLoadingToggle = true;
     this.imageUrl = url;
     this.closeLogsButton.nativeElement.click();
+    setTimeout(()=>{
+      this.imageLoadingToggle = false;
+    },1000)
     this.openSnapshotModalButton.nativeElement.click();
   }
 

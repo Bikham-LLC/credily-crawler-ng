@@ -169,12 +169,15 @@ export class FailedConfigReportComponent implements OnInit {
 
   @ViewChild('openSnapshotModalButton') openSnapshotModalButton !: ElementRef;
   imageUrl:string='';
+  imageLoadingToggle:boolean = false;
   viewSnapshot(url:string){
     debugger
+    this.imageLoadingToggle = true;
     this.imageUrl = url;
-    setTimeout(() => {
-      this.openSnapshotModalButton.nativeElement.click();
-    }, 100);
+    this.openSnapshotModalButton.nativeElement.click();
+    setTimeout(()=>{
+      this.imageLoadingToggle = false;
+    },1000)
   }
 
   @ViewChild('completeModalButton') completeModalButton !: ElementRef;

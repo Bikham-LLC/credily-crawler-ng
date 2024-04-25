@@ -1,4 +1,4 @@
-import { Injectable, Injector } from '@angular/core';
+import { Injectable, Injector, Type } from '@angular/core';
 import { Constant } from '../models/Constant';
 import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import {catchError, filter,switchMap, take} from 'rxjs/operators'
@@ -34,11 +34,16 @@ export class TokenInterceptorService {
     var token=this.getToken();
 
     if (req.url.includes("/api/v1/auth")) {
+      req = req.clone({ 
+        setHeaders: {"Content-Type": 'application/json'},
+      });
       return next.handle(req);
     }else {
 
       req = req.clone({ 
-        setHeaders: {Authorization: 'Bearer ' + token},
+        setHeaders: {Authorization: 'Bearer ' + token,"Content-Type": 'application/json'},
+        
+
       });
     }
     return next.handle(req).pipe(catchError((error:any) => {

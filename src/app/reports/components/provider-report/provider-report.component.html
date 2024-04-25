@@ -257,7 +257,8 @@
           (click)="closeSnapshotModal()" #closeSnapshotModalButton id="closeSnapshotModalButton"></button>
       </div>
       <div class="modal-body text-center" style="overflow: scroll;min-height: 450px;">
-        <img [src]="imageUrl | safe" alt="" />
+        <app-circular-loader *ngIf="imageLoadingToggle"></app-circular-loader>
+        <img *ngIf="!imageLoadingToggle" [src]="imageUrl | safe" alt="" />
       </div>
     </div>
   </div>

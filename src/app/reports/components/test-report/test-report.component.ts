@@ -127,13 +127,16 @@ export class TestReportComponent implements OnInit {
   @ViewChild('openSnapshotModalButton') openSnapshotModalButton !: ElementRef;
   imageUrl:string='';
   viewTime:string = '';
+  imageLoadingToggle:boolean = false;
   viewSnapshot(url:string, view:string){
     debugger
+    this.imageLoadingToggle = true;
     this.imageUrl = url;
     this.viewTime = view;
-    setTimeout(() => {
-      this.openSnapshotModalButton.nativeElement.click();
-    }, 100);
+    this.openSnapshotModalButton.nativeElement.click();
+    setTimeout(()=>{
+      this.imageLoadingToggle = false;
+    },1000)
   }
 
 
