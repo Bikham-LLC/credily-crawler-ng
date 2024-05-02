@@ -2,7 +2,7 @@
     <div class="container-fluid">
         <div class="main">
           <div class="usertablemain">
-            <!-- <div class="row justify-content-between align-items-center">
+            <div class="row justify-content-between align-items-center">
                 <div class="col-lg-4 px-2">
                     <div class="form-group usrtblesearch position-relative">
                         <input placeholder="Search queue name" class="form-control" id="Users" name="User" [(ngModel)]="databaseHelper.search" (keyup)="getAllQueue()" />
@@ -16,7 +16,7 @@
                         </button> 
                     </div>
                 </div>
-            </div> -->
+            </div>
 
             <div class="usertable mt-3">
                 <div class="usertableinner table-responsive" style="min-height: 500px;" *ngIf="!loadingQueue && queueInstanceList.length>0">
@@ -80,9 +80,8 @@
 
                  <!-- Empty notification -->
                 <div class="empty-notific text-center mt-5" *ngIf="!loadingQueue && queueInstanceList.length==0">
-                    <div class="empty-notificinner">
-            
-                    <img src="assets/images/allexpirable.svg" style="width: 25%;margin-right: 103px;" alt="no data found" />
+                    <div class="empty-notificinner" style="margin-top: 10rem;">
+                    <img src="assets/images/allexpirable.svg" style="width: 17%;margin-right: 76px;" alt="no data found" />
                     <h6 class="m-3">No data found</h6>
                     </div>
                  </div>

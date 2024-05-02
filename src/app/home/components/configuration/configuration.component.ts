@@ -657,6 +657,8 @@ export class ConfigurationComponent implements OnInit {
     this.uuidModalButton.nativeElement.click();
   }
 
+  message:string='';
+
   testConfiguration() {
     debugger
 
@@ -680,10 +682,19 @@ export class ConfigurationComponent implements OnInit {
       if (response.object != null) {
         window.open(response.object, "_blank");
       }
-      setTimeout(() => {
-        this.closeUuidModal.nativeElement.click();
-        this.dataService.showToast('Valid Configuration.', 'success');
-      }, 500)
+
+      if(response.status && response.message != null){
+        this.message = response.message;
+        setTimeout(()=>{
+          this.message = '';
+        },1200)
+      } else {
+        setTimeout(() => {
+          this.closeUuidModal.nativeElement.click();
+          this.dataService.showToast('Valid Configuration.', 'success');
+        }, 500)
+      }
+
 
 
     }, error => {

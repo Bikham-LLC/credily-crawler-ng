@@ -8,6 +8,7 @@ import { DatabaseHelper } from 'src/app/models/DatabaseHelper';
 import { ProviderReport } from 'src/app/models/ProviderReport';
 import { ProviderRequestCrawlerLog } from 'src/app/models/ProviderRequestCrawlerLog';
 import { Route } from 'src/app/models/Route';
+import { DataService } from 'src/app/services/data.service';
 import { ReportService } from 'src/app/services/report.service';
 
 @Component({
@@ -26,7 +27,8 @@ export class ProviderReportComponent implements OnInit {
 
   providerSearch = new Subject<string>();
   constructor( private reportService:ReportService,
-    private router : Router) { 
+    private router : Router,
+    private dataService: DataService) { 
 
     this.providerSearch.pipe(
       debounceTime(600))
@@ -146,12 +148,19 @@ export class ProviderReportComponent implements OnInit {
   }
 
   providerTestingToggle:boolean = false;
+  message:string = '';
   reRunProviderLog(logId:number, index:number){
+    debugger
     this.providerTestingToggle = true;
     this.providerCrawlerLogList[index].reTestingToggle = true;
     this.reportService.reRunProviderLog(logId).subscribe(response=>{
-      if(response){
+      if(response.status && response.message == null){
         this.getProviderLogs(this.uuid);
+      } else {
+        this.message = response.message;
+        setTimeout(()=>{
+          this.message = '';
+        },1200)
       }
       this.providerCrawlerLogList[index].reTestingToggle = false;
       this.providerTestingToggle = false;

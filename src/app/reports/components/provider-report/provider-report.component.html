@@ -147,11 +147,17 @@
   aria-hidden="true">
   <div class="modal-dialog modal-custom modal-dialog-centered">
     <div class="modal-content">
-      <div class="modal-header d-flex justify-content-between align-items-center">
-        <div><b>Logs</b></div>
+      <div class="modal-header d-flex justify-content-between align-items-center position-relative">
+        <div>
+          <b>Logs</b>
+        </div>
         <span class="pointer" style="margin-left: 12px;" (click)="refreshProviderLogs()">
           <i *ngIf="!logLoadingToggle" class="bi bi-arrow-repeat" style="font-size: 17px;color: #003fdaeb;"></i>
           <i *ngIf="logLoadingToggle" class="spinner-border spinner-border-sm" style="color: #003fdaeb;"></i>
+        </span>
+
+        <span class="errorTooltip" *ngIf="!Constant.EMPTY_STRINGS.includes(message)">
+          {{message}}
         </span>
         <button type="button" class="btn-close" [disabled]="providerTestingToggle" data-bs-dismiss="modal" id="closeLogsButton" #closeLogsButton aria-label="Close" (click)="closeLogModel()"></button>
       </div>
@@ -191,8 +197,8 @@
                 </td>
                 <td>
                   <div class="tableinfo text-center">
-                    <span *ngIf="log.errorStatus!=null" class="statusinactive">{{log.errorStatus?log.errorStatus:'N/A'}}</span>
-                    <span *ngIf="log.errorStatus==null" [ngClass]="{'statusactive':log.crawlerStatus=='COMPLETED', 'statuspending' :log.crawlerStatus=='PENDING'}" >{{log.crawlerStatus}}</span>
+                    <span *ngIf="!Constant.EMPTY_STRINGS.includes(log.errorStatus)" class="statusinactive">{{log.errorStatus?log.errorStatus:'N/A'}}</span>
+                    <span *ngIf="Constant.EMPTY_STRINGS.includes(log.errorStatus)" [ngClass]="{'statusactive':log.crawlerStatus=='COMPLETED', 'statuspending' :log.crawlerStatus=='PENDING'}" >{{log.crawlerStatus}}</span>
                   </div>
                 </td>
                 <td>
