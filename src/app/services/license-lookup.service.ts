@@ -39,7 +39,7 @@ export class LicenseLookupService {
   testConfiguration(config:LicenseLookupConfigRequest, providerUuid:string): Observable<any> {
     const params = new HttpParams()
     .set('providerUuid', providerUuid)
-    return this.http.post<any>(this.key.server_url + this.key.api_version_one + this.key.crewler_controller, config, {params});
+    return this.http.post<any>(this.key.server_url + this.key.api_version_one + this.key.lookup_config_controller + '/test-config', config, {params});
   }
 
   createConfiguration(config:LicenseLookupConfigRequest): Observable<any> {

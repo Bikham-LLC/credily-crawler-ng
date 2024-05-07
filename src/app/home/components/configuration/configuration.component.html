@@ -79,10 +79,10 @@
                                                         <p class="mb-0">Link</p>
                                                     </th>
                                                     <th style="width: 10%;">Version</th>
-                                                    <th style="width: 10%;">Added By</th>
+                                                    <th style="width: 10%;" >Added By</th>
                                                     <th style="width: 10%;">Status</th>
                                                     <th style="width: 10%;">Updated Date</th>
-                                                    <th style="width: 10%;">Action</th>
+                                                    <th style="width: 10%;" class="text-center">Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -99,10 +99,10 @@
                                                     <td class="tableData lookupLiks">
                                                         <p class="mb-0">{{config.version}}</p>
                                                     </td>
-                                                    <td class="tableData text-center">
+                                                    <td class="tableData">
                                                         <p class="mb-0">{{config.addedBy}}</p>
                                                     </td>
-                                                    <td class="tableData text-center">
+                                                    <td class="tableData">
                                                         <div class="col-lg-8 px-2">
                                                             <div class="form-check form-switch">
                                                                 <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" name="configstatus" [checked]="config.configStatus == 'Active'" (click)="updateStatus(config.id)">

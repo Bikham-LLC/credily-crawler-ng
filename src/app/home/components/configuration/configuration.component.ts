@@ -319,15 +319,15 @@ export class ConfigurationComponent implements OnInit {
   }
 
   taxanomyLinkLoading: boolean = false;
-  getTaxonomyLink(search: string) {
+  async getTaxonomyLink(search: string) {
     debugger
     if (!this.Constant.EMPTY_STRINGS.includes(this.lookupLink)) {
       this.taxanomyLinkLoading = true;
     }
     this.licenseLookupService.getTaxonomyLink(search, this.crawlerType).subscribe(response => {
-      if (response != null) {
+      if (response.object != null) {
         this.taxonomyLinkList = [];
-        response.forEach((element: any) => {
+        response.object.forEach((element: any) => {
           var temp: { id: any, itemName: any } = { id: element.link, itemName: element.name + ' - ' + element.link };
           this.taxonomyLinkList.push(temp);
         })
