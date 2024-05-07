@@ -60,11 +60,11 @@ export class AccountUserComponent implements OnInit {
     } else {
       user.status = 'Active';
     }
-    this.updateUserStatus(user);
+    this.updateUserStatus(user.userName);
   }
 
-  updateUserStatus(user: UserAccountRequest){
-    this.authService.updateUserStatus(user).subscribe(response=>{
+  updateUserStatus(userName:string){
+    this.authService.updateUserStatus(userName).subscribe(response=>{
     },error=>{
     })
   }

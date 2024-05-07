@@ -62,9 +62,9 @@ export class AuthService {
     return this.http.get<any>(this.key.server_url + this.key.api_version_one + "/auth/get-user" , {params})
   }
 
-  updateUserStatus(user : UserAccountRequest): Observable<any> {
+  updateUserStatus(userName:string): Observable<any> {
     const params = new HttpParams()
-    .set('userName', user.userName)
+    .set('userName', userName)
 
     return this.http.patch<any>(this.key.server_url+this.key.api_version_one + "/auth/update-user-status",{},{params});
   }
