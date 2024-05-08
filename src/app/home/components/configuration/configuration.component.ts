@@ -703,10 +703,12 @@ export class ConfigurationComponent implements OnInit {
     })
   }
   configstatus: string = '';
+  planId:string='';
   saveConfiguration() {
     debugger
     this.savingConfiguration = true;
     this.licenseLookupConfigRequest.type = this.crawlerType;
+    this.licenseLookupConfigRequest.planId = this.planId;
     this.licenseLookupConfigRequest.lookupNames = this.selectedLookupName;
     this.licenseLookupConfigRequest.version = this.credilyVersion;
     this.licenseLookupConfigRequest.licenseLookUpName = this.lookupName;

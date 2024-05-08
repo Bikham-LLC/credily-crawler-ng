@@ -6,6 +6,7 @@ import { ProviderReportComponent } from './components/provider-report/provider-r
 import { TestReportComponent } from './components/test-report/test-report.component';
 import { ReportsComponent } from './reports.component';
 import { OcrReportComponent } from './components/ocr-report/ocr-report.component';
+import { FollowUpReportComponent } from './components/follow-up-report/follow-up-report.component';
 
 const routes: Routes = [{ 
   path: '', component: ReportsComponent,
@@ -14,7 +15,8 @@ const routes: Routes = [{
     {path: 'provider-report', component: ProviderReportComponent},
     {path: 'test-report', component: TestReportComponent},
     {path: 'noconfig-found-report', component: NoconfigFoundReportComponent},
-    {path: 'ocr-report', component: OcrReportComponent}
+    {path: 'ocr-report', component: OcrReportComponent},
+    {path: 'follow-up-report', component: FollowUpReportComponent}
   ] 
 
 }];

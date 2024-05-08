@@ -42,15 +42,17 @@
                                             <span *ngIf="crawlerType == Constant.CRAWLER_TYPE_COMMON_LINKS">
                                                 Create Common Configuration
                                             </span>
-        
+                                            <span *ngIf="crawlerType == Constant.APPLICATION_FOLLOW_UP">
+                                                Create Ticket Configuration
+                                            </span>
                                         </button>
                                     </div>
                                     <div class="col-lg-12 px-2 d-flex justify-content-start align-items-start">
                                         <button class="btn mt-2 me-2" [ngClass]="{'primarybtn':crawlerType==Constant.CRAWLER_TYPE_LICENSE_LOOKUP}" (click)="getConfigurationWithType(Constant.CRAWLER_TYPE_LICENSE_LOOKUP)">License Lookup</button>
                                         <button class="btn mt-2" [ngClass]="{'primarybtn':crawlerType==Constant.CRAWLER_TYPE_BOARD_CERTIFICATION}" (click)="getConfigurationWithType(Constant.CRAWLER_TYPE_BOARD_CERTIFICATION)">Board Certification</button>
                                         <button class="btn mt-2" [ngClass]="{'primarybtn':crawlerType==Constant.CRAWLER_TYPE_COMMON_LINKS}" (click)="getConfigurationWithType(Constant.CRAWLER_TYPE_COMMON_LINKS)">Common</button>
-                                    </div>
-                                        
+                                        <button class="btn mt-2" [ngClass]="{'primarybtn':crawlerType==Constant.APPLICATION_FOLLOW_UP}" (click)="getConfigurationWithType(Constant.APPLICATION_FOLLOW_UP)">Application Follow-up</button>
+                                    </div> 
                                 </div>
                                 <div class="dashNav-paneinner table-responsive">
                                     <div class="empty-notific" style="margin-top: 9%;" *ngIf="!loadingConfiguration && configList.length == 0">
@@ -78,7 +80,7 @@
                                                     <th class="tableDead" style="width: 25%;">
                                                         <p class="mb-0">Link</p>
                                                     </th>
-                                                    <th style="width: 10%;">Version</th>
+                                                    <!-- <th style="width: 10%;">Version</th> -->
                                                     <th style="width: 10%;" >Added By</th>
                                                     <th style="width: 10%;">Status</th>
                                                     <th style="width: 10%;">Updated Date</th>
@@ -96,9 +98,9 @@
                                                     <td class="tableData lookupLiks">
                                                         <p class="mb-0">{{config.lookupLink}}</p>
                                                     </td>
-                                                    <td class="tableData lookupLiks">
+                                                    <!-- <td class="tableData lookupLiks">
                                                         <p class="mb-0">{{config.version}}</p>
-                                                    </td>
+                                                    </td> -->
                                                     <td class="tableData">
                                                         <p class="mb-0">{{config.addedBy}}</p>
                                                     </td>
@@ -263,7 +265,7 @@
                             <div class="mldConfigurationinner">
                                 <div class="lookupSearch mb-1">
                                     <div class="row mb-1" *ngIf="!taxanomyLinkLoading">
-                                        <div class="col-lg-6 pr-0">
+                                        <!-- <div class="col-lg-6 pr-0">
                                             <div class="lookupSearchForm">
                                                 <div class="position-relative">
                                                     <label class="">Credily Version <sup class="text-danger">*</sup> </label>
@@ -272,7 +274,7 @@
                                                 </div>
                                                 <small *ngIf="mapLookupTaxonomyForm.submitted && Constant.EMPTY_STRINGS.includes(credilyVersion)" style="color: red;">Select Credily Version!</small>
                                             </div>
-                                        </div>
+                                        </div> -->
                                         <div class="col-lg-6">
                                             <div class="lookupSearchForm">
                                                 <label>Configuration Name <sup class="text-danger">*</sup> </label>
@@ -281,10 +283,18 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="col-lg-6" *ngIf="crawlerType == Constant.APPLICATION_FOLLOW_UP">
+                                            <div class="lookupSearchForm">
+                                                <label>Plan Id <sup class="text-danger">*</sup> </label>
+                                                <div class="position-relative">
+                                                    <input type="text" class="form-control" name="planId" placeholder="Enter Plan Id" [(ngModel)]="planId" maxlength="155" required>
+                                                </div>
+                                            </div>
+                                        </div>
                                         <div class="col-lg-6">
                                             <div class="lookupSearchForm">
                                                 <div class="position-relative">
-                                                    <label class="">Attachment Type<sup class="text-danger">*</sup> </label>
+                                                    <label class="">Attachment Type <sup class="text-danger">*</sup> </label>
                                                     <angular2-multiselect id="attType" name="attType" [data]="attTypeList" [settings]="dropdownSettingsAttachmentType" [(ngModel)]="selectedAttType" (ngModelChange)="selectAttType($event)" required>
                                                     </angular2-multiselect>
                                                 </div>
@@ -294,14 +304,14 @@
                                         <div class="col-lg-6">
                                             <div class="lookupSearchForm">
                                                 <div class="position-relative">
-                                                    <label class="">Attachment Sub Type<sup class="text-danger">*</sup> </label>
+                                                    <label class="">Attachment Sub Type <sup class="text-danger">*</sup> </label>
                                                     <angular2-multiselect id="attSubType" name="attSubType" [data]="attSubTypeList" [settings]="dropdownSettingsAttachmentSubType" [(ngModel)]="selectedAttSubType" (ngModelChange)="selectAttSubType($event)" required>
                                                     </angular2-multiselect>
                                                 </div>
                                                 <!-- <small *ngIf="mapLookupTaxonomyForm.submitted && Constant.EMPTY_STRINGS.includes(credilyVersion)" style="color: red;">Select Credily Version!</small> -->
                                             </div>
                                         </div>
-                                        <div class="col-lg-12 " *ngIf="crawlerType != Constant.CRAWLER_TYPE_COMMON_LINKS">
+                                        <div class="col-lg-12 " *ngIf="crawlerType != Constant.CRAWLER_TYPE_COMMON_LINKS && crawlerType != Constant.APPLICATION_FOLLOW_UP">
                                             <div class="lookupSearchForm">
                                                 <div class="position-relative">
                                                     <label> Lookup Link <sup class="text-danger">*</sup> 
@@ -351,7 +361,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-12 " *ngIf="crawlerType == Constant.CRAWLER_TYPE_COMMON_LINKS">
+                                        <div class="col-lg-12 " *ngIf="crawlerType == Constant.CRAWLER_TYPE_COMMON_LINKS || crawlerType == Constant.APPLICATION_FOLLOW_UP">
                                             <div class="lookupSearchForm">
                                                 <div class="lookupSearchForm">
                                                     <label>Lookup Link <sup class="text-danger">*</sup> </label>
@@ -366,7 +376,7 @@
                                 <div class="p-5" *ngIf="taxanomyLinkLoading">
                                     <app-circular-loader></app-circular-loader>
                                 </div>
-                                <div class="taxonomyCollapse" *ngIf="!taxanomyLinkLoading && crawlerType != Constant.CRAWLER_TYPE_COMMON_LINKS">
+                                <div class="taxonomyCollapse" *ngIf="!taxanomyLinkLoading && (crawlerType != Constant.CRAWLER_TYPE_COMMON_LINKS && crawlerType != Constant.APPLICATION_FOLLOW_UP)">
                                     <div class="taxonomyCollapseInner">
                                         <div class="accordion" id="accordionExample">
                                             <div class="accordion-item">

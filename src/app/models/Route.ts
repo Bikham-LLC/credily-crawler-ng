@@ -10,5 +10,6 @@ export class Route{
     static TEST_REPORT = '/reports/test-report';
     static NO_CONFIG_FOUND_REPORT = '/reports/noconfig-found-report';
     static OCR_REPORT = '/reports/ocr-report';
+    static FOLLOW_UP_REPORT = '/reports/follow-up-report';
 
 }

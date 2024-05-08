@@ -18,6 +18,7 @@ export class LicenseLookupConfigRequest{
     attachmentSubTypeDescription:string='';
     taxonomyIdList : number[] = [];
     configRequests : ConfigRequest[] = [];
+    planId : string='';
 
     lookupNames:string[] = [];
     removeIds:number[] = [];
