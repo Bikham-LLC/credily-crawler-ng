@@ -4,6 +4,7 @@ export class LookupConfiguration{
     lookupName:string='';
     lookupLink:string='';
     addedBy:string='';
+    planIds:string='';
     version:string='';
     taxonomyId:any;
     lastTestedOn:any;

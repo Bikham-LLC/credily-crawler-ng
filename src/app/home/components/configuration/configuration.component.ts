@@ -184,6 +184,7 @@ export class ConfigurationComponent implements OnInit {
   configList: LookupConfiguration[] = new Array();
   totalConfiguration: number = 0;
   configDatabaseHelper: DatabaseHelper = new DatabaseHelper();
+
   getConfiguration() {
     debugger
     this.loadingConfiguration = true;
@@ -658,11 +659,9 @@ export class ConfigurationComponent implements OnInit {
   }
 
   message:string='';
-
+  ticketId:number=0;
   testConfiguration() {
     debugger
-
-    // this.closeUuidModal.nativeElement.click();
     this.licenseLookupConfigRequest.type = this.crawlerType;
     this.licenseLookupConfigRequest.version = this.credilyVersion;
     this.licenseLookupConfigRequest.licenseLookUpName = this.lookupName;
@@ -677,25 +676,19 @@ export class ConfigurationComponent implements OnInit {
 
     this.testingConfiguration = true;
     this.isInvalidConfiguration = false;
-    this.licenseLookupService.testConfiguration(this.licenseLookupConfigRequest, this.providerUuid).subscribe(response => {
+  
+    this.licenseLookupService.testConfiguration(this.licenseLookupConfigRequest, this.providerUuid, this.ticketId).subscribe(response => {
       this.testingConfiguration = false;
-      if (response.object != null) {
-        window.open(response.object, "_blank");
-      }
-
-      if(response.status && response.message != null){
+      if(response.status && response.message != 'Success'){
         this.message = response.message;
         setTimeout(()=>{
           this.message = '';
         },1200)
       } else {
-        setTimeout(() => {
-          this.closeUuidModal.nativeElement.click();
-          this.dataService.showToast('Valid Configuration.', 'success');
-        }, 500)
+        this.closeUuidModal.nativeElement.click();
+        this.dataService.showToast('Valid Configuration.', 'success');
+        window.open(response.object, "_blank");
       }
-
-
 
     }, error => {
       this.isInvalidConfiguration = true;
@@ -736,9 +729,7 @@ export class ConfigurationComponent implements OnInit {
           this.dataService.showToast('Configuration Saved Successfully.');
           this.addStepToggle = false;
           this.selectedLookupConfigId = 0;
-          setTimeout(() => {
-            this.closeSaveUuidModal.nativeElement.click();
-          }, 500)
+          this.closeSaveUuidModal.nativeElement.click();
           this.getConfiguration();
         }, error => {
           this.savingConfiguration = false;
@@ -750,9 +741,7 @@ export class ConfigurationComponent implements OnInit {
           this.dataService.showToast('Configuration Saved Successfully.');
           this.addStepToggle = false;
           this.selectedLookupConfigId = 0;
-          setTimeout(() => {
-            this.closeSaveUuidModal.nativeElement.click();
-          }, 500)
+          this.closeSaveUuidModal.nativeElement.click();
           this.getConfiguration();
         }, error => {
           this.savingConfiguration = false;
@@ -975,6 +964,7 @@ export class ConfigurationComponent implements OnInit {
     this.lookupName = config.lookupName;
     this.lookupLink = config.lookupLink;
     this.configId = config.id;
+    this.planId = config.planIds;
     this.updateLinkToggle = false;
     this.showTaxonomyListToggle = false;
     this.unMappedIds = [];
@@ -1142,7 +1132,7 @@ export class ConfigurationComponent implements OnInit {
   }
 
   maxDate: any;
-  selected !: { startDate: moment.Moment, endDate: moment.Moment };
+  selected!: { startDate: moment.Moment, endDate: moment.Moment };
   startDate: any = null;
   endDate: any = null;
   selectDateFilter(event: any) {

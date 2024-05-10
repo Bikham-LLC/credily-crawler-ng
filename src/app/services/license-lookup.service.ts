@@ -36,9 +36,10 @@ export class LicenseLookupService {
     return this.http.post<any>(this.key.server_url + this.key.api_version_one + this.key.lookup_config_controller+'/taxonomy-ids', link, {params});
   }
 
-  testConfiguration(config:LicenseLookupConfigRequest, providerUuid:string): Observable<any> {
+  testConfiguration(config:LicenseLookupConfigRequest, providerUuid:string, ticketId:number=0): Observable<any> {
     const params = new HttpParams()
     .set('providerUuid', providerUuid)
+    .set('ticketId', ticketId)
     return this.http.post<any>(this.key.server_url + this.key.api_version_one + this.key.lookup_config_controller + '/test-config', config, {params});
   }
 

@@ -744,10 +744,16 @@
                                 <div class="lookupSearch mb-1">
                                     <div class="mb-1 mx-0 row">
                                         <div class="col-lg-12">
-                                            <div class="lookupSearchForm">
+                                            <div class="lookupSearchForm" *ngIf="crawlerType != Constant.APPLICATION_FOLLOW_UP">
                                                 <label>Enter Provider Uuid</label>
                                                 <div class="position-relative">
                                                     <input type="text" class="form-control" name="pUuid" placeholder="Enter Provider Uuid" [(ngModel)]="providerUuid" maxlength="155" required>
+                                                </div>
+                                            </div>
+                                            <div class="lookupSearchForm" *ngIf="crawlerType == Constant.APPLICATION_FOLLOW_UP">
+                                                <label>Enter Ticket Id</label>
+                                                <div class="position-relative">
+                                                    <input type="text" class="form-control" name="ticketId" placeholder="Enter ticket id" [(ngModel)]="ticketId" maxlength="155" required>
                                                 </div>
                                             </div>
                                             <small *ngIf="isInvalidConfiguration" style="color: red;">Invalid Configuration!</small>
