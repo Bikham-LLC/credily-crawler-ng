@@ -40,4 +40,10 @@ export class QueueService {
     .set('id', id)
     return this.http.delete<any>(this.key.server_url + this.key.api_version_one + this.key.queue, {params});
   }
+
+  updateInstanceType(instanceType:string):Observable<any>{
+    const params = new HttpParams()
+    .set('instanceType', instanceType)
+    return this.http.post<any>(this.key.server_url + this.key.api_version_one + this.key.queue + '/instance-type', {}, {params});
+  }
 }

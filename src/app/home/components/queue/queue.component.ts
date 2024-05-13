@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Constant } from 'src/app/models/Constant';
 import { DatabaseHelper } from 'src/app/models/DatabaseHelper';
 import { QueueInstance } from 'src/app/models/QueueInstance';
+import { DataService } from 'src/app/services/data.service';
 import { QueueService } from 'src/app/services/queue.service';
 
 @Component({
@@ -12,7 +13,8 @@ import { QueueService } from 'src/app/services/queue.service';
 })
 export class QueueComponent implements OnInit {
 
-  constructor(private queueService : QueueService) {}
+  constructor(private queueService : QueueService,
+    private dataService: DataService) {}
 
   ngOnInit(): void {
     this.getAllQueue();
@@ -29,6 +31,7 @@ export class QueueComponent implements OnInit {
     this.queueService.getQueue(this.databaseHelper).subscribe(response=>{
       this.queueInstanceList = response.dtoList;
       this.totalQueue = response.totalAccount;
+      this.instanceType = response.instanceType;
       this.loadingQueue = false;
     },error=>{
       this.loadingQueue = false;
@@ -111,6 +114,27 @@ export class QueueComponent implements OnInit {
     debugger
     this.queueService.deleteQueue(this.queueId).subscribe(response=>{
       this.getAllQueue();
+    })
+  }
+
+  instanceType:string='';
+  updateQueueType(event:any){
+    if(event.target.checked){
+      this.instanceType = 'Eager'
+    } else {
+      this.instanceType = 'Idle'
+    }
+    this.updateInstanceType();
+  }
+
+  
+  updateInstanceType(){
+    this.queueService.updateInstanceType(this.instanceType).subscribe(response=>{
+      if(response){
+        this.dataService.showToast("Updated Sucessfully", 'success');
+      }
+    },error=>{
+
     })
   }
 

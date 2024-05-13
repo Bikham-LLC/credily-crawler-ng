@@ -9,7 +9,14 @@
                         <i class="bi bi-search"></i>
                     </div>
                 </div>
-                <div class="col-lg-12 pl-2 pr-0 mt-2">
+                <div class="col-lg-4 d-flex pl-2 pr-0 mt-2 justify-content-end gap-2">
+                    <div class="d-flex gap-2 mt-2">
+                        <h6>Queue Instance Type : </h6> Idle
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" name="queueType" [checked]="instanceType == 'Eager'" (click)="updateQueueType($event)">
+                            <label>Eager</label>
+                        </div>
+                    </div>
                     <div class="d-flex justify-content-end align-items-center">
                         <button type="button" class="btn primarybtn pdependent" style="margin-right: 16px;" (click)="openCreateQueueModel()">
                             Create Queue
@@ -67,10 +74,10 @@
                                 </div>
                             </td>
                             <td class="tableData">
-                                <!-- <span class="tbleditBtn"><i class="bi bi-pen" style="cursor: pointer;" (click)="openEditmodel(queue)"></i></span>
-                                <span class="tbldeleteBtn"><i *ngIf="queue.id != 1" class="bi bi-trash ms-2" style="cursor: pointer;"  (click)="openDeleteModel(queue.id)"></i></span> -->
-                                <i class="bi bi-pen"></i>
-                                <i class="bi bi-lock-fill"></i>
+                                <span class="tbleditBtn"><i *ngIf="i>0" class="bi bi-pen" style="cursor: pointer;" (click)="openEditmodel(queue)"></i></span>
+                                <span class="tbldeleteBtn"><i *ngIf="i>0" class="bi bi-trash ms-2" style="cursor: pointer;"  (click)="openDeleteModel(queue.id)"></i></span>
+                                <i *ngIf="i==0" class="bi bi-pen"></i>
+                                <i *ngIf="i==0" class="bi bi-lock-fill"></i>
 
                             </td>
                             </tr>
