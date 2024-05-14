@@ -645,6 +645,7 @@ export class ConfigurationComponent implements OnInit {
 
   closeStepModal(){
     this.closeAddStepModal.nativeElement.click();
+    this.isEditStepToggle = false;
   }
 
   providerUuid: string = '';
@@ -816,6 +817,7 @@ export class ConfigurationComponent implements OnInit {
     });
     valueObj.isSelected = true;
     this.selectedNestedColumns = this.columns[index].values[innerIndex].key;
+    this.subnestedClass = this.columns[index].values[innerIndex].key;
     this.indexedNestedTab = innerIndex;
     if (valueObj.type == 'object') {
       this.getPriSubNestedEntity(valueObj);
@@ -831,6 +833,7 @@ export class ConfigurationComponent implements OnInit {
   selectTab(columnObj: any, index: any) {
     debugger
     this.selectedEntity.val = "";
+    
     this.selectedColumns = "";
     this.selectedNestedColumns = "";
     this.columns.forEach(element => {
@@ -844,6 +847,7 @@ export class ConfigurationComponent implements OnInit {
 
     if (columnObj.type.type == 'object') {
       this.getNestedPrimaryColumn(columnObj);
+      this.nestedClassValue = columnObj.key;
     }
     if (this.columns[index].values.length == 0) {
       this.flag = true;
@@ -923,30 +927,41 @@ export class ConfigurationComponent implements OnInit {
     this.selectedNestedsubColumn = this.columns[columnId].values[nestedColumnId].values[nestedSubColumnId].key;
   }
 
-
-
-
-  // selectedColumnNames : string[] = new Array();
   selectedColumnNames: string = '';
-
+  nestedColumnPath:string='';
+  nestedClassValue: string ='';
+  subnestedClass : string = '';
   addColumns() {
     debugger
     if (this.selectedColumns.length > 0) {
       this.selectedColumnNames = this.selectedColumnNames.concat(this.selectedColumns + ",");
+      this.nestedColumnPath = this.selectedColumns;
     } else if (this.selectedNestedColumns.length > 0) {
       this.selectedColumnNames = this.selectedColumnNames.concat(this.selectedNestedColumns + ",");
+      this.nestedColumnPath = this.nestedClassValue + '.' + this.selectedNestedColumns;
     } else {
       this.selectedColumnNames = this.selectedColumnNames.concat(this.selectedNestedsubColumn + ",");
+      this.nestedColumnPath = this.nestedClassValue + '.' + this.subnestedClass + '.' + this.selectedNestedsubColumn;
     }
   }
 
   addCloumnNameObj() {
     debugger
     this.selectedColumnNames = this.selectedColumnNames.slice(0, -1);
-    this.cofnigStepRequest.columnName = this.selectedColumnNames;
+    if(this.crawlerType == this.Constant.APPLICATION_FOLLOW_UP){
+      this.cofnigStepRequest.columnName = this.nestedColumnPath;
+    } else{
+      this.cofnigStepRequest.columnName = this.selectedColumnNames;
+    }
     this.openAddStepAndCloseColumn();
   }
 
+  addSubCloumnNameObj() {
+    debugger
+    this.selectedColumnNames = this.selectedColumnNames.slice(0, -1);
+    this.cofnigStepRequest.subAttributeMapList[this.index].columnName = this.selectedColumnNames;
+    this.openAddStepAndCloseColumn();
+  }
 
 
   selectedLookupConfigId: number = 0;
@@ -1234,14 +1249,6 @@ export class ConfigurationComponent implements OnInit {
     }
   }
 
-  addSubCloumnNameObj() {
-    debugger
-    this.selectedColumnNames = this.selectedColumnNames.slice(0, -1);
-    this.cofnigStepRequest.subAttributeMapList[this.index].columnName = this.selectedColumnNames;
-    this.openAddStepAndCloseColumn();
-  }
-
-
   removeAllTax:boolean = false;
   removeAllTaxonomy(event: any) {
     if (event.target.checked) {
@@ -1267,7 +1274,7 @@ export class ConfigurationComponent implements OnInit {
   }
 
   isEditStepToggle: boolean = false;
-  editStepIndex : number= 0;
+  editStepIndex : number = 0;
   openEditStepModal(step:ConfigRequest, index:number){
     debugger
     this.isEditStepToggle = true;
@@ -1332,26 +1339,24 @@ export class ConfigurationComponent implements OnInit {
     if(!this.Constant.EMPTY_STRINGS.includes(step.className)){
       if(step.className == 'Static'){
         classTemp.id = '1';
-        classTemp.itemName = step.className;
       } else if(step.className == 'LocationProvider'){
         classTemp.id = '2';
-        classTemp.itemName = step.className;
       } else if(step.className == 'Provider'){
         classTemp.id = '3';
-        classTemp.itemName = step.className;
       } else if(step.className == 'PracticeLocation'){
         classTemp.id = '4';
-        classTemp.itemName = step.className;
       } else if(step.className == 'ProviderProfessionalLicense'){
         classTemp.id = '5';
-        classTemp.itemName = step.className;
       } else if(step.className == 'ProviderDea'){
         classTemp.id = '6';
-        classTemp.itemName = step.className;
       } else if(step.className == 'ProviderSpecialty'){
         classTemp.id = '7';
-        classTemp.itemName = step.className;
-      } 
+      }  else if (step.className == 'CustomerTicket'){
+        classTemp.id = '8';
+      } else if(step.className == 'TicketStatusField'){
+        classTemp.id = '9';
+      }
+      classTemp.itemName = step.className;
       this.selectedClass.push(classTemp);
     }
 
