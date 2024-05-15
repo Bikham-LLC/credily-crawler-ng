@@ -91,7 +91,7 @@
                   <td>
                       <div class="tableinfo">
                           <span class=" mx-auto"><span
-                              [ngClass]="{'statusactive':obj.status.toUpperCase()=='COMPLETED', 'statusinactive':obj.status =='NO CONFIG FOUND', 'statuspending':(obj.status.toUpperCase()!='COMPLETED' && obj.status.toUpperCase()!='NO CONFIG FOUND') }">
+                              [ngClass]="{'statusactive':obj.status.toUpperCase()=='COMPLETED', 'statusinactive':(obj.status =='NO CONFIG FOUND' || obj.status =='Failed'), 'statuspending':(obj.status =='IN PROCESS' || obj.status=='IN QUEUE' || obj.status =='Partially Complete') }">
                               {{obj.status | titlecase}}
                             </span></span>
                       </div>
