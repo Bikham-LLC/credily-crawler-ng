@@ -216,6 +216,7 @@ export class ConfigurationComponent implements OnInit {
     this.databaseHelper = new DatabaseHelper();
     this.lookupLink = '';
     this.lookupName = '';
+    this.planId = '';
     this.selectedStateName = '';
     this.attachmentType = '';
     this.attachmentSubType = '';
@@ -428,9 +429,10 @@ export class ConfigurationComponent implements OnInit {
     this.addStepToggle = true;
     this.configurationStepList = [];
     this.closeTaxomonModalButton.nativeElement.click();
-    setTimeout(() => {
-      this.clickIframeButton.nativeElement.click();
-    }, 500)
+
+    // setTimeout(() => {
+    //   this.clickIframeButton.nativeElement.click();
+    // }, 500)
 
     this.setText = this.lookupLink.split('//')[1];
 
@@ -696,6 +698,7 @@ export class ConfigurationComponent implements OnInit {
       this.testingConfiguration = false;
     })
   }
+  
   configstatus: string = '';
   planId:string='';
   saveConfiguration() {
