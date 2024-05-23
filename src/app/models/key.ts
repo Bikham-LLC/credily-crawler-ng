@@ -10,6 +10,10 @@ export class Keys{
     // server_url: string = "http://credily-webcrawler-v2-us-region-382879096.us-east-1.elb.amazonaws.com";
     // server_url: string = "https://crawleradmin.providerpassport.io";
 
+    // /**
+    //  * Staging server
+    //  */
+    // server_url: string = "http://ec2-54-196-116-169.compute-1.amazonaws.com:8081";
 
     api_version_one = "/api/v1";
     login = '/auth/login'
