@@ -43,6 +43,8 @@ export class ConfigurationComponent implements OnInit {
     }
     this.versionList = [{ id: 'V2', itemName: 'Credily V2' }, { id: 'V3', itemName: 'Credily V3' }];
 
+    this.ticketTypeList = [{ id: 'provider', itemName: 'provider' }, { id: 'location', itemName: 'location' }];
+
     this.configSearch.pipe(
       debounceTime(600))
       .subscribe(value => {
@@ -87,6 +89,10 @@ export class ConfigurationComponent implements OnInit {
   selectedVersion: any[] = new Array();
   selectedVersions: any[] = new Array();
   versionList: any[] = new Array();
+
+  dropdownSettingsTicketType !: { singleSelection: boolean; text: string; enableSearchFilter: boolean; autoPosition: boolean };
+  ticketTypeList: any[] = new Array();
+  selectedTicketType: any[] = new Array();
 
   addStepToggle: boolean = false;
 
@@ -158,6 +164,13 @@ export class ConfigurationComponent implements OnInit {
     this.dropdownSettingsAttachmentSubType = {
       singleSelection: true,
       text: 'Select Attachment Sub Type',
+      enableSearchFilter: true,
+      autoPosition: false
+    }
+
+    this.dropdownSettingsTicketType = {
+      singleSelection: true,
+      text: 'Select Ticket Type',
       enableSearchFilter: true,
       autoPosition: false
     }
@@ -461,8 +474,15 @@ export class ConfigurationComponent implements OnInit {
     if(this.configurationId >0){
       this._router.navigate([Route.HOME_CONFIGURATION_ROUTE]);
     }
+  }
 
-    // this.selectedTaxonomyIds = [];
+
+  selectTicketType(event :any){
+    debugger
+    if(event[0] != undefined){
+     this.selectedTicketType = event;
+     this.ticketType = event[0].id;
+    }
   }
 
   // ---------------------------------- add configuration section start --------------------------------
@@ -701,10 +721,12 @@ export class ConfigurationComponent implements OnInit {
   
   configstatus: string = '';
   planId:string='';
+  ticketType:string='';
   saveConfiguration() {
     debugger
     this.savingConfiguration = true;
     this.licenseLookupConfigRequest.type = this.crawlerType;
+    this.licenseLookupConfigRequest.ticketType = this.ticketType;
     this.licenseLookupConfigRequest.planId = this.planId;
     this.licenseLookupConfigRequest.lookupNames = this.selectedLookupName;
     this.licenseLookupConfigRequest.version = this.credilyVersion;

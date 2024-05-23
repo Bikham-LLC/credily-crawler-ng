@@ -265,16 +265,6 @@
                             <div class="mldConfigurationinner">
                                 <div class="lookupSearch mb-1">
                                     <div class="row mb-1" *ngIf="!taxanomyLinkLoading">
-                                        <!-- <div class="col-lg-6 pr-0">
-                                            <div class="lookupSearchForm">
-                                                <div class="position-relative">
-                                                    <label class="">Credily Version <sup class="text-danger">*</sup> </label>
-                                                    <angular2-multiselect id="version" name="version" [data]="versionList" [settings]="dropdownSettingsVersion" [(ngModel)]="selectedVersion" (ngModelChange)="selectVersion($event)" required>
-                                                    </angular2-multiselect>
-                                                </div>
-                                                <small *ngIf="mapLookupTaxonomyForm.submitted && Constant.EMPTY_STRINGS.includes(credilyVersion)" style="color: red;">Select Credily Version!</small>
-                                            </div>
-                                        </div> -->
                                         <div class="col-lg-6">
                                             <div class="lookupSearchForm">
                                                 <label>Configuration Name <sup class="text-danger">*</sup> </label>
@@ -306,6 +296,16 @@
                                                 <div class="position-relative">
                                                     <label class="">Attachment Sub Type <sup class="text-danger">*</sup> </label>
                                                     <angular2-multiselect id="attSubType" name="attSubType" [data]="attSubTypeList" [settings]="dropdownSettingsAttachmentSubType" [(ngModel)]="selectedAttSubType" (ngModelChange)="selectAttSubType($event)" required>
+                                                    </angular2-multiselect>
+                                                </div>
+                                                <!-- <small *ngIf="mapLookupTaxonomyForm.submitted && Constant.EMPTY_STRINGS.includes(credilyVersion)" style="color: red;">Select Credily Version!</small> -->
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 pr-0" *ngIf="crawlerType == Constant.APPLICATION_FOLLOW_UP">
+                                            <div class="lookupSearchForm">
+                                                <div class="position-relative">
+                                                    <label class="">Ticket Type<sup class="text-danger">*</sup> </label>
+                                                    <angular2-multiselect id="ticketType" name="ticketType" [data]="ticketTypeList" [settings]="dropdownSettingsTicketType" [(ngModel)]="selectedTicketType" (ngModelChange)="selectTicketType($event)" required>
                                                     </angular2-multiselect>
                                                 </div>
                                                 <!-- <small *ngIf="mapLookupTaxonomyForm.submitted && Constant.EMPTY_STRINGS.includes(credilyVersion)" style="color: red;">Select Credily Version!</small> -->
