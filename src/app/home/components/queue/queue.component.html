@@ -70,13 +70,13 @@
                             </td>
                             <td>
                                 <div class="tableinfo">
-                                    <span class="badge-grey">{{queue.cretedDate | date: "MM-dd-yyyy HH:mm" : 'EST'}}</span>
+                                    <span class="badge-grey">{{queue.cretedDate | date: "MM-dd-yyyy HH:mm"}}</span>
                                 </div>
                             </td>
                             <td class="tableData">
                                 <!-- <span class="tbleditBtn"><i *ngIf="queue.queueName != 'Q1' && queue.queueName != 'Follow up queue'" class="bi bi-pen" style="cursor: pointer;" (click)="openEditmodel(queue)"></i></span>
-                                <span class="tbldeleteBtn"><i *ngIf="queue.queueName !='Q1' && queue.queueName != 'Follow up queue'" class="bi bi-trash ms-2" style="cursor: pointer;"  (click)="openDeleteModel(queue.id)"></i></span>
-                                <i *ngIf="queue.queueName== 'Q1' || queue.queueName == 'Follow up queue'" class="bi bi-pen"></i>
+                                <span class="tbldeleteBtn"><i *ngIf="queue.queueName !='Q1' && queue.queueName != 'Follow up queue'" class="bi bi-trash ms-2" style="cursor: pointer;"  (click)="openDeleteModel(queue.id)"></i></span> -->
+                                <!--  <i *ngIf="queue.queueName== 'Q1' || queue.queueName == 'Follow up queue'" class="bi bi-pen"></i>
                                 <i *ngIf="queue.queueName== 'Q1' || queue.queueName == 'Follow up queue'" class="bi bi-lock-fill"></i> -->
                                 <i class="bi bi-pen"></i>
                                 <i class="bi bi-lock-fill"></i>
@@ -183,10 +183,11 @@
                 </small>
             </div>
             <div class="modal-footer justify-content-center">
-                <button type="button" data-bs-dismiss="modal" class="btn btnmarkdelete" (click)="deleteQueue()">
-                    Yes Delete It
+                <button type="button" class="btn btnmarkdelete" (click)="deleteQueue()">
+                    <span *ngIf="!deletingToggle">Yes Delete It</span>
+                    <span *ngIf="deletingToggle">Deleting <i class="spinner-border spinner-border-sm mt-1" role="status"></i></span>
                 </button>
-                <button type="button" class="btn btnmarkcancel" id="deleteModalCloseButton" #deleteModalCloseButton data-bs-dismiss="modal">
+                <button type="button" class="btn btnmarkcancel" id="deleteModalCloseButton" [disabled]="deletingToggle" #deleteModalCloseButton data-bs-dismiss="modal">
                     Cancel
                 </button>
             </div>

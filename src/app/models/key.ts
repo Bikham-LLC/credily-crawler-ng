@@ -3,17 +3,13 @@ export class Keys{
     /**
      * Server url key
      */
-    server_url: string = "https://crawler.providerpassport.info";
-    // server_url: string = "http://localhost:8081";
-
-    // server_url: string = "http://ec2-107-22-50-170.compute-1.amazonaws.com:8081";
-    // server_url: string = "http://credily-webcrawler-v2-us-region-382879096.us-east-1.elb.amazonaws.com";
-    // server_url: string = "https://crawleradmin.providerpassport.io";
+    // server_url: string = "https://crawler.providerpassport.info";
+    server_url: string = "http://localhost:8081";
 
     // /**
     //  * Staging server
     //  */
-    // server_url: string = "http://ec2-54-196-116-169.compute-1.amazonaws.com:8081";
+    // server_url: string = "http://ec2-52-66-179-34.ap-south-1.compute.amazonaws.com:8081";
 
     api_version_one = "/api/v1";
     login = '/auth/login'

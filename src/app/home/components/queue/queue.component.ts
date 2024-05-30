@@ -103,17 +103,29 @@ export class QueueComponent implements OnInit {
   }
 
   @ViewChild('deleteModalButton') deleteModalButton! :ElementRef;
+  @ViewChild('deleteModalCloseButton') deleteModalCloseButton! :ElementRef;
   queueId:any
   openDeleteModel(id:any){
     this.queueId = id;
     this.deleteModalButton.nativeElement.click();
   }
 
+
   deletingToggle:boolean= false;
   deleteQueue(){
     debugger
+    this.deletingToggle = true;
     this.queueService.deleteQueue(this.queueId).subscribe(response=>{
-      this.getAllQueue();
+      if(response.status){
+        this.getAllQueue();
+      }
+      this.deletingToggle = false;
+
+      setTimeout(()=>{
+        this.deleteModalCloseButton.nativeElement.click();
+      }, 100)
+    },error=>{
+      this.deletingToggle = false;
     })
   }
 
