@@ -161,4 +161,17 @@ export class ReportService {
     return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.report + "/attachment-ocr", {params});
   }
 
+  getMappedConfiguration(logId:number) :Observable<any> {
+    var params = new HttpParams()
+    .set('logId', logId)
+    return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.report + "/mapped-configuration", {params});
+  }
+
+  runMappedConfiguration(configId: number, logId:number) :Observable<any> {
+    var params = new HttpParams()
+    .set('configId', configId)
+    .set('logId', logId)
+    return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.report, {params});
+  }
+
 }

@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import * as moment from 'moment';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { DatabaseHelper } from 'src/app/models/DatabaseHelper';
 import { FailedConfigDTO } from 'src/app/models/FailedConfigDTO';
+import { MappedConfiguraion } from 'src/app/models/MappedConfiguraion';
 import { ReportService } from 'src/app/services/report.service';
 
 @Component({
@@ -93,4 +94,39 @@ export class NoconfigFoundReportComponent implements OnInit {
     this.databaseHelper.currentPage = event;
     this.getNoConfigFoundReport();
   }
+
+  @ViewChild('viewConfigModalButton') viewConfigModalButton!: ElementRef
+  mappedConfiguraionList : MappedConfiguraion[] = new Array();
+  mappedConfigLoadingToggle:boolean = false;
+  logId:number=0;
+  getMappedConfiguration(logId:number){
+    debugger
+    this.logId = logId;
+    this.mappedConfigLoadingToggle =true;
+    this.viewConfigModalButton.nativeElement.click();
+    this.reportService.getMappedConfiguration(logId).subscribe(response=>{
+      if(response != null){
+        this.mappedConfiguraionList = response;
+      }
+      this.mappedConfigLoadingToggle = false;
+    },error=>{
+      this.mappedConfigLoadingToggle = false;
+    })
+  }
+
+  runConfigLoadingToggle:boolean = false;
+  runMappedConfiguration(configId:number){
+    debugger
+    this.runConfigLoadingToggle = true;
+    this.reportService.runMappedConfiguration(configId, this.logId).subscribe(response=>{
+      if(response){
+        
+      }
+      this.runConfigLoadingToggle = false;
+    },error=>{
+      this.runConfigLoadingToggle = false;
+    })
+
+  }
+
 }

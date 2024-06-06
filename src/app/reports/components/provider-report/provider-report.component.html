@@ -162,7 +162,7 @@
         <button type="button" class="btn-close" [disabled]="providerTestingToggle" data-bs-dismiss="modal" id="closeLogsButton" #closeLogsButton aria-label="Close" (click)="closeLogModel()"></button>
       </div>
       <div class="modal-body">
-        <div>
+        <div style="max-height: 450px; overflow: auto;">
           <table class="table" *ngIf="!logLoadingToggle && providerCrawlerLogList.length>0">
             <thead>
               <tr>

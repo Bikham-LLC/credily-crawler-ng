@@ -2,11 +2,11 @@
 <div class="searchRowMain mt-3">
     <div class="row align-items-center justify-content-between">
         <div class="col-lg-4">
-                <div class="position-relative">
-                    <input id="searchname" name="searchname" placeholder="Search" class="form-control" style="padding:0px 15px 0px 38px"
-                [(ngModel)]="databaseHelper.search" (ngModelChange)="this.providerSearch.next($event)"/>
-                    <i class="bi bi-search search-icon"></i>
-                </div>
+            <div class="position-relative">
+                <input id="searchname" name="searchname" placeholder="Search" class="form-control" style="padding:0px 15px 0px 38px"
+            [(ngModel)]="databaseHelper.search" (ngModelChange)="this.providerSearch.next($event)"/>
+                <i class="bi bi-search search-icon"></i>
+            </div>
         </div>
         <div class="col-lg-4">
             <div class="align-items-center gap-2">
@@ -30,10 +30,6 @@
                     <th style="width: 15%;">Taxonomy</th>
                     <th style="width: 9%;">State</th>
                     <th style="width: 12%;">Credential</th>
-                    
-                    <!-- <th style="width: 8%;">
-                        <span style="cursor: pointer;"> Version <i class="bi bi-arrow-down-up"></i></span>
-                    </th> -->
                     <th style="width: 9%;">
                         <span *ngIf="!versionFilterToggle" (click)="filterByVersion()" style="cursor: pointer;">
                             version 
@@ -48,7 +44,7 @@
                     </th>
                     <th style="width: 12%;">Updated Date</th>
                     
-                    <th style="width: 10%;">Logs</th>
+                    <th style="width: 10%;">Actions</th>
                 </tr>
             </thead>
             <tbody *ngIf="noConfigFoundList.length>0 && !noConfigLoadingToggle">
@@ -67,7 +63,7 @@
                     <td>
                         <div class="tableinfo">
                             <div class="d-flex align-items-center gap-2">
-                                <button type="button" class="btn primarybtn">Re-run</button>
+                                <button type="button" class="btn primarybtn" (click)="getMappedConfiguration(obj.logId)">View</button>
                             </div>
                         </div>
                     </td>
@@ -91,12 +87,67 @@
             </div>
         </div>
     </div>
-    <div class="empty-notific text-center" style="margin: 13% 10% 13% 3%;" *ngIf="noConfigFoundList.length==0 && !noConfigLoadingToggle">
+    <div class="empty-notific text-center" style="margin: 10% 10% 13% 3%;" *ngIf="noConfigFoundList.length==0 && !noConfigLoadingToggle">
         <div class="empty-notificinner">
           <img src="assets/images/allexpirable.svg" style="width: 20%;" alt="no data found" />
           <h6 class="m-3 ps-5">No data found</h6>
         </div>
     </div>
     <app-circular-loader *ngIf="noConfigLoadingToggle"></app-circular-loader>
+</div>
 
+<button data-bs-toggle="modal" style="display: none;" data-bs-target="#viewConfig" id="viewConfigModalButton" #viewConfigModalButton></button>
+<div class="modal blur-bg-2" id="viewConfig" tabindex="-1" aria-labelledby="viewEditLabel" data-bs-backdrop="static"
+  aria-hidden="true">
+  <div class="modal-dialog modal-custom modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header d-flex justify-content-between align-items-center position-relative">
+        <div>
+          <b>Configuration</b>
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" id="closeConfigModalButton" #closeConfigModalButton aria-label="Close" ></button>
+      </div>
+      <div class="modal-body">
+        <div style="max-height: 450px; overflow: auto;">
+            <table class="table" *ngIf="!mappedConfigLoadingToggle && mappedConfiguraionList.length>0">
+                <thead>
+                    <tr>
+                        <th style="width: 40%">Lookup Name</th>
+                        <th style="width: 40%">Lookup Link</th>
+                        <th style="width: 20%;">Action</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr *ngFor="let config of mappedConfiguraionList; let i =index;">
+                        <td>
+                            <div class="tableinfo">
+                                <span class="textClamp">{{config.configName}}</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="tableinfo d-flex">
+                                <span class="textClamp">{{config.configLink}}</span>
+                            </div>
+                        </td>
+                        <td>
+                        <div class="tableinfo align-items-center justify-content-end gap-2">
+                            <Button tooltipClass="logTooltip" type="button" style="height: 30px;" class="btn primaryBtn">Run</Button>
+                        </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <app-circular-loader *ngIf="mappedConfigLoadingToggle"></app-circular-loader>
+          <!-- Empty notification -->
+            <div class="empty-notific text-center" style="margin: 13% 10% 13% 3%;" *ngIf="!mappedConfigLoadingToggle && mappedConfiguraionList.length==0">
+                <div class="empty-notificinner">
+                    <img src="assets/images/allexpirable.svg" style="width: 25%;" alt="no data found" />
+                    <h6 class="m-3 ps-5">No data found</h6>
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
