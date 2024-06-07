@@ -34,7 +34,18 @@
                             <th style="width: 10%">Queue Name</th>
                             <th style="width: 30%">Instance url</th>
                             <th style="width: 10%">Max Request</th>
-                            <th style="width: 10%">Status</th>
+                            <th style="width: 10%">
+                                <span *ngIf="!statusFilterToggle" (click)="filterByStatus()" style="cursor: pointer;">
+                                    Status 
+                                    <i class="bi bi-funnel-fill" *ngIf="selectedVersion.length == 0"></i>
+                                    <i *ngIf="selectedVersion.length > 0" class="bi bi-funnel-fill">
+                                        <sup class="filterActive">{{selectedVersion.length}}</sup>
+                                    </i>
+                                </span>
+                                <angular2-multiselect *ngIf="statusFilterToggle" id="versionSelectBox" name="versionSelectBox" [data]="statusList" [settings]="dropdownSettingStatus" [(ngModel)]="selectedVersion" #versionSelectBox="ngModel" (ngModelChange)="selectStatus($event)"
+                                    required>
+                                </angular2-multiselect> 
+                            </th>
                             <th style="width: 15%">created Date</th>
                             <th style="width: 10%">Action</th>
                             </tr>

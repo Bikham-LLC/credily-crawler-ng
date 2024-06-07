@@ -26,11 +26,12 @@
                     <th style="width: 15%;">
                         <span style="cursor: pointer;"> Provider Name</span>
                     </th>
-                    <th style="width: 13%;">NPI Number</th>
+                    <th style="width: 10%;">NPI Number</th>
                     <th style="width: 15%;">Taxonomy</th>
-                    <th style="width: 9%;">State</th>
-                    <th style="width: 12%;">Credential</th>
-                    <th style="width: 9%;">
+                    <th style="width: 10%;">State</th>
+                    <th style="width: 20%;">Board</th>
+                    <th style="width: 8%;">Credential</th>
+                    <th style="width: 8%;">
                         <span *ngIf="!versionFilterToggle" (click)="filterByVersion()" style="cursor: pointer;">
                             version 
                             <i class="bi bi-funnel-fill" *ngIf="selectedVersion.length == 0"></i>
@@ -42,9 +43,9 @@
                             required>
                         </angular2-multiselect>                              
                     </th>
-                    <th style="width: 12%;">Updated Date</th>
+                    <th style="width: 8%;">Updated Date</th>
                     
-                    <th style="width: 10%;">Actions</th>
+                    <th style="width: 6%;">Actions</th>
                 </tr>
             </thead>
             <tbody *ngIf="noConfigFoundList.length>0 && !noConfigLoadingToggle">
@@ -53,13 +54,24 @@
                     <td>
                         <div class="tableinfo"><span class="badge-grey npi-badge">{{obj.npi}}</span></div>
                     </td>
-                    <td><div class="tableinfo line-clamp">{{obj.taxonomy}}</div></td>
-                    <td><div class="tableinfo">{{obj.state}}</div></td>
+                    <td>
+                        <div class="tableinfo line-clamp">{{obj.taxonomy}}</div>
+                    </td>
+                    <td>
+                        <div class="tableinfo">{{obj.state?obj.state:'---'}}</div>
+                    </td>
+                    <td>
+                        <div class="tableinfo">{{obj.boardName?obj.boardName: '---'}}</div>
+                    </td>
                     <td>
                         <div class="tableinfo"><span class="npi-badge statusPending mx-auto">{{obj.credential}}</span></div>
                     </td>
-                    <td><div class="tableinfo">{{obj.version}}</div></td>
-                    <td><div class="tableinfo text-muted">{{obj.updatedDate | date : 'MM/dd/yyyy, HH:mm'}}</div></td>
+                    <td>
+                        <div class="tableinfo">{{obj.version}}</div>
+                    </td>
+                    <td>
+                        <div class="tableinfo text-muted">{{obj.updatedDate | date : 'MM/dd/yyyy, HH:mm'}}</div>
+                    </td>
                     <td>
                         <div class="tableinfo">
                             <div class="d-flex align-items-center gap-2">
@@ -132,7 +144,10 @@
                         </td>
                         <td>
                         <div class="tableinfo align-items-center justify-content-end gap-2">
-                            <Button tooltipClass="logTooltip" type="button" style="height: 30px;" class="btn primaryBtn">Run</Button>
+                            <Button tooltipClass="logTooltip" [disabled]="config.runConfigLoadingToggle" type="button" style="height: 30px;" class="btn primaryBtn" (click)="runMappedConfiguration(config.id, i)">
+                                <span *ngIf="!config.runConfigLoadingToggle">Run</span> 
+                                <span *ngIf="config.runConfigLoadingToggle">Running  <i class="spinner-border spinner-border-sm" role="status" *ngIf="config.runConfigLoadingToggle"></i></span>
+                            </Button>
                         </div>
                         </td>
                     </tr>

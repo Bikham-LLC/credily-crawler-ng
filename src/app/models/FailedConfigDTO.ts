@@ -15,5 +15,6 @@ export class FailedConfigDTO{
 	reTestingToggle:boolean=false;
 	taxonomy:string='';
 	credential:string='';
+	boardName:string='';
 
 }

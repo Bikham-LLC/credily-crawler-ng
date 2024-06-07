@@ -13,12 +13,33 @@ import { QueueService } from 'src/app/services/queue.service';
 })
 export class QueueComponent implements OnInit {
 
+
+
+  statusList: {id:any, itemName:any}[] = [{id: 1, itemName:'Initializing'}, {id: 2, itemName:'Running'}, {id: 3, itemName:'Terminated'}]
+  dropdownSettingStatus !:{ singleSelection: boolean; text: string; enableSearchFilter: boolean; autoPosition: boolean, badgeShowLimit: number; };
+  statusFilterToggle:boolean = false;
+  selectedVersion:any[] = new Array();
+
   constructor(private queueService : QueueService,
     private dataService: DataService) {}
 
   ngOnInit(): void {
+
+
+    this.dropdownSettingStatus = {
+      singleSelection: false,
+      text: 'Select Status',
+      enableSearchFilter: false,
+      autoPosition: false,
+      badgeShowLimit: 1
+    };
+
+    this.selectedVersion.push(this.statusList[1]);
+    this.selectedVersionList.push(this.selectedVersion[1].itemName);
+
     this.getAllQueue();
   }
+
 
   readonly Constant = Constant;
   databaseHelper : DatabaseHelper = new DatabaseHelper();
@@ -28,7 +49,7 @@ export class QueueComponent implements OnInit {
   getAllQueue(){
     debugger
     this.loadingQueue = true;
-    this.queueService.getQueue(this.databaseHelper).subscribe(response=>{
+    this.queueService.getQueue(this.databaseHelper, this.selectedVersionList).subscribe(response=>{
       this.queueInstanceList = response.dtoList;
       this.totalQueue = response.totalAccount;
       this.instanceType = response.instanceType;
@@ -42,6 +63,24 @@ export class QueueComponent implements OnInit {
     this.databaseHelper.currentPage = event;
     this.getAllQueue();
   }
+
+  filterByStatus(){
+    this.statusFilterToggle = !this.statusFilterToggle;
+  }
+
+  selectedVersionList:any[] = [];
+  selectStatus(event:any){
+    this.selectedVersionList = [];
+    if(event != undefined){
+      this.selectedVersion = event;
+      this.selectedVersionList.push(event.itemName);
+    } else {
+      this.selectedVersion.push(this.statusList[1]);
+      this.selectedVersionList.push(this.selectedVersion[0].itemName);
+    }
+  }
+
+  
 
   @ViewChild('createQueuemodalButton') createQueuemodalButton!: ElementRef;
   @ViewChild('closeQueueModel') closeQueueModel!: ElementRef;
@@ -79,9 +118,6 @@ export class QueueComponent implements OnInit {
     },error=>{
       this.creatingQueueSpinner = false;
     })
-    // setTimeout(() => {
-    //   this.closeQueueModel.nativeElement.click();
-    // }, 500)
 
     if(this.queueId > 0){
       this.creatingQueueSpinner = true;
@@ -96,10 +132,7 @@ export class QueueComponent implements OnInit {
       setTimeout(() => {
         this.closeQueueModel.nativeElement.click();
       }, 500)
-     
     }
-    
-    
   }
 
   @ViewChild('deleteModalButton') deleteModalButton! :ElementRef;
