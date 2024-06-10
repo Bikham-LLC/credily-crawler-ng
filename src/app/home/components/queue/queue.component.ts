@@ -35,7 +35,7 @@ export class QueueComponent implements OnInit {
     };
 
     this.selectedVersion.push(this.statusList[1]);
-    this.selectedVersionList.push(this.selectedVersion[1].itemName);
+    this.selectedVersionList.push(this.statusList[1].itemName);
 
     this.getAllQueue();
   }
@@ -73,11 +73,14 @@ export class QueueComponent implements OnInit {
     this.selectedVersionList = [];
     if(event != undefined){
       this.selectedVersion = event;
-      this.selectedVersionList.push(event.itemName);
+      this.selectedVersion.forEach(e=>{
+        this.selectedVersionList.push(e.itemName);
+      })
     } else {
       this.selectedVersion.push(this.statusList[1]);
-      this.selectedVersionList.push(this.selectedVersion[0].itemName);
+      this.selectedVersionList.push(this.statusList[1].itemName);
     }
+    this.getAllQueue();
   }
 
   

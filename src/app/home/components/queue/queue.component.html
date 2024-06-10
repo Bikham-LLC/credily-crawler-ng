@@ -26,7 +26,7 @@
             </div>
 
             <div class="usertable mt-3">
-                <div class="usertableinner table-responsive" style="min-height: 500px;" *ngIf="!loadingQueue && queueInstanceList.length>0">
+                <div class="usertableinner table-responsive" style="min-height: 500px;">
                     <table class="table">
                         <thead>
                             <tr>
@@ -51,7 +51,7 @@
                             </tr>
                         </thead>
         
-                        <tbody>
+                        <tbody *ngIf="!loadingQueue && queueInstanceList.length>0">
                             <tr *ngFor="let queue of queueInstanceList; let i = index">
                             <td>
                                 <div class="tableinfo">
