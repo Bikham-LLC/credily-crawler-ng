@@ -15,4 +15,5 @@ export class LookupConfiguration{
     updatedDate:any;
     configStatus:string='';
     toggle:boolean=false;
+    ticketType:string='';
 }

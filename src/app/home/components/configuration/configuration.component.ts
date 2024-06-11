@@ -104,6 +104,10 @@ export class ConfigurationComponent implements OnInit {
   selectedAttSubType: any[] = new Array();
   attSubTypeList: any[] = new Array();
 
+  dropdownSettingsQueue !: { singleSelection: boolean; text: string; enableSearchFilter: boolean; autoPosition: boolean };
+  selectedQueue: any[] = new Array();
+  queueList: {id:any, itemName: any}[] = [{ id: 36 , itemName: 'Test queue 1' }, { id: 113, itemName: 'Test queue 2' }];
+
   ngOnInit(): void {
 
     this.dropdownSettingsAttribute = {
@@ -171,6 +175,13 @@ export class ConfigurationComponent implements OnInit {
     this.dropdownSettingsTicketType = {
       singleSelection: true,
       text: 'Select Ticket Type',
+      enableSearchFilter: true,
+      autoPosition: false
+    }
+
+    this.dropdownSettingsQueue = {
+      singleSelection: true,
+      text: 'Select Queue',
       enableSearchFilter: true,
       autoPosition: false
     }
@@ -683,8 +694,16 @@ export class ConfigurationComponent implements OnInit {
 
   message:string='';
   ticketId:number=0;
+  queueToggle:boolean = false;
   testConfiguration() {
     debugger
+    this.queueToggle = false;
+    if(this.selectedQueue.length==0){
+      this.queueToggle = true;
+      return;
+    }
+
+    this.licenseLookupConfigRequest.queueId = this.queueId;
     this.licenseLookupConfigRequest.type = this.crawlerType;
     this.licenseLookupConfigRequest.version = this.credilyVersion;
     this.licenseLookupConfigRequest.licenseLookUpName = this.lookupName;
@@ -1031,6 +1050,10 @@ export class ConfigurationComponent implements OnInit {
       var temp: { id: any, itemName: any } = { id: 'V3', itemName: 'Credily V3' };
       this.selectedVersion.push(temp);
       this.credilyVersion = 'V3';
+    }
+    if(!Constant.EMPTY_STRINGS.includes(config.ticketType)){
+      var temp: { id: any, itemName: any } = { id: config.ticketType, itemName: config.ticketType };
+      this.selectedTicketType.push(temp);
     }
     this.selectedTaxonomyIds = config.taxonomyId;
     this.getAttachmentType();
@@ -1414,6 +1437,15 @@ export class ConfigurationComponent implements OnInit {
     },error=>{
 
     })
+  }
+
+  queueId:string='';
+  selectQueue(event:any){
+    this.queueId = '';
+    if(event != undefined){
+      this.queueId = event[0].id;
+      this.queueToggle = false;
+    }
   }
 
 }

@@ -26,4 +26,5 @@ export class LicenseLookupConfigRequest{
     removeAll:string='no';
     attactmentSource:string='';
     ticketType:string='';
+    queueId:string='';
 }

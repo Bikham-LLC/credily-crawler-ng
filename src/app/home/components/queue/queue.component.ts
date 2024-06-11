@@ -24,7 +24,7 @@ export class QueueComponent implements OnInit {
     private dataService: DataService) {}
 
   ngOnInit(): void {
-
+    debugger
 
     this.dropdownSettingStatus = {
       singleSelection: false,
@@ -34,8 +34,12 @@ export class QueueComponent implements OnInit {
       badgeShowLimit: 1
     };
 
-    this.selectedVersion.push(this.statusList[1]);
-    this.selectedVersionList.push(this.statusList[1].itemName);
+    this.statusList.forEach((e:any)=>{
+      if(e.itemName != 'Terminated'){
+        this.selectedVersion.push(e);
+        this.selectedVersionList.push(e.itemName);
+      }
+    })
 
     this.getAllQueue();
   }
@@ -114,8 +118,8 @@ export class QueueComponent implements OnInit {
     this.creatingQueueSpinner = true;
     this.queueService.createQueue(this.queueName, this.maxRequest).subscribe(response=>{
       if(response.status){
-        this.getAllQueue();
         this.closeQueueModel.nativeElement.click();
+        this.getAllQueue();
       }
       this.creatingQueueSpinner = false;
     },error=>{
