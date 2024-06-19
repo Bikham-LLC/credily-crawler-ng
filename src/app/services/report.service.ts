@@ -87,11 +87,11 @@ export class ReportService {
   }
 
 
-  idToTestConfig(ids:any) :Observable<any> { 
-    const params = new HttpParams()
-    .set('ids', ids)
-    return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.report + "/test", {params});
-  }
+  // idToTestConfig(ids:any) :Observable<any> { 
+  //   const params = new HttpParams()
+  //   .set('ids', ids)
+  //   return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.report + "/test", {params});
+  // }
 
   getScreenshot(id:any) :Observable<any> { 
     const params = new HttpParams()
@@ -159,6 +159,19 @@ export class ReportService {
     .set('version', version)
     .set('attachmentId', attachmentId)
     return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.report + "/attachment-ocr", {params});
+  }
+
+  getMappedConfiguration(logId:number) :Observable<any> {
+    var params = new HttpParams()
+    .set('logId', logId)
+    return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.report + "/mapped-configuration", {params});
+  }
+
+  runMappedConfiguration(configId: number, logId:number) :Observable<any> {
+    var params = new HttpParams()
+    .set('configId', configId)
+    .set('logId', logId)
+    return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.report + "/run-mapped-configuration", {params});
   }
 
 }

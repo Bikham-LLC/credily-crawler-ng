@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import * as moment from 'moment';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { DatabaseHelper } from 'src/app/models/DatabaseHelper';
 import { FailedConfigDTO } from 'src/app/models/FailedConfigDTO';
+import { MappedConfiguraion } from 'src/app/models/MappedConfiguraion';
+import { DataService } from 'src/app/services/data.service';
 import { ReportService } from 'src/app/services/report.service';
 
 @Component({
@@ -19,7 +21,8 @@ export class NoconfigFoundReportComponent implements OnInit {
   selectedVersion: any[] = new Array();
 
   providerSearch = new Subject<string>();
-  constructor(private reportService: ReportService) { 
+  constructor(private reportService: ReportService,
+    private dataService: DataService) { 
 
     this.providerSearch.pipe(
       debounceTime(600))
@@ -93,4 +96,47 @@ export class NoconfigFoundReportComponent implements OnInit {
     this.databaseHelper.currentPage = event;
     this.getNoConfigFoundReport();
   }
+
+  @ViewChild('viewConfigModalButton') viewConfigModalButton!: ElementRef
+  @ViewChild('closeConfigModalButton') closeConfigModalButton!: ElementRef
+  mappedConfiguraionList : MappedConfiguraion[] = new Array();
+  mappedConfigLoadingToggle:boolean = false;
+  logId:number=0;
+  getMappedConfiguration(logId:number){
+    debugger
+    this.logId = 0;
+    this.logId = logId;
+    this.mappedConfigLoadingToggle =true;
+    this.viewConfigModalButton.nativeElement.click();
+    this.reportService.getMappedConfiguration(logId).subscribe(response=>{
+      if(response != null){
+        this.mappedConfiguraionList = response;
+      }
+      this.mappedConfigLoadingToggle = false;
+    },error=>{
+      this.mappedConfigLoadingToggle = false;
+    })
+  }
+
+
+  runConfigLoadingToggle:boolean = false;
+  runMappedConfiguration(configId:number, index:number){
+    debugger
+    this.runConfigLoadingToggle = true;
+    this.mappedConfiguraionList[index].runConfigLoadingToggle = true;
+    this.reportService.runMappedConfiguration(configId, this.logId).subscribe(response=>{
+      this.mappedConfiguraionList[index].runConfigLoadingToggle = false;
+      this.runConfigLoadingToggle = false;
+      setTimeout(() => {
+        this.closeConfigModalButton.nativeElement.click();
+        this.dataService.showToast(response.message);
+      }, 300);
+      this.getNoConfigFoundReport();
+    },error=>{
+      this.runConfigLoadingToggle = false;
+      this.mappedConfiguraionList[index].runConfigLoadingToggle = false;
+    })
+
+  }
+
 }

@@ -43,6 +43,8 @@ export class ConfigurationComponent implements OnInit {
     }
     this.versionList = [{ id: 'V2', itemName: 'Credily V2' }, { id: 'V3', itemName: 'Credily V3' }];
 
+    this.ticketTypeList = [{ id: 'provider', itemName: 'provider' }, { id: 'location', itemName: 'location' }];
+
     this.configSearch.pipe(
       debounceTime(600))
       .subscribe(value => {
@@ -88,6 +90,10 @@ export class ConfigurationComponent implements OnInit {
   selectedVersions: any[] = new Array();
   versionList: any[] = new Array();
 
+  dropdownSettingsTicketType !: { singleSelection: boolean; text: string; enableSearchFilter: boolean; autoPosition: boolean };
+  ticketTypeList: any[] = new Array();
+  selectedTicketType: any[] = new Array();
+
   addStepToggle: boolean = false;
 
   dropdownSettingsAttachmentType !: { singleSelection: boolean; text: string; enableSearchFilter: boolean; autoPosition: boolean };
@@ -97,6 +103,10 @@ export class ConfigurationComponent implements OnInit {
   dropdownSettingsAttachmentSubType !: { singleSelection: boolean; text: string; enableSearchFilter: boolean; autoPosition: boolean };
   selectedAttSubType: any[] = new Array();
   attSubTypeList: any[] = new Array();
+
+  dropdownSettingsQueue !: { singleSelection: boolean; text: string; enableSearchFilter: boolean; autoPosition: boolean };
+  selectedQueue: any[] = new Array();
+  queueList: {id:any, itemName: any}[] = [{ id: 36 , itemName: 'Test queue 1' }, { id: 113, itemName: 'Test queue 2' }];
 
   ngOnInit(): void {
 
@@ -158,6 +168,20 @@ export class ConfigurationComponent implements OnInit {
     this.dropdownSettingsAttachmentSubType = {
       singleSelection: true,
       text: 'Select Attachment Sub Type',
+      enableSearchFilter: true,
+      autoPosition: false
+    }
+
+    this.dropdownSettingsTicketType = {
+      singleSelection: true,
+      text: 'Select Ticket Type',
+      enableSearchFilter: true,
+      autoPosition: false
+    }
+
+    this.dropdownSettingsQueue = {
+      singleSelection: true,
+      text: 'Select Queue',
       enableSearchFilter: true,
       autoPosition: false
     }
@@ -461,8 +485,15 @@ export class ConfigurationComponent implements OnInit {
     if(this.configurationId >0){
       this._router.navigate([Route.HOME_CONFIGURATION_ROUTE]);
     }
+  }
 
-    // this.selectedTaxonomyIds = [];
+
+  selectTicketType(event :any){
+    debugger
+    if(event[0] != undefined){
+     this.selectedTicketType = event;
+     this.ticketType = event[0].id;
+    }
   }
 
   // ---------------------------------- add configuration section start --------------------------------
@@ -663,8 +694,16 @@ export class ConfigurationComponent implements OnInit {
 
   message:string='';
   ticketId:number=0;
+  queueToggle:boolean = false;
   testConfiguration() {
     debugger
+    this.queueToggle = false;
+    if(this.selectedQueue.length==0){
+      this.queueToggle = true;
+      return;
+    }
+
+    this.licenseLookupConfigRequest.queueId = this.queueId;
     this.licenseLookupConfigRequest.type = this.crawlerType;
     this.licenseLookupConfigRequest.version = this.credilyVersion;
     this.licenseLookupConfigRequest.licenseLookUpName = this.lookupName;
@@ -701,10 +740,12 @@ export class ConfigurationComponent implements OnInit {
   
   configstatus: string = '';
   planId:string='';
+  ticketType:string='';
   saveConfiguration() {
     debugger
     this.savingConfiguration = true;
     this.licenseLookupConfigRequest.type = this.crawlerType;
+    this.licenseLookupConfigRequest.ticketType = this.ticketType;
     this.licenseLookupConfigRequest.planId = this.planId;
     this.licenseLookupConfigRequest.lookupNames = this.selectedLookupName;
     this.licenseLookupConfigRequest.version = this.credilyVersion;
@@ -1009,6 +1050,10 @@ export class ConfigurationComponent implements OnInit {
       var temp: { id: any, itemName: any } = { id: 'V3', itemName: 'Credily V3' };
       this.selectedVersion.push(temp);
       this.credilyVersion = 'V3';
+    }
+    if(!Constant.EMPTY_STRINGS.includes(config.ticketType)){
+      var temp: { id: any, itemName: any } = { id: config.ticketType, itemName: config.ticketType };
+      this.selectedTicketType.push(temp);
     }
     this.selectedTaxonomyIds = config.taxonomyId;
     this.getAttachmentType();
@@ -1392,6 +1437,15 @@ export class ConfigurationComponent implements OnInit {
     },error=>{
 
     })
+  }
+
+  queueId:string='';
+  selectQueue(event:any){
+    this.queueId = '';
+    if(event != undefined){
+      this.queueId = event[0].id;
+      this.queueToggle = false;
+    }
   }
 
 }

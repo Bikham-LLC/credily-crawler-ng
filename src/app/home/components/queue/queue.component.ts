@@ -13,12 +13,37 @@ import { QueueService } from 'src/app/services/queue.service';
 })
 export class QueueComponent implements OnInit {
 
+
+
+  statusList: {id:any, itemName:any}[] = [{id: 1, itemName:'Initializing'}, {id: 2, itemName:'Running'}, {id: 3, itemName:'Terminated'}]
+  dropdownSettingStatus !:{ singleSelection: boolean; text: string; enableSearchFilter: boolean; autoPosition: boolean, badgeShowLimit: number; };
+  statusFilterToggle:boolean = false;
+  selectedVersion:any[] = new Array();
+
   constructor(private queueService : QueueService,
     private dataService: DataService) {}
 
   ngOnInit(): void {
+    debugger
+
+    this.dropdownSettingStatus = {
+      singleSelection: false,
+      text: 'Select Status',
+      enableSearchFilter: false,
+      autoPosition: false,
+      badgeShowLimit: 1
+    };
+
+    this.statusList.forEach((e:any)=>{
+      if(e.itemName != 'Terminated'){
+        this.selectedVersion.push(e);
+        this.selectedVersionList.push(e.itemName);
+      }
+    })
+
     this.getAllQueue();
   }
+
 
   readonly Constant = Constant;
   databaseHelper : DatabaseHelper = new DatabaseHelper();
@@ -28,7 +53,7 @@ export class QueueComponent implements OnInit {
   getAllQueue(){
     debugger
     this.loadingQueue = true;
-    this.queueService.getQueue(this.databaseHelper).subscribe(response=>{
+    this.queueService.getQueue(this.databaseHelper, this.selectedVersionList).subscribe(response=>{
       this.queueInstanceList = response.dtoList;
       this.totalQueue = response.totalAccount;
       this.instanceType = response.instanceType;
@@ -42,6 +67,27 @@ export class QueueComponent implements OnInit {
     this.databaseHelper.currentPage = event;
     this.getAllQueue();
   }
+
+  filterByStatus(){
+    this.statusFilterToggle = !this.statusFilterToggle;
+  }
+
+  selectedVersionList:any[] = [];
+  selectStatus(event:any){
+    this.selectedVersionList = [];
+    if(event != undefined){
+      this.selectedVersion = event;
+      this.selectedVersion.forEach(e=>{
+        this.selectedVersionList.push(e.itemName);
+      })
+    } else {
+      this.selectedVersion.push(this.statusList[1]);
+      this.selectedVersionList.push(this.statusList[1].itemName);
+    }
+    this.getAllQueue();
+  }
+
+  
 
   @ViewChild('createQueuemodalButton') createQueuemodalButton!: ElementRef;
   @ViewChild('closeQueueModel') closeQueueModel!: ElementRef;
@@ -72,16 +118,13 @@ export class QueueComponent implements OnInit {
     this.creatingQueueSpinner = true;
     this.queueService.createQueue(this.queueName, this.maxRequest).subscribe(response=>{
       if(response.status){
-        this.getAllQueue();
         this.closeQueueModel.nativeElement.click();
+        this.getAllQueue();
       }
       this.creatingQueueSpinner = false;
     },error=>{
       this.creatingQueueSpinner = false;
     })
-    // setTimeout(() => {
-    //   this.closeQueueModel.nativeElement.click();
-    // }, 500)
 
     if(this.queueId > 0){
       this.creatingQueueSpinner = true;
@@ -96,24 +139,33 @@ export class QueueComponent implements OnInit {
       setTimeout(() => {
         this.closeQueueModel.nativeElement.click();
       }, 500)
-     
     }
-    
-    
   }
 
   @ViewChild('deleteModalButton') deleteModalButton! :ElementRef;
+  @ViewChild('deleteModalCloseButton') deleteModalCloseButton! :ElementRef;
   queueId:any
   openDeleteModel(id:any){
     this.queueId = id;
     this.deleteModalButton.nativeElement.click();
   }
 
+
   deletingToggle:boolean= false;
   deleteQueue(){
     debugger
+    this.deletingToggle = true;
     this.queueService.deleteQueue(this.queueId).subscribe(response=>{
-      this.getAllQueue();
+      if(response.status){
+        this.getAllQueue();
+      }
+      this.deletingToggle = false;
+
+      setTimeout(()=>{
+        this.deleteModalCloseButton.nativeElement.click();
+      }, 100)
+    },error=>{
+      this.deletingToggle = false;
     })
   }
 

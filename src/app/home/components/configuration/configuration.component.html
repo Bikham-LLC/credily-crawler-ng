@@ -119,7 +119,6 @@
                                                         <span class="tbleditBtn"><i class="bi bi-pen" style="cursor: pointer;" (click)="openEditModel(config)"></i></span>
                                                         <span class="tbldeleteBtn"><i class="bi bi-trash ms-2" style="cursor: pointer;" (click)="deleteConfiguration(config.id, i)"></i></span>
                                                         <span class="tblreplicateBtn"><i class="bi bi-clipboard-plus ms-2" style="cursor: pointer;" (click)="replicateConfig(config.id)"></i></span>
-                                                        <!-- <span><i class="bi bi-clipboard-plus ms-2"></i></span> -->
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -154,9 +153,6 @@
                                             <div class="configSetupBox">
                                                 <div class="d-flex justify-content-between align-items-center">
                                                     <h3>Configuration <a [href]="lookupLink" target="_blank" rel="noopener noreferrer"><i class="bi bi-box-arrow-up-right" style="cursor: pointer"></i></a></h3>
-                
-                
-                
                                                     <div class="d-flex justify-content-end align-items-center gap-2">
                                                         <button class="btn primaryBtn viewCommentBtn" (click)="showAndHideComments()">
                                                             <span *ngIf="!showCommentsToggle" >View Comments</span>
@@ -265,16 +261,6 @@
                             <div class="mldConfigurationinner">
                                 <div class="lookupSearch mb-1">
                                     <div class="row mb-1" *ngIf="!taxanomyLinkLoading">
-                                        <!-- <div class="col-lg-6 pr-0">
-                                            <div class="lookupSearchForm">
-                                                <div class="position-relative">
-                                                    <label class="">Credily Version <sup class="text-danger">*</sup> </label>
-                                                    <angular2-multiselect id="version" name="version" [data]="versionList" [settings]="dropdownSettingsVersion" [(ngModel)]="selectedVersion" (ngModelChange)="selectVersion($event)" required>
-                                                    </angular2-multiselect>
-                                                </div>
-                                                <small *ngIf="mapLookupTaxonomyForm.submitted && Constant.EMPTY_STRINGS.includes(credilyVersion)" style="color: red;">Select Credily Version!</small>
-                                            </div>
-                                        </div> -->
                                         <div class="col-lg-6">
                                             <div class="lookupSearchForm">
                                                 <label>Configuration Name <sup class="text-danger">*</sup> </label>
@@ -306,6 +292,16 @@
                                                 <div class="position-relative">
                                                     <label class="">Attachment Sub Type <sup class="text-danger">*</sup> </label>
                                                     <angular2-multiselect id="attSubType" name="attSubType" [data]="attSubTypeList" [settings]="dropdownSettingsAttachmentSubType" [(ngModel)]="selectedAttSubType" (ngModelChange)="selectAttSubType($event)" required>
+                                                    </angular2-multiselect>
+                                                </div>
+                                                <!-- <small *ngIf="mapLookupTaxonomyForm.submitted && Constant.EMPTY_STRINGS.includes(credilyVersion)" style="color: red;">Select Credily Version!</small> -->
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 pr-0" *ngIf="crawlerType == Constant.APPLICATION_FOLLOW_UP">
+                                            <div class="lookupSearchForm">
+                                                <div class="position-relative">
+                                                    <label class="">Ticket Type<sup class="text-danger">*</sup> </label>
+                                                    <angular2-multiselect id="ticketType" name="ticketType" [data]="ticketTypeList" [settings]="dropdownSettingsTicketType" [(ngModel)]="selectedTicketType" (ngModelChange)="selectTicketType($event)" required>
                                                     </angular2-multiselect>
                                                 </div>
                                                 <!-- <small *ngIf="mapLookupTaxonomyForm.submitted && Constant.EMPTY_STRINGS.includes(credilyVersion)" style="color: red;">Select Credily Version!</small> -->
@@ -756,8 +752,16 @@
                                                     <input type="text" class="form-control" name="ticketId" placeholder="Enter ticket id" [(ngModel)]="ticketId" maxlength="155" required>
                                                 </div>
                                             </div>
-                                            <small *ngIf="isInvalidConfiguration" style="color: red;">Invalid Configuration!</small>
                                         </div>
+                                        <div class="col-lg-12">
+                                            <div class="position-relative">
+                                                <label class="">Select Queue<sup class="text-danger">*</sup> </label>
+                                                <angular2-multiselect id="queue" name="queue" [data]="queueList" [settings]="dropdownSettingsQueue" [(ngModel)]="selectedQueue" (ngModelChange)="selectQueue($event)" required>
+                                                </angular2-multiselect>
+                                            </div>
+                                            <small *ngIf="queueToggle" style="color: red;"> Select queue!</small>
+                                        </div>
+                                        <small *ngIf="isInvalidConfiguration" style="color: red;">Invalid Configuration!</small>
                                     </div>
                                 </div>
                             </div>
@@ -776,7 +780,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn primarycancelbtn" style="border-color: #F05252 !important;" [disabled]="testingConfiguration" data-bs-dismiss="modal" (click)=" isInvalidConfiguration=false; providerUuid = '' ">Close</button>
-                        <button type="submit" class="btn primaryBtn" [disabled]="testingConfiguration">Submit <i class="spinner-border spinner-border-sm" *ngIf="testingConfiguration && !savingConfiguration"></i> </button>
+                        <button type="submit" class="btn primaryBtn" [disabled]="testingConfiguration || Constant.EMPTY_STRINGS.includes(providerUuid)">Submit <i class="spinner-border spinner-border-sm" *ngIf="testingConfiguration && !savingConfiguration"></i> </button>
                     </div>
                 </form>
             </div>

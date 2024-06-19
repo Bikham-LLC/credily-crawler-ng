@@ -26,7 +26,7 @@
             </div>
 
             <div class="usertable mt-3">
-                <div class="usertableinner table-responsive" style="min-height: 500px;" *ngIf="!loadingQueue && queueInstanceList.length>0">
+                <div class="usertableinner table-responsive" style="max-height: 500px;">
                     <table class="table">
                         <thead>
                             <tr>
@@ -34,13 +34,24 @@
                             <th style="width: 10%">Queue Name</th>
                             <th style="width: 30%">Instance url</th>
                             <th style="width: 10%">Max Request</th>
-                            <th style="width: 10%">Status</th>
+                            <th style="width: 10%">
+                                <span *ngIf="!statusFilterToggle" (click)="filterByStatus()" style="cursor: pointer;">
+                                    Status 
+                                    <i class="bi bi-funnel-fill" *ngIf="selectedVersion.length == 0"></i>
+                                    <i *ngIf="selectedVersion.length > 0" class="bi bi-funnel-fill">
+                                        <sup class="filterActive">{{selectedVersion.length}}</sup>
+                                    </i>
+                                </span>
+                                <angular2-multiselect *ngIf="statusFilterToggle" id="versionSelectBox" name="versionSelectBox" [data]="statusList" [settings]="dropdownSettingStatus" [(ngModel)]="selectedVersion" #versionSelectBox="ngModel" (ngModelChange)="selectStatus($event)"
+                                    required>
+                                </angular2-multiselect> 
+                            </th>
                             <th style="width: 15%">created Date</th>
                             <th style="width: 10%">Action</th>
                             </tr>
                         </thead>
         
-                        <tbody>
+                        <tbody *ngIf="!loadingQueue && queueInstanceList.length>0">
                             <tr *ngFor="let queue of queueInstanceList; let i = index">
                             <td>
                                 <div class="tableinfo">
@@ -70,13 +81,13 @@
                             </td>
                             <td>
                                 <div class="tableinfo">
-                                    <span class="badge-grey">{{queue.cretedDate | date: "MM-dd-yyyy HH:mm" : 'EST'}}</span>
+                                    <span class="badge-grey">{{queue.cretedDate | date: "MM-dd-yyyy HH:mm"}}</span>
                                 </div>
                             </td>
                             <td class="tableData">
                                 <!-- <span class="tbleditBtn"><i *ngIf="queue.queueName != 'Q1' && queue.queueName != 'Follow up queue'" class="bi bi-pen" style="cursor: pointer;" (click)="openEditmodel(queue)"></i></span>
                                 <span class="tbldeleteBtn"><i *ngIf="queue.queueName !='Q1' && queue.queueName != 'Follow up queue'" class="bi bi-trash ms-2" style="cursor: pointer;"  (click)="openDeleteModel(queue.id)"></i></span>
-                                <i *ngIf="queue.queueName== 'Q1' || queue.queueName == 'Follow up queue'" class="bi bi-pen"></i>
+                                 <i *ngIf="queue.queueName== 'Q1' || queue.queueName == 'Follow up queue'" class="bi bi-pen"></i>
                                 <i *ngIf="queue.queueName== 'Q1' || queue.queueName == 'Follow up queue'" class="bi bi-lock-fill"></i> -->
                                 <i class="bi bi-pen"></i>
                                 <i class="bi bi-lock-fill"></i>
@@ -183,10 +194,11 @@
                 </small>
             </div>
             <div class="modal-footer justify-content-center">
-                <button type="button" data-bs-dismiss="modal" class="btn btnmarkdelete" (click)="deleteQueue()">
-                    Yes Delete It
+                <button type="button" class="btn btnmarkdelete" (click)="deleteQueue()">
+                    <span *ngIf="!deletingToggle">Yes Delete It</span>
+                    <span *ngIf="deletingToggle">Deleting <i class="spinner-border spinner-border-sm mt-1" role="status"></i></span>
                 </button>
-                <button type="button" class="btn btnmarkcancel" id="deleteModalCloseButton" #deleteModalCloseButton data-bs-dismiss="modal">
+                <button type="button" class="btn btnmarkcancel" id="deleteModalCloseButton" [disabled]="deletingToggle" #deleteModalCloseButton data-bs-dismiss="modal">
                     Cancel
                 </button>
             </div>

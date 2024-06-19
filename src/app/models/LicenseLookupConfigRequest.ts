@@ -25,4 +25,6 @@ export class LicenseLookupConfigRequest{
     mappedIds:number[] = [];
     removeAll:string='no';
     attactmentSource:string='';
+    ticketType:string='';
+    queueId:string='';
 }

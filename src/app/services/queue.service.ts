@@ -12,11 +12,12 @@ export class QueueService {
   constructor(private http :HttpClient) { }
   key : Keys = new Keys();
 
-  getQueue(databasehelper:DatabaseHelper):Observable<any>{
+  getQueue(databasehelper:DatabaseHelper, statusList: any):Observable<any>{
     const params = new HttpParams()
     .set('search', databasehelper.search)
     .set('currentPage', databasehelper.currentPage)
     .set('itemsPerPage', databasehelper.itemsPerPage)
+    .set('statusList', statusList)
     return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.queue, {params});
   }
 
