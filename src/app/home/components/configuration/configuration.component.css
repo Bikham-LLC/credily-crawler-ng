@@ -812,3 +812,9 @@ span.removeSteps {
   left: 0px;
   z-index: 2;
 }
+
+.commentStep {
+  filter: grayscale(1);
+  background: #ebe3e3 !important;
+  opacity: 0.8;
+}

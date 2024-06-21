@@ -11,23 +11,17 @@
                                                     <input class="form-control" id="searchname" name="searchname" placeholder="Search by lookup name" [(ngModel)]="search" (ngModelChange)="this.configSearch.next($event)">
                                                 </div>
                                             </div>
-                                            <div class="col-lg-3 px-2">
+                                            <div class="col-lg-4 px-2">
                                                 <div class="position-relative">
                                                     <input class="form-control" id="searchlink" name="searchlink" placeholder="Search by lookup link" [(ngModel)]="searchLink" (ngModelChange)="this.configSearchByLink.next($event)">
                                                 </div>
                                             </div>
-                                            <div class="col-lg-3 px-2">
-                                                <div class="lookupSearchForm">
-                                                    <angular2-multiselect id="version" name="version" [data]="versionList" [settings]="dropdownSettingsVersion" [(ngModel)]="selectedVersions" (ngModelChange)="searchSelectVersion($event)" required>
-                                                    </angular2-multiselect>
+                                            <div class="col-lg-5 px-2">
+                                                <div class="dateRangeFilter position-relative">
+                                                    <input type="text" autocomplete="off" class="form-control" name="daterange" placeholder="Select Date Range" ngxDaterangepickerMd [maxDate]="maxDate" [opens]="'right'" [locale]="{applyLabel: 'Apply', format: 'MM-DD-YYYY'}" [(ngModel)]="selected" (ngModelChange)="selectDateFilter($event)">
+                                                    <i class="bi bi-x-circle-fill end-0 me-2 mt-2 position-absolute top-0" (click)="clearDateFilter()"></i>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-3 px-2">
-                                                <div class="dateRangeFilter">
-                                                    <input type="text" autocomplete="off" class="form-control" name="daterange" placeholder="Select Date Range" ngxDaterangepickerMd [showClearButton]="true" [maxDate]="maxDate" [opens]="'right'" [locale]="{applyLabel: 'Apply', format: 'MM-DD-YYYY'}" [(ngModel)]="selected" (ngModelChange)="selectDateFilter($event)">
-                                                </div>
-                                            </div>
-                                            
                                         </div>
                                     </div>
                                     
@@ -80,7 +74,6 @@
                                                     <th class="tableDead" style="width: 25%;">
                                                         <p class="mb-0">Link</p>
                                                     </th>
-                                                    <!-- <th style="width: 10%;">Version</th> -->
                                                     <th style="width: 10%;" >Added By</th>
                                                     <th style="width: 10%;">Status</th>
                                                     <th style="width: 10%;">Updated Date</th>
@@ -98,9 +91,6 @@
                                                     <td class="tableData lookupLiks">
                                                         <p class="mb-0">{{config.lookupLink}}</p>
                                                     </td>
-                                                    <!-- <td class="tableData lookupLiks">
-                                                        <p class="mb-0">{{config.version}}</p>
-                                                    </td> -->
                                                     <td class="tableData">
                                                         <p class="mb-0">{{config.addedBy}}</p>
                                                     </td>
@@ -138,7 +128,6 @@
                                         </div>
                                     </div>
                                 </div>
-                            <!-- <app-configuration-listing></app-configuration-listing> -->
                         </div>
                     </div>
                 </div>
@@ -153,7 +142,8 @@
                                             <div class="configSetupBox">
                                                 <div class="d-flex justify-content-between align-items-center">
                                                     <div class="d-flex gap-2">
-                                                        <i class="bi bi-arrow-left" style="border: 1px solid #444444; padding: 2px 4px 0px 5px; border-radius: 50%; cursor: pointer;" (click)="addStepToggle = false;"></i> <h3> {{lookupName}} <a [href]="lookupLink" target="_blank" rel="noopener noreferrer"><i class="bi bi-box-arrow-up-right" style="cursor: pointer"></i></a></h3>
+                                                        <i class="bi bi-arrow-left" style="border: 1px solid #444444; padding: 2px 4px 0px 5px; border-radius: 50%; cursor: pointer;" (click)="addStepToggle = false;"></i> 
+                                                        <h3> {{lookupName}} <a [href]="lookupLink" target="_blank" rel="noopener noreferrer"><i class="bi bi-box-arrow-up-right" style="cursor: pointer"></i></a></h3>
                                                     </div>
                                                     <div class="d-flex justify-content-end align-items-center gap-2">
                                                         <button class="btn primaryBtn viewCommentBtn" (click)="showAndHideComments()">
@@ -183,14 +173,17 @@
                                                 <div class="configStepsouter" *ngIf="!loadingConfgurationStep && configurationStepList.length>0">
                                                 
                                                     <div class="configStepsinner" [ngClass]="{'pe-none': savingConfiguration}" cdkDropList (cdkDropListDropped)="drop($event)">
-                                                        <div class="configSteps example-box position-relative" cdkDrag *ngFor="let step of configurationStepList; let i = index">
-                                                            <span class="removeSteps" title="Remove Step">
-                                                                <i class="bi bi-pen text-primary" style="cursor: pointer;font-size: 12px;margin-right: 10px;" (click)="openEditStepModal(step, i)"></i>
-                                                                <i class="bi bi-dash-circle-fill" (click)="removeStep(i)"></i>
+                                                        <div [ngClass]="{'commentStep': step.commentStepToggle}" class="configSteps example-box position-relative" cdkDrag *ngFor="let step of configurationStepList; let i = index">
+                                                            <span class="removeSteps" style="cursor: pointer;">
+                                                                <i *ngIf="!step.commentUpdatingToggle && selectedLookupConfigId > 0" class="bi bi-slash-circle me-2 text-black" title="{{ step.commentStepToggle ? 'Un-Comment Step' : 'Comment Step'}}" (click)="commentConfigStep(i)"></i>
+                                                                <i *ngIf="step.commentUpdatingToggle" class="spinner-border spinner-border-sm me-2 text-black" role="status"></i>
+                                                                <i class="bi bi-pencil-square text-primary" style="font-size: 14px;margin-right: 10px;" title="Edit Step" (click)="openEditStepModal(step, i)"></i>
+                                                                <i class="bi bi-dash-circle-fill" title="Remove Step" (click)="removeStep(i)"></i>
                                                             </span>
                                                             <label class="me-2 text-center">Step {{i+1}}</label>
                                                             <p>Crawler Attribute : {{step.crawlerAttribute}}, Lookup Element : {{step.lookUpElementDesc}}, Element Event : {{step.elementEvent}}, Entity Name : {{step.className}}, Pattern : {{step.pattern}}, dataSourcePath : {{step.dataSourcePath}}, actionButton : {{step.actionButton}}
-                                                                <span *ngIf="!Constant.EMPTY_STRINGS.includes(step.className) && step.className.toLowerCase()=='static'">Value : {{step.columnName}}</span> <span *ngIf=" (!Constant.EMPTY_STRINGS.includes(step.className) && step.className.toLowerCase()!='static') || Constant.EMPTY_STRINGS.includes(step.className)"> Column Name : {{step.columnName}}</span></p>
+                                                                <span *ngIf="!Constant.EMPTY_STRINGS.includes(step.className) && step.className.toLowerCase()=='static'">Value : {{step.columnName}}</span> <span *ngIf=" (!Constant.EMPTY_STRINGS.includes(step.className) && step.className.toLowerCase()!='static') || Constant.EMPTY_STRINGS.includes(step.className)"> Column Name : {{step.columnName}}</span>
+                                                            </p>
                                                         </div>
                                                     </div>
                                                 </div>

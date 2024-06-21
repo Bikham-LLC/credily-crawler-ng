@@ -11,6 +11,8 @@ export class ConfigRequest{
     dataSourcePath:string='';
     actionButton:string='';
     licenseLookupAttrMapId:number = 0;
-
+    commentStepToggle:boolean = false;
+    commentUpdatingToggle:boolean = false;
+    isStepCommented:number=0;
     subAttributeMapList: SubAttributeMap[] = new Array();
 }

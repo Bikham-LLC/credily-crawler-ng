@@ -41,7 +41,6 @@ export class ConfigurationComponent implements OnInit {
     if (this.route.snapshot.queryParamMap.has('id')) {
       this.configurationId = Number(this.route.snapshot.queryParamMap.get('id'));
     }
-    this.versionList = [{ id: 'V2', itemName: 'Credily V2' }, { id: 'V3', itemName: 'Credily V3' }];
 
     this.ticketTypeList = [{ id: 'provider', itemName: 'provider' }, { id: 'location', itemName: 'location' }];
 
@@ -85,10 +84,10 @@ export class ConfigurationComponent implements OnInit {
   selectedTaxonomyLink: any[] = new Array();
   taxonomyLinkList: any[] = new Array();
 
-  dropdownSettingsVersion !: { singleSelection: boolean; text: string; enableSearchFilter: boolean; autoPosition: boolean };
-  selectedVersion: any[] = new Array();
-  selectedVersions: any[] = new Array();
-  versionList: any[] = new Array();
+  // dropdownSettingsVersion !: { singleSelection: boolean; text: string; enableSearchFilter: boolean; autoPosition: boolean };
+  // selectedVersion: any[] = new Array();
+  // selectedVersions: any[] = new Array();
+  // versionList: any[] = new Array();
 
   dropdownSettingsTicketType !: { singleSelection: boolean; text: string; enableSearchFilter: boolean; autoPosition: boolean };
   ticketTypeList: any[] = new Array();
@@ -135,12 +134,12 @@ export class ConfigurationComponent implements OnInit {
       autoPosition: false,
       noDataLabel: 'Select Class Name First'
     }
-    this.dropdownSettingsVersion = {
-      singleSelection: true,
-      text: 'Select Version',
-      enableSearchFilter: false,
-      autoPosition: false
-    }
+    // this.dropdownSettingsVersion = {
+    //   singleSelection: true,
+    //   text: 'Select Version',
+    //   enableSearchFilter: false,
+    //   autoPosition: false
+    // }
     this.dropdownSettingsTaxonomyLink = {
       singleSelection: true,
       text: 'Select Link',
@@ -212,7 +211,7 @@ export class ConfigurationComponent implements OnInit {
   getConfiguration() {
     debugger
     this.loadingConfiguration = true;
-    this.licenseLookupService.getConfiguration(this.configDatabaseHelper, this.startDate, this.endDate, this.credilyVersion, '', this.crawlerType).subscribe(response => {
+    this.licenseLookupService.getConfiguration(this.configDatabaseHelper, this.startDate, this.endDate, '', this.crawlerType).subscribe(response => {
       if (response.status && response.object != null) {
         this.configList = response.object;
         this.totalConfiguration = response.totalItems;
@@ -235,7 +234,6 @@ export class ConfigurationComponent implements OnInit {
     this.lookupTaxonomyList = [];
     this.selectedTaxonomyLink = [];
     this.updateLinkToggle = false;
-    this.selectedVersion = [];
     this.credilyVersion = '';
     this.databaseHelper = new DatabaseHelper();
     this.lookupLink = '';
@@ -326,23 +324,23 @@ export class ConfigurationComponent implements OnInit {
     })
   }
 
-  selectVersion(event: any) {
-    debugger
-    this.credilyVersion = '';
-    if (event[0] != undefined) {
-      this.selectedVersion = event;
-      this.credilyVersion = event[0].id;
-    }
-  }
-  searchSelectVersion(event: any) {
-    debugger
-    this.credilyVersion = '';
-    if (event[0] != undefined) {
-      this.selectedVersions = event;
-      this.credilyVersion = event[0].id;
-    }
-    this.getConfiguration();
-  }
+  // selectVersion(event: any) {
+  //   debugger
+  //   this.credilyVersion = '';
+  //   if (event[0] != undefined) {
+  //     this.selectedVersion = event;
+  //     this.credilyVersion = event[0].id;
+  //   }
+  // }
+  // searchSelectVersion(event: any) {
+  //   debugger
+  //   this.credilyVersion = '';
+  //   if (event[0] != undefined) {
+  //     this.selectedVersions = event;
+  //     this.credilyVersion = event[0].id;
+  //   }
+  //   this.getConfiguration();
+  // }
 
   taxanomyLinkLoading: boolean = false;
   async getTaxonomyLink(search: string) {
@@ -1029,7 +1027,6 @@ export class ConfigurationComponent implements OnInit {
     this.unMappedIds = [];
     this.mappedIds = [];
     this.selectedTaxonomyLink = [];
-    this.selectedVersion = [];
     this.selectedAttType = [];
     this.selectedAttSubType = [];
     if (!Constant.EMPTY_STRINGS.includes(config.attachmentType)) {
@@ -1042,15 +1039,15 @@ export class ConfigurationComponent implements OnInit {
       this.selectedAttSubType.push(attSubType);
       this.attachmentSubType = config.attachmentSubType;
     }
-    if (config.version == 'V2') {
-      var temp: { id: any, itemName: any } = { id: 'V2', itemName: 'Credily V2' };
-      this.selectedVersion.push(temp);
-      this.credilyVersion = 'V2';
-    } else {
-      var temp: { id: any, itemName: any } = { id: 'V3', itemName: 'Credily V3' };
-      this.selectedVersion.push(temp);
-      this.credilyVersion = 'V3';
-    }
+    // if (config.version == 'V2') {
+    //   var temp: { id: any, itemName: any } = { id: 'V2', itemName: 'Credily V2' };
+    //   this.selectedVersion.push(temp);
+    //   this.credilyVersion = 'V2';
+    // } else {
+    //   var temp: { id: any, itemName: any } = { id: 'V3', itemName: 'Credily V3' };
+    //   this.selectedVersion.push(temp);
+    //   this.credilyVersion = 'V3';
+    // }
     if(!Constant.EMPTY_STRINGS.includes(config.ticketType)){
       var temp: { id: any, itemName: any } = { id: config.ticketType, itemName: config.ticketType };
       this.selectedTicketType.push(temp);
@@ -1067,6 +1064,15 @@ export class ConfigurationComponent implements OnInit {
     this.licenseLookupService.getCrawlerAttrMap(id).subscribe(response => {
       if (response.status && response.object != null) {
         this.configurationStepList = response.object;
+
+        this.configurationStepList.forEach((e:any)=>{
+          if(e.isStepCommented == 0){
+            e.commentStepToggle = false;
+          } else {
+            e.commentStepToggle = true;
+          }
+        })
+
       }
       this.loadingConfgurationStep = false;
     }, error => {
@@ -1105,7 +1111,6 @@ export class ConfigurationComponent implements OnInit {
   @ViewChild('replicateModalCloseButton') replicateModalCloseButton!: ElementRef;
   replicateConfig(id: number) {
     this.selectedLookupConfigId = id;
-    this.selectedVersion = [];
     this.credilyVersion = '';
     this.replicateModalButton.nativeElement.click();
   }
@@ -1195,7 +1200,7 @@ export class ConfigurationComponent implements OnInit {
   }
 
   maxDate: any;
-  selected!: { startDate: moment.Moment, endDate: moment.Moment };
+  selected !: { startDate: moment.Moment | null, endDate: moment.Moment | null } | undefined;
   startDate: any = null;
   endDate: any = null;
   selectDateFilter(event: any) {
@@ -1203,9 +1208,19 @@ export class ConfigurationComponent implements OnInit {
     if (this.selected != undefined && this.selected != null && this.selected.startDate != undefined && this.selected.endDate != undefined && this.selected != null) {
       this.startDate = new Date(this.selected.startDate.toDate()).toDateString();
       this.endDate = new Date(this.selected.endDate.toDate()).toDateString();
-    }
+    } 
+
     this.getConfiguration();
 
+  }
+
+  clearDateFilter(){
+    if(this.selected != undefined && this.selected != null){
+      this.selected = undefined;
+      this.startDate = null;
+      this.endDate = null;
+      this.getConfiguration();
+    }
   }
 
 
@@ -1446,6 +1461,16 @@ export class ConfigurationComponent implements OnInit {
       this.queueId = event[0].id;
       this.queueToggle = false;
     }
+  }
+
+  commentConfigStep(index:number){
+    this.configurationStepList[index].commentUpdatingToggle = true;
+    this.configurationStepList[index].commentStepToggle = !this.configurationStepList[index].commentStepToggle;
+    this.licenseLookupService.updateCommentStep(this.configurationStepList[index].licenseLookupAttrMapId).subscribe(response=>{
+      this.configurationStepList[index].commentUpdatingToggle = false;
+    },error=>{
+      this.configurationStepList[index].commentUpdatingToggle = false;
+    })
   }
 
 }

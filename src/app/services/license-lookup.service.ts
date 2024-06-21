@@ -58,7 +58,7 @@ export class LicenseLookupService {
     return this.http.post<any>(this.key.server_url + this.key.api_version_one + this.key.lookup_config_controller + "/replicate",{}, {params});
   }
 
-  getConfiguration(databaseHelper:DatabaseHelper, startDate:any, endDate:any, version:any, configReportStatus:any, type:string): Observable<any> {
+  getConfiguration(databaseHelper:DatabaseHelper, startDate:any, endDate:any, configReportStatus:any, type:string): Observable<any> {
     if(databaseHelper==undefined || databaseHelper==null){
       databaseHelper = new DatabaseHelper();
     }
@@ -67,7 +67,6 @@ export class LicenseLookupService {
     .set('searchBy', databaseHelper.searchBy)
     .set('currentPage', databaseHelper.currentPage)
     .set('itemsPerPage', databaseHelper.itemsPerPage)
-    .set('version', version)
     .set('configReportStatus', configReportStatus)
     .set('type', type)
     if(!Constant.EMPTY_STRINGS.includes(startDate) && !Constant.EMPTY_STRINGS.includes(startDate)){
@@ -169,5 +168,10 @@ export class LicenseLookupService {
     return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.lookup_config_controller+ '/config-comment', {params});
   }
 
+  updateCommentStep(configStepId: number): Observable<any>{
+    var params = new HttpParams()
+    .set('stepId', configStepId)
+    return this.http.put<any>(this.key.server_url + this.key.api_version_one + this.key.lookup_config_controller+ '/update-comment', {}, {params});
+  }
 
 }
