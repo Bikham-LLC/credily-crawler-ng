@@ -1466,6 +1466,11 @@ export class ConfigurationComponent implements OnInit {
   commentConfigStep(index:number){
     this.configurationStepList[index].commentUpdatingToggle = true;
     this.configurationStepList[index].commentStepToggle = !this.configurationStepList[index].commentStepToggle;
+    if(this.configurationStepList[index].commentStepToggle){
+      this.configurationStepList[index].isStepCommented = 1;
+    } else {
+      this.configurationStepList[index].isStepCommented = 0;
+    }
     this.licenseLookupService.updateCommentStep(this.configurationStepList[index].licenseLookupAttrMapId).subscribe(response=>{
       this.configurationStepList[index].commentUpdatingToggle = false;
     },error=>{
