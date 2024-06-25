@@ -106,13 +106,14 @@ export class ReportService {
     return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.report + "/config-id", {params});
   }
 
-  getFailedConfigs(startDate:string, endDate:string, databaseHelper:DatabaseHelper, searchFilter:string, version:string) :Observable<any> { 
+  getFailedConfigs(startDate:string, endDate:string, databaseHelper:DatabaseHelper, searchFilter:string, version:string, state:any) :Observable<any> { 
     var params = new HttpParams()
     .set('startDate', startDate)
     .set('endDate', endDate)
     .set('searchFilter', searchFilter)
     .set('version', version)
     .set('search', databaseHelper.search)
+    .set('stateList', state)
     .set('currentPage', databaseHelper.currentPage)
     .set('itemsPerPage', databaseHelper.itemsPerPage)
     return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.report + "/failed-config-report", {params});
@@ -131,11 +132,12 @@ export class ReportService {
   }
 
 
-  getNoConfigFoundReport(startDate:string, endDate:string, databaseHelper:DatabaseHelper, version:string) :Observable<any> { 
+  getNoConfigFoundReport(startDate:string, endDate:string, databaseHelper:DatabaseHelper, version:string, stateList:any) :Observable<any> { 
     var params = new HttpParams()
     .set('startDate', startDate)
     .set('endDate', endDate)
     .set('version', version)
+    .set('stateList', stateList)
     .set('search', databaseHelper.search)
     .set('currentPage', databaseHelper.currentPage)
     .set('itemsPerPage', databaseHelper.itemsPerPage)
@@ -172,6 +174,12 @@ export class ReportService {
     .set('configId', configId)
     .set('logId', logId)
     return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.report + "/run-mapped-configuration", {params});
+  }
+
+  getReportState(reportType:string) :Observable<any> {
+    var params = new HttpParams()
+    .set('reportType', reportType)
+    return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.report + "/report-state", {params});
   }
 
 }

@@ -28,7 +28,19 @@
                     </th>
                     <th style="width: 10%;">NPI Number</th>
                     <th style="width: 15%;">Taxonomy</th>
-                    <th style="width: 10%;">State</th>
+                    <!-- <th style="width: 10%;">State</th> -->
+                    <th style="width: 10%;">
+                        <span *ngIf="!stateFilterToggle" (click)="filterByState()" style="cursor: pointer;">
+                            State 
+                            <i class="bi bi-funnel-fill" *ngIf="selectedState.length == 0"></i>
+                            <i *ngIf="selectedState.length > 0" class="bi bi-funnel-fill">
+                                <sup class="filterActive">{{selectedState.length}}</sup>
+                            </i>
+                        </span>
+                        <angular2-multiselect *ngIf="stateFilterToggle" id="stateSelectBox" name="stateSelectBox" [data]="stateList" [settings]="dropdownSettingsState" [(ngModel)]="selectedState" (ngModelChange)="selectState($event)"
+                            required>
+                        </angular2-multiselect>                              
+                    </th>
                     <th style="width: 20%;">Board</th>
                     <th style="width: 8%;">Credential</th>
                     <th style="width: 8%;">

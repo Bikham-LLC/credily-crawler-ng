@@ -43,8 +43,17 @@
                     <th style="width: 16%;">
                         <span style="cursor: pointer;" > Config Name</span>
                     </th>
-                    <th style="width: 10%;">
-                        <span style="cursor: pointer;" > State</span>
+                    <th style="width: 11%;">
+                        <span *ngIf="!stateFilterToggle" (click)="filterByState()" style="cursor: pointer;">
+                            State 
+                            <i class="bi bi-funnel-fill" *ngIf="selectedState.length == 0"></i>
+                            <i *ngIf="selectedState.length > 0" class="bi bi-funnel-fill">
+                                <sup class="filterActive">{{selectedState.length}}</sup>
+                            </i>
+                        </span>
+                        <angular2-multiselect *ngIf="stateFilterToggle" id="stateSelectBox" name="stateSelectBox" [data]="stateList" [settings]="dropdownSettingsState" [(ngModel)]="selectedState" (ngModelChange)="selectState($event)"
+                            required>
+                        </angular2-multiselect>                              
                     </th>
                     <th style="width: 13%;">Provider Name</th>
                     <th style="width: 10%;">NPI Number</th>

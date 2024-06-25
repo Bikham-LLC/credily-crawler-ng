@@ -27,6 +27,10 @@ export class FailedConfigReportComponent implements OnInit {
   versionList: any[] = [{id:'V2', itemName:'V2'}, {id:'V3', itemName:'V3'}];
   selectedVersion: any[] = new Array();
 
+  dropdownSettingsState!: { singleSelection: boolean; text: string; enableSearchFilter: boolean; autoPosition: boolean, badgeShowLimit: number; };
+  stateList: any[] = new Array();
+  selectedState: any[] = new Array();
+
   providerSearch = new Subject<string>();
   constructor(private reportService : ReportService,
     private router : Router,
@@ -62,21 +66,16 @@ export class FailedConfigReportComponent implements OnInit {
       autoPosition: false,
       badgeShowLimit: 1
     };
-  }
 
-  reRunSucessful:number =0;
-  reRunFailed:number =0;
-  reRunPending:number =0;
-  getFailedConfigsCount(){
-    this.reportService.getFailedConfigsCount(this.startDate, this.endDate, this.version).subscribe(response=>{
-      if(response != null){
-        this.reRunSucessful = response.reRunSucessful;
-        this.reRunFailed = response.reRunFailed;
-        this.reRunPending = response.reRunPending;
-      }
-    },error=>{
+    this.dropdownSettingsState = {
+      singleSelection: false,
+      text: 'Select State',
+      enableSearchFilter: true,
+      autoPosition: false,
+      badgeShowLimit: 1
+    };
 
-    })
+    this.getStates();
   }
 
   versionFilterToggle:boolean = false;
@@ -132,7 +131,7 @@ export class FailedConfigReportComponent implements OnInit {
     } else {
       this.configType = configType;
     }
-    this.reportService.getFailedConfigs(this.startDate, this.endDate, this.databaseHelper, this.configType, this.version).subscribe(response=>{
+    this.reportService.getFailedConfigs(this.startDate, this.endDate, this.databaseHelper, this.configType, this.version, this.states).subscribe(response=>{
       if(response != null){
         this.failedConfigList = response.list;
         this.totalConfigsCount = response.totalItems;
@@ -140,6 +139,21 @@ export class FailedConfigReportComponent implements OnInit {
       this.configLoadingToggle = false;
     },error=>{
       this.configLoadingToggle = false;
+    })
+  }
+
+  reRunSucessful:number =0;
+  reRunFailed:number =0;
+  reRunPending:number =0;
+  getFailedConfigsCount(){
+    this.reportService.getFailedConfigsCount(this.startDate, this.endDate, this.version).subscribe(response=>{
+      if(response != null){
+        this.reRunSucessful = response.reRunSucessful;
+        this.reRunFailed = response.reRunFailed;
+        this.reRunPending = response.reRunPending;
+      }
+    },error=>{
+
     })
   }
 
@@ -227,6 +241,35 @@ export class FailedConfigReportComponent implements OnInit {
       this.failedConfigList[index].reTestingToggle = false;
       this.logRerunToggle = false;
     })
+  }
+
+  getStates(){
+    this.reportService.getReportState('failedReport').subscribe(response=>{
+      if(response != null){
+        this.stateList = response;
+      }
+    },error=>{
+
+    })
+  }
+
+  stateFilterToggle:boolean = false;
+  filterByState(){
+    this.stateFilterToggle = !this.stateFilterToggle;
+  }
+
+  states:string[] = []
+  selectState(event:any){
+    debugger
+    this.states = [];
+    if(event != undefined && event.length > 0){
+      event.forEach((element:any) => {
+        this.states.push(element.itemName);
+      });
+    }
+    this.getFailedConfigs(this.configType, 1);
+    this.getFailedConfigsCount();
+    this.stateFilterToggle = false;
   }
 
 }

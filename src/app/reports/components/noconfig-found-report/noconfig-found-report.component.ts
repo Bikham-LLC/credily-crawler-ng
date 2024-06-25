@@ -20,6 +20,10 @@ export class NoconfigFoundReportComponent implements OnInit {
   versionList: any[] = [{id:'V2', itemName:'V2'}, {id:'V3', itemName:'V3'}];
   selectedVersion: any[] = new Array();
 
+  dropdownSettingsState!: { singleSelection: boolean; text: string; enableSearchFilter: boolean; autoPosition: boolean, badgeShowLimit: number; };
+  stateList: any[] = new Array();
+  selectedState: any[] = new Array();
+
   providerSearch = new Subject<string>();
   constructor(private reportService: ReportService,
     private dataService: DataService) { 
@@ -41,6 +45,16 @@ export class NoconfigFoundReportComponent implements OnInit {
       autoPosition: false,
       badgeShowLimit: 1
     };
+
+    this.dropdownSettingsState = {
+      singleSelection: false,
+      text: 'Select State',
+      enableSearchFilter: true,
+      autoPosition: false,
+      badgeShowLimit: 1
+    };
+
+    this.getStates();
   }
 
   selected : { startDate: moment.Moment, endDate: moment.Moment } = {startDate:moment().subtract(30, 'days'), endDate: moment()};
@@ -81,7 +95,7 @@ export class NoconfigFoundReportComponent implements OnInit {
   noConfigLoadingToggle:boolean = false;
   getNoConfigFoundReport(){
     this.noConfigLoadingToggle = true;
-    this.reportService.getNoConfigFoundReport(this.startDate, this.endDate, this.databaseHelper, this.version).subscribe(response=>{
+    this.reportService.getNoConfigFoundReport(this.startDate, this.endDate, this.databaseHelper, this.version, this.states).subscribe(response=>{
       if(response != null){
         this.noConfigFoundList = response.list;
         this.totalItems = response.totalItems;
@@ -136,7 +150,35 @@ export class NoconfigFoundReportComponent implements OnInit {
       this.runConfigLoadingToggle = false;
       this.mappedConfiguraionList[index].runConfigLoadingToggle = false;
     })
+  }
 
+
+  getStates(){
+    this.reportService.getReportState('noConfigFound').subscribe(response=>{
+      if(response != null){
+        this.stateList = response;
+      }
+    },error=>{
+
+    })
+  }
+
+  stateFilterToggle:boolean = false;
+  filterByState(){
+    this.stateFilterToggle = !this.stateFilterToggle;
+  }
+
+  states:string[] = []
+  selectState(event:any){
+    debugger
+    this.states = [];
+    if(event != undefined && event.length > 0){
+      event.forEach((element:any) => {
+        this.states.push(element.itemName);
+      });
+    }
+    this.getNoConfigFoundReport();
+    this.stateFilterToggle = false;
   }
 
 }
