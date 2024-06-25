@@ -268,7 +268,7 @@
                                             <div class="lookupSearchForm">
                                                 <label>Plan Id <sup class="text-danger">*</sup> </label>
                                                 <div class="position-relative">
-                                                    <input type="text" class="form-control" name="planId" placeholder="Enter Plan Id" [(ngModel)]="planId" maxlength="155" required>
+                                                    <input type="text" class="form-control" name="planId" placeholder="Enter Plan Id" [(ngModel)]="planId" required>
                                                 </div>
                                             </div>
                                         </div>
@@ -775,7 +775,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn primarycancelbtn" style="border-color: #F05252 !important;" [disabled]="testingConfiguration" data-bs-dismiss="modal" (click)=" isInvalidConfiguration=false; providerUuid = '' ">Close</button>
-                        <button type="submit" class="btn primaryBtn" [disabled]="testingConfiguration || Constant.EMPTY_STRINGS.includes(providerUuid)">Submit <i class="spinner-border spinner-border-sm" *ngIf="testingConfiguration && !savingConfiguration"></i> </button>
+                        <button type="submit" class="btn primaryBtn" [disabled]="testingConfiguration">Submit <i class="spinner-border spinner-border-sm" *ngIf="testingConfiguration && !savingConfiguration"></i> </button>
                     </div>
                 </form>
             </div>
