@@ -136,7 +136,10 @@ export class ProviderReportComponent implements OnInit {
 
   @ViewChild('viewLogsButton') viewLogsButton!: ElementRef;
   uuid :any;
-  viewLogs(providerUuid:string){
+  providerName:string='';
+  viewLogs(providerUuid:string, providerName:string){
+    this.providerName = '';
+    this.providerName = providerName;
     this.uuid = providerUuid;
     this.viewLogsButton.nativeElement.click();
     this.getProviderLogs(this.uuid);
@@ -233,7 +236,10 @@ export class ProviderReportComponent implements OnInit {
 
   @ViewChild('snapshotUploadButton') snapshotUploadButton !: ElementRef
   @ViewChild('closeSsUploadModal') closeSsUploadModal !: ElementRef
-  openSnapshotUploadModal(logId:number){
+  configName:string='';
+  openSnapshotUploadModal(logId:number, configName:string){
+    this.configName = '';
+    this.configName = configName;
     this.snapshotRequest.logId = logId;
     this.closeLogsButton.nativeElement.click();
     this.snapshotUploadButton.nativeElement.click();
@@ -256,7 +262,9 @@ export class ProviderReportComponent implements OnInit {
     }
     this.updatingSnapshotToggle = true;
     this.reportService.updateSnapshot(this.snapshotRequest).subscribe(response=>{
-
+      if(response){
+        this.closeSnapShotUploadModal();
+      }
       this.updatingSnapshotToggle = false;
     },error=>{
       this.updatingSnapshotToggle = false;
@@ -343,10 +351,13 @@ export class ProviderReportComponent implements OnInit {
         fileExt = this.fileExtension;
       }
 
-      this.fileName = 'image' + moment(new Date()).format('MMMDD_YYYY_hh_mm_ss');
+      this.providerName = this.dataService.getNameInTitleCase(this.providerName);
+
+      let firebaseName = "crawler-manual-upload/"+ this.uuid +"_"+ this.providerName+"/"+this.configName + moment(new Date()).format('MMMDD_YYYY_hh_mm_ss');
+      this.fileName = this.providerName + "_" + this.configName+"_"+ moment(new Date()).format('MMMDD_YYYY_hh_mm_ss');
       
-      const fileRef = this.firebaseStorage.ref(this.fileName);
-      this.firebaseStorage.upload(this.fileName, this.currentUpload.file).snapshotChanges().pipe(
+      const fileRef = this.firebaseStorage.ref(firebaseName);
+      this.firebaseStorage.upload(firebaseName, this.currentUpload.file).snapshotChanges().pipe(
         finalize(async () => {
           fileRef.getDownloadURL().subscribe((url: any) => {
             this.urlString = url;

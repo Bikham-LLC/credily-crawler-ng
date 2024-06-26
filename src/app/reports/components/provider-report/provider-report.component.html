@@ -100,7 +100,7 @@
                   <td>
                       <div class="tableinfo">
                           <div class="d-flex align-items-center gap-2">
-                              <button type="button" class="btn primarybtn" (click)="viewLogs(obj.providerUuid)">View</button>
+                              <button type="button" class="btn primarybtn" (click)="viewLogs(obj.providerUuid, obj.providerName)">View</button>
                               <!-- <span *ngIf="Constant.REFRESH_HIDE.includes(obj.status)" (click)="refreshProviderStatus(obj.providerUuid, i)">
                                 <i *ngIf="!providerList[i].refreshProviderLoading" class="bi bi-arrow-repeat" style="font-size: 17px;color: #003fdaeb;"></i>
                                 <i *ngIf="providerList[i].refreshProviderLoading"class="spinner-border spinner-border-sm" style="color: #003fdaeb;"></i>
@@ -227,7 +227,7 @@
                       <i class="bi bi-eye text-dark" style="font-size: 16px;"></i>
                     </button>
 
-                    <button ngbTooltip="Upload Snapshot" class="btn btn-light btn-outline-light" (click)="openSnapshotUploadModal(log.id)">
+                    <button ngbTooltip="Upload Snapshot" class="btn btn-light btn-outline-light" (click)="openSnapshotUploadModal(log.id, log.lookupName)">
                       <i class="bi bi-upload text-dark" style="font-size: 16px;"></i>
                     </button>
                   </div>
@@ -302,10 +302,7 @@
             <div class="Uploadingcounter position-relative" [ngClass]="{'Uploadingdone':!Constant.EMPTY_STRINGS.includes(fileName)}">
               {{progress | number : '1.0-0'}}%
             </div>
-            <p *ngIf="progress>=0 && progress<30">Fetching Data</p>
-            <p *ngIf="progress>=30 && progress<60">Fetching Issue Date</p>
-            <p *ngIf="progress>=60 && progress<90">Fetching Expiration Date</p>
-            <p *ngIf="progress>=90 && progress<100">Fetching Required Information</p>
+            <p *ngIf="progress>=0 && progress<100">Fetching Data</p>
             <p *ngIf="progress==100">Done</p>
           </div>
     
@@ -328,8 +325,8 @@
           <button type="button" class="btn btn-outline-secondary mx-0" style="color: #c6c2c2;" (click)="closeSnapShotUploadModal()">
             Cancel
           </button>
-          <button type="button" class="btn btn-outline-primary" (click)="updateSnapshot()">
-            Update
+          <button type="button" class="btn btn-outline-primary" [disabled]="updatingSnapshotToggle" (click)="updateSnapshot()">
+            <span>Update </span> <i class="spinner-border spinner-border-sm" role="spin" *ngIf="updatingSnapshotToggle"></i>
           </button>
         </div>
       </div>
