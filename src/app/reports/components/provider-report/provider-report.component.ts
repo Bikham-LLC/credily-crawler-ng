@@ -238,6 +238,8 @@ export class ProviderReportComponent implements OnInit {
   @ViewChild('closeSsUploadModal') closeSsUploadModal !: ElementRef
   configName:string='';
   openSnapshotUploadModal(logId:number, configName:string){
+    this.progress =0;
+    this.uploadingToggle = false;
     this.configName = '';
     this.configName = configName;
     this.snapshotRequest.logId = logId;
