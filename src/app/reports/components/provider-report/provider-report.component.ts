@@ -241,6 +241,7 @@ export class ProviderReportComponent implements OnInit {
     this.progress =0;
     this.uploadingToggle = false;
     this.configName = '';
+    this.fileName ='';
     this.configName = configName;
     this.snapshotRequest.logId = logId;
     this.closeLogsButton.nativeElement.click();
@@ -248,6 +249,10 @@ export class ProviderReportComponent implements OnInit {
   }
 
   closeSnapShotUploadModal(){
+    this.progress =0;
+    this.uploadingToggle = false;
+    this.configName = '';
+    this.fileName ='';
     this.closeSsUploadModal.nativeElement.click();
     this.viewLogsButton.nativeElement.click();
     this.getProviderLogs(this.uuid);
