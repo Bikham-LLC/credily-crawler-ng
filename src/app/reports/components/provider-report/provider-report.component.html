@@ -217,18 +217,19 @@
                   </div>
                 </td>
                 <td>
-                  <div class="tableinfo d-flex align-items-center justify-content-end gap-2">
-                    <Button tooltipClass="logTooltip" type="button" style="height: 33px;"
-                     class="btn primaryBtn" [disabled]="log.reTestingToggle || providerTestingToggle || (Constant.EMPTY_STRINGS.includes(log.lookupName) && Constant.EMPTY_STRINGS.includes(log.lookupLink))"
-                    (click)="reRunProviderLog(log.id, i)">Re-run
-                      <i *ngIf="log.reTestingToggle" class="spinner-border spinner-border-sm"></i>
-                      <h6 style="height: 9px;font-size: 1rem;"><i *ngIf="!log.reTestingToggle" class="bi bi-arrow-clockwise"></i></h6>
-                    </Button>
-                    <Button type="button" style="height: 33px;"
-                      [disabled]="log.reTestingToggle || Constant.EMPTY_STRINGS.includes(log.snapShotUrl) || providerTestingToggle"
-                      class="btn primaryBtn" (click)="viewSnapshot(log.snapShotUrl)">View
-                      <h6 style="height: 9px;font-size: 1rem;"><i class="bi bi-eye pointer"></i></h6>
-                    </Button>
+                  <div class="tableinfo d-flex align-items-center justify-content-center gap-2 pointer">
+                    <button placement="top" ngbTooltip="Re-run" class="btn btn-light btn-outline-light" [disabled]="log.reTestingToggle || providerTestingToggle || (Constant.EMPTY_STRINGS.includes(log.lookupName) && Constant.EMPTY_STRINGS.includes(log.lookupLink))" (click)="reRunProviderLog(log.id, i)">
+                      <i *ngIf="!log.reTestingToggle" style="font-size: 16px;" class="bi bi-arrow-clockwise text-dark"></i>
+                      <i *ngIf="log.reTestingToggle" style="font-size: 16px;" class="spinner-border spinner-border-sm text-dark"></i>
+                    </button>
+
+                    <button ngbTooltip="View" class="btn btn-light btn-outline-light" [disabled]="log.reTestingToggle || Constant.EMPTY_STRINGS.includes(log.snapShotUrl) || providerTestingToggle" (click)="viewSnapshot(log.snapShotUrl)" >
+                      <i class="bi bi-eye text-dark" style="font-size: 16px;"></i>
+                    </button>
+
+                    <button ngbTooltip="Upload Snapshot" class="btn btn-light btn-outline-light" (click)="openSnapshotUploadModal(log.id)">
+                      <i class="bi bi-upload text-dark" style="font-size: 16px;"></i>
+                    </button>
                   </div>
                 </td>
               </tr>
@@ -269,3 +270,72 @@
     </div>
   </div>
 </div>
+
+<!------------------------------------------- Document upload  -------------------------------->
+<button id="snapshotUploadButton" #snapshotUploadButton data-bs-toggle="modal" data-bs-target="#snapshotUpload" style="display:none"></button>
+<div class="modal blur-bg-2" id="snapshotUpload" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="snapshotUploadLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered model-sm">
+    <div class="modal-content">
+      <div class="modal-header position-relative">
+        <div>
+          <b>Upload Snapshot</b>
+        </div>
+        <button type="button" class="btn-close d-none" data-bs-dismiss="modal" id="closeSsUploadModal" #closeSsUploadModal aria-label="Close"></button>
+      </div>
+      <div class="form-group mdlform mb-3 modal-body">
+        <div>
+          <div class="dropzone" fileDragDrop (filesChangeEmiter)="onDrop($event)" *ngIf="!uploadingToggle && Constant.EMPTY_STRINGS.includes(fileName)">
+            <div class="dropzoneLabel">
+              <input type="file" name="file" id="file" accept= "image/*" (change)="onSelectFile($event)">
+              <label for="file" class="dropzoneLabelinner">
+                <div *ngIf="!uploadingToggle && Constant.EMPTY_STRINGS.includes(fileName)">
+                  <i class="bi bi-cloud-upload"></i>
+                <p class="mb-0">
+                  <span class="pointer">Browse</span> files to upload or drag and drop it here
+                </p>
+                </div>
+              </label>
+            </div>
+          </div>
+    
+          <div class="dropzoneUploading" *ngIf="uploadingToggle">
+            <div class="Uploadingcounter position-relative" [ngClass]="{'Uploadingdone':!Constant.EMPTY_STRINGS.includes(fileName)}">
+              {{progress | number : '1.0-0'}}%
+            </div>
+            <p *ngIf="progress>=0 && progress<30">Fetching Data</p>
+            <p *ngIf="progress>=30 && progress<60">Fetching Issue Date</p>
+            <p *ngIf="progress>=60 && progress<90">Fetching Expiration Date</p>
+            <p *ngIf="progress>=90 && progress<100">Fetching Required Information</p>
+            <p *ngIf="progress==100">Done</p>
+          </div>
+    
+          <div class="uplodedIconbox" *ngIf="!uploadingToggle && !Constant.EMPTY_STRINGS.includes(fileName)">
+            <div class="uplodedIconinner position-relative">
+              <div class="uplodedIcon position-relative">
+                <i class="bi bi-file-earmark-text"></i>
+                <span class="pointer"><i class="bi bi-trash3" (click)="resetUpload()"></i></span>
+              </div>
+            </div>
+            <span>{{fileName}}</span>
+          </div>
+        </div>
+          <div *ngIf="uploadValidToggle" style="color: red;">
+            <small>Please upload document first?</small>
+          </div>
+      </div>
+      <div class="modal-body pt-0">        
+        <div class="modal-footer border-top-0 p-0 justify-content-between">
+          <button type="button" class="btn btn-outline-secondary mx-0" style="color: #c6c2c2;" (click)="closeSnapShotUploadModal()">
+            Cancel
+          </button>
+          <button type="button" class="btn btn-outline-primary" (click)="updateSnapshot()">
+            Update
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--  docc upload section end -->
+

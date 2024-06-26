@@ -10,6 +10,13 @@ import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import { TokenInterceptorService } from './services/token-interceptor.service';
 import { PageNotFoundComponent } from './common-component/page-not-found/page-not-found.component';
+import { environment } from 'src/environments/environment';
+import { AngularFireModule } from '@angular/fire/compat';
+import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
+import { getFirestore, provideFirestore } from '@angular/fire/firestore'
+import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
+import { AngularFireStorageModule } from '@angular/fire/compat/storage';
+
 
 @NgModule({
   declarations: [
@@ -23,14 +30,19 @@ import { PageNotFoundComponent } from './common-component/page-not-found/page-no
     FormsModule,
     NgbModule,
     AngularMultiSelectModule,
-    DragDropModule
-
+    DragDropModule,
+    AngularFireDatabaseModule,
+    AngularFireStorageModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
+    provideFirestore(() => getFirestore())
   ],
   providers: [ {
     provide: HTTP_INTERCEPTORS,
     useClass: TokenInterceptorService,
     multi: true
-  }] ,
+  }
+] ,
   bootstrap: [AppComponent]
 })
 export class AppModule { }

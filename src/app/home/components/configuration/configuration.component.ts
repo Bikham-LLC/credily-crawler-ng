@@ -1039,15 +1039,6 @@ export class ConfigurationComponent implements OnInit {
       this.selectedAttSubType.push(attSubType);
       this.attachmentSubType = config.attachmentSubType;
     }
-    // if (config.version == 'V2') {
-    //   var temp: { id: any, itemName: any } = { id: 'V2', itemName: 'Credily V2' };
-    //   this.selectedVersion.push(temp);
-    //   this.credilyVersion = 'V2';
-    // } else {
-    //   var temp: { id: any, itemName: any } = { id: 'V3', itemName: 'Credily V3' };
-    //   this.selectedVersion.push(temp);
-    //   this.credilyVersion = 'V3';
-    // }
     if(!Constant.EMPTY_STRINGS.includes(config.ticketType)){
       var temp: { id: any, itemName: any } = { id: config.ticketType, itemName: config.ticketType };
       this.selectedTicketType.push(temp);
@@ -1340,6 +1331,7 @@ export class ConfigurationComponent implements OnInit {
   editStepIndex : number = 0;
   openEditStepModal(step:ConfigRequest, index:number){
     debugger
+    this.selectedAttribute =[];
     this.isEditStepToggle = true;
     this.editStepIndex = index;
     this.openAddConfigModal();
@@ -1348,11 +1340,7 @@ export class ConfigurationComponent implements OnInit {
     this.selectedAttribute.push(temp);
     this.cofnigStepRequest.lookUpElementDesc = this.configurationStepList[index].lookUpElementDesc
     this.cofnigStepRequest.crawlerAttributeId = this.configurationStepList[index].crawlerAttributeId;
-
-    // if (step.crawlerAttributeId == 17) {
-    //   this.cofnigStepRequest.lookUpElementDesc = "//" + this.customTag + "[@" + this.customAttribute + "='" + this.customValue + "']";
-    // }
-
+    this.cofnigStepRequest.crawlerAttribute = this.configurationStepList[index].crawlerAttribute;
 
     var eventTemp = {id: '', itemName:''};
     if(!this.Constant.EMPTY_STRINGS.includes(step.elementEvent)){

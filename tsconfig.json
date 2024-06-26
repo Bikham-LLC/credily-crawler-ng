@@ -14,17 +14,27 @@
     "experimentalDecorators": true,
     "moduleResolution": "node",
     "importHelpers": true,
+    // "module": "commonjs",
+    "noImplicitAny": true,
+    "removeComments": true,
+    "preserveConstEnums": true,
     "target": "es2017",
     "module": "es2020",
+    
     "lib": [
-      "es2018",
-      "dom"
+      "dom",
+      "es2017"
     ]
   },
+  "include": ["src/**/*"],
+  // "exclude": ["**/*.spec.ts"],
+  "exclude": ["index.d.ts"],
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": true,
     "strictInputAccessModifiers": true,
     "strictTemplates": true
-  }
+  },
+ 
 }
+

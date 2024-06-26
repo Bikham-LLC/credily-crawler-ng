@@ -182,4 +182,8 @@ export class ReportService {
     return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.report + "/report-state", {params});
   }
 
+  updateSnapshot(snapShotRequest:any) :Observable<any> {
+    return this.http.post<any>(this.key.server_url + this.key.api_version_one + this.key.report + "/update-screenshot", snapShotRequest);
+  }
+
 }
