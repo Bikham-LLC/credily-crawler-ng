@@ -9,11 +9,11 @@ import { ProviderRequestCrawlerLog } from 'src/app/models/ProviderRequestCrawler
 import { Route } from 'src/app/models/Route';
 import { DataService } from 'src/app/services/data.service';
 import { ReportService } from 'src/app/services/report.service';
-import { AngularFireStorage } from '@angular/fire/compat/storage';
 import * as _ from 'lodash'; 
 import { ImageUpload } from 'src/app/models/ImageUpload';
 import * as moment from 'moment';
 import { SnapshotRequest } from 'src/app/models/SnapshotRequest';
+import { AngularFireStorage } from '@angular/fire/storage';
 
 
 @Component({

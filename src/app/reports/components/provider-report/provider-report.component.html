@@ -284,7 +284,7 @@
       </div>
       <div class="form-group mdlform mb-3 modal-body">
         <div>
-          <div class="dropzone" fileDragDrop (filesChangeEmiter)="onDrop($event)" *ngIf="!uploadingToggle && Constant.EMPTY_STRINGS.includes(fileName)">
+          <div class="dropzone" single fileDragDrop (filesChangeEmiter)="onDrop($event)" *ngIf="!uploadingToggle && Constant.EMPTY_STRINGS.includes(fileName)">
             <div class="dropzoneLabel">
               <input type="file" name="file" id="file" accept= "image/*" (change)="onSelectFile($event)">
               <label for="file" class="dropzoneLabelinner">

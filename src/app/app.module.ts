@@ -6,16 +6,14 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
-import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
 import { TokenInterceptorService } from './services/token-interceptor.service';
 import { PageNotFoundComponent } from './common-component/page-not-found/page-not-found.component';
 import { environment } from 'src/environments/environment';
-import { AngularFireModule } from '@angular/fire/compat';
-import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
-import { getFirestore, provideFirestore } from '@angular/fire/firestore'
-import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
-import { AngularFireStorageModule } from '@angular/fire/compat/storage';
-
+import { AngularFireModule } from '@angular/fire';
+import { AngularFireAuthModule } from '@angular/fire/auth';
+import { AngularFireStorageModule } from '@angular/fire/storage';
+import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 @NgModule({
   declarations: [
@@ -29,11 +27,14 @@ import { AngularFireStorageModule } from '@angular/fire/compat/storage';
     FormsModule,
     NgbModule,
     AngularMultiSelectModule,
-    AngularFireDatabaseModule,
-    AngularFireStorageModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
-    provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
-    provideFirestore(() => getFirestore()),
+    AngularFireAuthModule,
+    AngularFireStorageModule,
+    // AngularFireDatabaseModule,
+    // AngularFireStorageModule,
+    // AngularFireModule.initializeApp(environment.firebaseConfig),
+    // provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
+    // provideFirestore(() => getFirestore()),
 
   ],
   providers: [ {
