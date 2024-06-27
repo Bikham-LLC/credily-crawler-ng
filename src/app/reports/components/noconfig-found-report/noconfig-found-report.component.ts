@@ -1,11 +1,14 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 import * as moment from 'moment';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { DatabaseHelper } from 'src/app/models/DatabaseHelper';
 import { FailedConfigDTO } from 'src/app/models/FailedConfigDTO';
 import { MappedConfiguraion } from 'src/app/models/MappedConfiguraion';
+import { Route } from 'src/app/models/Route';
 import { DataService } from 'src/app/services/data.service';
+import { HeaderSubscriptionService } from 'src/app/services/header-subscription.service';
 import { ReportService } from 'src/app/services/report.service';
 
 @Component({
@@ -26,7 +29,16 @@ export class NoconfigFoundReportComponent implements OnInit {
 
   providerSearch = new Subject<string>();
   constructor(private reportService: ReportService,
-    private dataService: DataService) { 
+    private dataService: DataService,
+    private headerSubscriptionService : HeaderSubscriptionService,
+    private router: Router) { 
+
+      this.subscribeHeader = this.headerSubscriptionService.headerVisibilityChange.subscribe(async (value) => {
+        debugger
+        if(router.url == Route.NO_CONFIG_FOUND_REPORT){
+          this.getNoConfigFoundReport();
+        }
+      })
 
     this.providerSearch.pipe(
       debounceTime(600))
@@ -35,8 +47,10 @@ export class NoconfigFoundReportComponent implements OnInit {
         this.getNoConfigFoundReport();
       });
 
+
   }
 
+  subscribeHeader:any;
   ngOnInit(): void {
     this.dropdownSettingsVersion = {
       singleSelection: true,
@@ -54,22 +68,8 @@ export class NoconfigFoundReportComponent implements OnInit {
       badgeShowLimit: 1
     };
 
-    this.getStates();
-  }
-
-  selected : { startDate: moment.Moment, endDate: moment.Moment } = {startDate:moment().subtract(30, 'days'), endDate: moment()};
-  startDate: any = null;
-  endDate: any = null;
-  selectDateFilter(event: any) {
-    debugger
-    if (this.selected != undefined && this.selected != null && this.selected.startDate != undefined && this.selected.endDate != undefined && this.selected != null) {
-      this.startDate = new Date(this.selected.startDate.toDate()).toDateString();
-      this.endDate = new Date(this.selected.endDate.toDate()).toDateString();
-    } else {
-      this.selected = {startDate:moment().subtract(30, 'days'), endDate: moment()};
-      return;
-    }
     this.getNoConfigFoundReport();
+    this.getStates();
   }
 
   versionFilterToggle:boolean = false;
@@ -95,7 +95,7 @@ export class NoconfigFoundReportComponent implements OnInit {
   noConfigLoadingToggle:boolean = false;
   getNoConfigFoundReport(){
     this.noConfigLoadingToggle = true;
-    this.reportService.getNoConfigFoundReport(this.startDate, this.endDate, this.databaseHelper, this.version, this.states).subscribe(response=>{
+    this.reportService.getNoConfigFoundReport(this.dataService.startDate, this.dataService.endDate, this.databaseHelper, this.version, this.states).subscribe(response=>{
       if(response != null){
         this.noConfigFoundList = response.list;
         this.totalItems = response.totalItems;

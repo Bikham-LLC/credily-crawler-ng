@@ -24,9 +24,9 @@
                                 <div class="userProfileInfo">
                                     <h3>{{userName}}</h3>
                                 </div>
-                                <div class="userProfileLink">
+                                <!-- <div class="userProfileLink">
                                     <a [routerLink]="Route.HOME_USER_ROUTE" routerLinkActive="active"><i class="bi bi-gear"></i>  Settings</a>
-                                </div>
+                                </div> -->
                                 <div class="userLogout">
                                     <a class="btn primarybtn userLogoutbtn pointer" (click)="logOut()">
                                         <i class="bi bi-arrow-bar-left"></i> Log out
@@ -40,15 +40,15 @@
                 </div>
             </div>
         </div>
-        <div class="navigation-bar">
-            <div class="navigationitemsmain">
+        <div class="navigation-bar d-flex">
+            <div class="navigationitemsmain col-lg-8" >
                 <a class="btn navigationitem" routerLinkActive="navActive" [routerLink]="Route.HOME_DASHBOARD_ROUTE">
                     Dashboard
                 </a>
-                <a [routerLink]="Route.HOME_CONFIGURATION_ROUTE" class="btn navigationitem " routerLinkActive="navActive">
+                <a class="btn navigationitem" routerLinkActive="navActive" [routerLink]="Route.HOME_CONFIGURATION_ROUTE">
                     Configuration
                 </a>
-                <a [routerLink]="Route.HOME_QUEUE_ROUTE" class="btn navigationitem " routerLinkActive="navActive">
+                <a class="btn navigationitem" routerLinkActive="navActive" [routerLink]="Route.HOME_QUEUE_ROUTE">
                     Queue
                 </a>
                 <div class="dropdown">
@@ -77,6 +77,11 @@
                             <a class="navigationmenuitem pointer" routerLinkActive="navActive" [routerLink]="Route.FOLLOW_UP_REPORT">Follow-up Report</a>
                         </li>
                     </ul>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="dateRangeFilter position-relative" style="margin-right: 20px;">
+                    <input type="text" autocomplete="off" class="form-control" name="daterange" placeholder="Select Date Range" ngxDaterangepickerMd [opens]="'right'" [locale]="{applyLabel: 'Apply', format: 'MM-DD-YYYY'}" [(ngModel)]="dataService.selected" (ngModelChange)="selectDateFilter($event)">
                 </div>
             </div>
         </div>

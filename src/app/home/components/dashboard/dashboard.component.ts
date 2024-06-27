@@ -7,6 +7,8 @@ import { DashboardV3ConfigDataList } from 'src/app/models/DashboardV3ConfigDataL
 import { DatabaseHelper } from 'src/app/models/DatabaseHelper';
 import { Route } from 'src/app/models/Route';
 import { DashboardService } from 'src/app/services/dashboard-service';
+import { DataService } from 'src/app/services/data.service';
+import { HeaderSubscriptionService } from 'src/app/services/header-subscription.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -16,31 +18,32 @@ import { DashboardService } from 'src/app/services/dashboard-service';
 export class DashboardComponent implements OnInit {
 
   constructor(private _router: Router,
-    private dashboardService: DashboardService) {
+    private dashboardService: DashboardService,
+    private dataService: DataService,
+    private router: Router,
+    private headerSubscriptionService: HeaderSubscriptionService) {
+
     if(!this.Constant.EMPTY_STRINGS.includes(localStorage.getItem(this.Constant.USER_NAME))){
       this.userName = String(localStorage.getItem(this.Constant.USER_NAME));
     }
+
+    this.subscribeHeader = this.headerSubscriptionService.headerVisibilityChange.subscribe(async (value) => {
+      debugger
+      if(router.url == Route.OCR_REPORT){
+        this.getTotoalProvidersCountV2('License Lookup', 'V2');
+        this.getTotoalProvidersCountV3('License Lookup', 'V3');
+        this.getConfigDataV2('License Lookup');
+        this.getConfigDataV3('License Lookup');
+      }
+    });
+
    }
 
-   readonly Constant = Constant;
-   userName:string='Logged In';
+  subscribeHeader:any;
+  readonly Constant = Constant;
+  userName:string='Logged In';
 
   ngOnInit(): void {
-    
-  }
-
-  selected : { startDate: moment.Moment, endDate: moment.Moment } = {startDate:moment().subtract(1, 'day'), endDate: moment()};
-  startDate: any = null;
-  endDate: any = null;
-  selectDateFilter(event: any) {
-    debugger
-    if (this.selected != undefined && this.selected != null && this.selected.startDate != undefined && this.selected.endDate != undefined && this.selected != null) {
-      this.startDate = new Date(this.selected.startDate.toDate()).toDateString();
-      this.endDate = new Date(this.selected.endDate.toDate()).toDateString();
-    } else {
-      this.selected = {startDate:moment().subtract(1, 'day'), endDate: moment()};
-      return;
-    }
     this.getTotoalProvidersCountV2('License Lookup', 'V2');
     this.getTotoalProvidersCountV3('License Lookup', 'V3');
     this.getConfigDataV2('License Lookup');
@@ -59,7 +62,7 @@ export class DashboardComponent implements OnInit {
   v3TotalCountsLoadingToggle:boolean = false;
   getTotoalProvidersCountV2(type:string, version:string){
     this.v2TotalCountsLoadingToggle = true;
-    this.dashboardService.getTotoalProvidersCount(type, version, this.startDate, this.endDate).subscribe(response=>{
+    this.dashboardService.getTotoalProvidersCount(type, version, this.dataService.startDate, this.dataService.endDate).subscribe(response=>{
       if(response != null){
         this.dashboardTotalCountsV2 = response;
       }
@@ -71,7 +74,7 @@ export class DashboardComponent implements OnInit {
 
   getTotoalProvidersCountV3(type:string, version:string){
     this.v3TotalCountsLoadingToggle = true;
-    this.dashboardService.getTotoalProvidersCount(type, version, this.startDate, this.endDate).subscribe(response=>{
+    this.dashboardService.getTotoalProvidersCount(type, version, this.dataService.startDate, this.dataService.endDate).subscribe(response=>{
       if(response != null){
         this.dashboardTotalCountsV3 = response;
       }
@@ -95,7 +98,7 @@ export class DashboardComponent implements OnInit {
     debugger
     this.v2ConfigLoadingToggle = true;
     this.v2configType = type;
-    this.dashboardService.getConfigDataByLogs(type, 'V2', this.V2DatabaseHelper.currentPage, this.V2DatabaseHelper.itemsPerPage, this.startDate, this.endDate).subscribe(response=>{
+    this.dashboardService.getConfigDataByLogs(type, 'V2', this.V2DatabaseHelper.currentPage, this.V2DatabaseHelper.itemsPerPage, this.dataService.startDate, this.dataService.endDate).subscribe(response=>{
       if(response.status){
         this.dashboardV2ConfigDataList = response.object;
         this.dashboardCountDataV2 = response.totalItems;
@@ -110,7 +113,7 @@ export class DashboardComponent implements OnInit {
     debugger
     this.v3ConfigLoadingToggle = true;
     this.v3configType = type;
-    this.dashboardService.getConfigDataByLogs(type, 'V3', this.v3DatabaseHelper.currentPage, this.v3DatabaseHelper.itemsPerPage, this.startDate, this.endDate).subscribe(response=>{
+    this.dashboardService.getConfigDataByLogs(type, 'V3', this.v3DatabaseHelper.currentPage, this.v3DatabaseHelper.itemsPerPage, this.dataService.startDate, this.dataService.endDate).subscribe(response=>{
       if(response.status){
         this.dashboardV3ConfigDataList = response.object;
         this.dashboardCountDataV3 = response.totalItems;
@@ -141,7 +144,7 @@ export class DashboardComponent implements OnInit {
 
   routeToFailedConfigReport(version:string){
     let navigationExtras : NavigationExtras = {
-      queryParams : { 'version' : version, 'd1': this.startDate, 'd2':this.endDate},
+      queryParams : { 'version' : version, 'd1': this.dataService.startDate, 'd2':this.dataService.endDate},
     }
     this._router.navigate([Route.FAILED_CONFIG_REPORT], navigationExtras);
   }

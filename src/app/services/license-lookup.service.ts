@@ -58,7 +58,7 @@ export class LicenseLookupService {
     return this.http.post<any>(this.key.server_url + this.key.api_version_one + this.key.lookup_config_controller + "/replicate",{}, {params});
   }
 
-  getConfiguration(databaseHelper:DatabaseHelper, startDate:any, endDate:any, configReportStatus:any, type:string): Observable<any> {
+  getConfiguration(databaseHelper:DatabaseHelper, configReportStatus:any, type:string): Observable<any> {
     if(databaseHelper==undefined || databaseHelper==null){
       databaseHelper = new DatabaseHelper();
     }
@@ -69,10 +69,10 @@ export class LicenseLookupService {
     .set('itemsPerPage', databaseHelper.itemsPerPage)
     .set('configReportStatus', configReportStatus)
     .set('type', type)
-    if(!Constant.EMPTY_STRINGS.includes(startDate) && !Constant.EMPTY_STRINGS.includes(startDate)){
-      params = params.set('startDate', startDate)
-      .set('endDate', endDate)
-    }
+    // if(!Constant.EMPTY_STRINGS.includes(startDate) && !Constant.EMPTY_STRINGS.includes(startDate)){
+    //   params = params.set('startDate', startDate)
+    //   .set('endDate', endDate)
+    // }
     return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.lookup_config_controller+'/lookup', {params});
   }
 

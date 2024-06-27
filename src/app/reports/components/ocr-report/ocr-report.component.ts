@@ -1,10 +1,14 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 import * as moment from 'moment';
 
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { DatabaseHelper } from 'src/app/models/DatabaseHelper';
 import { ProviderAttachmentDTO } from 'src/app/models/ProviderAttachmentDTO';
+import { Route } from 'src/app/models/Route';
+import { DataService } from 'src/app/services/data.service';
+import { HeaderSubscriptionService } from 'src/app/services/header-subscription.service';
 import { ReportService } from 'src/app/services/report.service';
 
 @Component({
@@ -15,7 +19,17 @@ import { ReportService } from 'src/app/services/report.service';
 export class OcrReportComponent implements OnInit {
 
   providerSearch = new Subject<string>();
-  constructor(private reportService: ReportService) { 
+  constructor(private reportService: ReportService,
+    private dataService: DataService,
+    private headerSubscriptionService: HeaderSubscriptionService,
+    private router: Router) { 
+
+      this.subscribeHeader = this.headerSubscriptionService.headerVisibilityChange.subscribe(async (value) => {
+        debugger
+        if(router.url == Route.OCR_REPORT){
+          this.getOcrProviderAttachment();
+        }
+      });
 
     this.providerSearch.pipe(
       debounceTime(600))
@@ -23,33 +37,21 @@ export class OcrReportComponent implements OnInit {
         this.databaseHelper.currentPage = 1;
         this.getOcrProviderAttachment();
       });
+
     }
 
   ngOnInit(): void {
-    // this.getOcrProviderAttachment();
-
+    this.getOcrProviderAttachment();
   }
 
+  readonly Route = Route;
+  subscribeHeader:any;
   version: string='V3';
   getAttachmentWithVersion(version: string){
     this.version = version;
     this.getOcrProviderAttachment();
   }
 
-  selectDateFilter(event: any) {
-    debugger
-    if (this.selected != undefined && this.selected != null && this.selected.startDate != undefined && this.selected.endDate != undefined && this.selected != null) {
-      this.startDate = this.selected.startDate.format('YYYY-MM-DD');
-      this.endDate = this.selected.endDate.format('YYYY-MM-DD');
-    }
-    this.getOcrProviderAttachment();
-
-  }
-
-
-  selected : { startDate: moment.Moment, endDate: moment.Moment } = {startDate:moment().subtract(30, 'days'), endDate: moment()};
-  startDate: any = null;
-  endDate: any = null;
   databaseHelper: DatabaseHelper = new DatabaseHelper();
   providerLoadingToggle:boolean = false;
   providerAttachmentList: ProviderAttachmentDTO[] = [];
@@ -57,7 +59,7 @@ export class OcrReportComponent implements OnInit {
   getOcrProviderAttachment(){
     this.providerAttachmentList = [];
     this.providerLoadingToggle = true;
-    this.reportService.getOcrProviderAttachment(this.version, this.startDate, this.endDate, this.databaseHelper).subscribe(response=>{
+    this.reportService.getOcrProviderAttachment(this.version, this.dataService.startDate, this.dataService.endDate, this.databaseHelper).subscribe(response=>{
       if(response != null){
         this.providerAttachmentList = response.list;
         this.totalProviderAttachment = response.totalItems;

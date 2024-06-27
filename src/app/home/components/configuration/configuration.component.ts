@@ -84,11 +84,6 @@ export class ConfigurationComponent implements OnInit {
   selectedTaxonomyLink: any[] = new Array();
   taxonomyLinkList: any[] = new Array();
 
-  // dropdownSettingsVersion !: { singleSelection: boolean; text: string; enableSearchFilter: boolean; autoPosition: boolean };
-  // selectedVersion: any[] = new Array();
-  // selectedVersions: any[] = new Array();
-  // versionList: any[] = new Array();
-
   dropdownSettingsTicketType !: { singleSelection: boolean; text: string; enableSearchFilter: boolean; autoPosition: boolean };
   ticketTypeList: any[] = new Array();
   selectedTicketType: any[] = new Array();
@@ -134,12 +129,6 @@ export class ConfigurationComponent implements OnInit {
       autoPosition: false,
       noDataLabel: 'Select Class Name First'
     }
-    // this.dropdownSettingsVersion = {
-    //   singleSelection: true,
-    //   text: 'Select Version',
-    //   enableSearchFilter: false,
-    //   autoPosition: false
-    // }
     this.dropdownSettingsTaxonomyLink = {
       singleSelection: true,
       text: 'Select Link',
@@ -185,7 +174,7 @@ export class ConfigurationComponent implements OnInit {
       autoPosition: false
     }
 
-    // this.getConfiguration();
+    this.getConfiguration();
     this.openEditModalFromReport();
   }
 
@@ -211,7 +200,7 @@ export class ConfigurationComponent implements OnInit {
   getConfiguration() {
     debugger
     this.loadingConfiguration = true;
-    this.licenseLookupService.getConfiguration(this.configDatabaseHelper, this.startDate, this.endDate, '', this.crawlerType).subscribe(response => {
+    this.licenseLookupService.getConfiguration(this.configDatabaseHelper, '', this.crawlerType).subscribe(response => {
       if (response.status && response.object != null) {
         this.configList = response.object;
         this.totalConfiguration = response.totalItems;
@@ -324,24 +313,6 @@ export class ConfigurationComponent implements OnInit {
     })
   }
 
-  // selectVersion(event: any) {
-  //   debugger
-  //   this.credilyVersion = '';
-  //   if (event[0] != undefined) {
-  //     this.selectedVersion = event;
-  //     this.credilyVersion = event[0].id;
-  //   }
-  // }
-  // searchSelectVersion(event: any) {
-  //   debugger
-  //   this.credilyVersion = '';
-  //   if (event[0] != undefined) {
-  //     this.selectedVersions = event;
-  //     this.credilyVersion = event[0].id;
-  //   }
-  //   this.getConfiguration();
-  // }
-
   taxanomyLinkLoading: boolean = false;
   async getTaxonomyLink(search: string) {
     debugger
@@ -447,15 +418,9 @@ export class ConfigurationComponent implements OnInit {
   crawlerConfigRequest: ConfigRequest = new ConfigRequest();
   saveLookupDetailsAndToggleAddStep() {
     debugger
-
     this.addStepToggle = true;
     this.configurationStepList = [];
     this.closeTaxomonModalButton.nativeElement.click();
-
-    // setTimeout(() => {
-    //   this.clickIframeButton.nativeElement.click();
-    // }, 500)
-
     this.setText = this.lookupLink.split('//')[1];
 
     if (this.selectedLookupConfigId > 0) {
@@ -559,28 +524,16 @@ export class ConfigurationComponent implements OnInit {
   }
 
   getArribute() {
-    // for (let i = 0; i < Array(3).length; i++) {
-    //   var temp: { id: any, itemName: any} = { id: '', itemName: '' };
-    //   temp.id = i+1;
-    //   temp.itemName = 'Attribute ' + i;
-    //   this.attributeList.push(temp);
-    // }
-
     this.licenseLookupService.getCrawlerAttribute().subscribe(response => {
-
       this.attributeList = response.object;
-
       this.attributeList = JSON.parse(JSON.stringify(this.attributeList));
     })
-
-
   }
 
   getClassName() {
     this.licenseLookupService.getClassName().subscribe(response => {
       if (response.object != null) {
         this.classList = [];
-        // this.selectedClass = [];
         Object.keys(response.object).forEach((key, index) => {
           var temp: { id: any, itemName: any } = { id: key, itemName: response.object[key] };
           this.classList.push(temp);
@@ -1028,6 +981,7 @@ export class ConfigurationComponent implements OnInit {
     this.showTaxonomyListToggle = false;
     this.unMappedIds = [];
     this.mappedIds = [];
+    this.ticketType ='';
     this.selectedTaxonomyLink = [];
     this.selectedAttType = [];
     this.selectedAttSubType = [];
@@ -1044,11 +998,105 @@ export class ConfigurationComponent implements OnInit {
     if(!Constant.EMPTY_STRINGS.includes(config.ticketType)){
       var temp: { id: any, itemName: any } = { id: config.ticketType, itemName: config.ticketType };
       this.selectedTicketType.push(temp);
+      this.ticketType = config.ticketType;
     }
     this.selectedTaxonomyIds = config.taxonomyId;
     this.getAttachmentType();
     this.getTaxonomyLink('');
     this.lookupModalButton.nativeElement.click();
+  }
+
+
+  isEditStepToggle: boolean = false;
+  editStepIndex : number = 0;
+  openEditStepModal(step:ConfigRequest, index:number){
+    debugger
+    this.selectedAttribute =[];
+    this.isEditStepToggle = true;
+    this.editStepIndex = index;
+    this.openAddConfigModal();
+    
+    var temp : {id: any, itemName:any} = {id:step.crawlerAttributeId, itemName:step.crawlerAttribute};
+    this.selectedAttribute.push(temp);
+    this.cofnigStepRequest.lookUpElementDesc = this.configurationStepList[index].lookUpElementDesc
+    this.cofnigStepRequest.crawlerAttributeId = this.configurationStepList[index].crawlerAttributeId;
+    this.cofnigStepRequest.crawlerAttribute = this.configurationStepList[index].crawlerAttribute;
+
+    var eventTemp = {id: '', itemName:''};
+    if(!this.Constant.EMPTY_STRINGS.includes(step.elementEvent)){
+      if (this.configurationStepList[index].crawlerAttributeId == 6) {
+        this.EventList = [
+          { id: '2', itemName: '2 Second' }, { id: '4', itemName: '4 Second' },
+          { id: '6', itemName: '6 Second' }, { id: '8', itemName: '8 Second' },
+          { id: '10', itemName: '10 Second' }
+        ];
+        if(step.elementEvent == '2'){
+          eventTemp.id = step.elementEvent;
+          eventTemp.itemName = '2 Second';
+        } else if(step.elementEvent == '4'){
+          eventTemp.id = step.elementEvent;
+          eventTemp.itemName = '4 Second';
+        } else if(step.elementEvent == '6'){
+          eventTemp.id = step.elementEvent;
+          eventTemp.itemName = '6 Second';
+        } else if(step.elementEvent == '8'){
+          eventTemp.id = step.elementEvent;
+          eventTemp.itemName = '8 Second';
+        } else if(step.elementEvent == '10'){
+          eventTemp.id = step.elementEvent;
+          eventTemp.itemName = '10 Second';
+        }
+      } else {
+        if(step.elementEvent=='sendKey'){
+          eventTemp.id = step.elementEvent;
+          eventTemp.itemName = 'Input Value';
+        } else if(step.elementEvent=='click'){
+          eventTemp.id = step.elementEvent;
+          eventTemp.itemName = 'Click';
+        } else if(step.elementEvent=='windowClick'){
+          eventTemp.id = step.elementEvent;
+          eventTemp.itemName = 'Click Window';
+        }
+      }
+      this.selectedEvent.push(eventTemp);
+    }
+    
+    this.cofnigStepRequest.dataSourcePath = step.dataSourcePath;
+    this.cofnigStepRequest.columnName = step.columnName;
+    this.cofnigStepRequest.pattern = step.pattern;
+    this.cofnigStepRequest.actionButton = step.actionButton;
+
+    var classTemp:{id: any, itemName : any} = {id: '', itemName : ''};
+    if(!this.Constant.EMPTY_STRINGS.includes(step.className)){
+      if(step.className == 'Static'){
+        classTemp.id = '1';
+      } else if(step.className == 'LocationProvider'){
+        classTemp.id = '2';
+      } else if(step.className == 'Provider'){
+        classTemp.id = '3';
+      } else if(step.className == 'PracticeLocation'){
+        classTemp.id = '4';
+      } else if(step.className == 'ProviderProfessionalLicense'){
+        classTemp.id = '5';
+      } else if(step.className == 'ProviderDea'){
+        classTemp.id = '6';
+      } else if(step.className == 'ProviderSpecialty'){
+        classTemp.id = '7';
+      }  else if (step.className == 'CustomerTicket'){
+        classTemp.id = '8';
+      } else if(step.className == 'TicketStatusField'){
+        classTemp.id = '9';
+      }
+      classTemp.itemName = step.className;
+      this.selectedClass.push(classTemp);
+    }
+
+    this.cofnigStepRequest.columnName = step.columnName;
+
+  }
+
+   editStep(index:number, cofnigStepRequest: ConfigRequest){
+    this.configurationStepList.splice(index, 1, cofnigStepRequest);
   }
 
   loadingConfgurationStep: boolean = false;
@@ -1192,30 +1240,6 @@ export class ConfigurationComponent implements OnInit {
     })
   }
 
-  maxDate: any;
-  selected !: { startDate: moment.Moment | null, endDate: moment.Moment | null } | undefined;
-  startDate: any = null;
-  endDate: any = null;
-  selectDateFilter(event: any) {
-    debugger
-    if (this.selected != undefined && this.selected != null && this.selected.startDate != undefined && this.selected.endDate != undefined && this.selected != null) {
-      this.startDate = new Date(this.selected.startDate.toDate()).toDateString();
-      this.endDate = new Date(this.selected.endDate.toDate()).toDateString();
-    } 
-
-    this.getConfiguration();
-
-  }
-
-  clearDateFilter(){
-    if(this.selected != undefined && this.selected != null){
-      this.selected = undefined;
-      this.startDate = null;
-      this.endDate = null;
-      this.getConfiguration();
-    }
-  }
-
 
   getConfigurationWithType(type: string) {
     this.crawlerType = type;
@@ -1329,97 +1353,6 @@ export class ConfigurationComponent implements OnInit {
     }
   }
 
-  isEditStepToggle: boolean = false;
-  editStepIndex : number = 0;
-  openEditStepModal(step:ConfigRequest, index:number){
-    debugger
-    this.selectedAttribute =[];
-    this.isEditStepToggle = true;
-    this.editStepIndex = index;
-    this.openAddConfigModal();
-    
-    var temp : {id: any, itemName:any} = {id:step.crawlerAttributeId, itemName:step.crawlerAttribute};
-    this.selectedAttribute.push(temp);
-    this.cofnigStepRequest.lookUpElementDesc = this.configurationStepList[index].lookUpElementDesc
-    this.cofnigStepRequest.crawlerAttributeId = this.configurationStepList[index].crawlerAttributeId;
-    this.cofnigStepRequest.crawlerAttribute = this.configurationStepList[index].crawlerAttribute;
-
-    var eventTemp = {id: '', itemName:''};
-    if(!this.Constant.EMPTY_STRINGS.includes(step.elementEvent)){
-      if (this.configurationStepList[index].crawlerAttributeId == 6) {
-        this.EventList = [
-          { id: '2', itemName: '2 Second' }, { id: '4', itemName: '4 Second' },
-          { id: '6', itemName: '6 Second' }, { id: '8', itemName: '8 Second' },
-          { id: '10', itemName: '10 Second' }
-        ];
-        if(step.elementEvent == '2'){
-          eventTemp.id = step.elementEvent;
-          eventTemp.itemName = '2 Second';
-        } else if(step.elementEvent == '4'){
-          eventTemp.id = step.elementEvent;
-          eventTemp.itemName = '4 Second';
-        } else if(step.elementEvent == '6'){
-          eventTemp.id = step.elementEvent;
-          eventTemp.itemName = '6 Second';
-        } else if(step.elementEvent == '8'){
-          eventTemp.id = step.elementEvent;
-          eventTemp.itemName = '8 Second';
-        } else if(step.elementEvent == '10'){
-          eventTemp.id = step.elementEvent;
-          eventTemp.itemName = '10 Second';
-        }
-      } else {
-        if(step.elementEvent=='sendKey'){
-          eventTemp.id = step.elementEvent;
-          eventTemp.itemName = 'Input Value';
-        } else if(step.elementEvent=='click'){
-          eventTemp.id = step.elementEvent;
-          eventTemp.itemName = 'Click';
-        } else if(step.elementEvent=='windowClick'){
-          eventTemp.id = step.elementEvent;
-          eventTemp.itemName = 'Click Window';
-        }
-      }
-      this.selectedEvent.push(eventTemp);
-    }
-    
-    this.cofnigStepRequest.dataSourcePath = step.dataSourcePath;
-    this.cofnigStepRequest.columnName = step.columnName;
-    this.cofnigStepRequest.pattern = step.pattern;
-    this.cofnigStepRequest.actionButton = step.actionButton;
-
-    var classTemp:{id: any, itemName : any} = {id: '', itemName : ''};
-    if(!this.Constant.EMPTY_STRINGS.includes(step.className)){
-      if(step.className == 'Static'){
-        classTemp.id = '1';
-      } else if(step.className == 'LocationProvider'){
-        classTemp.id = '2';
-      } else if(step.className == 'Provider'){
-        classTemp.id = '3';
-      } else if(step.className == 'PracticeLocation'){
-        classTemp.id = '4';
-      } else if(step.className == 'ProviderProfessionalLicense'){
-        classTemp.id = '5';
-      } else if(step.className == 'ProviderDea'){
-        classTemp.id = '6';
-      } else if(step.className == 'ProviderSpecialty'){
-        classTemp.id = '7';
-      }  else if (step.className == 'CustomerTicket'){
-        classTemp.id = '8';
-      } else if(step.className == 'TicketStatusField'){
-        classTemp.id = '9';
-      }
-      classTemp.itemName = step.className;
-      this.selectedClass.push(classTemp);
-    }
-
-    this.cofnigStepRequest.columnName = step.columnName;
-
-  }
-
-   editStep(index:number, cofnigStepRequest: ConfigRequest){
-    this.configurationStepList.splice(index, 1, cofnigStepRequest);
-  }
 
   showCommentsToggle:boolean = false;
   showAndHideComments(){

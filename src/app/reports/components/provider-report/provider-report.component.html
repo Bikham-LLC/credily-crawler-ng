@@ -9,11 +9,6 @@
         </div>
         <div class="col-lg-9">
           <div class="d-flex justify-content-end align-items-center gap-2">
-            <div class="col-lg-3">
-              <div class="dateRangeFilter">
-                <input type="text" autocomplete="off" class="form-control" name="daterange" placeholder="Select Date Range" ngxDaterangepickerMd [showClearButton]="true" [opens]="'left'" [locale]="{applyLabel: 'Apply', format: 'MM-DD-YYYY'}" [(ngModel)]="selected" (ngModelChange)="selectDateFilter($event)">
-              </div>
-            </div>
             <button type="button" class="tblFilterBtn" [ngClass]="{'tblFilterBtnactive': filterType == 'completed'}" (click)="getProviderReport('completed', 0)">
               <i class="bi bi-check2"></i>
               Completed

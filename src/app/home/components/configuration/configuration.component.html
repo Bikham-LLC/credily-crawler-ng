@@ -6,7 +6,7 @@
                                 <div class="row mb-3">
                                     <div class="col-lg-9 px-2">
                                         <div class="row px-1">
-                                            <div class="col-lg-3 px-2">
+                                            <div class="col-lg-4 px-2">
                                                 <div class="position-relative">
                                                     <input class="form-control" id="searchname" name="searchname" placeholder="Search by lookup name" [(ngModel)]="search" (ngModelChange)="this.configSearch.next($event)">
                                                 </div>
@@ -14,12 +14,6 @@
                                             <div class="col-lg-4 px-2">
                                                 <div class="position-relative">
                                                     <input class="form-control" id="searchlink" name="searchlink" placeholder="Search by lookup link" [(ngModel)]="searchLink" (ngModelChange)="this.configSearchByLink.next($event)">
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-5 px-2">
-                                                <div class="dateRangeFilter position-relative">
-                                                    <input type="text" autocomplete="off" class="form-control" name="daterange" placeholder="Select Date Range" ngxDaterangepickerMd [maxDate]="maxDate" [opens]="'right'" [locale]="{applyLabel: 'Apply', format: 'MM-DD-YYYY'}" [(ngModel)]="selected" (ngModelChange)="selectDateFilter($event)">
-                                                    <i class="bi bi-x-circle-fill end-0 me-2 mt-2 position-absolute top-0" (click)="clearDateFilter()"></i>
                                                 </div>
                                             </div>
                                         </div>
@@ -508,6 +502,7 @@
             </div>
         </div>
     </div>
+    
 
     <!-- add configuration step modal -->
     <div class="modal fade" id="addConfigStepModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-bs-labelledby="stepModalLabel" aria-bs-hidden="true">

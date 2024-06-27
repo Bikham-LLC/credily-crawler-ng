@@ -9,6 +9,7 @@ import { LookupConfiguration } from 'src/app/models/LookupConfiguration';
 import { Route } from 'src/app/models/Route';
 import { TestReport } from 'src/app/models/TestReport';
 import { DataService } from 'src/app/services/data.service';
+import { HeaderSubscriptionService } from 'src/app/services/header-subscription.service';
 import { ReportService } from 'src/app/services/report.service';
 
 @Component({
@@ -23,7 +24,16 @@ export class TestReportComponent implements OnInit {
   readonly Constant = Constant;
   constructor(private reportService: ReportService,
     private dataService: DataService,
-    private router : Router) { }
+    private router : Router,
+    private headerSubscriptionService: HeaderSubscriptionService) { 
+      this.subscribeHeader = this.headerSubscriptionService.headerVisibilityChange.subscribe(async (value) => {
+        debugger
+        if(router.url == Route.TEST_REPORT){
+          this.getConfigReport(this.statusFilter, 0);
+          this.getCountTestConfigReport();
+        }
+      })
+    }
 
   ngOnInit(): void {
 
@@ -33,33 +43,17 @@ export class TestReportComponent implements OnInit {
         this.databaseHelper.currentPage = 1;
         this.getConfigReport(this.statusFilter, 0);
       });
-
-    
-
+      
+      this.getConfigReport(this.statusFilter, 0);
+      this.getCountTestConfigReport();
   }
 
-
-  
-  selected : { startDate: moment.Moment, endDate: moment.Moment } = {startDate:moment().subtract(30, 'days'), endDate: moment()};
-  startDate: any = null;
-  endDate: any = null;
-  selectDateFilter(event: any) {
-    debugger
-    if (this.selected != undefined && this.selected != null && this.selected.startDate != undefined && this.selected.endDate != undefined && this.selected != null) {
-      this.startDate = new Date(this.selected.startDate.toDate()).toDateString();
-      this.endDate = new Date(this.selected.endDate.toDate()).toDateString();
-    } else {
-      this.selected = {startDate:moment().subtract(30, 'days'), endDate: moment()};
-      return;
-    }
-    this.getConfigReport(this.statusFilter, 0);
-    this.getCountTestConfigReport();
-  }
+  subscribeHeader:any;
 
   completedCount : number =0;
   failedCount : number =0;
   getCountTestConfigReport(){
-    this.reportService.getCountTestConfigReport(this.startDate, this.endDate).subscribe(response=>{
+    this.reportService.getCountTestConfigReport(this.dataService.startDate, this.dataService.endDate).subscribe(response=>{
       if(response != null){
         this.completedCount = response.completedCount;
         this.failedCount = response.failedCount;
@@ -81,9 +75,9 @@ export class TestReportComponent implements OnInit {
     } else {
       this.statusFilter = statusFilter;
     }
-    this.startDate = new Date(this.selected.startDate.toDate()).toDateString();
-    this.endDate = new Date(this.selected.endDate.toDate()).toDateString();
-    this.reportService.getTestConfigReport(this.databaseHelper, this.startDate, this.endDate, this.statusFilter).subscribe(response => {
+    this.dataService.startDate = new Date(this.dataService.selected.startDate.toDate()).toDateString();
+    this.dataService.endDate = new Date(this.dataService.selected.endDate.toDate()).toDateString();
+    this.reportService.getTestConfigReport(this.databaseHelper, this.dataService.startDate, this.dataService.endDate, this.statusFilter).subscribe(response => {
       if (response.status && response.object != null) {
         this.configList = response.object;
         this.totalConfiguration = response.totalItems;

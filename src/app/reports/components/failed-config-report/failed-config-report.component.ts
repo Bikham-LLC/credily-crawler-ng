@@ -9,6 +9,8 @@ import { DatabaseHelper } from 'src/app/models/DatabaseHelper';
 import { FailedConfigDTO } from 'src/app/models/FailedConfigDTO';
 import { ProviderRequestCrawlerLog } from 'src/app/models/ProviderRequestCrawlerLog';
 import { Route } from 'src/app/models/Route';
+import { DataService } from 'src/app/services/data.service';
+import { HeaderSubscriptionService } from 'src/app/services/header-subscription.service';
 import { ReportService } from 'src/app/services/report.service';
 
 @Component({
@@ -34,19 +36,21 @@ export class FailedConfigReportComponent implements OnInit {
   providerSearch = new Subject<string>();
   constructor(private reportService : ReportService,
     private router : Router,
-    private activatedRoute: ActivatedRoute) { 
+    private dataService: DataService,
+    private activatedRoute: ActivatedRoute,
+    private headerSubscriptionService: HeaderSubscriptionService) { 
     
       if (this.activatedRoute.snapshot.queryParamMap.has('version')) {
         this.routeVersion = this.activatedRoute.snapshot.queryParamMap.get('version');
       }
 
       if(this.activatedRoute.snapshot.queryParamMap.has('d1') && this.activatedRoute.snapshot.queryParamMap.has('d2')) {
-        this.startDate = this.activatedRoute.snapshot.queryParamMap.get('d1');
-        this.endDate = this.activatedRoute.snapshot.queryParamMap.get('d2')
-        this.selected = {startDate:moment(this.startDate), endDate:moment(this.endDate)};
+        this.dataService.startDate = this.activatedRoute.snapshot.queryParamMap.get('d1');
+        this.dataService.endDate = this.activatedRoute.snapshot.queryParamMap.get('d2')
+        this.dataService.selected = {startDate:moment(this.dataService.startDate), endDate:moment(this.dataService.endDate)};
         this.dashboardDateFilterToggle = true;
       } else {
-        this.selected = {startDate:moment().subtract(30, 'days'), endDate: moment()};
+        this.dataService.selected = {startDate:moment().subtract(30, 'days'), endDate: moment()};
       }
       
       this.providerSearch.pipe(
@@ -55,9 +59,26 @@ export class FailedConfigReportComponent implements OnInit {
         this.databaseHelper.currentPage = 1;
         this.getFailedConfigs(this.configType, 0);
       });
+
+      this.subscribeHeader = this.headerSubscriptionService.headerVisibilityChange.subscribe(async (value) => {
+        debugger
+
+        if(router.url == Route.FAILED_CONFIG_REPORT){
+          this.getFailedConfigs(this.configType, 0);
+          this.getFailedConfigsCount();
+        }
+
+          if(this.routeVersion != null){
+            this.versionFilterToggle = true;
+            this.version = this.routeVersion;
+            var temp : {id:any, itemName: any} = {id: this.routeVersion, itemName : this.routeVersion};
+            this.selectedVersion.push(temp);
+          }
+      })
     }
 
-    dashboardDateFilterToggle:boolean = false;
+  subscribeHeader : any;
+  dashboardDateFilterToggle:boolean = false;
   ngOnInit(): void {
     this.dropdownSettingsVersion = {
       singleSelection: true,
@@ -75,6 +96,8 @@ export class FailedConfigReportComponent implements OnInit {
       badgeShowLimit: 1
     };
 
+    this.getFailedConfigs(this.configType, 0);
+    this.getFailedConfigsCount();
     this.getStates();
   }
 
@@ -94,31 +117,7 @@ export class FailedConfigReportComponent implements OnInit {
     this.getFailedConfigsCount();
     this.versionFilterToggle = false
   }
-  
-  // selected : { startDate: moment.Moment, endDate: moment.Moment } = {startDate:moment().subtract(30, 'days'), endDate: moment()};
-  selected : any;
-  startDate: any = null;
-  endDate: any = null;
-  selectDateFilter(event: any) {
-    debugger
-    if (this.selected != undefined && this.selected != null && this.selected.startDate != undefined && this.selected.endDate != undefined && this.selected != null) {
-      this.startDate = new Date(this.selected.startDate.toDate()).toDateString();
-      this.endDate = new Date(this.selected.endDate.toDate()).toDateString(); 
-    } else {
-      this.selected = {startDate:moment().subtract(30, 'days'), endDate: moment()};
-      return;
-    }
 
-    if(this.routeVersion != null){
-      this.versionFilterToggle = true;
-      this.version = this.routeVersion;
-      var temp : {id:any, itemName: any} = {id: this.routeVersion, itemName : this.routeVersion};
-      this.selectedVersion.push(temp);
-      
-    }
-    this.getFailedConfigs(this.configType, 0);
-    this.getFailedConfigsCount();
-  }
   configType:string ='';
   configLoadingToggle:boolean = false;
   databaseHelper: DatabaseHelper = new DatabaseHelper();
@@ -131,7 +130,7 @@ export class FailedConfigReportComponent implements OnInit {
     } else {
       this.configType = configType;
     }
-    this.reportService.getFailedConfigs(this.startDate, this.endDate, this.databaseHelper, this.configType, this.version, this.states).subscribe(response=>{
+    this.reportService.getFailedConfigs(this.dataService.startDate, this.dataService.endDate, this.databaseHelper, this.configType, this.version, this.states).subscribe(response=>{
       if(response != null){
         this.failedConfigList = response.list;
         this.totalConfigsCount = response.totalItems;
@@ -146,7 +145,7 @@ export class FailedConfigReportComponent implements OnInit {
   reRunFailed:number =0;
   reRunPending:number =0;
   getFailedConfigsCount(){
-    this.reportService.getFailedConfigsCount(this.startDate, this.endDate, this.version).subscribe(response=>{
+    this.reportService.getFailedConfigsCount(this.dataService.startDate, this.dataService.endDate, this.version).subscribe(response=>{
       if(response != null){
         this.reRunSucessful = response.reRunSucessful;
         this.reRunFailed = response.reRunFailed;

@@ -14,6 +14,7 @@ import { ImageUpload } from 'src/app/models/ImageUpload';
 import * as moment from 'moment';
 import { SnapshotRequest } from 'src/app/models/SnapshotRequest';
 import { AngularFireStorage } from '@angular/fire/storage';
+import { HeaderSubscriptionService } from 'src/app/services/header-subscription.service';
 
 
 @Component({
@@ -34,7 +35,8 @@ export class ProviderReportComponent implements OnInit {
   constructor( private reportService:ReportService,
     private router : Router,
     private dataService: DataService,
-    private firebaseStorage: AngularFireStorage
+    private firebaseStorage: AngularFireStorage,
+    private headerSubscriptionService: HeaderSubscriptionService,
     ) { 
 
     this.providerSearch.pipe(
@@ -43,8 +45,17 @@ export class ProviderReportComponent implements OnInit {
         this.databaseHelper.currentPage = 1;
         this.getProviderReport(this.filterType, 0);
       });
+
+      this.subscribeHeader = this.headerSubscriptionService.headerVisibilityChange.subscribe(async (value) => {
+        debugger
+        if(router.url == Route.PROVIDER_REPORT){
+          this.getProviderReport(this.filterType, 0);
+          this.getProviderReportCount();
+        }
+      })
   }
 
+  subscribeHeader :any;
   ngOnInit(): void {
     this.dropdownSettingsVersion = {
       singleSelection: true,
@@ -53,6 +64,8 @@ export class ProviderReportComponent implements OnInit {
       autoPosition: false,
       badgeShowLimit: 1
     };
+    this.getProviderReport(this.filterType, 0);
+    this.getProviderReportCount();
   }
 
   databaseHelper:DatabaseHelper = new DatabaseHelper();
@@ -61,27 +74,10 @@ export class ProviderReportComponent implements OnInit {
   fetchingReport:boolean=false;
   status:string='';
 
-
-  selected : { startDate: moment.Moment, endDate: moment.Moment } = {startDate:moment().subtract(30, 'days'), endDate: moment()};
-  startDate: any = null;
-  endDate: any = null;
-  selectDateFilter(event: any) {
-    debugger
-    if (this.selected != undefined && this.selected != null && this.selected.startDate != undefined && this.selected.endDate != undefined && this.selected != null) {
-      this.startDate = new Date(this.selected.startDate.toDate()).toDateString();
-      this.endDate = new Date(this.selected.endDate.toDate()).toDateString();
-    } else {
-      this.selected = {startDate:moment().subtract(30, 'days'), endDate: moment()};
-      return;
-    }
-    this.getProviderReport(this.filterType, 0);
-    this.getProviderReportCount();
-  }
-
   completedCount:number =0;
   partiallyCompletedCount:number =0;
   getProviderReportCount(){
-    this.reportService.getProviderReportCount(this.startDate, this.endDate, this.version).subscribe(response=>{
+    this.reportService.getProviderReportCount(this.dataService.startDate, this.dataService.endDate, this.version).subscribe(response=>{
       if(response != null){
         this.completedCount = response.completedCount;
         this.partiallyCompletedCount = response.partiallyCompletedCount;
@@ -117,7 +113,7 @@ export class ProviderReportComponent implements OnInit {
     } else {
       this.filterType = filterType;
     }
-    this.reportService.getProviderReport(this.databaseHelper, this.filterType, this.startDate, this.endDate, this.version).subscribe(response => {
+    this.reportService.getProviderReport(this.databaseHelper, this.filterType, this.dataService.startDate, this.dataService.endDate, this.version).subscribe(response => {
       if(response!=null){
         this.providerList = response.object;
         this.totalProviders = response.totalItems;
