@@ -8,6 +8,7 @@ import { HeaderComponent } from '../common-component/header/header.component';
 import { StateDropdownComponent } from '../common-component/state-dropdown/state-dropdown.component';
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
 import { RouterModule } from '@angular/router';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 
 
@@ -23,7 +24,8 @@ import { RouterModule } from '@angular/router';
     FormsModule,
     NgxDaterangepickerMd.forRoot(),
     AngularMultiSelectModule,
-    RouterModule
+    RouterModule,
+    DragDropModule
   ],
   exports :[
     SafePipe,
@@ -32,7 +34,8 @@ import { RouterModule } from '@angular/router';
     HeaderComponent,
     StateDropdownComponent,
     AngularMultiSelectModule,
-    RouterModule
+    RouterModule,
+    DragDropModule
   ]
 })
 export class SharedModule { }

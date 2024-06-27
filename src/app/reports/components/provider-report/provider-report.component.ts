@@ -363,7 +363,12 @@ export class ProviderReportComponent implements OnInit {
       let firebaseName = "crawler-manual-upload/"+ this.uuid +"_"+ this.providerName+"/"+this.configName + moment(new Date()).format('MMMDD_YYYY_hh_mm_ss');
       this.fileName = this.providerName + "_" + this.configName+"_"+ moment(new Date()).format('MMMDD_YYYY_hh_mm_ss');
       
+    
+      // var storageRef = this.firebaseStorage.storage.ref();
+      // const fileRef = storageRef.child(firebaseName);
+
       const fileRef = this.firebaseStorage.ref(firebaseName);
+      
       this.firebaseStorage.upload(firebaseName, this.currentUpload.file).snapshotChanges().pipe(
         finalize(async () => {
           fileRef.getDownloadURL().subscribe((url: any) => {

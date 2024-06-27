@@ -1013,6 +1013,8 @@ export class ConfigurationComponent implements OnInit {
   configId: number = 0;
   openEditModel(config: LookupConfiguration) {
     debugger
+    this.planId ='';
+    this.selectedTicketType = [];
     this.configstatus = config.configStatus;
     this.lastTestedOn = config.lastTestedOn;
     this.screenShotUrl = config.url;
