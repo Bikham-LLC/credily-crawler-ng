@@ -361,7 +361,7 @@
                                 <div class="p-5" *ngIf="taxanomyLinkLoading">
                                     <app-circular-loader></app-circular-loader>
                                 </div>
-                                <div class="taxonomyCollapse" *ngIf="!taxanomyLinkLoading && (crawlerType != Constant.CRAWLER_TYPE_COMMON_LINKS && crawlerType != Constant.APPLICATION_FOLLOW_UP)">
+                                <div class="taxonomyCollapse" *ngIf="!taxanomyLinkLoading && (crawlerType != Constant.CRAWLER_TYPE_COMMON_LINKS && crawlerType != Constant.APPLICATION_FOLLOW_UP && crawlerType != Constant.CRAWLER_TYPE_BOARD_CERTIFICATION)">
                                     <div class="taxonomyCollapseInner">
                                         <div class="accordion" id="accordionExample">
                                             <div class="accordion-item">

@@ -1,9 +1,9 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CdkDragDrop, CdkDropList, CdkDrag, moveItemInArray } from '@angular/cdk/drag-drop';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { debounceTime } from 'rxjs/operators';
 import { Constant } from 'src/app/models/Constant';
 import { Route } from 'src/app/models/Route';
 import { LicenseLookupService } from 'src/app/services/license-lookup.service';
@@ -239,7 +239,6 @@ export class ConfigurationComponent implements OnInit {
     this.selectedLookupConfigId = 0;
     this.selectedLookupName = [];
     this.lookupModalButton.nativeElement.click();
-    // this.getLookupTaxonomy();
     this.type = 'mapped';
     this.showTaxonomyListToggle = false;
     this.totalLookupTaxonomy = 0;
@@ -253,11 +252,12 @@ export class ConfigurationComponent implements OnInit {
     this.selectedTaxonomyIds = [];
     if (event[0] != undefined) {
       var temp: { id: any, itemName: any } = { id: event[0].id, itemName: event[0].id };
-      // this.selectedTaxonomyLink = event;
       this.selectedTaxonomyLink = [];
       this.selectedTaxonomyLink.push(temp);
       this.lookupLink = event[0].id;
-      this.getTaxonomyByLookupLink(this.lookupLink);
+      if(this.crawlerType == this.Constant.CRAWLER_TYPE_LICENSE_LOOKUP){
+        this.getTaxonomyByLookupLink(this.lookupLink);
+      }
       this.selectedlookupName(this.lookupLink);
     } else {
       this.getMappedTaxonomy(this.type);
@@ -278,7 +278,6 @@ export class ConfigurationComponent implements OnInit {
           this.selectedLookupNames.push(temp);
           this.mappedLookupNames.push(temp);
           this.selectedLookupName.push(element.lookupName);
-          // console.log(this.selectedLookupName);
         })
         this.selectedLookupNames = JSON.parse(JSON.stringify(this.selectedLookupNames));
         this.mappedLookupNames = JSON.parse(JSON.stringify(this.mappedLookupNames));
@@ -331,7 +330,9 @@ export class ConfigurationComponent implements OnInit {
         this.selectedTaxonomyLink = [];
         var temp: { id: any, itemName: any } = { id: this.lookupLink, itemName: this.lookupLink };
         this.selectedTaxonomyLink.push(temp);
-        this.getTaxonomyByLookupLink(this.lookupLink);
+        if(this.crawlerType == this.Constant.CRAWLER_TYPE_LICENSE_LOOKUP){
+          this.getTaxonomyByLookupLink(this.lookupLink);
+        }
         this.selectedlookupName(this.lookupLink);
       }
       this.taxanomyLinkLoading = false;
@@ -361,9 +362,7 @@ export class ConfigurationComponent implements OnInit {
         }
         this.getMappedTaxonomy(this.type);
       }
-      // this.loadingLookupTaxonomy = false;
     }, error => {
-      // this.dataService.showToast(error.error);
       this.loadingLookupTaxonomy = false;
     })
   }
@@ -874,9 +873,7 @@ export class ConfigurationComponent implements OnInit {
         this.countLoader = false;
 
       });
-    } else {
-      // structureObj.secVal = dataObj.entity;
-    }
+    } 
 
   }
 
