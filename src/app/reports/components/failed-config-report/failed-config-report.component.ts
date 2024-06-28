@@ -44,14 +44,12 @@ export class FailedConfigReportComponent implements OnInit {
         this.routeVersion = this.activatedRoute.snapshot.queryParamMap.get('version');
       }
 
-      if(this.activatedRoute.snapshot.queryParamMap.has('d1') && this.activatedRoute.snapshot.queryParamMap.has('d2')) {
-        this.dataService.startDate = this.activatedRoute.snapshot.queryParamMap.get('d1');
-        this.dataService.endDate = this.activatedRoute.snapshot.queryParamMap.get('d2')
-        this.dataService.selected = {startDate:moment(this.dataService.startDate), endDate:moment(this.dataService.endDate)};
-        this.dashboardDateFilterToggle = true;
-      } else {
-        this.dataService.selected = {startDate:moment().subtract(30, 'days'), endDate: moment()};
-      }
+      // if(this.activatedRoute.snapshot.queryParamMap.has('d1') && this.activatedRoute.snapshot.queryParamMap.has('d2')) {
+      //   this.dataService.startDate = this.activatedRoute.snapshot.queryParamMap.get('d1');
+      //   this.dataService.endDate = this.activatedRoute.snapshot.queryParamMap.get('d2')
+      //   this.dataService.selected = {startDate:moment(this.dataService.startDate), endDate:moment(this.dataService.endDate)};
+      //   this.dashboardDateFilterToggle = true;
+      // }
       
       this.providerSearch.pipe(
       debounceTime(600))
@@ -68,12 +66,13 @@ export class FailedConfigReportComponent implements OnInit {
           this.getFailedConfigsCount();
         }
 
-          if(this.routeVersion != null){
-            this.versionFilterToggle = true;
-            this.version = this.routeVersion;
-            var temp : {id:any, itemName: any} = {id: this.routeVersion, itemName : this.routeVersion};
-            this.selectedVersion.push(temp);
-          }
+        if(this.routeVersion != null){
+          this.selectedVersion = [];
+          this.versionFilterToggle = true;
+          this.version = this.routeVersion;
+          var temp : {id:any, itemName: any} = {id: this.routeVersion, itemName : this.routeVersion};
+          this.selectedVersion.push(temp);
+        }
       })
     }
 
@@ -109,6 +108,7 @@ export class FailedConfigReportComponent implements OnInit {
   version:string=''
   selectVersion(event:any){
     debugger
+    this.selectedVersion = [];
     this.version = '';
     if(event != undefined && event.length > 0){
       this.version = event[0].id;

@@ -29,7 +29,7 @@ export class DashboardComponent implements OnInit {
 
     this.subscribeHeader = this.headerSubscriptionService.headerVisibilityChange.subscribe(async (value) => {
       debugger
-      if(router.url == Route.OCR_REPORT){
+      if(router.url == Route.HOME_DASHBOARD_ROUTE){
         this.getTotoalProvidersCountV2('License Lookup', 'V2');
         this.getTotoalProvidersCountV3('License Lookup', 'V3');
         this.getConfigDataV2('License Lookup');
@@ -142,11 +142,15 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-  routeToFailedConfigReport(version:string){
+  routeToReport(version:string, reportType:string){
     let navigationExtras : NavigationExtras = {
-      queryParams : { 'version' : version, 'd1': this.dataService.startDate, 'd2':this.dataService.endDate},
+      queryParams : { 'version' : version},
     }
-    this._router.navigate([Route.FAILED_CONFIG_REPORT], navigationExtras);
+    if(reportType == 'failedReport'){
+      this._router.navigate([Route.FAILED_CONFIG_REPORT], navigationExtras);
+    } else if(reportType == 'noConfigReport'){
+      this._router.navigate([Route.NO_CONFIG_FOUND_REPORT], navigationExtras);
+    }
   }
 
 

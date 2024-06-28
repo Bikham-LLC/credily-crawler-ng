@@ -1,12 +1,5 @@
 <div class="main">
     <div class="container-fluid" >
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="pageTitle d-flex justify-content-between align-items-center">
-                    <h3>Dashboard</h3>
-                </div>
-            </div>
-        </div>
         <app-circular-loader *ngIf="v2TotalCountsLoadingToggle && v3TotalCountsLoadingToggle"></app-circular-loader>
         <div class="row" *ngIf="!v2TotalCountsLoadingToggle && !v3TotalCountsLoadingToggle">
             <div class="col-lg-6">
@@ -42,15 +35,15 @@
                                                 </div>
                                             </div>
                                             <div class="col-lg-2 px-2 pe-0">
-                                                <div class="dashInfoCard notFndConfig">
+                                                <div class="dashInfoCard notFndConfig pointer" (click)="routeToReport('V3', 'noConfigReport')">
                                                     <div class="dashInfoInner">
                                                         <p class="dashInfoLabel mb-0">No Configs<br>Found</p>
-                                                        <span class="dashInfoCount">{{dashboardTotalCountsV3.licenseNoConfigFound}}</span>
+                                                        <span class="dashInfoCount">{{dashboardTotalCountsV3.licenseNoConfigFound}} <i class="bi bi-arrow-right"></i></span>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="col-lg-2 px-2 pe-0">
-                                                <div class="dashInfoCard failedConfig pointer" (click)="routeToFailedConfigReport('V3')">
+                                                <div class="dashInfoCard failedConfig pointer" (click)="routeToReport('V3', 'failedReport')">
                                                     <div class="dashInfoInner">
                                                         <p class="dashInfoLabel mb-0">Failed<br>Configs</p>
                                                         <span class="dashInfoCount">{{dashboardTotalCountsV3.licenseFailedConfig}} <i class="bi bi-arrow-right"></i></span>
@@ -91,15 +84,15 @@
                                                 </div>
                                             </div>
                                             <div class="col-lg-2 px-2 pe-0">
-                                                <div class="dashInfoCard notFndConfig">
+                                                <div class="dashInfoCard notFndConfig pointer" (click)="routeToReport('V3', 'noConfigReport')">
                                                     <div class="dashInfoInner">
                                                         <p class="dashInfoLabel mb-0">No Configs<br>Found</p>
-                                                        <span class="dashInfoCount">{{dashboardTotalCountsV3.boardNoConfigFound}}</span>
+                                                        <span class="dashInfoCount">{{dashboardTotalCountsV3.boardNoConfigFound}} <i class="bi bi-arrow-right"></i></span>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="col-lg-2 px-2 pe-0">
-                                                <div class="dashInfoCard failedConfig pointer" (click)="routeToFailedConfigReport('V3')">
+                                                <div class="dashInfoCard failedConfig pointer" (click)="routeToReport('V3', 'failedReport')">
                                                     <div class="dashInfoInner">
                                                         <p class="dashInfoLabel mb-0">Failed<br>Configs</p>
                                                         <span class="dashInfoCount">{{dashboardTotalCountsV3.boardFailedConfig}} <i class="bi bi-arrow-right"></i></span>
@@ -140,15 +133,15 @@
                                                 </div>
                                             </div>
                                             <div class="col-lg-2 px-2 pe-0">
-                                                <div class="dashInfoCard notFndConfig">
+                                                <div class="dashInfoCard notFndConfig pointer" (click)="routeToReport('V3', 'noConfigReport')">
                                                     <div class="dashInfoInner">
                                                         <p class="dashInfoLabel mb-0">No Configs<br>Found</p>
-                                                        <span class="dashInfoCount">{{dashboardTotalCountsV3.commonNoConfigFound}}</span>
+                                                        <span class="dashInfoCount">{{dashboardTotalCountsV3.commonNoConfigFound}} <i class="bi bi-arrow-right"></i></span>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="col-lg-2 px-2 pe-0">
-                                                <div class="dashInfoCard failedConfig pointer" (click)="routeToFailedConfigReport('V3')">
+                                                <div class="dashInfoCard failedConfig pointer" (click)="routeToReport('V3', 'failedReport')">
                                                     <div class="dashInfoInner">
                                                         <p class="dashInfoLabel mb-0">Failed<br>Configs</p>
                                                         <span class="dashInfoCount">{{dashboardTotalCountsV3.commonFailedConfig}} <i class="bi bi-arrow-right"></i></span>
@@ -204,15 +197,15 @@
                                                 </div>
                                             </div>
                                             <div class="col-lg-2 px-2 pe-0">
-                                                <div class="dashInfoCard notFndConfig">
+                                                <div class="dashInfoCard notFndConfig pointer" (click)="routeToReport('V2', 'noConfigReport')">
                                                     <div class="dashInfoInner">
                                                         <p class="dashInfoLabel mb-0">No Configs<br>Found</p>
-                                                        <span class="dashInfoCount">{{dashboardTotalCountsV2.licenseNoConfigFound}}</span>
+                                                        <span class="dashInfoCount">{{dashboardTotalCountsV2.licenseNoConfigFound}} <i class="bi bi-arrow-right"></i></span>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="col-lg-2 px-2 pe-0">
-                                                <div class="dashInfoCard failedConfig pointer" (click)="routeToFailedConfigReport('V2')">
+                                                <div class="dashInfoCard failedConfig pointer" (click)="routeToReport('V2', 'failedReport')">
                                                     <div class="dashInfoInner">
                                                         <p class="dashInfoLabel mb-0">Failed<br>Configs</p>
                                                         <span class="dashInfoCount">{{dashboardTotalCountsV2.licenseFailedConfig}} <i class="bi bi-arrow-right"></i></span>
@@ -253,15 +246,15 @@
                                                 </div>
                                             </div>
                                             <div class="col-lg-2 px-2 pe-0">
-                                                <div class="dashInfoCard notFndConfig">
+                                                <div class="dashInfoCard notFndConfig pointer" (click)="routeToReport('V2', 'noConfigReport')">
                                                     <div class="dashInfoInner">
                                                         <p class="dashInfoLabel mb-0">No Configs<br>Found</p>
-                                                        <span class="dashInfoCount">{{dashboardTotalCountsV2.boardNoConfigFound}}</span>
+                                                        <span class="dashInfoCount">{{dashboardTotalCountsV2.boardNoConfigFound}} <i class="bi bi-arrow-right"></i></span>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="col-lg-2 px-2 pe-0">
-                                                <div class="dashInfoCard failedConfig pointer" (click)="routeToFailedConfigReport('V2')"> 
+                                                <div class="dashInfoCard failedConfig pointer" (click)="routeToReport('V2', 'failedReport')"> 
                                                     <div class="dashInfoInner"> 
                                                         <p class="dashInfoLabel mb-0">Failed<br>Configs</p>
                                                         <span class="dashInfoCount">{{dashboardTotalCountsV2.boardFailedConfig}} <i class="bi bi-arrow-right"></i></span>
@@ -302,15 +295,15 @@
                                                 </div>
                                             </div>
                                             <div class="col-lg-2 px-2 pe-0">
-                                                <div class="dashInfoCard notFndConfig">
+                                                <div class="dashInfoCard notFndConfig pointer" (click)="routeToReport('V2', 'noConfigReport')">
                                                     <div class="dashInfoInner">
                                                         <p class="dashInfoLabel mb-0">No Configs<br>Found</p>
-                                                        <span class="dashInfoCount">{{dashboardTotalCountsV2.commonNoConfigFound}}</span>
+                                                        <span class="dashInfoCount">{{dashboardTotalCountsV2.commonNoConfigFound}} <i class="bi bi-arrow-right"></i></span>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="col-lg-2 px-2 pe-0">
-                                                <div class="dashInfoCard failedConfig pointer" (click)="routeToFailedConfigReport('V2')"> 
+                                                <div class="dashInfoCard failedConfig pointer" (click)="routeToReport('V2', 'failedReport')"> 
                                                     <div class="dashInfoInner">
                                                         <p class="dashInfoLabel mb-0">Failed<br>Configs</p>
                                                         <span class="dashInfoCount">{{dashboardTotalCountsV2.commonFailedConfig}} <i class="bi bi-arrow-right"></i></span>

@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
@@ -31,8 +31,8 @@ export class NoconfigFoundReportComponent implements OnInit {
   constructor(private reportService: ReportService,
     private dataService: DataService,
     private headerSubscriptionService : HeaderSubscriptionService,
-    private router: Router) { 
-
+    private router: Router,
+    private activatedRoute: ActivatedRoute) { 
       this.subscribeHeader = this.headerSubscriptionService.headerVisibilityChange.subscribe(async (value) => {
         debugger
         if(router.url == Route.NO_CONFIG_FOUND_REPORT){
@@ -40,16 +40,27 @@ export class NoconfigFoundReportComponent implements OnInit {
         }
       })
 
-    this.providerSearch.pipe(
-      debounceTime(600))
-      .subscribe(value => {
-        this.databaseHelper.currentPage = 1;
-        this.getNoConfigFoundReport();
+      if (this.activatedRoute.snapshot.queryParamMap.has('version')) {
+        this.routeVersion = this.activatedRoute.snapshot.queryParamMap.get('version');
+      }
+
+      this.providerSearch.pipe(
+        debounceTime(600))
+        .subscribe(value => {
+          this.databaseHelper.currentPage = 1;
+          this.getNoConfigFoundReport();
       });
 
+      if(this.routeVersion != null){
+        this.selectedVersion = [];
+        this.versionFilterToggle = true;
+        this.version = this.routeVersion;
+        var temp : {id:any, itemName: any} = {id: this.routeVersion, itemName : this.routeVersion};
+        this.selectedVersion.push(temp);
+      }
+    }
 
-  }
-
+  routeVersion:any;
   subscribeHeader:any;
   ngOnInit(): void {
     this.dropdownSettingsVersion = {
@@ -80,6 +91,7 @@ export class NoconfigFoundReportComponent implements OnInit {
   selectVersion(event:any){
     debugger
     this.version = '';
+    this.selectedVersion = [];
     if(event != undefined && event.length > 0){
       this.version = event[0].id;
     }
