@@ -39,12 +39,12 @@
 
 .filterCount {
   display: inline-block;
-  width: 20px;
-  height: 20px;
+  min-width: 30px;
+  height: 29px;
   border-radius: 50%;
-  font-size: 10px;
+  font-size: 15px;
   text-align: center;
-  line-height: 20px;
+  line-height: 29px;
 }
 .daterangeBtn {
   border-radius: 4px;
@@ -80,15 +80,26 @@
   max-width: 220px;
 }
 
-.tblFilterBtnactive{
-  background-color: #0071d2;
+.tblFilterBtnSuccessActive{
+  background-color: #04844b;
     color: #fff;
-    border-color: #0071d2;
+    border-color: #04844b;
 }
-.tblFilterBtnactive .filterCount {
+.tblFilterBtnPendingActive{
+  background-color: #e1b60c;
+    color: #fff;
+    border-color: #e1b60c;
+}
+
+.tblFilterBtnPendingActive .filterCount {
   background-color: #fff !important;
   color: #111 !important;
 }
+.tblFilterBtnSuccessActive .filterCount {
+  background-color: #fff !important;
+  color: #111 !important;
+}
+
 .filterActive {
   display: inline-block;
   background-color: #def7ec;
@@ -132,30 +143,14 @@
 .dropzone {
   height: 125px;
   width: 100%;
-  /* border: 1px dashed #d1d5db !important; */
-  /* border-radius: 5px !important; */
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
   margin-bottom: 15px;
-  /* background-color: #fff !important; */
   cursor: pointer;
   position: relative;
 }
-/* .dropzone::before{
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  top: 0;
-  background-color: red;
-  color: #fff;
-  width: 100%;
-  height: 100%;
-  z-index: 9;
-  content: '';
-} */
 .dropzoneLabelinner i.bi-cloud-upload {
   font-size: 30px;
   margin-bottom: 15px;

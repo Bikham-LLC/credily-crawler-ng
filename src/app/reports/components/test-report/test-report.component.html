@@ -9,12 +9,12 @@
         </div>
         <div class="col-lg-9">
             <div class="d-flex justify-content-end align-items-center gap-2">
-                <button type="button" class="tblFilterBtn" [ngClass]="{'tblFilterBtnactive': statusFilter == 'Test Pass'}" (click)="getConfigReport('Test Pass', 0)">
+                <button type="button" class="tblFilterBtn" [ngClass]="{'tblFilterBtnSuccessActive': statusFilter == 'Test Pass'}" (click)="getConfigReport('Test Pass', 0)">
                     <i class="bi bi-check2"></i>
                     Completed
                     <span class="filterCount bg-success text-white" >{{completedCount}}</span>
                 </button>
-                <button type="button" class="tblFilterBtn" [ngClass]="{'tblFilterBtnactive': statusFilter == 'Test Fail'}" (click)="getConfigReport('Test Fail', 0)">
+                <button type="button" class="tblFilterBtn" [ngClass]="{'tblFilterBtnFailedActive': statusFilter == 'Test Fail'}" (click)="getConfigReport('Test Fail', 0)">
                     <i class="bi bi-x-circle"></i>
                     Failed
                     <span class="filterCount bg-failed text-white">{{failedCount}}</span>

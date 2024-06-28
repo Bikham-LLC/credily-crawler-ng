@@ -9,12 +9,12 @@
         </div>
         <div class="col-lg-9">
           <div class="d-flex justify-content-end align-items-center gap-2">
-            <button type="button" class="tblFilterBtn" [ngClass]="{'tblFilterBtnactive': filterType == 'completed'}" (click)="getProviderReport('completed', 0)">
+            <button type="button" class="tblFilterBtn" [ngClass]="{'tblFilterBtnSuccessActive': filterType == 'completed'}" (click)="getProviderReport('completed', 0)">
               <i class="bi bi-check2"></i>
               Completed
               <span class="filterCount bg-success text-white" >{{completedCount}}</span>
             </button>
-            <button type="button" class="tblFilterBtn" [ngClass]="{'tblFilterBtnactive': filterType == 'partiallyCompleted'}" (click)="getProviderReport('partiallyCompleted', 0)">
+            <button type="button" class="tblFilterBtn" [ngClass]="{'tblFilterBtnPendingActive': filterType == 'partiallyCompleted'}" (click)="getProviderReport('partiallyCompleted', 0)">
               <i class="bi bi-exclamation-triangle"></i>
               Partially Completed
               <span class="filterCount bg-warning">{{partiallyCompletedCount}}</span>

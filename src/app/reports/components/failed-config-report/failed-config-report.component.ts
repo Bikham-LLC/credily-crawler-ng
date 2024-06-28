@@ -35,46 +35,37 @@ export class FailedConfigReportComponent implements OnInit {
 
   providerSearch = new Subject<string>();
   constructor(private reportService : ReportService,
-    private router : Router,
-    private dataService: DataService,
-    private activatedRoute: ActivatedRoute,
-    private headerSubscriptionService: HeaderSubscriptionService) { 
-    
-      if (this.activatedRoute.snapshot.queryParamMap.has('version')) {
-        this.routeVersion = this.activatedRoute.snapshot.queryParamMap.get('version');
-      }
-
-      // if(this.activatedRoute.snapshot.queryParamMap.has('d1') && this.activatedRoute.snapshot.queryParamMap.has('d2')) {
-      //   this.dataService.startDate = this.activatedRoute.snapshot.queryParamMap.get('d1');
-      //   this.dataService.endDate = this.activatedRoute.snapshot.queryParamMap.get('d2')
-      //   this.dataService.selected = {startDate:moment(this.dataService.startDate), endDate:moment(this.dataService.endDate)};
-      //   this.dashboardDateFilterToggle = true;
-      // }
-      
-      this.providerSearch.pipe(
-      debounceTime(600))
-      .subscribe(value => {
-        this.databaseHelper.currentPage = 1;
-        this.getFailedConfigs(this.configType, 0);
-      });
-
-      this.subscribeHeader = this.headerSubscriptionService.headerVisibilityChange.subscribe(async (value) => {
-        debugger
-
-        if(router.url == Route.FAILED_CONFIG_REPORT){
-          this.getFailedConfigs(this.configType, 0);
-          this.getFailedConfigsCount();
-        }
-
-        if(this.routeVersion != null){
-          this.selectedVersion = [];
-          this.versionFilterToggle = true;
-          this.version = this.routeVersion;
-          var temp : {id:any, itemName: any} = {id: this.routeVersion, itemName : this.routeVersion};
-          this.selectedVersion.push(temp);
-        }
-      })
+  private router : Router,
+  private dataService: DataService,
+  private activatedRoute: ActivatedRoute,
+  private headerSubscriptionService: HeaderSubscriptionService) { 
+    if (this.activatedRoute.snapshot.queryParamMap.has('version')) {
+      this.routeVersion = this.activatedRoute.snapshot.queryParamMap.get('version');
     }
+    
+    this.providerSearch.pipe(
+    debounceTime(600))
+    .subscribe(value => {
+      this.databaseHelper.currentPage = 1;
+      this.getFailedConfigs(this.configType, 0);
+    });
+
+    if(this.routeVersion != null){
+      this.selectedVersion = [];
+      this.versionFilterToggle = true;
+      this.version = this.routeVersion;
+      var temp : {id:any, itemName: any} = {id: this.routeVersion, itemName : this.routeVersion};
+      this.selectedVersion.push(temp);
+    }
+
+    this.subscribeHeader = this.headerSubscriptionService.headerVisibilityChange.subscribe(async (value) => {
+      debugger
+      if(router.url == Route.FAILED_CONFIG_REPORT){
+        this.getFailedConfigs(this.configType, 0);
+        this.getFailedConfigsCount();
+      }
+    })
+  }
 
   subscribeHeader : any;
   dashboardDateFilterToggle:boolean = false;
@@ -94,7 +85,7 @@ export class FailedConfigReportComponent implements OnInit {
       autoPosition: false,
       badgeShowLimit: 1
     };
-
+    
     this.getFailedConfigs(this.configType, 0);
     this.getFailedConfigsCount();
     this.getStates();

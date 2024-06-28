@@ -39,12 +39,12 @@
   
   .filterCount {
     display: inline-block;
-    width: 20px;
-    height: 20px;
+    min-width: 30px;
+    height: 29px;
     border-radius: 50%;
-    font-size: 10px;
+    font-size: 15px;
     text-align: center;
-    line-height: 20px;
+    line-height: 29px;
   }
   .daterangeBtn {
     border-radius: 4px;
@@ -68,12 +68,23 @@
     white-space: nowrap;
     max-width: 390px;
   }
-  .tblFilterBtnactive{
-    background-color: #0071d2;
+  .tblFilterBtnSuccessActive{
+    background-color: #04844b;
       color: #fff;
-      border-color: #0071d2;
+      border-color: #04844b;
   }
-  .tblFilterBtnactive .filterCount {
+
+  .tblFilterBtnFailedActive{
+    background-color: #e33916;
+      color: #fff;
+      border-color: #e33916;
+  }
+
+  .tblFilterBtnFailedActive .filterCount {
+    background-color: #fff !important;
+    color: #111 !important;
+  }
+  .tblFilterBtnSuccessActive .filterCount {
     background-color: #fff !important;
     color: #111 !important;
   }
