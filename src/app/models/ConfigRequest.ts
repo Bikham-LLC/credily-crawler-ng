@@ -14,5 +14,6 @@ export class ConfigRequest{
     commentStepToggle:boolean = false;
     commentUpdatingToggle:boolean = false;
     isStepCommented:number=0;
+    isStepUpdted:boolean = false;
     subAttributeMapList: SubAttributeMap[] = new Array();
 }

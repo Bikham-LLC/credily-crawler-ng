@@ -15,6 +15,7 @@ import { ConfigRequest } from 'src/app/models/ConfigRequest';
 import { LicenseLookupConfigRequest } from 'src/app/models/LicenseLookupConfigRequest';
 import { FormStructure } from 'src/app/models/formStructure';
 import { SubAttributeMap } from 'src/app/models/SubAttributeMap';
+import { RemoveStepRequest } from 'src/app/models/RemoveStepRequest';
 
 @Component({
   selector: 'app-configuration',
@@ -183,7 +184,13 @@ export class ConfigurationComponent implements OnInit {
     moveItemInArray(this.configurationStepList, event.previousIndex, event.currentIndex);
   }
 
+  removeStepList:RemoveStepRequest[]=[];
   removeStep(i: any) {
+    let removeStepRequest = new RemoveStepRequest();
+    removeStepRequest.attributeName = this.configurationStepList[i].crawlerAttribute;
+    removeStepRequest.lookupElementDesc = this.configurationStepList[i].lookUpElementDesc;
+    this.removeStepList.push(removeStepRequest);
+
     this.configurationStepList.splice(i, 1);
   }
 
@@ -479,9 +486,7 @@ export class ConfigurationComponent implements OnInit {
 
   dropdownSettingsEvent!: { singleSelection: boolean; text: string; enableSearchFilter: boolean; autoPosition: boolean };
   selectedEvent: any[] = new Array();
-  EventList: any[] = [{ id: 'sendKey', itemName: 'Input Value' }, { id: 'click', itemName: 'Click' }
-    // , { id: 'windowClick', itemName: 'Click Window' }
-  ]
+  EventList: any[] = [{ id: 'sendKey', itemName: 'Input Value' }, { id: 'click', itemName: 'Click' }]
 
   dropdownSettingsClass!: { singleSelection: boolean; text: string; enableSearchFilter: boolean; autoPosition: boolean };
   selectedClass: any[] = new Array();
@@ -626,9 +631,102 @@ export class ConfigurationComponent implements OnInit {
     this.closeAddStepModal.nativeElement.click();
   }
 
+  editStep(index:number, cofnigStepRequest: ConfigRequest){
+    this.configurationStepList.splice(index, 1, cofnigStepRequest);
+  }
+
   closeStepModal(){
     this.closeAddStepModal.nativeElement.click();
     this.isEditStepToggle = false;
+  }
+
+  isEditStepToggle: boolean = false;
+  editStepIndex : number = 0;
+  openEditStepModal(step:ConfigRequest, index:number){
+    debugger
+    this.cofnigStepRequest.isStepUpdted = false;
+    this.selectedAttribute =[];
+    this.isEditStepToggle = true;
+    this.editStepIndex = index;
+    this.openAddConfigModal();
+    
+    var temp : {id: any, itemName:any} = {id:step.crawlerAttributeId, itemName:step.crawlerAttribute};
+    this.selectedAttribute.push(temp);
+    this.cofnigStepRequest.lookUpElementDesc = this.configurationStepList[index].lookUpElementDesc
+    this.cofnigStepRequest.crawlerAttributeId = this.configurationStepList[index].crawlerAttributeId;
+    this.cofnigStepRequest.crawlerAttribute = this.configurationStepList[index].crawlerAttribute;
+    this.cofnigStepRequest.isStepUpdted = true;
+
+    var eventTemp = {id: '', itemName:''};
+    if(!this.Constant.EMPTY_STRINGS.includes(step.elementEvent)){
+      if (this.configurationStepList[index].crawlerAttributeId == 6) {
+        this.EventList = [
+          { id: '2', itemName: '2 Second' }, { id: '4', itemName: '4 Second' },
+          { id: '6', itemName: '6 Second' }, { id: '8', itemName: '8 Second' },
+          { id: '10', itemName: '10 Second' }
+        ];
+        if(step.elementEvent == '2'){
+          eventTemp.id = step.elementEvent;
+          eventTemp.itemName = '2 Second';
+        } else if(step.elementEvent == '4'){
+          eventTemp.id = step.elementEvent;
+          eventTemp.itemName = '4 Second';
+        } else if(step.elementEvent == '6'){
+          eventTemp.id = step.elementEvent;
+          eventTemp.itemName = '6 Second';
+        } else if(step.elementEvent == '8'){
+          eventTemp.id = step.elementEvent;
+          eventTemp.itemName = '8 Second';
+        } else if(step.elementEvent == '10'){
+          eventTemp.id = step.elementEvent;
+          eventTemp.itemName = '10 Second';
+        }
+      } else {
+        if(step.elementEvent=='sendKey'){
+          eventTemp.id = step.elementEvent;
+          eventTemp.itemName = 'Input Value';
+        } else if(step.elementEvent=='click'){
+          eventTemp.id = step.elementEvent;
+          eventTemp.itemName = 'Click';
+        } else if(step.elementEvent=='windowClick'){
+          eventTemp.id = step.elementEvent;
+          eventTemp.itemName = 'Click Window';
+        }
+      }
+      this.selectedEvent.push(eventTemp);
+    }
+    
+    this.cofnigStepRequest.dataSourcePath = step.dataSourcePath;
+    this.cofnigStepRequest.columnName = step.columnName;
+    this.cofnigStepRequest.pattern = step.pattern;
+    this.cofnigStepRequest.actionButton = step.actionButton;
+
+    var classTemp:{id: any, itemName : any} = {id: '', itemName : ''};
+    if(!this.Constant.EMPTY_STRINGS.includes(step.className)){
+      if(step.className == 'Static'){
+        classTemp.id = '1';
+      } else if(step.className == 'LocationProvider'){
+        classTemp.id = '2';
+      } else if(step.className == 'Provider'){
+        classTemp.id = '3';
+      } else if(step.className == 'PracticeLocation'){
+        classTemp.id = '4';
+      } else if(step.className == 'ProviderProfessionalLicense'){
+        classTemp.id = '5';
+      } else if(step.className == 'ProviderDea'){
+        classTemp.id = '6';
+      } else if(step.className == 'ProviderSpecialty'){
+        classTemp.id = '7';
+      }  else if (step.className == 'CustomerTicket'){
+        classTemp.id = '8';
+      } else if(step.className == 'TicketStatusField'){
+        classTemp.id = '9';
+      }
+      classTemp.itemName = step.className;
+      this.selectedClass.push(classTemp);
+    }
+
+    this.cofnigStepRequest.columnName = step.columnName;
   }
 
   providerUuid: string = '';
@@ -639,6 +737,8 @@ export class ConfigurationComponent implements OnInit {
 
 
   openUuidModal() {
+    this.ticketId =0;
+    this.selectedQueue = [];
     this.uuidModalButton.nativeElement.click();
   }
 
@@ -712,6 +812,7 @@ export class ConfigurationComponent implements OnInit {
     this.licenseLookupConfigRequest.configRequests = this.configurationStepList;
     this.licenseLookupConfigRequest.lookupConfigId = this.selectedLookupConfigId;
     this.licenseLookupConfigRequest.configRequests[this.index].subAttributeMapList = this.cofnigStepRequest.subAttributeMapList;
+    this.licenseLookupConfigRequest.removeStepList = this.removeStepList;
     if (!this.isInvalidConfiguration) {
 
       if (this.selectedLookupConfigId > 0) {
@@ -963,6 +1064,7 @@ export class ConfigurationComponent implements OnInit {
   configId: number = 0;
   openEditModel(config: LookupConfiguration) {
     debugger
+    this.removeStepList = [];
     this.planId ='';
     this.selectedTicketType = [];
     this.configstatus = config.configStatus;
@@ -1001,99 +1103,6 @@ export class ConfigurationComponent implements OnInit {
     this.getAttachmentType();
     this.getTaxonomyLink('');
     this.lookupModalButton.nativeElement.click();
-  }
-
-
-  isEditStepToggle: boolean = false;
-  editStepIndex : number = 0;
-  openEditStepModal(step:ConfigRequest, index:number){
-    debugger
-    this.selectedAttribute =[];
-    this.isEditStepToggle = true;
-    this.editStepIndex = index;
-    this.openAddConfigModal();
-    
-    var temp : {id: any, itemName:any} = {id:step.crawlerAttributeId, itemName:step.crawlerAttribute};
-    this.selectedAttribute.push(temp);
-    this.cofnigStepRequest.lookUpElementDesc = this.configurationStepList[index].lookUpElementDesc
-    this.cofnigStepRequest.crawlerAttributeId = this.configurationStepList[index].crawlerAttributeId;
-    this.cofnigStepRequest.crawlerAttribute = this.configurationStepList[index].crawlerAttribute;
-
-    var eventTemp = {id: '', itemName:''};
-    if(!this.Constant.EMPTY_STRINGS.includes(step.elementEvent)){
-      if (this.configurationStepList[index].crawlerAttributeId == 6) {
-        this.EventList = [
-          { id: '2', itemName: '2 Second' }, { id: '4', itemName: '4 Second' },
-          { id: '6', itemName: '6 Second' }, { id: '8', itemName: '8 Second' },
-          { id: '10', itemName: '10 Second' }
-        ];
-        if(step.elementEvent == '2'){
-          eventTemp.id = step.elementEvent;
-          eventTemp.itemName = '2 Second';
-        } else if(step.elementEvent == '4'){
-          eventTemp.id = step.elementEvent;
-          eventTemp.itemName = '4 Second';
-        } else if(step.elementEvent == '6'){
-          eventTemp.id = step.elementEvent;
-          eventTemp.itemName = '6 Second';
-        } else if(step.elementEvent == '8'){
-          eventTemp.id = step.elementEvent;
-          eventTemp.itemName = '8 Second';
-        } else if(step.elementEvent == '10'){
-          eventTemp.id = step.elementEvent;
-          eventTemp.itemName = '10 Second';
-        }
-      } else {
-        if(step.elementEvent=='sendKey'){
-          eventTemp.id = step.elementEvent;
-          eventTemp.itemName = 'Input Value';
-        } else if(step.elementEvent=='click'){
-          eventTemp.id = step.elementEvent;
-          eventTemp.itemName = 'Click';
-        } else if(step.elementEvent=='windowClick'){
-          eventTemp.id = step.elementEvent;
-          eventTemp.itemName = 'Click Window';
-        }
-      }
-      this.selectedEvent.push(eventTemp);
-    }
-    
-    this.cofnigStepRequest.dataSourcePath = step.dataSourcePath;
-    this.cofnigStepRequest.columnName = step.columnName;
-    this.cofnigStepRequest.pattern = step.pattern;
-    this.cofnigStepRequest.actionButton = step.actionButton;
-
-    var classTemp:{id: any, itemName : any} = {id: '', itemName : ''};
-    if(!this.Constant.EMPTY_STRINGS.includes(step.className)){
-      if(step.className == 'Static'){
-        classTemp.id = '1';
-      } else if(step.className == 'LocationProvider'){
-        classTemp.id = '2';
-      } else if(step.className == 'Provider'){
-        classTemp.id = '3';
-      } else if(step.className == 'PracticeLocation'){
-        classTemp.id = '4';
-      } else if(step.className == 'ProviderProfessionalLicense'){
-        classTemp.id = '5';
-      } else if(step.className == 'ProviderDea'){
-        classTemp.id = '6';
-      } else if(step.className == 'ProviderSpecialty'){
-        classTemp.id = '7';
-      }  else if (step.className == 'CustomerTicket'){
-        classTemp.id = '8';
-      } else if(step.className == 'TicketStatusField'){
-        classTemp.id = '9';
-      }
-      classTemp.itemName = step.className;
-      this.selectedClass.push(classTemp);
-    }
-
-    this.cofnigStepRequest.columnName = step.columnName;
-
-  }
-
-   editStep(index:number, cofnigStepRequest: ConfigRequest){
-    this.configurationStepList.splice(index, 1, cofnigStepRequest);
   }
 
   loadingConfgurationStep: boolean = false;

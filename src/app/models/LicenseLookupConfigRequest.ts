@@ -1,4 +1,5 @@
 import { ConfigRequest } from "./ConfigRequest";
+import { RemoveStepRequest } from "./RemoveStepRequest";
 import { SubAttributeMap } from "./SubAttributeMap";
 
 export class LicenseLookupConfigRequest{
@@ -18,6 +19,7 @@ export class LicenseLookupConfigRequest{
     attachmentSubTypeDescription:string='';
     taxonomyIdList : number[] = [];
     configRequests : ConfigRequest[] = [];
+    removeStepList : RemoveStepRequest[] = [];
     planId : string='';
 
     lookupNames:string[] = [];
