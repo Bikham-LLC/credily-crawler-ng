@@ -74,7 +74,7 @@ export class ConfigurationComponent implements OnInit {
       debounceTime(600))
       .subscribe(value => {
         this.auditTrailDatabaseHelper.currentPage = 1;
-        this.configDatabaseHelper.searchBy = 'configName';
+        this.auditTrailDatabaseHelper.searchBy = 'configName';
         this.auditTrailDatabaseHelper.search = this.auditConfigName;
         this.getAuditTrail();
       });
@@ -83,19 +83,21 @@ export class ConfigurationComponent implements OnInit {
       debounceTime(600))
       .subscribe(value => {
         this.auditTrailDatabaseHelper.currentPage = 1;
-        this.configDatabaseHelper.searchBy = 'configLink';
+        this.auditTrailDatabaseHelper.searchBy = 'configLink';
         this.auditTrailDatabaseHelper.search = this.auditConfigLink;
         this.getAuditTrail();
       });
 
       this.subscribeHeader = this.headerSubscriptionService.headerVisibilityChange.subscribe(async (value) => {
         debugger
-        if(_router.url == Route.HOME_CONFIGURATION_ROUTE){
+        if(_router.url == Route.HOME_CONFIGURATION_ROUTE && this.showAuditTrailToggle){
           this.getAuditTrail();
         }
       })
-
   }
+
+
+
   subscribeHeader:any;
   configurationId :number =0;
 
@@ -1452,6 +1454,7 @@ export class ConfigurationComponent implements OnInit {
 
   auditTrailDatabaseHelper:DatabaseHelper = new DatabaseHelper();
   getAuditTrail(){
+    debugger
     this.showAuditTrailToggle = true;
     this.auditTrailLoadingToggle = true;
     this.licenseLookupService.getAuditTrail(this.auditTrailDatabaseHelper.search, this.dataService.startDate, this.dataService.endDate, this.auditTrailDatabaseHelper.currentPage, this.auditTrailDatabaseHelper.itemsPerPage).subscribe(response=>{
