@@ -1,226 +1,320 @@
 <div class="main">
     <div class="container-fluid">
-                <div class="dashboardArea" *ngIf="!addStepToggle">
-                    <div class="dashNav-paneinner">
-                        <div class="emptyNotif" *ngIf="!addStepToggle">
-                                <div class="row mb-3">
-                                    <div class="col-lg-9 px-2">
-                                        <div class="row px-1">
-                                            <div class="col-lg-4 px-2">
-                                                <div class="position-relative">
-                                                    <input class="form-control" id="searchname" name="searchname" placeholder="Search by lookup name" [(ngModel)]="search" (ngModelChange)="this.configSearch.next($event)">
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-4 px-2">
-                                                <div class="position-relative">
-                                                    <input class="form-control" id="searchlink" name="searchlink" placeholder="Search by lookup link" [(ngModel)]="searchLink" (ngModelChange)="this.configSearchByLink.next($event)">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="col-lg-3 px-2 d-flex justify-content-end align-items-start">
-                                        <button class="btn primarybtn" (click)="openConfigModal()">
-                                            <span *ngIf="crawlerType == Constant.CRAWLER_TYPE_LICENSE_LOOKUP">                                        
-                                                Create License Configuration
-                                            </span>
-                                            <span *ngIf="crawlerType == Constant.CRAWLER_TYPE_BOARD_CERTIFICATION">
-                                                Create Board Configuration
-                                            </span>
-                                            <span *ngIf="crawlerType == Constant.CRAWLER_TYPE_COMMON_LINKS">
-                                                Create Common Configuration
-                                            </span>
-                                            <span *ngIf="crawlerType == Constant.APPLICATION_FOLLOW_UP">
-                                                Create Ticket Configuration
-                                            </span>
-                                        </button>
-                                    </div>
-                                    <div class="col-lg-12 px-2 d-flex justify-content-start align-items-start">
-                                        <button class="btn mt-2 me-2" [ngClass]="{'primarybtn':crawlerType==Constant.CRAWLER_TYPE_LICENSE_LOOKUP}" (click)="getConfigurationWithType(Constant.CRAWLER_TYPE_LICENSE_LOOKUP)">License Lookup</button>
-                                        <button class="btn mt-2" [ngClass]="{'primarybtn':crawlerType==Constant.CRAWLER_TYPE_BOARD_CERTIFICATION}" (click)="getConfigurationWithType(Constant.CRAWLER_TYPE_BOARD_CERTIFICATION)">Board Certification</button>
-                                        <button class="btn mt-2" [ngClass]="{'primarybtn':crawlerType==Constant.CRAWLER_TYPE_COMMON_LINKS}" (click)="getConfigurationWithType(Constant.CRAWLER_TYPE_COMMON_LINKS)">Common</button>
-                                        <button class="btn mt-2" [ngClass]="{'primarybtn':crawlerType==Constant.APPLICATION_FOLLOW_UP}" (click)="getConfigurationWithType(Constant.APPLICATION_FOLLOW_UP)">Application Follow-up</button>
-                                    </div> 
-                                </div>
-                                <div class="dashNav-paneinner table-responsive">
-                                    <div class="empty-notific" style="margin-top: 9%;" *ngIf="!loadingConfiguration && configList.length == 0">
-                                        <div class="empty-notificinner text-center">
-                                            <div class="empty-notificinnerimg">
-                                                <img src="assets/images/nodocument.svg" alt="" style="width:17%">
-                                            </div>
-                                            <h5>No Configuration Found.</h5>
-                                        </div>
-                                    </div>
-                                
-                                    <div class=" p-5" *ngIf="loadingConfiguration">
-                                        <app-circular-loader></app-circular-loader>
-                                    </div>
-                                    <div class="reportListing usertableinner no-wrap" *ngIf="!loadingConfiguration && configList.length > 0">
-                                        <table class="table">
-                                            <thead>
-                                                <tr>
-                                                    <th class="tableDead" style="width: 5%;">
-                                                        <p class="mb-0 text-center">S No.</p>
-                                                    </th>
-                                                    <th class="tableDead" style="width: 15%;">
-                                                        <p class="mb-0">Lookup Name</p>
-                                                    </th>
-                                                    <th class="tableDead" style="width: 25%;">
-                                                        <p class="mb-0">Link</p>
-                                                    </th>
-                                                    <th style="width: 10%;" >Added By</th>
-                                                    <th style="width: 10%;">Status</th>
-                                                    <th style="width: 10%;">Updated Date</th>
-                                                    <th style="width: 10%;" class="text-center">Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr *ngFor="let config of configList; let i = index">
-                                                    <td class="tableData">
-                                                        <p class="mb-0 text-center">{{ (configDatabaseHelper.currentPage -1) * 10 + (i+1) }}</p>
-                                                    </td>
-                                                    <td class="tableData ">
-                                                        <p class="mb-0 line-clamp">{{config.lookupName}}</p>
-                                                    </td>
-                                                    <td class="tableData lookupLiks">
-                                                        <p class="mb-0">{{config.lookupLink}}</p>
-                                                    </td>
-                                                    <td class="tableData">
-                                                        <p class="mb-0">{{config.addedBy}}</p>
-                                                    </td>
-                                                    <td class="tableData">
-                                                        <div class="col-lg-8 px-2">
-                                                            <div class="form-check form-switch">
-                                                                <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" name="configstatus" [checked]="config.configStatus == 'Active'" (click)="updateStatus(config.id)">
-                                                                <label></label>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td class="tableData text-center">
-                                                        <p class="badge-grey mb-0">{{config.updatedDate | date:'MM-dd-yyyy' : 'EST'}}</p>
-                                                    </td>
-                                                    <td class="tableData text-center">
-                                                        <span class="tbleditBtn"><i class="bi bi-pen" style="cursor: pointer;" (click)="openEditModel(config)"></i></span>
-                                                        <span class="tbldeleteBtn"><i class="bi bi-trash ms-2" style="cursor: pointer;" (click)="deleteConfiguration(config.id, i)"></i></span>
-                                                        <span class="tblreplicateBtn"><i class="bi bi-clipboard-plus ms-2" style="cursor: pointer;" (click)="replicateConfig(config.id)"></i></span>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                    <div class="row justify-content-center" *ngIf="configList.length>0 && !loadingConfiguration">  
-                                        <div class="paginationmain w-100 px-3 mt-2">
-                                            <div class="d-flex align-items-center justify-content-between">
-                                                <p class="currentshowing mb-0">
-                                                    Showing <span>{{configList.length}}</span> of <span>{{totalConfiguration}}</span>  
-                                                </p>
-                                                <div class="d-flex justify-content-end">
-                                                    <ngb-pagination [collectionSize]="totalConfiguration" [rotate]="true" (pageChange)="configPageChanged($event)" [pageSize]="configDatabaseHelper.itemsPerPage" [(page)]="configDatabaseHelper.currentPage" [maxSize]="5" [boundaryLinks]="true">
-                                                    </ngb-pagination>
-                                                </div>
-                                            </div>
-                                        </div>
+        <div class="dashboardArea">
+            <div class="dashNav-paneinner">
+                <div class="emptyNotif" *ngIf="!addStepToggle && !showAuditTrailToggle">
+                    <div class="row mb-3">
+                        <div class="col-lg-6 px-2">
+                            <div class="row px-1">
+                                <div class="col-lg-6 px-2">
+                                    <div class="position-relative">
+                                        <input class="form-control" id="searchname" name="searchname" placeholder="Search by lookup name" [(ngModel)]="search" (ngModelChange)="this.configSearch.next($event)">
                                     </div>
                                 </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="dashboardArea" *ngIf="addStepToggle">
-                    <div class="dashNav-paneinner">
-                        <div class="row">
-                            <div class="px-2" [ngClass]="{'col-lg-12': !showCommentsToggle, 'col-lg-8': showCommentsToggle}">
-                                <div class="configMaininfo" *ngIf="addStepToggle">
-                                    <div class="row">                                        
-                                        <div class="col-lg-12 px-2 position-relative">
-                                            <div class="configSetupBox">
-                                                <div class="d-flex justify-content-between align-items-center">
-                                                    <div class="d-flex gap-2">
-                                                        <i class="bi bi-arrow-left" style="border: 1px solid #444444; padding: 2px 4px 0px 5px; border-radius: 50%; cursor: pointer;" (click)="addStepToggle = false;"></i> 
-                                                        <h3> {{lookupName}} <a [href]="lookupLink" target="_blank" rel="noopener noreferrer"><i class="bi bi-box-arrow-up-right" style="cursor: pointer"></i></a></h3>
-                                                    </div>
-                                                    <div class="d-flex justify-content-end align-items-center gap-2">
-                                                        <button class="btn primaryBtn viewCommentBtn" (click)="showAndHideComments()">
-                                                            <span *ngIf="!showCommentsToggle" >View Comments</span>
-                                                            <span *ngIf="showCommentsToggle">Hide Comments</span>
-                                                        </button>
-                                                        <button class="btn primaryBtn" [disabled]="savingConfiguration" (click)="openAddConfigModal()">Add Steps</button>
-                                                        <button class="btn primaryBtn svConfigBtn" [disabled]="savingConfiguration" (click)="saveConfiguration()">Save Configuration<i class="spinner-border spinner-border-sm" *ngIf="savingConfiguration"></i></button>
-                                                        <button class="btn primaryBtn tstConfigBtn" [disabled]="testingConfiguration || savingConfiguration" (click)="openUuidModal()">Test Config </button>
-                                                    </div>
-                                                </div>
-                                                <div class="empty-notific" style="margin-top: 10%;" *ngIf="!loadingConfgurationStep && configurationStepList.length==0">
-                                                    <div class="empty-notificinner text-center">
-                                                        <div class="empty-notificinnerimg">
-                                                            <img src="assets/images/nodocument.svg" alt="" style="width:20%">
-                                                        </div>
-                                                        <h5 style="margin-right: 7%;">No Step Added.</h5>
-                                                        <div class="d-flex justify-content-center mt-4" style="margin-right: 7%;">
-                                                            <button class="btn primaryBtn" (click)="openAddConfigModal()">Add Steps</button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class=" p-5" *ngIf="loadingConfgurationStep">
-                                                    <app-circular-loader></app-circular-loader>
-                                                </div>
-                
-                                                <div class="configStepsouter" *ngIf="!loadingConfgurationStep && configurationStepList.length>0">
-                                                
-                                                    <div class="configStepsinner" [ngClass]="{'pe-none': savingConfiguration}" cdkDropList (cdkDropListDropped)="drop($event)">
-                                                        <div [ngClass]="{'commentStep': step.commentStepToggle}" class="configSteps example-box position-relative" cdkDrag *ngFor="let step of configurationStepList; let i = index">
-                                                            <span class="removeSteps" style="cursor: pointer;">
-                                                                <i *ngIf="!step.commentUpdatingToggle && selectedLookupConfigId > 0" class="bi bi-slash-circle me-2 text-black" title="{{ step.commentStepToggle ? 'Un-Comment Step' : 'Comment Step'}}" (click)="commentConfigStep(i)"></i>
-                                                                <i *ngIf="step.commentUpdatingToggle" class="spinner-border spinner-border-sm me-2 text-black" role="status"></i>
-                                                                <i class="bi bi-pencil-square text-primary" style="font-size: 14px;margin-right: 10px;" title="Edit Step" (click)="openEditStepModal(step, i)"></i>
-                                                                <i class="bi bi-dash-circle-fill" title="Remove Step" (click)="removeStep(i)"></i>
-                                                            </span>
-                                                            <label class="me-2 text-center">Step {{i+1}}</label>
-                                                            <p>Crawler Attribute : {{step.crawlerAttribute}}, Lookup Element : {{step.lookUpElementDesc}}, Element Event : {{step.elementEvent}}, Entity Name : {{step.className}}, Pattern : {{step.pattern}}, dataSourcePath : {{step.dataSourcePath}}, actionButton : {{step.actionButton}}
-                                                                <span *ngIf="!Constant.EMPTY_STRINGS.includes(step.className) && step.className.toLowerCase()=='static'">Value : {{step.columnName}}</span> <span *ngIf=" (!Constant.EMPTY_STRINGS.includes(step.className) && step.className.toLowerCase()!='static') || Constant.EMPTY_STRINGS.includes(step.className)"> Column Name : {{step.columnName}}</span>
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                <div class="col-lg-6 px-2">
+                                    <div class="position-relative">
+                                        <input class="form-control" id="searchlink" name="searchlink" placeholder="Search by lookup link" [(ngModel)]="searchLink" (ngModelChange)="this.configSearchByLink.next($event)">
                                     </div>
                                 </div>
                             </div>
-                            <div class="px-2" [ngClass]="{'col-lg-4 d-none': !showCommentsToggle, 'col-lg-4': showCommentsToggle}" *ngIf="showCommentsToggle">
-                                <div class="commentMainBx">
-                                    <div class="commentInner">
-                                        <div class="cmmntHead d-flex justify-content-between align-items-center">
-                                            <h3>Comments</h3>
-                                            <p *ngIf="!Constant.EMPTY_STRINGS.includes(commentLastUpdatedDate)">Last updated <strong>{{commentLastUpdatedDate | date : 'dd MMM yyyy (HH:mm a)'}}</strong></p>
-                                        </div>
-                                        <div class="cmmntBody">
-                                            <div class="cmmntBodyInner">
-                                                <h3>Notes</h3>
+                        </div>
+                        
+                        <div class="col-lg-6 px-2 d-flex gap-3 justify-content-end align-items-start">
+                            <button type="button" class="btn btn-outline-secondary" (click)="getAuditTrail()"> <i class="bi bi-box-arrow-up-left"></i> Audit Trail
 
-                                                <div class="cmmntslistingMain" *ngIf="configCommentList.length>0">
-                                                    <div class="cmmntslistingInner">
-                                                        <div class="cmnntCard" *ngFor="let obj of configCommentList; let i = index">
-                                                            <p>{{obj.comment}}</p>
-                                                            <span><strong>{{obj.createdDate | date : 'dd MMM YYYY hh:mm a'}}</strong></span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="empty-notific" style="margin-top: 20%;" *ngIf="configCommentList.length==0">
-                                                    <div class="empty-notificinner text-center">
-                                                        <div class="empty-notificinnerimg">
-                                                            <img src="assets/images/nodocument.svg" alt="" style="width:45%">
-                                                        </div>
-                                                        <h5 style="padding-right: 50px;">No Data Found.</h5>
-                                                    </div>
+                            </button>
+                            <button class="btn btn-outline-primary" (click)="openConfigModal()">
+                                <span *ngIf="crawlerType == Constant.CRAWLER_TYPE_LICENSE_LOOKUP">                                        
+                                    Create License Configuration
+                                </span>
+                                <span *ngIf="crawlerType == Constant.CRAWLER_TYPE_BOARD_CERTIFICATION">
+                                    Create Board Configuration
+                                </span>
+                                <span *ngIf="crawlerType == Constant.CRAWLER_TYPE_COMMON_LINKS">
+                                    Create Common Configuration
+                                </span>
+                                <span *ngIf="crawlerType == Constant.APPLICATION_FOLLOW_UP">
+                                    Create Ticket Configuration
+                                </span>
+                            </button>
+                        </div>
+                        <div class="col-lg-12 px-2 d-flex justify-content-start align-items-start">
+                            <button class="btn mt-2 me-2" [ngClass]="{'primarybtn':crawlerType==Constant.CRAWLER_TYPE_LICENSE_LOOKUP}" (click)="getConfigurationWithType(Constant.CRAWLER_TYPE_LICENSE_LOOKUP)">License Lookup</button>
+                            <button class="btn mt-2" [ngClass]="{'primarybtn':crawlerType==Constant.CRAWLER_TYPE_BOARD_CERTIFICATION}" (click)="getConfigurationWithType(Constant.CRAWLER_TYPE_BOARD_CERTIFICATION)">Board Certification</button>
+                            <button class="btn mt-2" [ngClass]="{'primarybtn':crawlerType==Constant.CRAWLER_TYPE_COMMON_LINKS}" (click)="getConfigurationWithType(Constant.CRAWLER_TYPE_COMMON_LINKS)">Common</button>
+                            <button class="btn mt-2" [ngClass]="{'primarybtn':crawlerType==Constant.APPLICATION_FOLLOW_UP}" (click)="getConfigurationWithType(Constant.APPLICATION_FOLLOW_UP)">Application Follow-up</button>
+                        </div> 
+                    </div>
+                    <div class="dashNav-paneinner table-responsive">
+                        <div class="empty-notific" style="margin-top: 9%;" *ngIf="!loadingConfiguration && configList.length == 0">
+                            <div class="empty-notificinner text-center">
+                                <div class="empty-notificinnerimg">
+                                    <img src="assets/images/nodocument.svg" alt="" style="width:17%">
+                                </div>
+                                <h5>No Configuration Found.</h5>
+                            </div>
+                        </div>
+                    
+                        <div class=" p-5" *ngIf="loadingConfiguration">
+                            <app-circular-loader></app-circular-loader>
+                        </div>
+                        <div class="reportListing usertableinner no-wrap" *ngIf="!loadingConfiguration && configList.length > 0">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th class="tableDead" style="width: 5%;">
+                                            <p class="mb-0 text-center">S No.</p>
+                                        </th>
+                                        <th class="tableDead" style="width: 15%;">
+                                            <p class="mb-0">Lookup Name</p>
+                                        </th>
+                                        <th class="tableDead" style="width: 25%;">
+                                            <p class="mb-0">Link</p>
+                                        </th>
+                                        <th style="width: 10%;" >Added By</th>
+                                        <th style="width: 10%;">Status</th>
+                                        <th style="width: 10%;">Updated Date</th>
+                                        <th style="width: 10%;" class="text-center">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let config of configList; let i = index">
+                                        <td class="tableData">
+                                            <p class="mb-0 text-center">{{ (configDatabaseHelper.currentPage -1) * 10 + (i+1) }}</p>
+                                        </td>
+                                        <td class="tableData ">
+                                            <p class="mb-0 line-clamp">{{config.lookupName}}</p>
+                                        </td>
+                                        <td class="tableData lookupLiks">
+                                            <p class="mb-0">{{config.lookupLink}}</p>
+                                        </td>
+                                        <td class="tableData">
+                                            <p class="mb-0">{{config.addedBy}}</p>
+                                        </td>
+                                        <td class="tableData">
+                                            <div class="col-lg-8 px-2">
+                                                <div class="form-check form-switch">
+                                                    <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" name="configstatus" [checked]="config.configStatus == 'Active'" (click)="updateStatus(config.id)">
+                                                    <label></label>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </td>
+                                        <td class="tableData text-center">
+                                            <p class="badge-grey mb-0">{{config.updatedDate | date:'MM-dd-yyyy'}}</p>
+                                        </td>
+                                        <td class="tableData text-center">
+                                            <span class="tbleditBtn"><i class="bi bi-pen" style="cursor: pointer;" (click)="openEditModel(config)"></i></span>
+                                            <span class="tbldeleteBtn"><i class="bi bi-trash ms-2" style="cursor: pointer;" (click)="deleteConfiguration(config.id, i)"></i></span>
+                                            <span class="tblreplicateBtn"><i class="bi bi-clipboard-plus ms-2" style="cursor: pointer;" (click)="replicateConfig(config.id)"></i></span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="row justify-content-center" *ngIf="!loadingConfiguration && configList.length>0">  
+                            <div class="paginationmain w-100 px-3 mt-2">
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <p class="currentshowing mb-0">
+                                        Showing <span>{{configList.length}}</span> of <span>{{totalConfiguration}}</span>  
+                                    </p>
+                                    <div class="d-flex justify-content-end">
+                                        <ngb-pagination [collectionSize]="totalConfiguration" [rotate]="true" (pageChange)="configPageChanged($event)" [pageSize]="configDatabaseHelper.itemsPerPage" [(page)]="configDatabaseHelper.currentPage" [maxSize]="5" [boundaryLinks]="true">
+                                        </ngb-pagination>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+
+                <!-- Audit trail section -->
+
+                <div class="emptyNotif" *ngIf="showAuditTrailToggle">
+                    <div class="row mb-3">
+                        <i class="bi bi-arrow-left auditTrailBackbtn mt-1 pointer" (click)="showAuditTrailToggle = false;"></i>
+                        <div class="col-lg-5 px-2">
+                            <div class="row px-1">
+                                <div class="col-lg-6 px-2">
+                                    <div class="position-relative">
+                                        <input class="form-control" id="searchname" name="searchname" placeholder="Search by lookup name" [(ngModel)]="auditConfigName" (ngModelChange)="this.auditConfigNameSearch.next($event)">
+                                    </div>
+                                </div>
+                                <div class="col-lg-5 px-2">
+                                    <div class="position-relative">
+                                        <input class="form-control" id="searchlink" name="searchlink" placeholder="Search by lookup link" [(ngModel)]="auditConfigLink" (ngModelChange)="this.auditConfigLinkSearch.next($event)">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dashNav-paneinner table-responsive">
+                    
+                        <div class=" p-5" *ngIf="auditTrailLoadingToggle">
+                            <app-circular-loader></app-circular-loader>
+                        </div>
+                        
+                        <div class="reportListing usertableinner no-wrap" *ngIf="!auditTrailLoadingToggle">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th class="tableDead" style="width: 5%;">
+                                            <p class="mb-0 text-center">S No.</p>
+                                        </th>
+                                        <th class="tableDead" style="width: 15%;">
+                                            <p class="mb-0">Lookup Name</p>
+                                        </th>
+                                        <th class="tableDead" style="width: 25%;">
+                                            <p class="mb-0">Link</p>
+                                        </th>
+                                        <th style="width: 6%;">Updated Date</th>
+                                        <th style="width: 10%;" class="text-center">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let obj of auditTrailList; let i = index">
+                                        <td class="tableData">
+                                            <p class="mb-0 text-center">{{ (auditTrailDatabaseHelper.currentPage -1) * 10 + (i+1) }}</p>
+                                        </td>
+                                        <td class="tableData ">
+                                            <p class="mb-0 line-clamp">{{obj.configName}}</p>
+                                        </td>
+                                        <td class="tableData lookupLiks">
+                                            <p class="mb-0">{{obj.configLink}}</p>
+                                        </td>
+                                        <td class="tableData">
+                                            <p class="badge-grey mb-0" style="line-height:17px">{{obj.updatedDate | date:'MM-dd-yyyy'}}</p>
+                                        </td>
+                                        <td class="tableData text-center">
+                                            <button type="button" class="btn btn-outline-primary" style="line-height: 15px;" (click)="getConfigAuditTrailLog(obj.configName)">View</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="empty-notific" style="margin-top: 9%;" *ngIf="!auditTrailLoadingToggle && auditTrailList.length == 0">
+                            <div class="empty-notificinner text-center">
+                                <div class="empty-notificinnerimg">
+                                    <img src="assets/images/nodocument.svg" alt="" style="width:17%">
+                                </div>
+                                <h5>No Data Found.</h5>
+                            </div>
+                        </div>
+                        <div class="row justify-content-center" *ngIf="auditTrailList.length>0 && !auditTrailLoadingToggle">  
+                            <div class="paginationmain w-100 px-3 mt-2">
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <p class="currentshowing mb-0">
+                                        Showing <span>{{auditTrailList.length}}</span> of <span>{{auditTrailCount}}</span>  
+                                    </p>
+                                    <div class="d-flex justify-content-end">
+                                        <ngb-pagination [collectionSize]="auditTrailCount" [rotate]="true" (pageChange)="auditTrailPageChanged($event)" [pageSize]="auditTrailDatabaseHelper.itemsPerPage" [(page)]="auditTrailDatabaseHelper.currentPage" [maxSize]="5" [boundaryLinks]="true">
+                                        </ngb-pagination>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Audit trail section -->
+            </div>
+        </div>
+
+        <div class="dashboardArea" *ngIf="addStepToggle">
+            <div class="dashNav-paneinner">
+                <div class="row">
+                    <div class="px-2" [ngClass]="{'col-lg-12': !showCommentsToggle, 'col-lg-8': showCommentsToggle}">
+                        <div class="configMaininfo" *ngIf="addStepToggle">
+                            <div class="row">                                        
+                                <div class="col-lg-12 px-2 position-relative">
+                                    <div class="configSetupBox">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div class="d-flex gap-2">
+                                                <i class="bi bi-arrow-left" style="border: 1px solid #444444; padding: 2px 4px 0px 5px; border-radius: 50%; cursor: pointer;" (click)="addStepToggle = false;"></i> 
+                                                <h3> {{lookupName}} <a [href]="lookupLink" target="_blank" rel="noopener noreferrer"><i class="bi bi-box-arrow-up-right" style="cursor: pointer"></i></a></h3>
+                                            </div>
+                                            <div class="d-flex justify-content-end align-items-center gap-2">
+                                                <button class="btn primaryBtn viewCommentBtn" (click)="showAndHideComments()">
+                                                    <span *ngIf="!showCommentsToggle" >View Comments</span>
+                                                    <span *ngIf="showCommentsToggle">Hide Comments</span>
+                                                </button>
+                                                <button class="btn primaryBtn" [disabled]="savingConfiguration" (click)="openAddConfigModal()">Add Steps</button>
+                                                <button class="btn primaryBtn svConfigBtn" [disabled]="savingConfiguration" (click)="saveConfiguration()">Save Configuration<i class="spinner-border spinner-border-sm" *ngIf="savingConfiguration"></i></button>
+                                                <button class="btn primaryBtn tstConfigBtn" [disabled]="testingConfiguration || savingConfiguration" (click)="openUuidModal()">Test Config </button>
+                                            </div>
+                                        </div>
+                                        <div class="empty-notific" style="margin-top: 10%;" *ngIf="!loadingConfgurationStep && configurationStepList.length==0">
+                                            <div class="empty-notificinner text-center">
+                                                <div class="empty-notificinnerimg">
+                                                    <img src="assets/images/nodocument.svg" alt="" style="width:20%">
+                                                </div>
+                                                <h5 style="margin-right: 7%;">No Step Added.</h5>
+                                                <div class="d-flex justify-content-center mt-4" style="margin-right: 7%;">
+                                                    <button class="btn primaryBtn" (click)="openAddConfigModal()">Add Steps</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class=" p-5" *ngIf="loadingConfgurationStep">
+                                            <app-circular-loader></app-circular-loader>
+                                        </div>
+
+                                        <div class="configStepsouter" *ngIf="!loadingConfgurationStep && configurationStepList.length>0">
+                                        
+                                            <div class="configStepsinner" [ngClass]="{'pe-none': savingConfiguration}" cdkDropList (cdkDropListDropped)="drop($event)">
+                                                <div [ngClass]="{'commentStep': step.commentStepToggle}" class="configSteps example-box position-relative" cdkDrag *ngFor="let step of configurationStepList; let i = index">
+                                                    <span class="removeSteps" style="cursor: pointer;">
+                                                        <i *ngIf="!step.commentUpdatingToggle && selectedLookupConfigId > 0" class="bi bi-slash-circle me-2 text-black" title="{{ step.commentStepToggle ? 'Un-Comment Step' : 'Comment Step'}}" (click)="commentConfigStep(i)"></i>
+                                                        <i *ngIf="step.commentUpdatingToggle" class="spinner-border spinner-border-sm me-2 text-black" role="status"></i>
+                                                        <i class="bi bi-pencil-square text-primary" style="font-size: 14px;margin-right: 10px;" title="Edit Step" (click)="openEditStepModal(step, i)"></i>
+                                                        <i class="bi bi-dash-circle-fill" title="Remove Step" (click)="removeStep(i)"></i>
+                                                    </span>
+                                                    <label class="me-2 text-center">Step {{i+1}}</label>
+                                                    <p>Crawler Attribute : {{step.crawlerAttribute}}, Lookup Element : {{step.lookUpElementDesc}}, Element Event : {{step.elementEvent}}, Entity Name : {{step.className}}, Pattern : {{step.pattern}}, dataSourcePath : {{step.dataSourcePath}}, actionButton : {{step.actionButton}}
+                                                        <span *ngIf="!Constant.EMPTY_STRINGS.includes(step.className) && step.className.toLowerCase()=='static'">Value : {{step.columnName}}</span> <span *ngIf=" (!Constant.EMPTY_STRINGS.includes(step.className) && step.className.toLowerCase()!='static') || Constant.EMPTY_STRINGS.includes(step.className)"> Column Name : {{step.columnName}}</span>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="px-2" [ngClass]="{'col-lg-4 d-none': !showCommentsToggle, 'col-lg-4': showCommentsToggle}" *ngIf="showCommentsToggle">
+                        <div class="commentMainBx">
+                            <div class="commentInner">
+                                <div class="cmmntHead d-flex justify-content-between align-items-center">
+                                    <h3>Comments</h3>
+                                    <p *ngIf="!Constant.EMPTY_STRINGS.includes(commentLastUpdatedDate)">Last updated <strong>{{commentLastUpdatedDate | date : 'dd MMM yyyy (HH:mm a)'}}</strong></p>
+                                </div>
+                                <div class="cmmntBody">
+                                    <div class="cmmntBodyInner">
+                                        <h3>Notes</h3>
+
+                                        <div class="cmmntslistingMain" *ngIf="configCommentList.length>0">
+                                            <div class="cmmntslistingInner">
+                                                <div class="cmnntCard" *ngFor="let obj of configCommentList; let i = index">
+                                                    <p>{{obj.comment}}</p>
+                                                    <span><strong>{{obj.createdDate | date : 'dd MMM YYYY hh:mm a'}}</strong></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="empty-notific" style="margin-top: 20%;" *ngIf="configCommentList.length==0">
+                                            <div class="empty-notificinner text-center">
+                                                <div class="empty-notificinnerimg">
+                                                    <img src="assets/images/nodocument.svg" alt="" style="width:45%">
+                                                </div>
+                                                <h5 style="padding-right: 50px;">No Data Found.</h5>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
 
@@ -760,7 +854,6 @@
                             <div class="row mx-0">
                                 <div class="col-lg-12">
                                     <span class="errorTooltip d-inline-block errorTooltip position-relative text-center w-100" *ngIf="!Constant.EMPTY_STRINGS.includes(message)">
-                                        <!-- *ngIf="!Constant.EMPTY_STRINGS.includes(message)" -->
                                         {{message}}
                                     </span>
                                 </div>
@@ -929,4 +1022,52 @@
             </div>
         </div>
     </div>  
+</div>
+
+<!-- log model -->
+
+<button id="logModelButton" #logModelButton data-bs-toggle="modal" data-bs-target="#logModel" style="display:none"></button>
+<div class="modal blur-bg-2" id="logModel" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="logModelLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered model-sm">
+        <div class="modal-content">
+            <div class="modal-header position-relative">
+                <div>
+                    <b>Logs</b>
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" id="closeLogModal" #closeLogModal aria-label="Close"></button>
+            </div>
+            <div class="form-group mdlform mb-3 modal-body">
+                <div class="additnlInfoInner">
+
+                    <div class=" p-5" *ngIf="logsLoadingToggle">
+                        <app-circular-loader></app-circular-loader>
+                    </div>
+
+                    <div class="timeLineMainBox" *ngIf="!logsLoadingToggle && logs.length > 0">
+                        <div class="timeLineInner d-flex justify-content-start align-items-start mb-3" *ngFor="let obj of logs; let i = index">
+                            <div class="timeLineDates">
+                                <p class="mb-0">{{obj.updatedDate | date : 'MM-dd-yyyy mm:ss'}}</p>
+                            </div>
+                            <div class="timeLineInfo">
+                                <div class="align-items-start d-flex justify-content-start timeLineInfoInner">
+                                    <span class="timeLineCircle"></span> 
+                                    <div class="timeLineInfoCard">
+                                        <span class="peerRevBadge">{{obj.log}} </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="empty-notific" style="margin-top: 9%;" *ngIf="!logsLoadingToggle && logs.length == 0">
+                        <div class="empty-notificinner text-center">
+                            <div class="empty-notificinnerimg">
+                                <img src="assets/images/nodocument.svg" alt="" style="width:52%">
+                            </div>
+                            <h5>No Logs Found.</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

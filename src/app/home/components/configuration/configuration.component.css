@@ -818,3 +818,94 @@ span.removeSteps {
   background: #ebe3e3 !important;
   opacity: 0.8;
 }
+.auditTrailBackbtn {
+  /* border: 1px solid #444444; */
+  height: 25px;
+  width: 25px;
+  background-color: lightgrey;
+  border-radius: 50%;
+  display: inline-block;
+  text-align: center;
+  padding: 0;
+  line-height: 25px;
+  margin-left: 12px;
+}
+
+.additnlInfoInner {
+  border-radius: 4px;
+  border: 1px solid #e9e8e8;
+  background: #fff;
+  padding: 15px 15px 4px;
+  min-height: 402px;
+  max-height: 402px;
+  overflow-y: auto;
+}
+
+.additnlInfoInner::-webkit-scrollbar {
+  display: none;
+}
+.timeLineDates {
+  width: 20%;
+  text-align: right;
+  padding-right: 10px;
+}
+.timeLineInfo {
+  width: 80%;
+  padding-left: 10px;
+}
+.timeLineDates > p {
+  color: #868080;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 18px;
+}
+.timeLineDates > span {
+  color: #b3b1b1;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 18px;
+}
+
+
+
+.timeLineCircle {
+  display: inline-block;
+  width: 22px;
+  height: 22px;
+  border: 3px solid #94bfe5;
+  border-radius: 50%;
+  background-color: #ffffff;
+  position: relative;
+  z-index: 1;
+}
+.timeLineInfoCard {
+  border-radius: 0px 6px 6px 6px;
+  border: 1px solid #ededed;
+  background: #fdfdfd;
+  padding: 8px;
+  width: 90%;
+  margin-left: 1rem;
+}
+.timeLineInfoCard h3 {
+  color: #080707;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 20px;
+  margin-bottom: 5px;
+}
+.timeLineInfoCard p {
+  color: #868080;
+  font-size: 10px;
+  font-weight: 400;
+  line-height: 18px;
+}
+.peerRevBadge {
+  border-radius: 4px;
+  background: #eaf9eb;
+  color: #36a171;
+  font-size: 10px;
+  font-weight: 500;
+  line-height: 20px;
+  padding: 4px 12px;
+  display: inline-block;
+}

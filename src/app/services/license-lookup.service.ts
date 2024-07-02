@@ -174,4 +174,20 @@ export class LicenseLookupService {
     return this.http.put<any>(this.key.server_url + this.key.api_version_one + this.key.lookup_config_controller+ '/update-comment', {}, {params});
   }
 
+  getAuditTrail(search:string, startDate:any, endDate:any, currentPage:number, itemsPerPage:number){
+    var params = new HttpParams()
+    .set('search', search)
+    .set('startDate', startDate)
+    .set('endDate', endDate)
+    .set('currentPage', currentPage)
+    .set('itemsPerPage', itemsPerPage)
+    return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.lookup_config_controller+ '/audit-trail', {params});
+  }
+
+  getConfigAuditTrailLog(configName:string){
+    var params = new HttpParams()
+    .set('configName', configName)
+    return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.lookup_config_controller+ '/audit-trail-log', {params});
+  }
+
 }

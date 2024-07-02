@@ -16,6 +16,8 @@ import { LicenseLookupConfigRequest } from 'src/app/models/LicenseLookupConfigRe
 import { FormStructure } from 'src/app/models/formStructure';
 import { SubAttributeMap } from 'src/app/models/SubAttributeMap';
 import { RemoveStepRequest } from 'src/app/models/RemoveStepRequest';
+import { AuditTrail } from 'src/app/models/AuditTrail';
+import { HeaderSubscriptionService } from 'src/app/services/header-subscription.service';
 
 @Component({
   selector: 'app-configuration',
@@ -29,6 +31,10 @@ export class ConfigurationComponent implements OnInit {
 
   configSearch = new Subject<string>();
   configSearchByLink = new Subject<string>();
+
+  auditConfigNameSearch = new Subject<string>();
+  auditConfigLinkSearch = new Subject<string>();
+
   search: string = '';
   searchLink: string = '';
   constructor(
@@ -36,7 +42,8 @@ export class ConfigurationComponent implements OnInit {
     private sanitizer: DomSanitizer,
     private licenseLookupService: LicenseLookupService,
     private dataService: DataService,
-    private route: ActivatedRoute) {
+    private route: ActivatedRoute,
+    private headerSubscriptionService: HeaderSubscriptionService) {
 
 
     if (this.route.snapshot.queryParamMap.has('id')) {
@@ -62,8 +69,34 @@ export class ConfigurationComponent implements OnInit {
         this.configDatabaseHelper.searchBy = 'licenseLookupLink';
         this.getConfiguration();
       });
-  }
 
+    this.auditConfigNameSearch.pipe(
+      debounceTime(600))
+      .subscribe(value => {
+        this.auditTrailDatabaseHelper.currentPage = 1;
+        this.configDatabaseHelper.searchBy = 'configName';
+        this.auditTrailDatabaseHelper.search = this.auditConfigName;
+        this.getAuditTrail();
+      });
+
+    this.auditConfigLinkSearch.pipe(
+      debounceTime(600))
+      .subscribe(value => {
+        this.auditTrailDatabaseHelper.currentPage = 1;
+        this.configDatabaseHelper.searchBy = 'configLink';
+        this.auditTrailDatabaseHelper.search = this.auditConfigLink;
+        this.getAuditTrail();
+      });
+
+      this.subscribeHeader = this.headerSubscriptionService.headerVisibilityChange.subscribe(async (value) => {
+        debugger
+        if(_router.url == Route.HOME_CONFIGURATION_ROUTE){
+          this.getAuditTrail();
+        }
+      })
+
+  }
+  subscribeHeader:any;
   configurationId :number =0;
 
   userName: string = 'Logged In';
@@ -624,6 +657,7 @@ export class ConfigurationComponent implements OnInit {
       this.cofnigStepRequest.lookUpElementDesc = "//" + this.customTag + "[@" + this.customAttribute + "='" + this.customValue + "']";
     }
     if(!this.isEditStepToggle){
+      this.cofnigStepRequest.isNewStep = 1;
       this.configurationStepList.push(this.cofnigStepRequest);
     } else {
       this.editStep(this.editStepIndex, this.cofnigStepRequest);
@@ -1404,6 +1438,50 @@ export class ConfigurationComponent implements OnInit {
       this.configurationStepList[index].commentUpdatingToggle = false;
     },error=>{
       this.configurationStepList[index].commentUpdatingToggle = false;
+    })
+  }
+
+
+  showAuditTrailToggle:boolean = false;
+  auditTrailLoadingToggle:boolean = false;
+  auditTrailList :AuditTrail[] = [];
+  auditTrailCount:number=0;
+
+  auditConfigName:string='';
+  auditConfigLink:string='';
+
+  auditTrailDatabaseHelper:DatabaseHelper = new DatabaseHelper();
+  getAuditTrail(){
+    this.showAuditTrailToggle = true;
+    this.auditTrailLoadingToggle = true;
+    this.licenseLookupService.getAuditTrail(this.auditTrailDatabaseHelper.search, this.dataService.startDate, this.dataService.endDate, this.auditTrailDatabaseHelper.currentPage, this.auditTrailDatabaseHelper.itemsPerPage).subscribe(response=>{
+      if(response != null){
+        this.auditTrailList = response.list;
+        this.auditTrailCount = response.totalAuditTrail;
+      }
+      this.auditTrailLoadingToggle = false;
+    },error=>{
+      this.auditTrailLoadingToggle = false;
+    })
+  }
+
+  auditTrailPageChanged(event:any){
+    this.auditTrailDatabaseHelper.currentPage = event;
+    this.getAuditTrail();
+  }
+
+  logs:any[] =[];
+  @ViewChild('logModelButton') logModelButton!: ElementRef;
+  logsLoadingToggle:boolean = false; 
+  getConfigAuditTrailLog(configName:string){
+    this.logs = [];
+    this.logsLoadingToggle = true;
+    this.logModelButton.nativeElement.click();
+    this.licenseLookupService.getConfigAuditTrailLog(configName).subscribe(response=>{
+      this.logs = response;
+      this.logsLoadingToggle = false;
+    },error=>{
+      this.logsLoadingToggle = false;
     })
   }
 
