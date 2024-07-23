@@ -16,4 +16,5 @@ export class LookupConfiguration{
     configStatus:string='';
     toggle:boolean=false;
     ticketType:string='';
+    endPoint:string='';
 }

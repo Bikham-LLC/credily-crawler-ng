@@ -34,6 +34,9 @@
                                 <span *ngIf="crawlerType == Constant.APPLICATION_FOLLOW_UP">
                                     Create Ticket Configuration
                                 </span>
+                                <span *ngIf="crawlerType == Constant.RPA">
+                                    Create Rpa Configuration
+                                </span>
                             </button>
                         </div>
                         <div class="col-lg-12 px-2 d-flex justify-content-start align-items-start">
@@ -41,6 +44,7 @@
                             <button class="btn mt-2" [ngClass]="{'primarybtn':crawlerType==Constant.CRAWLER_TYPE_BOARD_CERTIFICATION}" (click)="getConfigurationWithType(Constant.CRAWLER_TYPE_BOARD_CERTIFICATION)">Board Certification</button>
                             <button class="btn mt-2" [ngClass]="{'primarybtn':crawlerType==Constant.CRAWLER_TYPE_COMMON_LINKS}" (click)="getConfigurationWithType(Constant.CRAWLER_TYPE_COMMON_LINKS)">Common</button>
                             <button class="btn mt-2" [ngClass]="{'primarybtn':crawlerType==Constant.APPLICATION_FOLLOW_UP}" (click)="getConfigurationWithType(Constant.APPLICATION_FOLLOW_UP)">Application Follow-up</button>
+                            <button class="btn mt-2" [ngClass]="{'primarybtn':crawlerType==Constant.RPA}" (click)="getConfigurationWithType(Constant.RPA)">RPA</button>
                         </div> 
                     </div>
                     <div class="dashNav-paneinner table-responsive">
@@ -378,6 +382,16 @@
                                                 <!-- <small *ngIf="mapLookupTaxonomyForm.submitted && Constant.EMPTY_STRINGS.includes(credilyVersion)" style="color: red;">Select Credily Version!</small> -->
                                             </div>
                                         </div>
+                                        <div class="col-lg-6" *ngIf="crawlerType == Constant.RPA">
+                                            <div class="lookupSearchForm">
+                                                <div class="position-relative">
+                                                    <label>Config End Point<sup class="text-danger">*</sup> </label>
+                                                    <div class="position-relative">
+                                                        <input type="text" class="form-control" name="endpoint" placeholder="Enter config end point" [(ngModel)]="rpaEndPoint" required>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                         <div class="col-lg-6 pr-0" *ngIf="crawlerType == Constant.APPLICATION_FOLLOW_UP">
                                             <div class="lookupSearchForm">
                                                 <div class="position-relative">
@@ -388,7 +402,7 @@
                                                 <!-- <small *ngIf="mapLookupTaxonomyForm.submitted && Constant.EMPTY_STRINGS.includes(credilyVersion)" style="color: red;">Select Credily Version!</small> -->
                                             </div>
                                         </div>
-                                        <div class="col-lg-12 " *ngIf="crawlerType != Constant.CRAWLER_TYPE_COMMON_LINKS && crawlerType != Constant.APPLICATION_FOLLOW_UP">
+                                        <div class="col-lg-12 " *ngIf="crawlerType != Constant.CRAWLER_TYPE_COMMON_LINKS && crawlerType != Constant.APPLICATION_FOLLOW_UP && crawlerType != Constant.RPA">
                                             <div class="lookupSearchForm">
                                                 <div class="position-relative">
                                                     <label> Lookup Link <sup class="text-danger">*</sup> 
@@ -438,7 +452,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-12 " *ngIf="crawlerType == Constant.CRAWLER_TYPE_COMMON_LINKS || crawlerType == Constant.APPLICATION_FOLLOW_UP">
+                                        <div class="col-lg-12 " *ngIf="crawlerType == Constant.CRAWLER_TYPE_COMMON_LINKS || crawlerType == Constant.APPLICATION_FOLLOW_UP || crawlerType == Constant.RPA">
                                             <div class="lookupSearchForm">
                                                 <div class="lookupSearchForm">
                                                     <label>Lookup Link <sup class="text-danger">*</sup> </label>
@@ -500,7 +514,7 @@
                                                         </div>
                                                         
                                                         <div>
-                                                            <div *ngIf="!Constant.EMPTY_STRINGS.includes(lookupLink)" class="text-ceter pointer" (click)="removeAllTaxonomy($event)">
+                                                            <div *ngIf="!Constant.EMPTY_STRINGS.includes(lookupLink)" class="text-ceter pointer" (click)="unmapAllTaxonomy($event)">
                                                                 <input type="checkbox" id="unmappedAll" name="unmappedAll" value="unmap">
                                                                 <label for="unmappedAll" style="margin-left: 5px;">Unmap All</label>
                                                             </div>
@@ -545,7 +559,6 @@
                                                                 </tbody>
                                                             </table>
                                                         </div>
-                                                        
                                                     </div>
                     
                                                     <div class="empty-notific mt-4" *ngIf="!loadingLookupTaxonomy && lookupTaxonomyList.length == 0">
@@ -577,17 +590,20 @@
                                                 </div>
                                               </div>
                                             </div>
-                                          </div>
+                                        </div>
+                                        <small *ngIf="mapTaxonomyToggle" style="color: red;">Please select taxonomy!</small>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn primarycancelbtn" style="border-color: #F05252 !important;" data-bs-dismiss="modal" #closeTaxomonModalButton (click)="closeTaxonomyModal()">Close</button>
-                        <button type="submit" class="btn primaryBtn" [disabled]="mapLookupTaxonomyForm.invalid || updateLinkToggle || taxanomyLinkLoading || loadingLookupTaxonomy">
-                            <span *ngIf="configId==0">Save</span> 
-                            <span *ngIf="configId>0">Update</span> changes
+                        <button type="button" class="btn primarycancelbtn" style="border-color: #F05252 !important;" data-bs-dismiss="modal" #closeTaxomonyModalButton (click)="closeTaxonomyModal()">Close</button>
+                        <button type="submit" class="btn primaryBtn" [disabled]="mapLookupTaxonomyForm.invalid || updateLinkToggle || taxanomyLinkLoading || loadingLookupTaxonomy || saveRpaConfigToggle">
+                            <span *ngIf="configId==0 && !saveRpaConfigToggle">Save</span> 
+                            <span *ngIf="configId>0 && !saveRpaConfigToggle">Update</span>
+
+                            <span *ngIf="saveRpaConfigToggle">Saving  <i class="spinner-border spinner-border-sm"></i></span>
                         </button>
                     </div>
                 </form>

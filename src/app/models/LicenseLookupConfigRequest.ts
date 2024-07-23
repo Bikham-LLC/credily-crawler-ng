@@ -21,6 +21,7 @@ export class LicenseLookupConfigRequest{
     configRequests : ConfigRequest[] = [];
     removeStepList : RemoveStepRequest[] = [];
     planId : string='';
+    rpaEndPoint:string='';
 
     lookupNames:string[] = [];
     removeIds:number[] = [];

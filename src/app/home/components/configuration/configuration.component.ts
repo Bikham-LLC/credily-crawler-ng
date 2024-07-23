@@ -268,6 +268,7 @@ export class ConfigurationComponent implements OnInit {
     this.credilyVersion = '';
     this.databaseHelper = new DatabaseHelper();
     this.lookupLink = '';
+    this.rpaEndPoint = '';
     this.lookupName = '';
     this.planId = '';
     this.selectedStateName = '';
@@ -297,7 +298,7 @@ export class ConfigurationComponent implements OnInit {
       this.selectedTaxonomyLink = [];
       this.selectedTaxonomyLink.push(temp);
       this.lookupLink = event[0].id;
-      if(this.crawlerType == this.Constant.CRAWLER_TYPE_LICENSE_LOOKUP){
+      if(this.crawlerType == this.Constant.CRAWLER_TYPE_LICENSE_LOOKUP || this.crawlerType == this.Constant.RPA){
         this.getTaxonomyByLookupLink(this.lookupLink);
       }
       this.selectedlookupName(this.lookupLink);
@@ -372,7 +373,7 @@ export class ConfigurationComponent implements OnInit {
         this.selectedTaxonomyLink = [];
         var temp: { id: any, itemName: any } = { id: this.lookupLink, itemName: this.lookupLink };
         this.selectedTaxonomyLink.push(temp);
-        if(this.crawlerType == this.Constant.CRAWLER_TYPE_LICENSE_LOOKUP){
+        if(this.crawlerType == this.Constant.CRAWLER_TYPE_LICENSE_LOOKUP  || this.crawlerType == this.Constant.RPA){
           this.getTaxonomyByLookupLink(this.lookupLink);
         }
         this.selectedlookupName(this.lookupLink);
@@ -445,29 +446,39 @@ export class ConfigurationComponent implements OnInit {
     } else {
       this.selectedTaxonomyIds.push(this.lookupTaxonomyList[index].id);
       this.mappedIds.push(this.lookupTaxonomyList[index].id);
+      this.mapTaxonomyToggle = false;
     }
-
     this.lookupTaxonomyList.splice(index, 1);
-
     this.totalLookupTaxonomy--;
-
   }
 
-  @ViewChild('closeTaxomonModalButton') closeTaxomonModalButton!: ElementRef;
+  @ViewChild('closeTaxomonyModalButton') closeTaxomonyModalButton!: ElementRef;
   @ViewChild('clickIframeButton') clickIframeButton!: ElementRef;
   setText: any;
   crawlerConfigRequest: ConfigRequest = new ConfigRequest();
+  mapTaxonomyToggle:boolean = false;
+  saveRpaConfigToggle:boolean =false;
   saveLookupDetailsAndToggleAddStep() {
     debugger
-    this.addStepToggle = true;
-    this.configurationStepList = [];
-    this.closeTaxomonModalButton.nativeElement.click();
-    this.setText = this.lookupLink.split('//')[1];
-
-    if (this.selectedLookupConfigId > 0) {
-      this.getCrawlerAttrMap(this.selectedLookupConfigId);
-
+    this.mapTaxonomyToggle = false;
+    this.saveRpaConfigToggle = false;
+    if(this.crawlerType == this.Constant.RPA){
+      if(this.selectedTaxonomyIds.length == 0){
+        this.mapTaxonomyToggle = true;
+        return;
+      } else {
+        this.saveRpaConfigToggle = true;
+        this.saveConfiguration();
+      }
+    } else {
+      this.addStepToggle = true;
+      if (this.selectedLookupConfigId > 0) {
+        this.getCrawlerAttrMap(this.selectedLookupConfigId);
+      }
+      this.closeTaxomonyModalButton.nativeElement.click();
     }
+    this.configurationStepList = [];
+    this.setText = this.lookupLink.split('//')[1];
   }
 
   src !: SafeResourceUrl;
@@ -760,9 +771,8 @@ export class ConfigurationComponent implements OnInit {
       }
       classTemp.itemName = step.className;
       this.selectedClass.push(classTemp);
+      this.cofnigStepRequest.className = step.className;
     }
-
-    this.cofnigStepRequest.columnName = step.columnName;
   }
 
   providerUuid: string = '';
@@ -827,6 +837,7 @@ export class ConfigurationComponent implements OnInit {
   configstatus: string = '';
   planId:string='';
   ticketType:string='';
+  rpaEndPoint:string='';
   saveConfiguration() {
     debugger
     this.savingConfiguration = true;
@@ -843,11 +854,14 @@ export class ConfigurationComponent implements OnInit {
     this.licenseLookupConfigRequest.attachmentSubType = this.attachmentSubType;
     this.licenseLookupConfigRequest.attachmentSubTypeDescription = this.attachmentSubTypeDescription;
     this.licenseLookupConfigRequest.licenseLookUpLink = this.lookupLink;
+    this.licenseLookupConfigRequest.rpaEndPoint = this.rpaEndPoint;
     this.licenseLookupConfigRequest.testingProviderUuid = this.providerUuid;
     this.licenseLookupConfigRequest.userAccountUuid = String(localStorage.getItem(this.Constant.ACCOUNT_UUID));
     this.licenseLookupConfigRequest.configRequests = this.configurationStepList;
     this.licenseLookupConfigRequest.lookupConfigId = this.selectedLookupConfigId;
-    this.licenseLookupConfigRequest.configRequests[this.index].subAttributeMapList = this.cofnigStepRequest.subAttributeMapList;
+    if(this.cofnigStepRequest.subAttributeMapList.length>0){
+      this.licenseLookupConfigRequest.configRequests[this.index].subAttributeMapList = this.cofnigStepRequest.subAttributeMapList;
+    }
     this.licenseLookupConfigRequest.removeStepList = this.removeStepList;
     if (!this.isInvalidConfiguration) {
 
@@ -861,9 +875,15 @@ export class ConfigurationComponent implements OnInit {
           this.dataService.showToast('Configuration Saved Successfully.');
           this.addStepToggle = false;
           this.selectedLookupConfigId = 0;
-          this.closeSaveUuidModal.nativeElement.click();
+          if(this.crawlerType == this.Constant.RPA){
+            this.closeTaxomonyModalButton.nativeElement.click();
+          } else {
+            this.closeSaveUuidModal.nativeElement.click();
+          }
           this.getConfiguration();
+          this.saveRpaConfigToggle = false;
         }, error => {
+          this.saveRpaConfigToggle = false;
           this.savingConfiguration = false;
           this.dataService.showToast('Something went wrong!');
         })
@@ -873,9 +893,15 @@ export class ConfigurationComponent implements OnInit {
           this.dataService.showToast('Configuration Saved Successfully.');
           this.addStepToggle = false;
           this.selectedLookupConfigId = 0;
-          this.closeSaveUuidModal.nativeElement.click();
+          if(this.crawlerType == this.Constant.RPA){
+            this.closeTaxomonyModalButton.nativeElement.click();
+          } else {
+            this.closeSaveUuidModal.nativeElement.click();
+          }
           this.getConfiguration();
+          this.saveRpaConfigToggle = false;
         }, error => {
+          this.saveRpaConfigToggle = false;
           this.savingConfiguration = false;
           this.dataService.showToast('Something went wrong!');
         })
@@ -1103,6 +1129,16 @@ export class ConfigurationComponent implements OnInit {
     this.removeStepList = [];
     this.planId ='';
     this.selectedTicketType = [];
+    this.updateLinkToggle = false;
+    this.showTaxonomyListToggle = false;
+    this.mapTaxonomyToggle = false;
+    this.unMappedIds = [];
+    this.mappedIds = [];
+    this.ticketType ='';
+    this.selectedTaxonomyLink = [];
+    this.selectedAttType = [];
+    this.selectedAttSubType = [];
+
     this.configstatus = config.configStatus;
     this.lastTestedOn = config.lastTestedOn;
     this.screenShotUrl = config.url;
@@ -1112,14 +1148,8 @@ export class ConfigurationComponent implements OnInit {
     this.lookupLink = config.lookupLink;
     this.configId = config.id;
     this.planId = config.planIds;
-    this.updateLinkToggle = false;
-    this.showTaxonomyListToggle = false;
-    this.unMappedIds = [];
-    this.mappedIds = [];
-    this.ticketType ='';
-    this.selectedTaxonomyLink = [];
-    this.selectedAttType = [];
-    this.selectedAttSubType = [];
+    this.rpaEndPoint = config.endPoint;
+
     if (!Constant.EMPTY_STRINGS.includes(config.attachmentType)) {
       var attType: { id: any, itemName: any } = { id: config.attachmentType, itemName: config.attachmentType };
       this.selectedAttType.push(attType);
@@ -1269,9 +1299,10 @@ export class ConfigurationComponent implements OnInit {
   updateLookupLink() {
     debugger
     this.updatingLoader = true;
-    this.licenseLookupService.updateLookupLink(this.oldLink, this.newLink).subscribe(response => {
+    this.licenseLookupService.updateLookupLink(this.oldLink, this.newLink, this.lookupName).subscribe(response => {
       this.getTaxonomyLink('');
       this.getConfiguration();
+      this.closeTaxomonyModalButton.nativeElement.click();
       this.updatingLoader = false;
       this.updateLinkToggle = false;
       this.lookupLink = '';
@@ -1372,13 +1403,13 @@ export class ConfigurationComponent implements OnInit {
   }
 
   removeAllTax:boolean = false;
-  removeAllTaxonomy(event: any) {
+  unmapAllTaxonomy(event: any) {
     if (event.target.checked) {
-      console.log('checked');
       this.type = 'unmap';
       this.removeAllTax = true;
       this.licenseLookupConfigRequest.removeAll = 'yes';
       this.lookupTaxonomyList = [];
+      this.mappedIds = [];
     }
   }
 

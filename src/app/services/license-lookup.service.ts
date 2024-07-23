@@ -129,8 +129,8 @@ export class LicenseLookupService {
     return this.http.patch<any>(this.key.server_url + this.key.api_version_one + this.key.lookup_config_controller + "/update-config-status", {}, {params});
   }
 
-  updateLookupLink(oldLink:any, newLink:any) :Observable<any> {
-    var temp: { oldLink: any, newLink: any } = { oldLink: oldLink, newLink: newLink };
+  updateLookupLink(oldLink:string, newLink:string, configName:string) :Observable<any> {
+    var temp: { oldLink: string, newLink: string, configName:string} = { oldLink: oldLink, newLink: newLink , configName: configName};
     return this.http.patch<any>(this.key.server_url + this.key.api_version_one + this.key.lookup_config_controller + "/taxonomy-link", temp);
   }
 
