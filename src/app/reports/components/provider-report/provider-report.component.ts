@@ -130,6 +130,18 @@ export class ProviderReportComponent implements OnInit {
     this.getProviderReport(this.filterType, 1);
   }
 
+  logType:string='crawlerLog';
+  isRpaConfig:number=0;
+  switchLogTab(tab:string){
+    this.logType = tab;
+    if(tab == 'rpaLog'){
+      this.isRpaConfig = 1;
+    } else {
+      this.isRpaConfig = 0;
+    }
+    this.getProviderLogs(this.uuid);
+  }
+
   @ViewChild('viewLogsButton') viewLogsButton!: ElementRef;
   uuid :any;
   providerName:string='';
@@ -145,7 +157,7 @@ export class ProviderReportComponent implements OnInit {
   logLoadingToggle:boolean = false;
   getProviderLogs(providerUuid:string){
     this.logLoadingToggle = true;
-    this.reportService.getProviderLogs(providerUuid).subscribe(response=>{
+    this.reportService.getProviderLogs(providerUuid, this.isRpaConfig).subscribe(response=>{
       this.providerCrawlerLogList = response;
       this.logLoadingToggle = false;
     },error=>{
@@ -396,4 +408,5 @@ export class ProviderReportComponent implements OnInit {
     this.fileName = '';
     this.urlString = '';
   }
+
 }

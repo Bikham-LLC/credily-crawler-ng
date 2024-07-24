@@ -302,3 +302,25 @@ input[type="file"] {
 }
 
 /* drap and drop image css end */
+
+.credTabsBtn {
+  color: #b3b3b3;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: 0px;
+  border-radius: 0px;
+  padding: 4px 20px;
+  border: none;
+  border-bottom: 2px solid transparent;
+}
+
+.credTabsinner {
+  width: fit-content;
+}
+.credTabsBtn.credTabsBtnActive,
+.credTabsBtn:hover {
+  background-color: #fff;
+  color: #0a2240;
+  border-bottom: 2px solid #00549e;
+}

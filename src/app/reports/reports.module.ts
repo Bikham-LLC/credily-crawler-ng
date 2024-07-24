@@ -13,7 +13,6 @@ import { FormsModule } from '@angular/forms';
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
 import { OcrReportComponent } from './components/ocr-report/ocr-report.component';
 import { FollowUpReportComponent } from './components/follow-up-report/follow-up-report.component';
-import { DragDropModule } from '@angular/cdk/drag-drop';
 import { FileDragNDropDirective } from '../services/FileDragNDropDirective';
 
 

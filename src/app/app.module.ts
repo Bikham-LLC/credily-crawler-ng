@@ -13,7 +13,7 @@ import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
-import { DragDropModule } from '@angular/cdk/drag-drop';
+import { RpaModule } from './rpa/rpa.module';
 
 @NgModule({
   declarations: [
@@ -30,11 +30,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireAuthModule,
     AngularFireStorageModule,
-    // AngularFireDatabaseModule,
-    // AngularFireStorageModule,
-    // AngularFireModule.initializeApp(environment.firebaseConfig),
-    // provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
-    // provideFirestore(() => getFirestore()),
+    RpaModule
 
   ],
   providers: [ {

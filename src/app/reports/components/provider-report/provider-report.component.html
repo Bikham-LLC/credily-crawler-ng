@@ -143,8 +143,9 @@
   <div class="modal-dialog modal-custom modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header d-flex justify-content-between align-items-center position-relative">
-        <div>
-          <b>Logs</b>
+        <div class="credTabsinner m-2 ms-3">
+          <button type="button" class="btn credTabsBtn" [ngClass]="{'credTabsBtnActive' : logType == 'crawlerLog'}" (click)="switchLogTab('crawlerLog')">Crawler Log</button>
+          <button type="button" class="btn credTabsBtn me-2" [ngClass]="{'credTabsBtnActive' : logType == 'rpaLog'}" (click)="switchLogTab('rpaLog')">Rpa Log</button>
         </div>
         <span class="pointer" style="margin-left: 12px;" (click)="refreshProviderLogs()">
           <i *ngIf="!logLoadingToggle" class="bi bi-arrow-repeat" style="font-size: 17px;color: #003fdaeb;"></i>
@@ -231,7 +232,7 @@
             </tbody>
           </table>
           <!-- Empty notification -->
-          <div class="empty-notific text-center" style="margin: 13% 10% 13% 3%;"
+          <div class="empty-notific text-center" style="margin: 9% 10% 10% 3%;"
             *ngIf="!logLoadingToggle && providerCrawlerLogList.length==0">
             <div class="empty-notificinner">
 

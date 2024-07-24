@@ -49,9 +49,10 @@ export class ReportService {
     return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.report + '/provider-config-report-count', {params});
   }
 
-  getProviderLogs(providerUuid:string):Observable<any> {
+  getProviderLogs(providerUuid:string, isRpaConfig:number):Observable<any> {
     var params = new HttpParams()
     .set('providerUuid', providerUuid)
+    .set('isRpaConfig', isRpaConfig)
     return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.report + '/logs', {params});
   }
   
