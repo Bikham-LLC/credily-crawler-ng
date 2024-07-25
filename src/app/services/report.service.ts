@@ -187,4 +187,15 @@ export class ReportService {
     return this.http.post<any>(this.key.server_url + this.key.api_version_one + this.key.report + "/update-screenshot", snapShotRequest);
   }
 
+  saveRpaResponse(logId:string, status:string, snapshotUrl:string): Observable<any>{
+    var tempClass : {logId:string, status: string, url: string} = {logId:logId, status: status, url: snapshotUrl};
+    return this.http.post<any>(this.key.server_url + this.key.api_version_one + this.key.report + "/rpa-response", tempClass);
+  }
+
+  reRunRpaConfig(logId:number): Observable<any>{
+    var params = new HttpParams()
+    .set('logId', logId)
+    return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.report + "/re-run-rpa-config", {params});
+  }
+
 }

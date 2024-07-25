@@ -1,130 +1,65 @@
-<html lang="en" data-layout="horizontal" data-topbar="dark" data-sidebar-size="lg">
-	<header id="page-topbar">
-		<div class="layout-width">
-			<div class="navbar-header">
-				<div class="d-flex">
-					<div class="navbar-brand-box horizontal-logo">
-						<a routerLink="/dashboard" class="logo logo-dark">
-							<span class="logo-sm">
-								<img src="assets/images/logo-sm.png" alt="" height="22">
-							</span>
-							<span class="logo-lg">
-								<img src="assets/images/logo-dark.png" alt="" height="17">
-							</span>
-						</a>
-
-						<a routerLink="/dashboard" class="logo logo-light">
-							<span class="logo-sm">
-								<img src="assets/images/logo-sm.png" alt="" height="22">
-							</span>
-							<span class="logo-lg">
-								<img src="assets/images/logo-light.png" alt="" height="28">
-							</span>
-						</a>
-					</div>
-
-					<button type="button" class="btn btn-sm px-3 fs-16 header-item vertical-menu-btn topnav-hamburger" id="topnav-hamburger-icon">
-						<span class="hamburger-icon">
-							<span></span>
-							<span></span>
-							<span></span>
-						</span>
-					</button>
-				</div>
-
-				<div class="d-flex align-items-center">
-					<div class="dropdown d-md-none topbar-head-dropdown header-item">
-						<button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle" id="page-header-search-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-							<i class="bx bx-search fs-22"></i>
-						</button>
-
-						<div class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0" aria-labelledby="page-header-search-dropdown">
-							<form class="p-3">
-								<div class="form-group m-0">
-									<div class="input-group">
-										<input type="text" class="form-control" placeholder="Search box..." aria-label="Recipient's username">
-										<button class="btn btn-primary" type="submit">
-											<i class="mdi mdi-magnify"></i>
-										</button>
-									</div>
-								</div>
-							</form>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</header>
-	
-	<main>
-		<div class="login bkgrnd">
-			<h2 class="justify-content-around">Upload Proof Of Submission</h2>
-			<form #botAttachmentForm="ngForm" ngNativeValidate>
-				<div class="">
-					<label for="email">#Ticket Id</label>
-					<input type="number" placeholder="Enter Ticket Id" class="form-control" id="ticketId" >
-
-				</div>
-				<div class="">
-					<span  class="float-end">
-						<input type="checkbox" class="align-middle" name="appCheckbox" /> <span class="ms-2">N/A</span>
-					</span>
-					<label class="labeled" for="applicationTrackingNumber">Application Tracking Number</label>
-					<input type="text" placeholder="Enter Application Tracking Number" class="form-control" id="appTrackingNumber" name="appTrackingNumber">
-				</div>
-				
-				<div class="">
-					<label for="email">Start Date</label>
-
-					<input type="text" placeholder="Enter Start Date" class="form-control" id="startDate" name="startDate" required >
-
-				</div>
-				<div class="">
-					<label for="email">End Date</label>
-					<input type="text" placeholder="Enter End Date" class="form-control" id="startDate" name="endDate" required >
-				</div>
-				<div class="">
-					<label for="email">Configuration Id</label>
-					<input type="number" placeholder="Enter Configuration Id" class="form-control" id="configId" name="configId" required >
-				</div>
-				<div class="">
-					<label for="password">File</label>
-					<input type="file" class="form-control" id="fileId" name="file">
-
-				</div>
-				
-				
-				<div class=" " style="position: relative;">
-					<label class="labeled" for="reasion">Notes <small>*</small></label>
-					<textarea rows="2" cols="45" maxlength="1000" class="w-100 form-control" id="reasion" name="reasion" row="4" placeholder="Add Notes..."></textarea>
-				</div>
-				<div class="">
-					<label for="">Status</label>
-					<div class="align-content-center bg-white border d-flex justify-content-center mx-0 row" style="height: 60px; border-radius: 5px;">
-						<div class="col-4 d-flex form-check justify-content-center">
-							<input class="form-check-input radio" type="radio" value="success" name="radiobtn" id="flexCheckDefault">
-							<label class="form-check-label ms-2" for="flexCheckDefault">
-								Success
-							</label>
-						</div>
-						<div class="col-3 form-check">
-							<input class="form-check-input radio" type="radio" value="fail" name="radiobtn" id="flexCheckChecked">
-							<label class="form-check-label" for="flexCheckChecked">
-							Fail
-							</label>
-						</div>
-						<div class="col-4 form-check">
-							<input class="form-check-input radio" type="radio" value="panelClosed" name="radiobtn" id="flexCheckPanelClosed">
-							<label class="form-check-label" for="flexCheckPanelClosed">
-							Panel Closed
-							</label>
-						</div>
-					</div>
-				</div>
-				<button type="submit" class="bg-info btn btn-sm btn-success">
-					<i class="ri-add-line align-middle me-1"></i> Submit
-				</button>
-			</form>
-		</div>
-	</main>
-</html>
+<div class="main mt-4">
+  <div class="container-fluid d-flex justify-content-center">
+    <div class="dashboardArea">
+      <div class="dashNav-paneinner">
+        <form #rpaForm="ngForm" ngNativeValidate (ngSubmit)="saveRpaResponse()">
+          <h4 class="border-bottom fs-6 fw-semibold pb-3 pt-2 mb-3">Upload RPA Attachment</h4>
+          <div class="position-relative row">
+            <div class="col-lg-6">
+              <label class="mb-1">Log Id <sup class="text-danger">*</sup> </label>
+              <input type="number" class="form-control" name="logId" placeholder="Enter log id" [(ngModel)]="logId" required>
+            </div>
+            <div class="col-lg-6">
+              <label class="mb-1">Status <sup class="text-danger">*</sup> </label>
+              <input type="text" class="form-control" name="status" placeholder="Enter status" maxlength="155" [(ngModel)]="status" required>
+            </div>
+          </div>
+          <div class="fileUpload mt-3" [ngClass]="{'pe-none' : Constant.EMPTY_STRINGS.includes(logId)}">
+            <label class="mb-1">Snapshot<sup class="text-danger">*</sup> </label>
+            <div class="form-group mdlform mb-3 modal-body">
+              <div>
+                <div class="dropzone" single fileDragDrop (filesChangeEmiter)="onDrop($event)" *ngIf="!uploadingToggle && Constant.EMPTY_STRINGS.includes(fileName)">
+                  <div class="dropzoneLabel">
+                    <input type="file" name="file" id="file" accept= "image/*" (change)="onSelectFile($event)">
+                    <label for="file" class="dropzoneLabelinner">
+                      <div *ngIf="!uploadingToggle && Constant.EMPTY_STRINGS.includes(fileName)">
+                        <i class="bi bi-cloud-upload"></i>
+                        <p class="mb-0">
+                          <span class="pointer">Browse</span> files to upload or drag and drop it here
+                        </p>
+                      </div>
+                    </label>
+                  </div>
+                </div>
+          
+                <div class="dropzoneUploading" *ngIf="uploadingToggle">
+                  <div class="Uploadingcounter position-relative" [ngClass]="{'Uploadingdone':!Constant.EMPTY_STRINGS.includes(fileName)}">
+                    {{progress | number : '1.0-0'}}%
+                  </div>
+                  <p *ngIf="progress>=0 && progress<100">Fetching Data</p>
+                  <p *ngIf="progress==100">Done</p>
+                </div>
+          
+                <div class="uplodedIconbox" *ngIf="!uploadingToggle && !Constant.EMPTY_STRINGS.includes(fileName)">
+                  <div class="uplodedIconinner position-relative">
+                    <div class="uplodedIcon position-relative">
+                      <i class="bi bi-file-earmark-text"></i>
+                      <span class="pointer"><i class="bi bi-trash3" (click)="resetUpload()"></i></span>
+                    </div>
+                  </div>
+                  <span>{{fileName}}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="d-flex justify-content-end submitBtn">
+            <button type="submit" class="btn primarybtn" name="submitbtn" [disabled]="Constant.EMPTY_STRINGS.includes(fileName) || saveRpaRespToggle">
+              <span *ngIf="!saveRpaRespToggle">Submit</span> 
+              <span *ngIf="saveRpaRespToggle">Saving </span> <i *ngIf="saveRpaRespToggle" class="spinner-border spinner-border-sm"></i>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

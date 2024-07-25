@@ -9,6 +9,7 @@ import { StateDropdownComponent } from '../common-component/state-dropdown/state
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
 import { RouterModule } from '@angular/router';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { FileDragNDropDirective } from '../services/FileDragNDropDirective';
 
 
 
@@ -18,6 +19,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     CircularLoaderComponent,
     HeaderComponent,
     StateDropdownComponent,
+    FileDragNDropDirective,
   ],
   imports: [
     CommonModule,
@@ -35,7 +37,8 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     StateDropdownComponent,
     AngularMultiSelectModule,
     RouterModule,
-    DragDropModule
+    DragDropModule,
+    FileDragNDropDirective
   ]
 })
 export class SharedModule { }

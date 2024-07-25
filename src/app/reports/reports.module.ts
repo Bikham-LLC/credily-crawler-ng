@@ -13,7 +13,6 @@ import { FormsModule } from '@angular/forms';
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
 import { OcrReportComponent } from './components/ocr-report/ocr-report.component';
 import { FollowUpReportComponent } from './components/follow-up-report/follow-up-report.component';
-import { FileDragNDropDirective } from '../services/FileDragNDropDirective';
 
 
 
@@ -26,7 +25,6 @@ import { FileDragNDropDirective } from '../services/FileDragNDropDirective';
         NoconfigFoundReportComponent,
         OcrReportComponent,
         FollowUpReportComponent,
-        FileDragNDropDirective
        
     ],
     imports: [

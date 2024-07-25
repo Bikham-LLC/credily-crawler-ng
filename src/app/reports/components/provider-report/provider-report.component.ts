@@ -166,26 +166,44 @@ export class ProviderReportComponent implements OnInit {
   }
 
   providerTestingToggle:boolean = false;
+  showRpaRespToggle:boolean = false;
   message:string = '';
   reRunProviderLog(logId:number, index:number){
     debugger
     this.providerTestingToggle = true;
     this.providerCrawlerLogList[index].reTestingToggle = true;
-    this.reportService.reRunProviderLog(logId).subscribe(response=>{
-      if(response.status && response.message == null){
-        this.getProviderLogs(this.uuid);
-      } else {
-        this.message = response.message;
-        setTimeout(()=>{
-          this.message = '';
-        },1200)
+    if(this.logType == 'rpaLog'){
+     this.reportService.reRunRpaConfig(logId).subscribe(response=>{
+      if(response){
+        this.showRpaRespToggle = true;
+
+        setTimeout(() => {
+          this.showRpaRespToggle = false;
+        }, 800);
       }
       this.providerCrawlerLogList[index].reTestingToggle = false;
       this.providerTestingToggle = false;
-    },error=>{
+     },error=>{
       this.providerTestingToggle = false;
       this.providerCrawlerLogList[index].reTestingToggle = false;
-    })
+     })
+    } else {
+      this.reportService.reRunProviderLog(logId).subscribe(response=>{
+        if(response.status && response.message == null){
+          this.getProviderLogs(this.uuid);
+        } else {
+          this.message = response.message;
+          setTimeout(()=>{
+            this.message = '';
+          },1200)
+        }
+        this.providerCrawlerLogList[index].reTestingToggle = false;
+        this.providerTestingToggle = false;
+      },error=>{
+        this.providerTestingToggle = false;
+        this.providerCrawlerLogList[index].reTestingToggle = false;
+      })
+    }
   }
 
   @ViewChild('closeLogsButton') closeLogsButton!:ElementRef;

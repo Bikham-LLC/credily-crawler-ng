@@ -324,3 +324,22 @@ input[type="file"] {
   color: #0a2240;
   border-bottom: 2px solid #00549e;
 }
+
+.errorTooltip {
+  color: #04553f;
+  font-size: 12px;
+  background-color: #def7ec;
+  padding: 5px 20px;
+  border-radius: 4px;
+  position: relative;
+  margin-right: 10px;
+  font-weight: 500;
+  animation: shake-animation 2s ease infinite;
+}
+.spinner-grow {
+  --bs-spinner-width: 1rem;
+  --bs-spinner-height: 1rem;
+  --bs-spinner-vertical-align: -0.3em;
+  --bs-spinner-border-width: 0.25em;
+  --bs-spinner-animation-speed: 0.9s;
+}
