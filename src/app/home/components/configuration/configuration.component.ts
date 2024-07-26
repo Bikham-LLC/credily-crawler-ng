@@ -18,6 +18,7 @@ import { SubAttributeMap } from 'src/app/models/SubAttributeMap';
 import { RemoveStepRequest } from 'src/app/models/RemoveStepRequest';
 import { AuditTrail } from 'src/app/models/AuditTrail';
 import { HeaderSubscriptionService } from 'src/app/services/header-subscription.service';
+import { RpaTestRequest } from 'src/app/models/RpaTestRequest';
 
 @Component({
   selector: 'app-configuration',
@@ -111,7 +112,10 @@ export class ConfigurationComponent implements OnInit {
   lookupLink: string = '';
   selectedStateName: string = '';
   credilyVersion: string = '';
-  crawlerType: string = this.Constant.CRAWLER_TYPE_LICENSE_LOOKUP;
+
+  // crawlerType: string = this.Constant.CRAWLER_TYPE_LICENSE_LOOKUP;
+  crawlerType: string = this.Constant.RPA;
+
   @ViewChild('lookupModalButton') lookupModalButton !: ElementRef;
   @ViewChild('mapLookupTaxonomyForm') mapLookupTaxonomyForm: any;
 
@@ -1410,6 +1414,7 @@ export class ConfigurationComponent implements OnInit {
       this.licenseLookupConfigRequest.removeAll = 'yes';
       this.lookupTaxonomyList = [];
       this.mappedIds = [];
+      this.selectedTaxonomyIds = [];
     }
   }
 
@@ -1517,6 +1522,38 @@ export class ConfigurationComponent implements OnInit {
     },error=>{
       this.logsLoadingToggle = false;
     })
+  }
+
+  rpaTestRequest: RpaTestRequest = new RpaTestRequest();
+  @ViewChild('rpaTestModalButton') rpaTestModalButton!: ElementRef;
+  openRpaTestModal(){
+    this.rpaTestRequest = new RpaTestRequest();
+    this.rpaTestModalButton.nativeElement.click();
+  }
+
+  rpaResponse:string = '';
+  rpaResponseToggle:boolean = false;
+  testRpaConfig(){
+    this.testingConfiguration = true;
+    this.rpaResponseToggle =false;
+    this.rpaResponse = '';
+    this.rpaTestRequest.rpaTestLink = this.rpaEndPoint;
+    this.licenseLookupService.testRpaConfiguration(this.rpaTestRequest).subscribe(response=>{
+      if(response == '202'){
+        this.rpaResponseToggle = true;
+        this.rpaResponse = 'Request accepted by RPA';
+      } else {
+        this.rpaResponseToggle = false;
+        this.rpaResponse = 'Something went wrong!';
+      }
+    },error=>{
+      this.rpaResponseToggle = false;
+      this.rpaResponse = 'Something went wrong!';
+    })
+    setTimeout(() => {
+      this.rpaResponse='';
+      this.testingConfiguration = false;
+    }, 1000);
   }
 
 }

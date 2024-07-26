@@ -325,7 +325,7 @@ input[type="file"] {
   border-bottom: 2px solid #00549e;
 }
 
-.errorTooltip {
+.successTooltip {
   color: #04553f;
   font-size: 12px;
   background-color: #def7ec;

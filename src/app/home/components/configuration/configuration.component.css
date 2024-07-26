@@ -801,18 +801,6 @@ span.removeSteps {
 .danger-border{
   border: 1.5px solid #e80909;
 }
-.errorTooltip {
-  color: #fff;
-  font-size: 12px;
-  background-color: #cc0000;
-  padding: 5px 20px;
-  border-radius: 4px;
-  position: absolute;
-  margin-right: 10px;
-  left: 0px;
-  z-index: 2;
-}
-
 .commentStep {
   filter: grayscale(1);
   background: #ebe3e3 !important;
@@ -908,4 +896,27 @@ span.removeSteps {
   line-height: 20px;
   padding: 4px 12px;
   display: inline-block;
+}
+.successTooltip {
+  color: #04553f;
+  font-size: 12px;
+  background-color: #def7ec;
+  padding: 5px 20px;
+  border-radius: 4px;
+  position: relative;
+  margin-right: 10px;
+  font-weight: 500;
+  animation: shake-animation 2s ease infinite;
+}
+
+.errorTooltip1 {
+  color: #fff;
+  font-size: 12px;
+  background-color: #cc0000;
+  padding: 5px 20px;
+  border-radius: 4px;
+  position: relative;
+  margin-right: 10px;
+  font-weight: 500;
+  animation: shake-animation 2s ease infinite;
 }

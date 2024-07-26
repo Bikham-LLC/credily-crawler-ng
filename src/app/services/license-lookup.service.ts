@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { DatabaseHelper } from '../models/DatabaseHelper';
 import { LicenseLookupConfigRequest } from '../models/LicenseLookupConfigRequest';
 import { Constant } from '../models/Constant';
+import { RpaTestRequest } from '../models/RpaTestRequest';
 
 @Injectable({
   providedIn: 'root'
@@ -174,7 +175,7 @@ export class LicenseLookupService {
     return this.http.put<any>(this.key.server_url + this.key.api_version_one + this.key.lookup_config_controller+ '/update-comment', {}, {params});
   }
 
-  getAuditTrail(search:string, startDate:any, endDate:any, currentPage:number, itemsPerPage:number){
+  getAuditTrail(search:string, startDate:any, endDate:any, currentPage:number, itemsPerPage:number): Observable<any>{
     var params = new HttpParams()
     .set('search', search)
     .set('startDate', startDate)
@@ -184,10 +185,14 @@ export class LicenseLookupService {
     return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.lookup_config_controller+ '/audit-trail', {params});
   }
 
-  getConfigAuditTrailLog(configName:string){
+  getConfigAuditTrailLog(configName:string): Observable<any>{
     var params = new HttpParams()
     .set('configName', configName)
     return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.lookup_config_controller+ '/audit-trail-log', {params});
+  }
+
+  testRpaConfiguration(rpaTestRequest: RpaTestRequest): Observable<any>{
+    return this.http.post<any>(this.key.server_url + this.key.api_version_one + this.key.lookup_config_controller+ '/test-rpa-config', rpaTestRequest);
   }
 
 }
