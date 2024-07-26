@@ -113,8 +113,7 @@ export class ConfigurationComponent implements OnInit {
   selectedStateName: string = '';
   credilyVersion: string = '';
 
-  // crawlerType: string = this.Constant.CRAWLER_TYPE_LICENSE_LOOKUP;
-  crawlerType: string = this.Constant.RPA;
+  crawlerType: string = this.Constant.CRAWLER_TYPE_LICENSE_LOOKUP;
 
   @ViewChild('lookupModalButton') lookupModalButton !: ElementRef;
   @ViewChild('mapLookupTaxonomyForm') mapLookupTaxonomyForm: any;
