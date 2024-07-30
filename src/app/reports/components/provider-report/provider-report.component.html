@@ -142,8 +142,9 @@
   aria-hidden="true">
   <div class="modal-dialog modal-custom modal-dialog-centered">
     <div class="modal-content">
-      <div class="modal-header d-flex justify-content-between align-items-center position-relative">
+      <div class="modal-header d-flex justify-content-between align-items-center position-relative p-2 pe-4">
         <div class="credTabsinner m-2 ms-3">
+          <span style="font-weight: 500;" *ngIf="!Constant.EMPTY_STRINGS.includes(providerName)" >{{providerName}} : </span>
           <button type="button" class="btn credTabsBtn" [ngClass]="{'credTabsBtnActive' : logType == 'crawlerLog'}" (click)="switchLogTab('crawlerLog')">Crawler Log</button>
           <button type="button" class="btn credTabsBtn me-2" [ngClass]="{'credTabsBtnActive' : logType == 'rpaLog'}" (click)="switchLogTab('rpaLog')">Rpa Log</button>
           <span class="pointer" style="margin-left: 12px;" (click)="refreshProviderLogs()">
@@ -157,68 +158,74 @@
           <div class="spinner-grow text-success" role="status"></div>
         </span>
 
-        <span class="errorTooltip" *ngIf="!Constant.EMPTY_STRINGS.includes(message)">
-          {{message}}
+        <span *ngIf="!Constant.EMPTY_STRINGS.includes(message)" class="errorTooltip">
+          {{message}} gfhjkhgfjkgjvk
         </span>
         <button type="button" class="btn-close" style="margin-left: -70%;" [disabled]="providerTestingToggle" data-bs-dismiss="modal" id="closeLogsButton" #closeLogsButton aria-label="Close" (click)="closeLogModel()"></button>
       </div>
       <div class="modal-body">
-        <div style="max-height: 450px; overflow: auto;">
+        <div class="table-responsive">
           <table class="table" *ngIf="!logLoadingToggle && providerCrawlerLogList.length>0">
             <thead>
               <tr>
-                <th style="width: 6%">S.No.</th>
-                <th style="width: 20%">Lookup Name</th>
-                <th style="width: 20%">Lookup Link</th>
-                <th style="width: 8%" class="text-center">Status</th>
-                <th style="width: 10%" class="text-center">State</th>
-                <th style="width: 11%" class="text-center">Created Date</th>
-                <th style="width: 10%" class="text-center">Re-run Count</th>
-                <th style="width: 25%;" class="text-end text-center">Action</th>
+                <th style="min-width: 100px" class="text-nowrap">S.No.</th>
+                <th style="min-width: 100px" class="text-nowrap">Lookup Name</th>
+                <th style="min-width: 100px" class="text-nowrap">Lookup Link</th>
+                <th style="min-width: 100px" class="text-center text-nowrap">Status</th>
+                <th style="min-width: 100px" class="text-center text-nowrap">State</th>
+                <th style="min-width: 100px" class="text-center text-nowrap">License Number</th>
+                <th style="min-width: 100px" class="text-center text-nowrap">updated Date</th>
+                <th style="min-width: 100px" class="text-center text-nowrap">Re-run Count</th>
+                <th style="min-width: 100px" class="text-end text-center text-nowrap">Action</th>
               </tr>
             </thead>
 
             <tbody>
               <tr *ngFor="let log of providerCrawlerLogList; let i =index;">
                 <td>
-                  <div class="tableinfo">
+                  <div class="tableinfo text-nowrap">
                     {{i+1}}
                   </div>
                 </td>
-                <td>
-                  <div class="tableinfo">
+                <td> 
+                  <div class="tableinfo text-nowrap">
                     <span class="textClamp"> {{log.lookupName}}</span>
                   </div>
                 </td>
                 <td>
-                  <div class="tableinfo d-flex">
+                  <div class="tableinfo text-nowrap d-flex">
                     <span class="tbleditBtn text-primary"><i class="bi bi-box-arrow-up-left" style="cursor: pointer" (click)="routeToConfiguration(log)"></i></span>
                     <span class="textClamp" >{{log.lookupLink}}</span>
                   </div>
                 </td>
                 <td>
-                  <div class="tableinfo text-center">
+                  <div class="tableinfo text-nowrap text-center">
                     <span *ngIf="!Constant.EMPTY_STRINGS.includes(log.errorStatus)" class="statusinactive">{{log.errorStatus?log.errorStatus:'N/A'}}</span>
                     <span *ngIf="Constant.EMPTY_STRINGS.includes(log.errorStatus)" [ngClass]="{'statusactive':log.crawlerStatus=='COMPLETED', 'statuspending' :log.crawlerStatus=='PENDING'}" >{{log.crawlerStatus}}</span>
                   </div>
                 </td>
                 <td>
-                  <div class="tableinfo text-center">
+                  <div class="tableinfo text-nowrap text-center">
                     <span>{{log.stateName?log.stateName:'----'}}</span>
                   </div>
                 </td>
                 <td>
-                  <div class="tableinfo text-center">
-                    <span class="badge-grey">{{log.createdDate | date:'MM-dd-yyyy hh:mm'}}</span>
+                  <div class="tableinfo text-nowrap text-center">
+                    <span>{{log.licenseNumber?log.licenseNumber:'----'}}</span>
                   </div>
                 </td>
                 <td>
-                  <div class="tableinfo text-center">
+                  <div class="tableinfo text-nowrap text-center">
+                    <span class="badge-grey">{{log.updatedDate | date:'MM-dd-yyyy hh:mm'}}</span>
+                  </div>
+                </td>
+                <td>
+                  <div class="tableinfo text-nowrap text-center">
                     <span>{{log.reRunCount}}</span>
                   </div>
                 </td>
                 <td>
-                  <div class="tableinfo d-flex align-items-center justify-content-center gap-2 pointer">
+                  <div class="tableinfo text-nowrap d-flex align-items-center justify-content-center gap-2 pointer">
                     <button placement="top" ngbTooltip="Re-run" class="btn btn-light btn-outline-light" [disabled]="log.reTestingToggle || providerTestingToggle || (Constant.EMPTY_STRINGS.includes(log.lookupName) && Constant.EMPTY_STRINGS.includes(log.lookupLink))" (click)="reRunProviderLog(log.id, i)">
                       <i *ngIf="!log.reTestingToggle" style="font-size: 16px;" class="bi bi-arrow-clockwise text-dark"></i>
                       <i *ngIf="log.reTestingToggle" style="font-size: 16px;" class="spinner-border spinner-border-sm text-dark"></i>
