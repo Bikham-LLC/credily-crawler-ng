@@ -271,9 +271,10 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
           (click)="closeSnapshotModal()" #closeSnapshotModalButton id="closeSnapshotModalButton"></button>
       </div>
-      <div class="modal-body text-center" style="overflow: scroll;min-height: 450px;">
+      <div class="modal-body text-center" style="overflow: scroll;min-height: 640px;">
         <app-circular-loader *ngIf="imageLoadingToggle"></app-circular-loader>
-        <img *ngIf="!imageLoadingToggle" [src]="imageUrl | safe" alt="" />
+        <!-- <img *ngIf="!imageLoadingToggle" [src]="imageUrl | safe" alt="" /> -->
+        <iframe *ngIf="!imageLoadingToggle" [src]="imageUrl | safe" style="height: 39rem;width: 100%;" alt=""> </iframe>
       </div>
     </div>
   </div>
@@ -294,7 +295,7 @@
         <div>
           <div class="dropzone" single fileDragDrop (filesChangeEmiter)="onDrop($event)" *ngIf="!uploadingToggle && Constant.EMPTY_STRINGS.includes(fileName)">
             <div class="dropzoneLabel">
-              <input type="file" name="file" id="file" accept= "image/*" (change)="onSelectFile($event)">
+              <input type="file" name="file" id="file" accept= "image/*,application/pdf" (change)="onSelectFile($event)">
               <label for="file" class="dropzoneLabelinner">
                 <div *ngIf="!uploadingToggle && Constant.EMPTY_STRINGS.includes(fileName)">
                   <i class="bi bi-cloud-upload"></i>
