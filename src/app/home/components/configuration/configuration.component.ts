@@ -35,6 +35,7 @@ export class ConfigurationComponent implements OnInit {
 
   auditConfigNameSearch = new Subject<string>();
   auditConfigLinkSearch = new Subject<string>();
+  taxonomySearch = new Subject<string>();
 
   search: string = '';
   searchLink: string = '';
@@ -89,6 +90,14 @@ export class ConfigurationComponent implements OnInit {
         this.getAuditTrail();
       });
 
+      this.taxonomySearch.pipe(
+        debounceTime(400))
+        .subscribe(value => {
+          this.databaseHelper.currentPage = 1;
+          this.getMappedTaxonomy(this.type);
+        });
+  
+
       this.subscribeHeader = this.headerSubscriptionService.headerVisibilityChange.subscribe(async (value) => {
         debugger
         if(_router.url == Route.HOME_CONFIGURATION_ROUTE && this.showAuditTrailToggle){
@@ -96,8 +105,6 @@ export class ConfigurationComponent implements OnInit {
         }
       })
   }
-
-
 
   subscribeHeader:any;
   configurationId :number =0;
@@ -421,11 +428,6 @@ export class ConfigurationComponent implements OnInit {
   }
 
   selectStateName() {
-    this.databaseHelper.currentPage = 1;
-    this.getMappedTaxonomy(this.type);
-  }
-
-  searchTaxonomy() {
     this.databaseHelper.currentPage = 1;
     this.getMappedTaxonomy(this.type);
   }
@@ -780,12 +782,11 @@ export class ConfigurationComponent implements OnInit {
 
   providerUuid: string = '';
   @ViewChild('uuidModalButton') uuidModalButton !: ElementRef;
-  @ViewChild('closeUuidModal') closeUuidModal !: ElementRef;
   @ViewChild('closeSaveUuidModal') closeSaveUuidModal !: ElementRef;
 
 
 
-  openUuidModal() {
+  openTestModal() {
     this.ticketId =0;
     this.selectedQueue = [];
     this.uuidModalButton.nativeElement.click();
@@ -826,7 +827,7 @@ export class ConfigurationComponent implements OnInit {
           this.message = '';
         },1200)
       } else {
-        this.closeUuidModal.nativeElement.click();
+        this.closeTestModel.nativeElement.click();
         this.dataService.showToast('Valid Configuration.', 'success');
         window.open(response.object, "_blank");
       }
@@ -1553,6 +1554,28 @@ export class ConfigurationComponent implements OnInit {
       this.rpaResponse='';
       this.testingConfiguration = false;
     }, 1000);
+  }
+
+  @ViewChild('closeTestModel') closeTestModel!: ElementRef;
+  savingUuidToggle:boolean = false;
+  invalidUuidToggle:boolean = false;
+  saveConfigUuid(){
+    this.invalidUuidToggle = false;
+    if(this.Constant.EMPTY_STRINGS.includes(this.providerUuid)){
+      this.invalidUuidToggle = true;
+      return;
+    }
+
+    this.savingUuidToggle = true;
+    this.licenseLookupService.saveConfigUuid(this.selectedLookupConfigId, this.providerUuid).subscribe(response=>{
+      if(response){
+        this.closeTestModel.nativeElement.click();
+        this.dataService.showToast('Save successfully', 'success');
+      }
+      this.savingUuidToggle = false;
+    },error=>{
+      this.savingUuidToggle = false;
+    })
   }
 
 }

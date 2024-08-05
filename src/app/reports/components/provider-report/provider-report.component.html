@@ -271,10 +271,10 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
           (click)="closeSnapshotModal()" #closeSnapshotModalButton id="closeSnapshotModalButton"></button>
       </div>
-      <div class="modal-body text-center" style="overflow: scroll;min-height: 640px;">
+      <div class="modal-body text-center" style="overflow: scroll;min-height: 750px;">
         <app-circular-loader *ngIf="imageLoadingToggle"></app-circular-loader>
         <!-- <img *ngIf="!imageLoadingToggle" [src]="imageUrl | safe" alt="" /> -->
-        <iframe *ngIf="!imageLoadingToggle" [src]="imageUrl | safe" style="height: 39rem;width: 100%;" alt=""> </iframe>
+        <iframe *ngIf="!imageLoadingToggle" [src]="imageUrl | safe" style="height: 46rem;width: 100%;" alt=""> </iframe>
       </div>
     </div>
   </div>

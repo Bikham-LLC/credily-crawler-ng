@@ -1,8 +1,8 @@
 <div class="main">
     <div class="container-fluid">
-        <div class="dashboardArea">
+        <div class="dashboardArea" *ngIf="!addStepToggle">
             <div class="dashNav-paneinner">
-                <div class="emptyNotif" *ngIf="!addStepToggle && !showAuditTrailToggle">
+                <div class="emptyNotif" *ngIf="!showAuditTrailToggle">
                     <div class="row mb-3">
                         <div class="col-lg-6 px-2">
                             <div class="row px-1">
@@ -242,7 +242,7 @@
                                                 </button>
                                                 <button class="btn primaryBtn" [disabled]="savingConfiguration" (click)="openAddConfigModal()">Add Steps</button>
                                                 <button class="btn primaryBtn svConfigBtn" [disabled]="savingConfiguration" (click)="saveConfiguration()">Save Configuration<i class="spinner-border spinner-border-sm" *ngIf="savingConfiguration"></i></button>
-                                                <button class="btn primaryBtn tstConfigBtn" [disabled]="testingConfiguration || savingConfiguration" (click)="openUuidModal()">Test Config </button>
+                                                <button class="btn primaryBtn tstConfigBtn" [disabled]="testingConfiguration || savingConfiguration" (click)="openTestModal()">Test Config </button>
                                             </div>
                                         </div>
                                         <div class="empty-notific" style="margin-top: 10%;" *ngIf="!loadingConfgurationStep && configurationStepList.length==0">
@@ -323,7 +323,7 @@
     <!-- Button trigger modal -->
     <button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#configModal" #lookupModalButton>Launch Modal</button>
     <button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#addConfigStepModal" #addConfigStepModalButton>Launch Modal</button>
-    <button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#uuidModal" #uuidModalButton>Launch Modal</button>
+    <button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#testModel" #uuidModalButton>Launch Modal</button>
     <button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#appUpdateSubStructureModal" #appUpdateSubStructureModalButton>Launch Modal</button>
   
     <!-- select taxonomy modal -->
@@ -498,7 +498,7 @@
                                                                 <div class="inlineTaxoformsearch">
                                                                     <div class="position-relative">
                                                                         <i class="bi bi-search"></i>
-                                                                        <input type="Text" class="form-control" name="searchTaxonomy" placeholder="Search Taxonomy" [(ngModel)]="databaseHelper.search" (keyup.enter)="searchTaxonomy()" >
+                                                                        <input type="Text" class="form-control" name="searchTaxonomy" placeholder="Search Taxonomy" [(ngModel)]="databaseHelper.search" (ngModelChange)="this.taxonomySearch.next($event)">
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -827,13 +827,13 @@
     </div>
 
     <!-- select UUID modal -->
-    <div class="modal fade" id="uuidModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-bs-labelledby="uuidModalLabel" aria-bs-hidden="true">
+    <div class="modal fade" id="testModel" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-bs-labelledby="testModelLabel" aria-bs-hidden="true">
         <div class="modal-dialog modal-ls">
             <div class="modal-content">
                 <form  #providerUuidForm="ngForm" ngNativeValidate (ngSubmit)="testConfiguration()" >
                     <div class="modal-header">
-                        <h5 class="modal-title" id="uuidModalLabel">Test Configuration</h5>
-                        <button type="button" class="close" [disabled]="testingConfiguration" data-bs-dismiss="modal" aria-bs-label="Close" #closeUuidModal (click)="isInvalidConfiguration=false; providerUuid = '' ">
+                        <h5 class="modal-title" id="testModelLabel">Test Configuration</h5>
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-bs-label="Close" #closeTestModel (click)="isInvalidConfiguration=false; providerUuid = '' ">
                             <span aria-bs-hidden="true">&times;</span>
                         </button>
                     </div>
@@ -846,7 +846,8 @@
                                             <div class="lookupSearchForm" *ngIf="crawlerType != Constant.APPLICATION_FOLLOW_UP">
                                                 <label>Enter Provider Uuid</label>
                                                 <div class="position-relative">
-                                                    <input type="text" class="form-control" name="pUuid" placeholder="Enter Provider Uuid" [(ngModel)]="providerUuid" maxlength="155" required>
+                                                    <input type="text" class="form-control" name="pUuid" placeholder="Enter Provider Uuid" [(ngModel)]="providerUuid" maxlength="155" required (ngModelChange)="invalidUuidToggle = false">
+                                                    <small *ngIf="invalidUuidToggle" style="color: red;">Please enter provider uuid.</small>
                                                 </div>
                                             </div>
                                             <div class="lookupSearchForm" *ngIf="crawlerType == Constant.APPLICATION_FOLLOW_UP">
@@ -881,8 +882,9 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn primarycancelbtn" style="border-color: #F05252 !important;" [disabled]="testingConfiguration" data-bs-dismiss="modal" (click)=" isInvalidConfiguration=false; providerUuid = '' ">Close</button>
-                        <button type="submit" class="btn primaryBtn" [disabled]="testingConfiguration">Submit <i class="spinner-border spinner-border-sm" *ngIf="testingConfiguration && !savingConfiguration"></i> </button>
+                        <!-- <button type="button" class="btn primarycancelbtn" style="border-color: #F05252 !important;" [disabled]="testingConfiguration" data-bs-dismiss="modal" (click)=" isInvalidConfiguration=false; providerUuid = '' ">Close</button> -->
+                        <button type="button" class="btn primaryBtn" [disabled]="testingConfiguration || savingUuidToggle" (click)="saveConfigUuid()">Save <i class="spinner-border spinner-border-sm" *ngIf="savingUuidToggle" ></i></button>
+                        <button type="submit" class="btn primaryBtn" [disabled]="testingConfiguration || savingUuidToggle">Test <i class="spinner-border spinner-border-sm" *ngIf="testingConfiguration && !savingConfiguration"></i> </button>
                     </div>
                 </form>
             </div>

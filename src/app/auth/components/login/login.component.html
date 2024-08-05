@@ -1,10 +1,9 @@
-<section class="loginsec">
+<section class="loginsec" *ngIf="Constant.EMPTY_STRINGS.includes(token)">
     <div class="row">
         <div class="col-lg-5 p-0">
             <div class="login-bg">
                 <img src="assets/images/logindotstop.svg" class="topdots">
                 <img src="assets/images/Sign-In-Vector.svg" class="bgimage">
-                <!-- <img src="assets/images/vector-forgot-password.svg" class="bgimage"> -->
                 <img src="assets/images/logindotsbottom.svg" class="bottomdots">
             </div>
         </div>

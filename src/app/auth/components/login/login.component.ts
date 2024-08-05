@@ -19,14 +19,20 @@ export class LoginComponent implements OnInit {
   otp: string ='';
   loginToggle: boolean = false;
 
-  constructor(private authservice: AuthService,
-    private dataService: DataService,
-    private _router: Router) {
-      if(!this.Constant.EMPTY_STRINGS.includes(localStorage.getItem(this.Constant.TOKEN))){
+    constructor(private authservice: AuthService,
+      private dataService: DataService,
+      private _router: Router) {
+      
+      this.token = localStorage.getItem(this.Constant.TOKEN);
+
+      if(!this.Constant.EMPTY_STRINGS.includes(this.token)){
         this._router.navigate([Route.HOME_CONFIGURATION_ROUTE]);
       }
-     }
+    }
 
+
+
+  token:any;
   ngOnInit(): void {
   }
 
