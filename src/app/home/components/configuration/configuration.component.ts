@@ -752,6 +752,7 @@ export class ConfigurationComponent implements OnInit {
     this.cofnigStepRequest.columnName = step.columnName;
     this.cofnigStepRequest.pattern = step.pattern;
     this.cofnigStepRequest.actionButton = step.actionButton;
+    this.cofnigStepRequest.isRemoveAlphabet = step.isRemoveAlphabet;
 
     var classTemp:{id: any, itemName : any} = {id: '', itemName : ''};
     if(!this.Constant.EMPTY_STRINGS.includes(step.className)){
@@ -1576,6 +1577,16 @@ export class ConfigurationComponent implements OnInit {
     },error=>{
       this.savingUuidToggle = false;
     })
+  }
+
+
+  removeFirstAlphabet(event:any){
+    debugger
+    if(event.target.checked){
+      this.cofnigStepRequest.isRemoveAlphabet = 1;
+    } else {
+      this.cofnigStepRequest.isRemoveAlphabet = 0;
+    }
   }
 
 }

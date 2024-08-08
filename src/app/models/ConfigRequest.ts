@@ -17,4 +17,5 @@ export class ConfigRequest{
     isStepUpdted:boolean = false;
     isNewStep:number=0;
     subAttributeMapList: SubAttributeMap[] = new Array();
+    isRemoveAlphabet:number=0;
 }

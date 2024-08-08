@@ -261,7 +261,6 @@
                                         </div>
 
                                         <div class="configStepsouter" *ngIf="!loadingConfgurationStep && configurationStepList.length>0">
-                                        
                                             <div class="configStepsinner" [ngClass]="{'pe-none': savingConfiguration}" cdkDropList (cdkDropListDropped)="drop($event)">
                                                 <div [ngClass]="{'commentStep': step.commentStepToggle}" class="configSteps example-box position-relative" cdkDrag *ngFor="let step of configurationStepList; let i = index">
                                                     <span class="removeSteps" style="cursor: pointer;">
@@ -730,13 +729,18 @@
                                             </div>
                                         </div>
 
-                                        <!-- <div class="col-lg-6" *ngIf="cofnigStepRequest.crawlerAttributeId == 28 || cofnigStepRequest.crawlerAttributeId == 5 || cofnigStepRequest.crawlerAttributeId == 20 || cofnigStepRequest.crawlerAttributeId == 32 || cofnigStepRequest.crawlerAttributeId == 38"> -->
                                         <div class="col-lg-6" *ngIf="Constant.PATTERN_SHOW.includes(cofnigStepRequest.crawlerAttributeId)">
                                             <div class="lookupSearchForm">
                                                 <div class="position-relative" *ngIf="cofnigStepRequest.crawlerAttributeId != 32 && cofnigStepRequest.crawlerAttributeId != 38">
                                                     <label class="m-1">Pattern</label>
                                                     <input type="text" class="form-control" name="pattern" placeholder="Enter pattern for search criteria" [(ngModel)]="cofnigStepRequest.pattern" maxlength="155">
                                                 </div>
+
+                                                <div *ngIf="cofnigStepRequest.crawlerAttributeId != 32 && cofnigStepRequest.crawlerAttributeId != 38" class="d-flex mt-2 pointer text-ceter">
+                                                    <input type="checkbox" id="rmAlphabet" name="rmAlphabet" value="rm" class="mb-4 pointer" [checked]="cofnigStepRequest.isRemoveAlphabet" (click)="removeFirstAlphabet($event)">
+                                                    <label for="rmAlphabet" style="margin-left: 5px;">Do you want to remove first alphabets from license number ?</label>
+                                                </div>
+
                                                 <div class="position-relative" *ngIf="cofnigStepRequest.crawlerAttributeId == 32">
                                                     <label class="m-1">Crop Element 4</label>
                                                     <input type="text" class="form-control" name="pattern" placeholder="Enter Crop Element 4" [(ngModel)]="cofnigStepRequest.pattern" maxlength="155">
@@ -878,7 +882,6 @@
                                     </span>
                                 </div>
                             </div>
-                            
                         </div>
                     </div>
                     <div class="modal-footer">
