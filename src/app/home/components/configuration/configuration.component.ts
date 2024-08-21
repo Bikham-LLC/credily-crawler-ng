@@ -869,7 +869,6 @@ export class ConfigurationComponent implements OnInit {
     }
     this.licenseLookupConfigRequest.removeStepList = this.removeStepList;
     if (!this.isInvalidConfiguration) {
-
       if (this.selectedLookupConfigId > 0) {
         this.licenseLookupConfigRequest.configStatus = this.configstatus;
         this.licenseLookupConfigRequest.lastTestedOn = this.lastTestedOn;

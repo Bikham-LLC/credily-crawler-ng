@@ -896,6 +896,7 @@ span.removeSteps {
   line-height: 20px;
   padding: 4px 12px;
   display: inline-block;
+  word-break: break-word;
 }
 .successTooltip {
   color: #04553f;
