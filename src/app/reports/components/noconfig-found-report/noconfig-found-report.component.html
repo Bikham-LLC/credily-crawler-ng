@@ -12,16 +12,15 @@
 </div>
 
 <div class="usertable mt-3 ng-star-inserted">
-    <div class="usertableinner table-responsive" *ngIf="!noConfigLoadingToggle">
+    <div class="usertableinner" *ngIf="!noConfigLoadingToggle">
         <table class="table">
             <thead>
                 <tr>
                     <th style="width: 15%;">
                         <span style="cursor: pointer;"> Provider Name</span>
                     </th>
-                    <th style="width: 10%;">NPI Number</th>
+                    <th style="width: 8%;">NPI Number</th>
                     <th style="width: 15%;">Taxonomy</th>
-                    <!-- <th style="width: 10%;">State</th> -->
                     <th style="width: 10%;">
                         <span *ngIf="!stateFilterToggle" (click)="filterByState()" style="cursor: pointer;">
                             State 
@@ -34,8 +33,9 @@
                             required>
                         </angular2-multiselect>                              
                     </th>
-                    <th style="width: 20%;">Board</th>
-                    <th style="width: 8%;">Credential</th>
+                    <!-- <th style="width: 10%;">License No.</th> -->
+                    <th style="width: 15%;">Board</th>
+                    <th style="width: 6%;">Credential</th>
                     <th style="width: 8%;">
                         <span *ngIf="!versionFilterToggle" (click)="filterByVersion()" style="cursor: pointer;">
                             version 
@@ -65,6 +65,9 @@
                     <td>
                         <div class="tableinfo">{{obj.state?obj.state:'---'}}</div>
                     </td>
+                    <!-- <td>
+                        <div class="tableinfo">12345678</div>
+                    </td> -->
                     <td>
                         <div class="tableinfo">{{obj.boardName?obj.boardName: '---'}}</div>
                     </td>

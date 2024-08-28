@@ -1,6 +1,8 @@
 export class ProviderReport{
+    
     id : number = 0;
     providerName : string = '';
+    accountName:string='';
     npi : string = '';
     email : string = '';
     phone : string = '';
