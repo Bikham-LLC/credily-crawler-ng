@@ -12,16 +12,14 @@
 </div>
 
 <div class="usertable mt-3 ng-star-inserted">
-    <div class="usertableinner" *ngIf="!noConfigLoadingToggle">
+    <div class="usertableinner table-responsive" *ngIf="!noConfigLoadingToggle">
         <table class="table">
             <thead>
                 <tr>
-                    <th style="width: 15%;">
-                        <span style="cursor: pointer;"> Provider Name</span>
-                    </th>
-                    <th style="width: 8%;">NPI Number</th>
-                    <th style="width: 15%;">Taxonomy</th>
-                    <th style="width: 10%;">
+                    <th style="min-width: 100px" class="text-nowrap">Provider Name</th>
+                    <th style="min-width: 100px" class="text-nowrap">NPI Number</th>
+                    <th style="min-width: 100px" class="text-nowrap">Taxonomy</th>
+                    <th style="min-width: 180px" class="text-nowrap">
                         <span *ngIf="!stateFilterToggle" (click)="filterByState()" style="cursor: pointer;">
                             State 
                             <i class="bi bi-funnel-fill" *ngIf="selectedState.length == 0"></i>
@@ -33,10 +31,10 @@
                             required>
                         </angular2-multiselect>                              
                     </th>
-                    <!-- <th style="width: 10%;">License No.</th> -->
-                    <th style="width: 15%;">Board</th>
-                    <th style="width: 6%;">Credential</th>
-                    <th style="width: 8%;">
+                    <th style="min-width: 100px" class="text-nowrap">License No.</th>
+                    <th style="min-width: 100px" class="text-nowrap">Board</th>
+                    <th style="min-width: 100px" class="text-nowrap">Credential</th>
+                    <th style="min-width: 100px" class="text-nowrap">
                         <span *ngIf="!versionFilterToggle" (click)="filterByVersion()" style="cursor: pointer;">
                             version 
                             <i class="bi bi-funnel-fill" *ngIf="selectedVersion.length == 0"></i>
@@ -48,39 +46,41 @@
                             required>
                         </angular2-multiselect>                              
                     </th>
-                    <th style="width: 8%;">Updated Date</th>
+                    <th style="min-width: 100px" class="text-nowrap">Updated Date</th>
                     
-                    <th style="width: 6%;">Actions</th>
+                    <th style="min-width: 100px" class="text-nowrap">Actions</th>
                 </tr>
             </thead>
             <tbody *ngIf="noConfigFoundList.length>0 && !noConfigLoadingToggle">
                 <tr *ngFor="let obj of noConfigFoundList; let i = index">
-                    <td><div class="tableinfo">{{obj.providerName}}</div></td>
-                    <td>
+                    <td class="text-nowrap">
+                        <div class="tableinfo">{{obj.providerName}}</div>
+                    </td>
+                    <td class="text-nowrap">
                         <div class="tableinfo"><span class="badge-grey npi-badge">{{obj.npi}}</span></div>
                     </td>
-                    <td>
+                    <td class="text-nowrap">
                         <div class="tableinfo line-clamp">{{obj.taxonomy}}</div>
                     </td>
-                    <td>
+                    <td class="text-nowrap">
                         <div class="tableinfo">{{obj.state?obj.state:'---'}}</div>
                     </td>
-                    <!-- <td>
+                    <td class="text-nowrap">
                         <div class="tableinfo">12345678</div>
-                    </td> -->
-                    <td>
+                    </td>
+                    <td class="text-nowrap">
                         <div class="tableinfo">{{obj.boardName?obj.boardName: '---'}}</div>
                     </td>
-                    <td>
+                    <td class="text-nowrap">
                         <div class="tableinfo"><span class="npi-badge statusPending mx-auto">{{obj.credential}}</span></div>
                     </td>
-                    <td>
+                    <td class="text-nowrap">
                         <div class="tableinfo">{{obj.version}}</div>
                     </td>
-                    <td>
+                    <td class="text-nowrap">
                         <div class="tableinfo text-muted">{{obj.updatedDate | date : 'MM/dd/yyyy, HH:mm'}}</div>
                     </td>
-                    <td>
+                    <td class="text-nowrap">
                         <div class="tableinfo">
                             <div class="d-flex align-items-center gap-2">
                                 <button type="button" class="btn primarybtn" (click)="getMappedConfiguration(obj.logId)">View</button>
@@ -90,24 +90,24 @@
                 </tr>
             </tbody>
         </table>
-        <div class="paginationmain mt-5" *ngIf="noConfigFoundList.length>0 && !noConfigLoadingToggle">
-            <div class="d-flex align-items-center justify-content-between">
-              <p class="currentshowing mb-0">
-                Showing <span>{{noConfigFoundList.length}}</span> of <span>{{totalItems}}</span>
-              </p>
-              <div class="col-lg-6">
-                <div class="card-body d-flex justify-content-end">
-                  <ngb-pagination class="pagination pagination-separated justify-content-sm-end mb-sm-0"
-                    [collectionSize]="totalItems" [rotate]="true" (pageChange)="pageChanged($event)"
-                    [pageSize]="databaseHelper.itemsPerPage" [(page)]="databaseHelper.currentPage" [maxSize]="5"
-                    [boundaryLinks]="true">
-                  </ngb-pagination>
-                </div>
-              </div>
+    </div>
+    <div class="paginationmain mt-5" *ngIf="!noConfigLoadingToggle && noConfigFoundList.length>0">
+        <div class="d-flex align-items-center justify-content-between">
+          <p class="currentshowing mb-0">
+            Showing <span>{{noConfigFoundList.length}}</span> of <span>{{totalItems}}</span>
+          </p>
+          <div class="col-lg-6">
+            <div class="card-body d-flex justify-content-end">
+              <ngb-pagination class="pagination pagination-separated justify-content-sm-end mb-sm-0"
+                [collectionSize]="totalItems" [rotate]="true" (pageChange)="pageChanged($event)"
+                [pageSize]="databaseHelper.itemsPerPage" [(page)]="databaseHelper.currentPage" [maxSize]="5"
+                [boundaryLinks]="true">
+              </ngb-pagination>
             </div>
+          </div>
         </div>
     </div>
-    <div class="empty-notific text-center" style="margin: 10% 10% 13% 3%;" *ngIf="noConfigFoundList.length==0 && !noConfigLoadingToggle">
+    <div class="empty-notific text-center" style="margin: 10% 10% 13% 3%;" *ngIf="!noConfigLoadingToggle && noConfigFoundList.length==0">
         <div class="empty-notificinner">
           <img src="assets/images/allexpirable.svg" style="width: 20%;" alt="no data found" />
           <h6 class="m-3 ps-5">No data found</h6>

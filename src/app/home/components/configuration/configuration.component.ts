@@ -19,6 +19,7 @@ import { RemoveStepRequest } from 'src/app/models/RemoveStepRequest';
 import { AuditTrail } from 'src/app/models/AuditTrail';
 import { HeaderSubscriptionService } from 'src/app/services/header-subscription.service';
 import { RpaTestRequest } from 'src/app/models/RpaTestRequest';
+import { USStates } from 'src/app/models/UsStatesJson';
 
 @Component({
   selector: 'app-configuration',
@@ -148,6 +149,10 @@ export class ConfigurationComponent implements OnInit {
   selectedQueue: any[] = new Array();
   queueList: {id:any, itemName: any}[] = [{ id: 36 , itemName: 'Test queue 1' }, { id: 113, itemName: 'Test queue 2' }];
 
+  dropdownSettingsState !: { singleSelection: boolean; text: string; enableSearchFilter: boolean; autoPosition: boolean };
+  selectedState: any[] = new Array();
+  stateList: any[] = new Array();
+
   ngOnInit(): void {
 
     this.dropdownSettingsAttribute = {
@@ -216,6 +221,13 @@ export class ConfigurationComponent implements OnInit {
     this.dropdownSettingsQueue = {
       singleSelection: true,
       text: 'Select Queue',
+      enableSearchFilter: true,
+      autoPosition: false
+    }
+
+    this.dropdownSettingsState = {
+      singleSelection: true,
+      text: 'Select State',
       enableSearchFilter: true,
       autoPosition: false
     }
@@ -785,12 +797,27 @@ export class ConfigurationComponent implements OnInit {
   @ViewChild('uuidModalButton') uuidModalButton !: ElementRef;
   @ViewChild('closeSaveUuidModal') closeSaveUuidModal !: ElementRef;
 
-
+  uSStates: USStates = new USStates();
 
   openTestModal() {
     this.ticketId =0;
     this.selectedQueue = [];
+    if(this.stateList == null || this.stateList.length==0)
+    this.uSStates.statesJson.forEach(state=>{
+      var temp = {id: state.name, itemName : state.name};
+      this.stateList.push(temp);
+      this.stateList = JSON.parse(JSON.stringify(this.stateList));
+    })
     this.uuidModalButton.nativeElement.click();
+  }
+
+  testState:string='';
+  selectState(event:any){
+    this.testState = '';
+    if(event != undefined && event.length>0){
+      this.invalidStateToggle = false;
+      this.testState = event[0].id;
+    }
   }
 
   message:string='';
@@ -1559,15 +1586,22 @@ export class ConfigurationComponent implements OnInit {
   @ViewChild('closeTestModel') closeTestModel!: ElementRef;
   savingUuidToggle:boolean = false;
   invalidUuidToggle:boolean = false;
+  invalidStateToggle:boolean = false;
   saveConfigUuid(){
     this.invalidUuidToggle = false;
+    this.invalidStateToggle = false;
     if(this.Constant.EMPTY_STRINGS.includes(this.providerUuid)){
       this.invalidUuidToggle = true;
       return;
     }
 
+    if(this.Constant.EMPTY_STRINGS.includes(this.testState)){
+      this.invalidStateToggle = true;
+      return;
+    }
+
     this.savingUuidToggle = true;
-    this.licenseLookupService.saveConfigUuid(this.selectedLookupConfigId, this.providerUuid).subscribe(response=>{
+    this.licenseLookupService.saveConfigUuid(this.selectedLookupConfigId, this.providerUuid, this.testState).subscribe(response=>{
       if(response){
         this.closeTestModel.nativeElement.click();
         this.dataService.showToast('Save successfully', 'success');
@@ -1587,5 +1621,4 @@ export class ConfigurationComponent implements OnInit {
       this.cofnigStepRequest.isRemoveAlphabet = 0;
     }
   }
-
 }

@@ -848,14 +848,14 @@
                                     <div class="mb-1 mx-0 row">
                                         <div class="col-lg-12">
                                             <div class="lookupSearchForm" *ngIf="crawlerType != Constant.APPLICATION_FOLLOW_UP">
-                                                <label>Enter Provider Uuid</label>
+                                                <label>Enter Provider Uuid<sup class="text-danger">*</sup></label>
                                                 <div class="position-relative">
                                                     <input type="text" class="form-control" name="pUuid" placeholder="Enter Provider Uuid" [(ngModel)]="providerUuid" maxlength="155" required (ngModelChange)="invalidUuidToggle = false">
                                                     <small *ngIf="invalidUuidToggle" style="color: red;">Please enter provider uuid.</small>
                                                 </div>
                                             </div>
                                             <div class="lookupSearchForm" *ngIf="crawlerType == Constant.APPLICATION_FOLLOW_UP">
-                                                <label>Enter Ticket Id</label>
+                                                <label>Enter Ticket Id<sup class="text-danger">*</sup></label>
                                                 <div class="position-relative">
                                                     <input type="text" class="form-control" name="ticketId" placeholder="Enter ticket id" [(ngModel)]="ticketId" maxlength="155" required>
                                                 </div>
@@ -863,11 +863,17 @@
                                         </div>
                                         <div class="col-lg-12">
                                             <div class="position-relative">
-                                                <label class="">Select Queue<sup class="text-danger">*</sup> </label>
+                                                <label class="">Select Queue<sup class="text-danger">*</sup></label>
                                                 <angular2-multiselect id="queue" name="queue" [data]="queueList" [settings]="dropdownSettingsQueue" [(ngModel)]="selectedQueue" (ngModelChange)="selectQueue($event)" required>
                                                 </angular2-multiselect>
                                             </div>
                                             <small *ngIf="queueToggle" style="color: red;"> Select queue!</small>
+                                            <div class="lookupSearchForm">
+                                                <label>Enter Test State<sup class="text-danger">*</sup></label>
+                                                <angular2-multiselect id="testState" name="state" [data]="stateList" [settings]="dropdownSettingsState" [(ngModel)]="selectedState" (ngModelChange)="selectState($event)">
+                                                </angular2-multiselect>
+                                            </div>
+                                            <small *ngIf="invalidStateToggle" style="color: red;">Select state</small>
                                         </div>
                                         <small *ngIf="isInvalidConfiguration" style="color: red;">Invalid Configuration!</small>
                                     </div>
@@ -885,7 +891,6 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <!-- <button type="button" class="btn primarycancelbtn" style="border-color: #F05252 !important;" [disabled]="testingConfiguration" data-bs-dismiss="modal" (click)=" isInvalidConfiguration=false; providerUuid = '' ">Close</button> -->
                         <button type="button" class="btn primaryBtn" [disabled]="testingConfiguration || savingUuidToggle" (click)="saveConfigUuid()">Save <i class="spinner-border spinner-border-sm" *ngIf="savingUuidToggle" ></i></button>
                         <button type="submit" class="btn primaryBtn" [disabled]="testingConfiguration || savingUuidToggle">Test <i class="spinner-border spinner-border-sm" *ngIf="testingConfiguration && !savingConfiguration"></i> </button>
                     </div>
