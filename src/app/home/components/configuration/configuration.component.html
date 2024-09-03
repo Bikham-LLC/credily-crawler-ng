@@ -869,7 +869,7 @@
                                             </div>
                                             <small *ngIf="queueToggle" style="color: red;"> Select queue!</small>
                                             <div class="lookupSearchForm">
-                                                <label>Enter Test State<sup class="text-danger">*</sup></label>
+                                                <label>Enter Test State</label>
                                                 <angular2-multiselect id="testState" name="state" [data]="stateList" [settings]="dropdownSettingsState" [(ngModel)]="selectedState" (ngModelChange)="selectState($event)">
                                                 </angular2-multiselect>
                                             </div>

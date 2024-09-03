@@ -804,19 +804,19 @@ export class ConfigurationComponent implements OnInit {
     this.selectedQueue = [];
     if(this.stateList == null || this.stateList.length==0)
     this.uSStates.statesJson.forEach(state=>{
-      var temp = {id: state.name, itemName : state.name};
+      var temp = {id: state.abbreviation, itemName : state.name};
       this.stateList.push(temp);
       this.stateList = JSON.parse(JSON.stringify(this.stateList));
     })
     this.uuidModalButton.nativeElement.click();
   }
 
-  testState:string='';
+  stateCode:string='';
   selectState(event:any){
-    this.testState = '';
+    this.stateCode = '';
     if(event != undefined && event.length>0){
       this.invalidStateToggle = false;
-      this.testState = event[0].id;
+      this.stateCode = event[0].id;
     }
   }
 
@@ -1595,13 +1595,13 @@ export class ConfigurationComponent implements OnInit {
       return;
     }
 
-    if(this.Constant.EMPTY_STRINGS.includes(this.testState)){
+    if(this.Constant.EMPTY_STRINGS.includes(this.stateCode)){
       this.invalidStateToggle = true;
       return;
     }
 
     this.savingUuidToggle = true;
-    this.licenseLookupService.saveConfigUuid(this.selectedLookupConfigId, this.providerUuid, this.testState).subscribe(response=>{
+    this.licenseLookupService.saveConfigUuid(this.selectedLookupConfigId, this.providerUuid, this.stateCode).subscribe(response=>{
       if(response){
         this.closeTestModel.nativeElement.click();
         this.dataService.showToast('Save successfully', 'success');
