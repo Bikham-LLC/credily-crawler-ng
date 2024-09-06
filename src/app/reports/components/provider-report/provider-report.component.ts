@@ -77,7 +77,7 @@ export class ProviderReportComponent implements OnInit {
   completedCount:number =0;
   partiallyCompletedCount:number =0;
   getProviderReportCount(){
-    this.reportService.getProviderReportCount(this.dataService.startDate, this.dataService.endDate, this.version).subscribe(response=>{
+    this.reportService.getProviderReportCount(this.dataService.startDate, this.dataService.endDate, this.version, this.providerType).subscribe(response=>{
       if(response != null){
         this.completedCount = response.completedCount;
         this.partiallyCompletedCount = response.partiallyCompletedCount;
@@ -87,6 +87,33 @@ export class ProviderReportComponent implements OnInit {
     })
   }
 
+  providerType:string = 'licensed';
+  switchProviderType(type:string){
+    this.providerType = type;
+    this.getProviderReport(this.filterType, 0);
+    this.getProviderReportCount();
+  }
+
+  getProviderReport(filterType:string, isPageChange:number){
+    debugger
+    this.fetchingReport = true;
+    if(this.filterType == filterType && isPageChange != 1){
+      this.filterType = '';
+    } else {
+      this.filterType = filterType;
+    }
+    this.reportService.getProviderReport(this.databaseHelper, this.filterType, this.dataService.startDate, this.dataService.endDate, this.version, this.providerType).subscribe(response => {
+      if(response!=null){
+        this.providerList = response.object;
+        this.totalProviders = response.totalItems;
+      }
+      this.fetchingReport = false;
+    }, error => {
+      this.fetchingReport = false;
+    })
+  }
+
+  filterType:string= '';
   versionFilterToggle:boolean = false;
   filterByVersion(){
     this.versionFilterToggle = !this.versionFilterToggle;
@@ -102,26 +129,6 @@ export class ProviderReportComponent implements OnInit {
     this.getProviderReport(this.filterType, 1);
     this.getProviderReportCount();
     this.versionFilterToggle = false
-  }
-
-  filterType:string= '';
-  getProviderReport(filterType:string, isPageChange:number){
-    debugger
-    this.fetchingReport = true;
-    if(this.filterType == filterType && isPageChange != 1){
-      this.filterType = '';
-    } else {
-      this.filterType = filterType;
-    }
-    this.reportService.getProviderReport(this.databaseHelper, this.filterType, this.dataService.startDate, this.dataService.endDate, this.version).subscribe(response => {
-      if(response!=null){
-        this.providerList = response.object;
-        this.totalProviders = response.totalItems;
-      }
-      this.fetchingReport = false;
-    }, error => {
-      this.fetchingReport = false;
-    })
   }
 
   pageChanged(event:any){

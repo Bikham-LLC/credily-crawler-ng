@@ -22,7 +22,7 @@ export class ReportService {
   }
   // ------------------------------- config report section -----------------------
 
-  getProviderReport(databaseHelper:DatabaseHelper, filterType:any, startDate:any, endDate:any, version:string): Observable<any> {
+  getProviderReport(databaseHelper:DatabaseHelper, filterType:any, startDate:any, endDate:any, version:string, providerType:string): Observable<any> {
     if(databaseHelper==undefined || databaseHelper==null){
       databaseHelper = new DatabaseHelper();
     }
@@ -33,6 +33,7 @@ export class ReportService {
     .set('itemsPerPage', databaseHelper.itemsPerPage)
     .set('filterType', filterType)
     .set('version', version)
+    .set('providerType', providerType)
     if(!Constant.EMPTY_STRINGS.includes(startDate) && !Constant.EMPTY_STRINGS.includes(startDate)){
       params = params.set('startDate', startDate)
       .set('endDate', endDate)
@@ -41,11 +42,12 @@ export class ReportService {
     return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.report + '/provider-config-report', {params});
   }
 
-  getProviderReportCount(startDate:string, endDate:string, version:string):Observable<any> {
+  getProviderReportCount(startDate:string, endDate:string, version:string, providerType:string):Observable<any> {
     var params = new HttpParams()
     .set('startDate', startDate)
     .set('endDate', endDate)
     .set('version', version)
+    .set('providerType', providerType)
     return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.report + '/provider-config-report-count', {params});
   }
 

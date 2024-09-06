@@ -343,3 +343,8 @@ input[type="file"] {
   --bs-spinner-border-width: 0.25em;
   --bs-spinner-animation-speed: 0.9s;
 }
+.dashboardArea {
+  border: 1px solid #e6e6e6;
+  padding: 0rem .5rem .5rem;
+  border-radius: 5px;
+}

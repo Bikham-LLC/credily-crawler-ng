@@ -26,7 +26,7 @@
             </div>
 
             <div class="usertable mt-3">
-                <div class="usertableinner table-responsive" style="max-height: 500px;">
+                <div class="usertableinner" style="max-height: 500px;">
                     <table class="table">
                         <thead>
                             <tr>
@@ -34,6 +34,7 @@
                             <th style="width: 10%">Queue Name</th>
                             <th style="width: 30%">Instance url</th>
                             <th style="width: 10%">Max Request</th>
+                            <th style="width: 10%">Current Request</th>
                             <th style="width: 10%">
                                 <span *ngIf="!statusFilterToggle" (click)="filterByStatus()" style="cursor: pointer;">
                                     Status 
@@ -71,6 +72,11 @@
                             <td>
                                 <div class="tableinfo">
                                     <span>{{queue.maxRequest}}</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="tableinfo">
+                                    <span>{{queue.currentRequest}}</span>
                                 </div>
                             </td>
                             <td>

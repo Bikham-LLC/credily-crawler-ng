@@ -7,4 +7,5 @@ export class QueueInstance{
     cretedDate:any;
     status:string='';
     maxRequest:number = 0;
+    currentRequest:number = 0;
 }
