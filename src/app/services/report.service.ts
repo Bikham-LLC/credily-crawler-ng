@@ -58,9 +58,10 @@ export class ReportService {
     return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.report + '/logs', {params});
   }
   
-  reRunProviderLog(logId:number):Observable<any> {
+  reRunProviderLog(logId:number, isRpaConfig:number):Observable<any> {
     var params = new HttpParams()
     .set('logId', logId)
+    .set('isRpaConfig', isRpaConfig)
     return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.report + '/re-run-log', {params});
   }
 

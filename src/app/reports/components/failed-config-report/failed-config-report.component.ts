@@ -221,7 +221,7 @@ export class FailedConfigReportComponent implements OnInit {
   reRunProviderLog(logId:number, index:number){
     this.logRerunToggle = true;
     this.failedConfigList[index].reTestingToggle = true;
-    this.reportService.reRunProviderLog(logId).subscribe(response=>{
+    this.reportService.reRunProviderLog(logId, 0).subscribe(response=>{
       if(response){
         this.getFailedConfigs(this.configType, 0); 
       }

@@ -179,38 +179,60 @@ export class ProviderReportComponent implements OnInit {
     debugger
     this.providerTestingToggle = true;
     this.providerCrawlerLogList[index].reTestingToggle = true;
-    if(this.logType == 'rpaLog'){
-     this.reportService.reRunRpaConfig(logId).subscribe(response=>{
-      if(response){
-        this.showRpaRespToggle = true;
+    // if(this.logType == 'rpaLog'){
+    //  this.reportService.reRunRpaConfig(logId).subscribe(response=>{
+    //   if(response){
+    //     this.showRpaRespToggle = true;
+    //     setTimeout(() => {
+    //       this.showRpaRespToggle = false;
+    //     }, 800);
+    //   }
+    //   this.providerCrawlerLogList[index].reTestingToggle = false;
+    //   this.providerTestingToggle = false;
+    //  },error=>{
+    //   this.providerTestingToggle = false;
+    //   this.providerCrawlerLogList[index].reTestingToggle = false;
+    //  })
+    // } else {
+    //   this.reportService.reRunProviderLog(logId).subscribe(response=>{
+    //     if(response.status && response.message == null){
+    //       this.getProviderLogs(this.uuid);
+    //     } else {
+    //       this.message = response.message;
+    //       setTimeout(()=>{
+    //         this.message = '';
+    //       },1200)
+    //     }
+    //     this.providerCrawlerLogList[index].reTestingToggle = false;
+    //     this.providerTestingToggle = false;
+    //   },error=>{
+    //     this.providerTestingToggle = false;
+    //     this.providerCrawlerLogList[index].reTestingToggle = false;
+    //   })
+    // }
 
-        setTimeout(() => {
-          this.showRpaRespToggle = false;
-        }, 800);
+    this.reportService.reRunProviderLog(logId, this.isRpaConfig).subscribe(response=>{
+      if(response.status && response.message == null){
+        if(this.isRpaConfig==1){
+          this.showRpaRespToggle = true;
+          setTimeout(() => {
+            this.showRpaRespToggle = false;
+          }, 800);
+        } else {
+          this.getProviderLogs(this.uuid);
+        }
+      } else {
+        this.message = response.message;
+        setTimeout(()=>{
+          this.message = '';
+        },1200)
       }
       this.providerCrawlerLogList[index].reTestingToggle = false;
       this.providerTestingToggle = false;
-     },error=>{
+    },error=>{
       this.providerTestingToggle = false;
       this.providerCrawlerLogList[index].reTestingToggle = false;
-     })
-    } else {
-      this.reportService.reRunProviderLog(logId).subscribe(response=>{
-        if(response.status && response.message == null){
-          this.getProviderLogs(this.uuid);
-        } else {
-          this.message = response.message;
-          setTimeout(()=>{
-            this.message = '';
-          },1200)
-        }
-        this.providerCrawlerLogList[index].reTestingToggle = false;
-        this.providerTestingToggle = false;
-      },error=>{
-        this.providerTestingToggle = false;
-        this.providerCrawlerLogList[index].reTestingToggle = false;
-      })
-    }
+    })
   }
 
   @ViewChild('closeLogsButton') closeLogsButton!:ElementRef;
