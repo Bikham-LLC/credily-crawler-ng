@@ -201,4 +201,20 @@ export class ReportService {
     return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.report + "/re-run-rpa-config", {params});
   }
 
+  getReFetchLicenseReport(databaseHelper:DatabaseHelper, startDate:any, endDate:any): Observable<any> {
+    if(databaseHelper==undefined || databaseHelper==null){
+      databaseHelper = new DatabaseHelper();
+    }
+    var params = new HttpParams()
+    .set('search', databaseHelper.search)
+    .set('searchBy', databaseHelper.searchBy)
+    .set('currentPage', databaseHelper.currentPage)
+    .set('itemsPerPage', databaseHelper.itemsPerPage)
+    if(!Constant.EMPTY_STRINGS.includes(startDate) && !Constant.EMPTY_STRINGS.includes(startDate)){
+      params = params.set('startDate', startDate)
+      .set('endDate', endDate)
+    }
+    return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.report + '/re-fetch-license-report', {params});
+  }
+
 }

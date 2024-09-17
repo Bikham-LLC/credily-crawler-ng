@@ -1,4 +1,4 @@
-export class Route{
+export class Route {
     
     static HOME_CONFIGURATION_ROUTE = '/home/configuration';
     static HOME_USER_ROUTE = '/home/account-user';
@@ -11,6 +11,7 @@ export class Route{
     static NO_CONFIG_FOUND_REPORT = '/reports/noconfig-found-report';
     static OCR_REPORT = '/reports/ocr-report';
     static FOLLOW_UP_REPORT = '/reports/follow-up-report';
+    static RE_FETCH_REPORT = 're-fetch-report';
     static RPA_MODULE = '/rpa';
 
 }
