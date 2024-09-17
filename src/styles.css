@@ -19,9 +19,11 @@ body {
 .pointer {
   cursor: pointer !important;
 }
+
 a {
   text-decoration: none;
 }
+
 .primaryBtn {
   background: #0070d2 !important;
   border-radius: 4px;
@@ -33,10 +35,12 @@ a {
   gap: 8px;
   align-items: center;
 }
+
 ul li,
 ol li {
   list-style: none;
 }
+
 .secondaryBtn {
   background: #f3f4f6;
   font-size: 14px;
@@ -44,6 +48,7 @@ ol li {
   font-weight: 400;
   box-shadow: none !important;
 }
+
 /* .form-control {
   font-size: 14px;
   padding: 20px 10px;
@@ -58,6 +63,7 @@ ol li {
 .pagination {
   margin-bottom: 0px;
 }
+
 .page-link {
   color: #444;
   font-size: 12px;
@@ -69,6 +75,7 @@ ol li {
   background-color: #0070d2 !important;
   border-color: #0070d2 !important;
 }
+
 .mdlform .form-control,
 .form-control {
   font-weight: 400;
@@ -81,12 +88,14 @@ ol li {
   border: 1px solid #d1d5db;
   border-radius: 4px;
 }
+
 .usrtblesearch i svg {
   display: inline-block;
   height: 14px;
   position: relative;
   top: -2px;
 }
+
 .primarybtn {
   background: #0070d2 !important;
   border-radius: 4px;
@@ -98,6 +107,7 @@ ol li {
   gap: 8px;
   align-items: center;
 }
+
 .primarycancelbtn {
   background: #ffffff;
   border: 1px solid #dddbda !important;
@@ -109,11 +119,13 @@ ol li {
   color: #c23934 !important;
   padding: 6px 16px;
 }
+
 .btn {
   font-weight: 500;
   font-size: 12px;
   line-height: 20px;
 }
+
 .c-btn {
   min-height: 36px !important;
   font-weight: 400;
@@ -127,6 +139,7 @@ ol li {
   border-radius: 4px !important;
   overflow-x: auto !important;
 }
+
 .close {
   background-color: transparent !important;
   border: none;
@@ -134,23 +147,28 @@ ol li {
   line-height: 0;
   font-size: 22px;
 }
+
 .blur-bg-2,
 .modal {
   -webkit-backdrop-filter: blur(2px);
   backdrop-filter: blur(2px);
 }
+
 .modal-content {
   border-radius: 12px;
 }
+
 .modal-title {
   font-weight: 600;
   font-size: 20px;
   line-height: 28px;
   color: #3d3d3d;
 }
+
 .pr-0 {
   padding-right: 0;
 }
+
 .pl-0 {
   padding-left: 0;
 }
@@ -174,6 +192,7 @@ ol li {
   vertical-align: middle;
   padding: 7px 7px !important;
 }
+
 .usertableinner .table th {
   font-weight: 500;
   font-size: 12px;
@@ -191,6 +210,7 @@ ol li {
   border: 10x solid #f0f0f0;
   border-top: 0;
 }
+
 .usertableinner .table td {
   font-weight: 500;
   font-size: 12px;
@@ -207,16 +227,19 @@ ol li {
   font-size: 12px;
   font-weight: 500;
 }
+
 .tbleditBtn {
   color: #0e9f6e;
   margin-right: 5px;
   cursor: pointer;
 }
+
 .tbldeleteBtn {
   color: #f05252;
   margin-right: 5px;
   cursor: pointer;
 }
+
 .tblreplicateBtn {
   color: #0070d2;
   margin-right: 5px;
@@ -243,12 +266,15 @@ ol li {
   top: 2px;
   left: 2px;
 }
-.customswitch input[type="checkbox"]:checked ~ label {
+
+.customswitch input[type="checkbox"]:checked~label {
   background-color: #0070d2;
 }
-.customswitch input[type="checkbox"]:checked ~ label span {
+
+.customswitch input[type="checkbox"]:checked~label span {
   left: 22px;
 }
+
 .statusactive {
   display: inline-block;
   background-color: #def7ec;
@@ -260,6 +286,7 @@ ol li {
   color: #03543f;
   padding: 3px 14px;
 }
+
 .statusinactive {
   display: inline-block;
   background-color: #f7dede;
@@ -271,6 +298,7 @@ ol li {
   color: #810606;
   padding: 4px 6px;
 }
+
 .statuspending {
   display: inline-block;
   background-color: #fff3c3;
@@ -282,10 +310,12 @@ ol li {
   color: #ffc107;
   padding: 3px 14px;
 }
+
 .selected-list .c-angle-down,
 .selected-list .c-angle-up {
   top: 40% !important;
 }
+
 label.form-label.labelCls {
   font-weight: 500;
   font-size: 14px;
@@ -293,11 +323,13 @@ label.form-label.labelCls {
   color: #111928;
   margin-bottom: 9px;
 }
+
 .dropdown-list.tagToBody {
   position: absolute !important;
   left: 0 !important;
   top: 40px !important;
 }
+
 .tlbctnbtnsinner p {
   padding: 5px 10px 5px;
   background: #04844b;
@@ -323,22 +355,28 @@ label.form-label.labelCls {
   grid-gap: 10px;
   gap: 10px;
 }
+
 .bg-success {
   background-color: #04844b !important;
 }
+
 .bg-warning {
   background-color: #ffff00 !important;
   /* background-color: #ffb75d !important; */
 }
-.bg-failed{
+
+.bg-failed {
   background-color: #FF0000 !important;
 }
+
 .inlineTaxoformstate app-state-dropdown .selected-list .c-btn {
   border-radius: 4px 0px 0px 4px !important;
 }
-.md-drppicker .btn.btn-default > svg {
+
+.md-drppicker .btn.btn-default>svg {
   display: none !important;
 }
+
 .md-drppicker .btn.btn-default {
   padding: 0 15px !important;
 }
@@ -368,22 +406,56 @@ label.form-label.labelCls {
   text-align: center;
   border-radius: 6px;
 }
+
 .statusPending {
   background-color: #fff3c3;
   color: #ffa800;
 }
+
 .statusSuccesful {
   background-color: #effaf0;
   color: #04844b;
 }
+
 .statusFailed {
   background-color: #fef3f3;
   color: #e74c2b;
 }
+
 .textClamp {
   display: block;
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
   max-width: 220px;
+}
+
+.breadcrumb-item+.breadcrumb-item::before {
+  display: none !important;
+}
+
+.breadcrumb-bx .breadcrumb-item i {
+  font-size: 10px;
+  margin-left: 8px;
+  position: relative;
+  top: -1px;
+}
+
+.breadcrumb-bx .breadcrumb-item {
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 20px;
+  color: #8f8f8f;
+}
+
+li.breadcrumb-item a {
+  color: inherit;
+}
+
+.roletitlemain {
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 20px;
+  color: #374151;
+  border-bottom: none !important;
 }

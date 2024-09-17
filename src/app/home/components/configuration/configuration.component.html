@@ -404,10 +404,17 @@
                                         <div class="col-lg-12 " *ngIf="crawlerType != Constant.CRAWLER_TYPE_COMMON_LINKS && crawlerType != Constant.APPLICATION_FOLLOW_UP && crawlerType != Constant.RPA">
                                             <div class="lookupSearchForm">
                                                 <div class="position-relative">
-                                                    <label> Lookup Link <sup class="text-danger">*</sup> 
-                                                        <span class="text-primary" *ngIf="!updateLinkToggle" (click)="switchUpdateLinkToggle()"><i class="bi bi-pen" style="cursor: pointer;"></i></span>
-                                                    </label>
-                                                    <div class="row mt-2" *ngIf="updateLinkToggle">
+                                                    <div class="d-flex justify-content-between">
+                                                        <label *ngIf="!newLinkToggle"> Lookup Link <sup class="text-danger">*</sup> 
+                                                            <span class="text-primary" *ngIf="!updateLinkToggle" (click)="switchUpdateLinkToggle()">
+                                                                <i class="bi bi-pen" placement="top" ngbTooltip="Update Link" style="cursor: pointer;"></i>
+                                                            </span>
+                                                        </label>
+                                                        <span *ngIf="configId==0 && !newLinkToggle" class="text-primary pointer" (click)="addNewLink()"> 
+                                                            Add new link
+                                                        </span>
+                                                    </div>
+                                                    <div class="row mt-2" *ngIf="updateLinkToggle && !newLinkToggle">
                                                         <div class="col-lg-12">
                                                             <div class="lookupSearchForm">
                                                                 <label>Old Link <sup class="text-danger">*</sup> </label>
@@ -432,12 +439,25 @@
                                                         </div>
                                                     </div>
                                                     
-                                                    <div class="row" *ngIf="!updateLinkToggle">
+                                                    <div class="row" *ngIf="!updateLinkToggle && !newLinkToggle">
                                                         <angular2-multiselect id="taxoLink" name="taxoLink" [data]="taxonomyLinkList" 
                                                         [settings]="dropdownSettingsTaxonomyLink" [(ngModel)]="selectedTaxonomyLink" 
                                                         (ngModelChange)="selectTaxonomyLink($event)" (keyup)="onSearchLink($event)" required>
                                                         </angular2-multiselect>
                                                     </div>
+
+                                                    <!-- <div class="col-lg-12" *ngIf="newLinkToggle">
+                                                        <div class="lookupSearchForm d-flex justify-content-between">
+                                                            <label>New Link <sup class="text-danger">*</sup> </label>
+                                                            <span *ngIf="newLinkToggle" class="text-danger pointer" (click)="addNewLink()"> 
+                                                                Cancel
+                                                            </span>
+                                                        </div>
+                                                        <div class="position-relative">
+                                                            <input type="text" class="form-control" name="newLink" placeholder="Enter New Link" [(ngModel)]="newLink" maxlength="250" required>
+                                                        </div>
+                                                    </div> -->
+
                                                 </div>
                                                 <small *ngIf="mapLookupTaxonomyForm.submitted && Constant.EMPTY_STRINGS.includes(lookupLink)" style="color: red;">Select Link!</small>
                                             </div>
@@ -451,13 +471,16 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-12 " *ngIf="crawlerType == Constant.CRAWLER_TYPE_COMMON_LINKS || crawlerType == Constant.APPLICATION_FOLLOW_UP || crawlerType == Constant.RPA">
+                                        <div class="col-lg-12 " *ngIf="crawlerType == Constant.CRAWLER_TYPE_COMMON_LINKS || crawlerType == Constant.APPLICATION_FOLLOW_UP || crawlerType == Constant.RPA || newLinkToggle">
                                             <div class="lookupSearchForm">
-                                                <div class="lookupSearchForm">
+                                                <div class="lookupSearchForm d-flex justify-content-between">
                                                     <label>Lookup Link <sup class="text-danger">*</sup> </label>
-                                                    <div class="position-relative">
-                                                        <input type="text" class="form-control" name="lookupLink" placeholder="Enter Lookup Link" [(ngModel)]="lookupLink" minlength="10" maxlength="250" required>
-                                                    </div>
+                                                    <span *ngIf="newLinkToggle" class="text-danger pointer" (click)="addNewLink()"> 
+                                                        Cancel
+                                                    </span>
+                                                </div>
+                                                <div class="position-relative">
+                                                    <input type="text" class="form-control" name="lookupLink" placeholder="Enter Lookup Link" [(ngModel)]="lookupLink" minlength="10" maxlength="250" required>
                                                 </div>
                                             </div>
                                         </div>

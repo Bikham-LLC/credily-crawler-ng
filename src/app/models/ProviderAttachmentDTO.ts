@@ -8,4 +8,5 @@ export class ProviderAttachmentDTO{
     docUrl:string='';
     updatedDate:string='';
     attachmentId:number=0;
+    verificationStatus:string='';
 }

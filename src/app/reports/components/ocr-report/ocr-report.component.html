@@ -1,19 +1,31 @@
 
-<div class="searchRowMain mt-3">
-    <div class="row align-items-center justify-content-between">
-        <div class="col-lg-4">
-            <div class="position-relative">
-                <input id="searchname" name="searchname" placeholder="Search" class="form-control" style="padding:0px 15px 0px 38px"
-            [(ngModel)]="databaseHelper.search" (ngModelChange)="this.providerSearch.next($event)"/>
-                <i class="bi bi-search search-icon"></i>
-            </div>
-        </div>
+<div class="align-items-center d-flex gap-2 justify-content-start pb-1 roletitlemain">
+    <div class="breadcrumb-bx">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb mb-0">
+          <li class="breadcrumb-item">
+            <a class="text-decoration-none">Report</a>
+            <i class="bi bi-chevron-compact-right"></i>
+          </li>
+          <li class="breadcrumb-item">
+            <a class="text-decoration-none">OCR Report</a>
+          </li>
+        </ol>
+      </nav>
     </div>
+</div>
+
+
+<div class="searchRowMain mt-3 d-flex justify-content-between">
     <div>
         <div class="d-flex justify-content-start align-items-start gap-2">
             <button class="btn mt-2" [ngClass]="{'primarybtn': version =='V3', 'secondrybtn': version =='V2'}" (click)="getAttachmentWithVersion('V3')">Credily V3</button>
             <button class="btn mt-2" [ngClass]="{'primarybtn': version =='V2', 'secondrybtn': version =='V3'}" (click)="getAttachmentWithVersion('V2')">Credily V2</button>
         </div>
+    </div>
+    <div class="position-relative w-25">
+        <input id="searchname" name="searchname" placeholder="Search" class="form-control" style="padding:0px 15px 0px 38px" [(ngModel)]="databaseHelper.search" (ngModelChange)="this.providerSearch.next($event)"/>
+        <i class="bi bi-search search-icon"></i>
     </div>
 </div>
 
@@ -26,11 +38,12 @@
                 <thead>
                     <tr>
                         <th style="width: 15%;"><span style="cursor: pointer;"> Provider Name</span></th>
-                        <th style="width: 13%;">NPI Number</th>
+                        <th style="width: 10%;">NPI Number</th>
                         <th style="width: 15%;">Email</th>
-                        <th style="width: 9%;">Document Name</th>
-                        <th style="width: 15%;">Update Date</th>
-                        <th style="width: 9%;">Actions</th>
+                        <th style="width: 20%;">Document Name</th>
+                        <th style="width: 10%;">Update Date</th>
+                        <th style="width: 10%;">Verification Status</th>
+                        <th style="width: 8%;">Actions</th>
                     </tr>
                 </thead>
                 <tbody >
@@ -47,6 +60,9 @@
                         </td>
                         <td>
                             <div class="tableinfo line-clamp">{{obj.updatedDate | date : 'MM-dd-yyyy'}}</div>
+                        </td>
+                        <td>
+                            <div class="tableinfo line-clamp">{{obj.verificationStatus?obj.verificationStatus:'---'}}</div>
                         </td>
                         <td>
                             <div class="d-flex gap-2 pointer">
@@ -129,7 +145,7 @@
         </div>
         <div class="modal-body text-center" style="overflow: scroll;min-height: 450px;">
             <app-circular-loader *ngIf="imageLoadingToggle"></app-circular-loader>
-            <iframe *ngIf="!imageLoadingToggle" [src]="imageUrl | safe" alt="" style="height: 60vh;width: 100%;"></iframe>
+            <iframe *ngIf="!imageLoadingToggle" [src]="imageUrl | safe" alt="" style="height: 75vh;width: 100%;"></iframe>
         </div>
         </div>
     </div>

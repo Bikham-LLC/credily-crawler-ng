@@ -513,6 +513,7 @@ export class ConfigurationComponent implements OnInit {
   closeTaxonomyModal() {
     this.databaseHelper = new DatabaseHelper();
     this.type = 'mapped';
+    this.newLinkToggle = false;
     this.configId = 0;
     if(this.configurationId >0){
       this._router.navigate([Route.HOME_CONFIGURATION_ROUTE]);
@@ -911,7 +912,6 @@ export class ConfigurationComponent implements OnInit {
           } else {
             this.closeSaveUuidModal.nativeElement.click();
           }
-          this.getConfiguration();
           this.saveRpaConfigToggle = false;
         }, error => {
           this.saveRpaConfigToggle = false;
@@ -929,7 +929,6 @@ export class ConfigurationComponent implements OnInit {
           } else {
             this.closeSaveUuidModal.nativeElement.click();
           }
-          this.getConfiguration();
           this.saveRpaConfigToggle = false;
         }, error => {
           this.saveRpaConfigToggle = false;
@@ -937,6 +936,7 @@ export class ConfigurationComponent implements OnInit {
           this.dataService.showToast('Something went wrong!');
         })
       }
+      this.getConfiguration();
     }
   }
 
@@ -1620,5 +1620,10 @@ export class ConfigurationComponent implements OnInit {
     } else {
       this.cofnigStepRequest.isRemoveAlphabet = 0;
     }
+  }
+
+  newLinkToggle:boolean = false;
+  addNewLink(){
+    this.newLinkToggle = !this.newLinkToggle;
   }
 }
