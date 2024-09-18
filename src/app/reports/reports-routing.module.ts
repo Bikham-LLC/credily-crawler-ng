@@ -7,7 +7,7 @@ import { TestReportComponent } from './components/test-report/test-report.compon
 import { ReportsComponent } from './reports.component';
 import { OcrReportComponent } from './components/ocr-report/ocr-report.component';
 import { FollowUpReportComponent } from './components/follow-up-report/follow-up-report.component';
-import { ReFetchReportComponent } from './re-fetch-report/re-fetch-report.component';
+import { ReFetchReportComponent } from './components/re-fetch-report/re-fetch-report.component';
 
 const routes: Routes = [{ 
   path: '', component: ReportsComponent,

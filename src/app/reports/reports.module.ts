@@ -13,7 +13,7 @@ import { FormsModule } from '@angular/forms';
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
 import { OcrReportComponent } from './components/ocr-report/ocr-report.component';
 import { FollowUpReportComponent } from './components/follow-up-report/follow-up-report.component';
-import { ReFetchReportComponent } from './re-fetch-report/re-fetch-report.component';
+import { ReFetchReportComponent } from './components/re-fetch-report/re-fetch-report.component';
 
 
 
@@ -26,7 +26,7 @@ import { ReFetchReportComponent } from './re-fetch-report/re-fetch-report.compon
         NoconfigFoundReportComponent,
         OcrReportComponent,
         FollowUpReportComponent,
-        ReFetchReportComponent,
+        ReFetchReportComponent
        
     ],
     imports: [
@@ -35,7 +35,7 @@ import { ReFetchReportComponent } from './re-fetch-report/re-fetch-report.compon
         NgbModule,
         FormsModule,
         SharedModule,
-        AngularMultiSelectModule,
+        AngularMultiSelectModule
     ]
     
 })
