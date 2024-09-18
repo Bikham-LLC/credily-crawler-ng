@@ -1,6 +1,7 @@
 export class ProviderRequestCrawlerLog{ 
     
     id:number=0;
+    createdDate:any;
     updatedDate:any;
     snapShotUrl:string='';
     stateName:string='';

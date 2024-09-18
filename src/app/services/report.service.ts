@@ -216,5 +216,12 @@ export class ReportService {
     }
     return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.report + '/re-fetch-license-report', {params});
   }
+  
+  getReFetchSnapshotReport(providerRequestId:number): Observable<any> {
+    var params = new HttpParams()
+    .set('providerRequestId', providerRequestId)
+    
+    return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.report + '/re-fetch-snapshot-report', {params});
+  }
 
 }

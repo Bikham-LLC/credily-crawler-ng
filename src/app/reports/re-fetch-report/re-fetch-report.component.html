@@ -47,27 +47,26 @@
                             <tbody *ngIf="providerList.length>0 && !reportLoadingToggle">
                                 <tr *ngFor="let obj of providerList; let i = index">
                                     <td class="text-nowrap">
-                                        <div class="tableinfo" >{{obj.providerName}}</div>
+                                      <div class="tableinfo" >{{obj.providerName}}</div>
                                     </td>
                                     <td class="text-nowrap">
-                                        <div class="tableinfo">{{obj.accountName}}</div>
+                                      <div class="tableinfo">{{obj.accountName}}</div>
                                     </td>
                                     <td class="text-nowrap">
-                                        <div class="tableinfo">
+                                      <div class="tableinfo">
                                         <span class="badge-grey npi-badge">{{obj.npi}}</span>
-                                        </div>
+                                      </div>
                                     </td>
                                     <td class="text-nowrap">
-                                        <div class="tableinfo">{{obj.email?obj.email:'---'}}</div>
-                                    </td>
-                                
-                                    <td class="text-nowrap">
-                                        <div class="tableinfo text-muted"> {{obj.updatedDate | date:'MM/dd/yyyy'}}</div>
+                                      <div class="tableinfo">{{obj.email?obj.email:'---'}}</div>
                                     </td>
                                     <td class="text-nowrap">
-                                        <div class="tableinfo">
-                                            <button type="button" class="btn primarybtn">View</button>
-                                        </div>
+                                      <div class="tableinfo text-muted"> {{obj.updatedDate | date:'MM/dd/yyyy'}}</div>
+                                    </td>
+                                    <td class="text-nowrap">
+                                      <div class="tableinfo">
+                                        <button type="button" class="btn primarybtn" (click)="openRefetchReportModal(obj.id, obj.providerName)">View</button>
+                                      </div>
                                     </td>
                                 </tr>
                             </tbody>
@@ -105,14 +104,14 @@
   
   
   
-  <button data-bs-toggle="modal" style="display: none;" data-bs-target="#viewLogs" id="viewLogsButton" #viewLogsButton></button>
-  <div class="modal blur-bg-2" id="viewLogs" tabindex="-1" aria-labelledby="viewEditLabel" data-bs-backdrop="static"
+  <button data-bs-toggle="modal" style="display: none;" data-bs-target="#viewReFetchLogs" id="reFetchLogButton" #reFetchLogButton></button>
+  <div class="modal blur-bg-2" id="viewReFetchLogs" tabindex="-1" aria-labelledby="viewEditLabel" data-bs-backdrop="static"
     aria-hidden="true">
     <div class="modal-dialog modal-custom modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header d-flex justify-content-between align-items-center position-relative p-2 pe-4">
           <div class="credTabsinner m-2 ms-3">
-            <!-- <span style="font-weight: 500;" *ngIf="!Constant.EMPTY_STRINGS.includes(providerName)" >{{providerName}} : </span> -->
+            <span style="font-weight: 500;" *ngIf="!Constant.EMPTY_STRINGS.includes(providerName)" >{{providerName}} 's Refetch Log </span>
           </div>
           <button type="button" class="btn-close" style="margin-left: -70%;" data-bs-dismiss="modal" id="closeLogModel" #closeLogModel aria-label="Close"></button>
         </div>
@@ -121,19 +120,19 @@
             <table class="table">
               <thead>
                 <tr>
-                  <th style="min-width: 100px" class="text-nowrap">S.No.</th>
+                  <th style="min-width: 50px" class="text-nowrap">S.No.</th>
                   <th style="min-width: 100px" class="text-nowrap">Lookup Name</th>
                   <th style="min-width: 100px" class="text-nowrap">Lookup Link</th>
-                  <th style="min-width: 100px" class="text-center text-nowrap">Status</th>
                   <th style="min-width: 100px" class="text-center text-nowrap">State</th>
                   <th style="min-width: 100px" class="text-center text-nowrap">License Number</th>
+                  <th style="min-width: 100px" class="text-center text-nowrap">Status</th>
                   <th style="min-width: 100px" class="text-center text-nowrap">Created Date</th>
                   <th style="min-width: 100px" class="text-end text-center text-nowrap">Action</th>
                 </tr>
               </thead>
   
-              <tbody>
-                <tr *ngFor="let log of [].constructor(10); let i =index;">
+              <tbody *ngIf="!reFetchSnapReportLoading && reFetchLogList.length > 0"> 
+                <tr *ngFor="let log of reFetchLogList; let i =index;">
                   <td>
                     <div class="tableinfo text-nowrap">
                       {{i+1}}
@@ -141,13 +140,23 @@
                   </td>
                   <td> 
                     <div class="tableinfo text-nowrap">
-                      <span class="textClamp">NPI</span>
+                      <span class="textClamp">{{log.lookupName}}</span>
                     </div>
                   </td>
                   <td>
                     <div class="tableinfo text-nowrap d-flex">
                       <!-- <span class="tbleditBtn text-primary"><i class="bi bi-box-arrow-up-left" style="cursor: pointer" (click)="routeToConfiguration(log)"></i></span> -->
-                      <span class="textClamp" >www.</span>
+                      <span class="textClamp" >{{log.lookupLink}}</span>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="tableinfo text-nowrap text-center">
+                      <span>{{log.stateName}}</span>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="tableinfo text-nowrap text-center">
+                      <span>{{log.licenseNumber}}</span>
                     </div>
                   </td>
                   <td>
@@ -158,35 +167,27 @@
                   </td>
                   <td>
                     <div class="tableinfo text-nowrap text-center">
-                      <span>TEXAS</span>
-                    </div>
-                  </td>
-                  <td>
-                    <div class="tableinfo text-nowrap text-center">
-                      <span>12333</span>
-                    </div>
-                  </td>
-                  <td>
-                    <div class="tableinfo text-nowrap text-center">
-                      <span class="badge-grey">Today-MM-yyyy</span>
+                      <span class="badge-grey">{{log.createdDate | date : 'MM/dd/yyyy hh:mm'}}</span>
                     </div>
                   </td>
                   <td>
                     <div class="tableinfo text-nowrap d-flex align-items-center justify-content-center gap-2 pointer">
-                        VIEW
+                      <button ngbTooltip="View" class="btn btn-light btn-outline-light" [disabled]="Constant.EMPTY_STRINGS.includes(log.snapShotUrl)" (click)="openImageModal(log.snapShotUrl)">
+                        <i class="bi bi-eye text-dark" style="font-size: 16px;"></i>
+                      </button>  
                     </div>
                   </td>
                 </tr>
               </tbody>
             </table>
             <!-- Empty notification -->
-            <!-- <div class="empty-notific text-center" style="margin: 9% 10% 10% 3%;" >
+            <div class="empty-notific text-center" style="margin: 9% 10% 10% 3%;" *ngIf="!reFetchSnapReportLoading && reFetchLogList.length==0">
                 <div class="empty-notificinner">
                     <img src="assets/images/allexpirable.svg" style="width: 25%;" alt="no data found" />
                     <h6 class="m-3 ps-5">No data found</h6>
                 </div>
             </div>
-            <app-circular-loader *ngIf="logLoadingToggle"></app-circular-loader> -->
+            <app-circular-loader *ngIf="reFetchSnapReportLoading"></app-circular-loader>
           </div>
         </div>
       </div>
@@ -194,7 +195,7 @@
   </div>
   
   <!-- show image modal -->
-  <!-- <button type="button" #openSnapshotModalButton id="openSnapshotModalButton" class="d-none" data-bs-toggle="modal"
+  <button type="button" #openImageModalButton id="openImageModalButton" class="d-none" data-bs-toggle="modal"
     data-bs-target="#showImageModal"></button>
   <div class="modal blur-bg-2" id="showImageModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false"
     aria-labelledby="shareModalLabel" aria-hidden="true">
@@ -202,8 +203,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLabel">Snapshot</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
-            (click)="closeSnapshotModal()" #closeSnapshotModalButton id="closeSnapshotModalButton"></button>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeImageModalButton id="closeImageModalButton" (click)="closeImageModal()"></button>
         </div>
         <div class="modal-body text-center" style="overflow: scroll;min-height: 750px;">
           <app-circular-loader *ngIf="imageLoadingToggle"></app-circular-loader>
@@ -211,8 +211,6 @@
         </div>
       </div>
     </div>
-  </div> -->
-  
-  <!--  docc upload section end -->
+  </div>
   
   
