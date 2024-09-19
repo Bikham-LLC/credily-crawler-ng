@@ -8,15 +8,15 @@ export class Keys{
 
 
     api_version_one = "/api/v1";
-    login = '/auth/login'
-    lookup_config_controller = '/license-lookup-configuration'
-    lookup_taxonomy = '/license-lookup-configuration/taxonomy'
-    lookup_crawler_attribute = '/license-lookup-configuration/attribute'
-    crewler_controller = '/web-crawler'
-    provider_crawler_controller = '/provider-crawler'
+    login = '/auth/login';
+    lookup_config_controller = '/license-lookup-configuration';
+    lookup_taxonomy = '/license-lookup-configuration/taxonomy';
+    lookup_crawler_attribute = '/license-lookup-configuration/attribute';
+    crewler_controller = '/web-crawler';
+    provider_crawler_controller = '/provider-crawler';
     queue = '/queue';
-    report = '/report'
-    dashboard = '/dashboard'
+    report = '/report';
+    dashboard = '/dashboard';
     
     
 }
