@@ -69,31 +69,6 @@ export class ReFetchReportComponent implements OnInit {
     this.getReFetchReport();
   }
 
-  // @ViewChild('reFetchLogButton') reFetchLogButton!: ElementRef
-  // reFetchLogList: ProviderRequestCrawlerLog[] = new Array();
-  // reFetchSnapReportLoading:boolean = false
-  // providerName:string='';
-  // providerReqId:number =0;
-  // openRefetchReportModal(providerReqId:number, providerName:string){
-  //   this.providerReqId = providerReqId;
-  //   this.providerName = '';
-  //   this.providerName = providerName;
-  //   // this.reFetchLogButton.nativeElement.click();
-  //   // this.getReFetchSnapshotReport();
-  // }
-
-  // getReFetchSnapshotReport(){
-  //   this.reFetchSnapReportLoading = true;
-  //   this.reportService.getReFetchSnapshotReport(this.providerReqId).subscribe(response=>{
-  //     if(response != null){
-  //       this.reFetchLogList = response;
-  //     }
-  //     this.reFetchSnapReportLoading = false;
-  //   },error=>{
-  //     this.reFetchSnapReportLoading = false;
-  //   });
-  // }
-
   @ViewChild('openImageModalButton') openImageModalButton!: ElementRef
 
   imageLoadingToggle:boolean = false;
