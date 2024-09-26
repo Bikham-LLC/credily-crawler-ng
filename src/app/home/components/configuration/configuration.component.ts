@@ -147,7 +147,7 @@ export class ConfigurationComponent implements OnInit {
 
   dropdownSettingsQueue !: { singleSelection: boolean; text: string; enableSearchFilter: boolean; autoPosition: boolean };
   selectedQueue: any[] = new Array();
-  queueList: {id:any, itemName: any}[] = [{ id: 36 , itemName: 'Test queue 1' }, { id: 113, itemName: 'Test queue 2' }];
+  queueList: any[] = new Array();
 
   dropdownSettingsState !: { singleSelection: boolean; text: string; enableSearchFilter: boolean; autoPosition: boolean };
   selectedState: any[] = new Array();
@@ -234,6 +234,7 @@ export class ConfigurationComponent implements OnInit {
 
     this.getConfiguration();
     this.openEditModalFromReport();
+    this.getAllTestQueue();
   }
 
   drop(event: CdkDragDrop<any[]>) {
@@ -1489,6 +1490,16 @@ export class ConfigurationComponent implements OnInit {
       this.queueId = event[0].id;
       this.queueToggle = false;
     }
+  }
+
+  getAllTestQueue(){
+    this.licenseLookupService.getAllTestQueue().subscribe(resp=>{
+      this.queueList = resp;
+
+      this.queueList = JSON.parse(JSON.stringify(this.queueList));
+    },error=>{
+
+    })
   }
 
   commentConfigStep(index:number){

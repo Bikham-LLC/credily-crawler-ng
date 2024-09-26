@@ -203,4 +203,8 @@ export class LicenseLookupService {
     return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.lookup_config_controller+ '/config-uuid', {params});
   }
 
+  getAllTestQueue() : Observable<any>{
+    return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.lookup_config_controller+ '/all-test-queue');
+  }
+
 }
