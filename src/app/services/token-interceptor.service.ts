@@ -46,13 +46,14 @@ export class TokenInterceptorService {
 
       });
     }
-    return next.handle(req).pipe(catchError((error:any) => {
-      if (error instanceof HttpErrorResponse && !req.url.includes('auth') && error.status === 401) {
-        return this.handle401Error(req, next);
-      }
+    return next.handle(req);
+    // .pipe(catchError((error:any) => {
+    //   if (error instanceof HttpErrorResponse && !req.url.includes('auth') && error.status === 401) {
+    //     return this.handle401Error(req, next);
+    //   }
 
-      return throwError(error);
-    }));
+    //   return throwError(error);
+    // }));
   }
 
   errorHandler(error: any, req: any, next: any) {

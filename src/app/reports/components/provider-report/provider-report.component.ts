@@ -177,6 +177,7 @@ export class ProviderReportComponent implements OnInit {
   message:string = '';
   reRunProviderLog(logId:number, index:number){
     debugger
+    console.log("method called 1")
     this.providerTestingToggle = true;
     this.providerCrawlerLogList[index].reTestingToggle = true;
     // if(this.logType == 'rpaLog'){
