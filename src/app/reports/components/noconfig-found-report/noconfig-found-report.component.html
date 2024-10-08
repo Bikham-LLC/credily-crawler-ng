@@ -74,7 +74,7 @@
                         <div class="tableinfo">{{obj.providerName}}</div>
                     </td>
                     <td class="text-nowrap">
-                        <div class="tableinfo">{{obj.accountName}}</div>
+                        <div class="tableinfo">{{obj.accountName?obj.accountName:'---'}}</div>
                     </td>
                     <td class="text-nowrap">
                         <div class="tableinfo"><span class="badge-grey npi-badge">{{obj.npi}}</span></div>
@@ -89,7 +89,7 @@
                         <div class="tableinfo">{{obj.boardName?obj.boardName: '---'}}</div>
                     </td>
                     <td class="text-nowrap">
-                        <div class="tableinfo">---</div>
+                        <div class="tableinfo">{{obj.licenseNumber?obj.licenseNumber:'---'}}</div>
                     </td>
                     <td class="text-nowrap">
                         <div class="tableinfo"><span class="npi-badge statusPending mx-auto">{{obj.credential}}</span></div>

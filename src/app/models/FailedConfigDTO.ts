@@ -17,5 +17,6 @@ export class FailedConfigDTO{
 	credential:string='';
 	boardName:string='';
 	accountName:string='';
+	licenseNumber:number=0;
 
 }
