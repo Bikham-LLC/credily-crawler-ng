@@ -459,3 +459,14 @@ li.breadcrumb-item a {
   color: #374151;
   border-bottom: none !important;
 }
+
+.paginationmain{
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 99;
+  background-color: #fff;
+  padding: 12px 18px;
+  border-top: 1px solid #f1f1f1;
+}

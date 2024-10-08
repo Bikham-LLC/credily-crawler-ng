@@ -57,7 +57,7 @@
                 <th style="min-width: 100px" class="text-nowrap">NPI Number</th>
                 <th style="min-width: 100px" class="text-nowrap">Email</th>
                 <th style="min-width: 100px" class="text-nowrap">Phone</th>
-                <th style="min-width: 100px" class="text-nowrap">
+                <th style="min-width: 140px" class="text-nowrap">
                   <span *ngIf="!versionFilterToggle" (click)="filterByVersion()" style="cursor: pointer;">
                       version 
                       <i class="bi bi-funnel-fill" *ngIf="selectedVersion.length == 0"></i>
@@ -171,8 +171,14 @@
       <div class="modal-header d-flex justify-content-between align-items-center position-relative p-2 pe-4">
         <div class="credTabsinner m-2 ms-3">
           <span style="font-weight: 500;" *ngIf="!Constant.EMPTY_STRINGS.includes(providerName)" >{{providerName}} : </span>
-          <button type="button" class="btn credTabsBtn" [ngClass]="{'credTabsBtnActive' : logType == 'crawlerLog'}" (click)="switchLogTab('crawlerLog')">Crawler Log</button>
-          <button type="button" class="btn credTabsBtn me-2" [ngClass]="{'credTabsBtnActive' : logType == 'rpaLog'}" (click)="switchLogTab('rpaLog')">Rpa Log</button>
+          <button type="button" class="btn credTabsBtn" [ngClass]="{'credTabsBtnActive' : logType == 'crawlerLog'}" (click)="switchLogTab('crawlerLog')">
+            Crawler Log
+            <sup class="logCount">{{licenseCount}}</sup>
+          </button>
+          <button type="button" class="btn credTabsBtn me-2" [ngClass]="{'credTabsBtnActive' : logType == 'rpaLog'}" (click)="switchLogTab('rpaLog')">
+            Rpa Log
+            <sup class="logCount">{{rpaCount}}</sup>
+          </button>
           <span class="pointer" style="margin-left: 12px;" (click)="refreshProviderLogs()">
             <i *ngIf="!logLoadingToggle" class="bi bi-arrow-repeat" style="font-size: 17px;color: #003fdaeb;"></i>
             <i *ngIf="logLoadingToggle" class="spinner-border spinner-border-sm" style="color: #003fdaeb;"></i>
@@ -257,7 +263,7 @@
                       <i *ngIf="log.reTestingToggle" style="font-size: 16px;" class="spinner-border spinner-border-sm text-dark"></i>
                     </button>
 
-                    <button ngbTooltip="View" class="btn btn-light btn-outline-light" [disabled]="log.reTestingToggle || Constant.EMPTY_STRINGS.includes(log.snapShotUrl) || providerTestingToggle" (click)="viewSnapshot(log.snapShotUrl)" >
+                    <button ngbTooltip="View" class="btn btn-light btn-outline-light" [disabled]="Constant.EMPTY_STRINGS.includes(log.snapShotUrl)" (click)="viewSnapshot(log.snapShotUrl)" >
                       <i class="bi bi-eye text-dark" style="font-size: 16px;"></i>
                     </button>
 

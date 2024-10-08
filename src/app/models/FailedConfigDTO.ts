@@ -16,5 +16,6 @@ export class FailedConfigDTO{
 	taxonomy:string='';
 	credential:string='';
 	boardName:string='';
+	accountName:string='';
 
 }

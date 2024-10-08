@@ -76,7 +76,7 @@ export class NoconfigFoundReportComponent implements OnInit {
       text: 'Select State',
       enableSearchFilter: true,
       autoPosition: false,
-      badgeShowLimit: 1
+      badgeShowLimit: 1,
     };
 
     this.getNoConfigFoundReport();
@@ -94,6 +94,8 @@ export class NoconfigFoundReportComponent implements OnInit {
     this.selectedVersion = [];
     if(event != undefined && event.length > 0){
       this.version = event[0].id;
+      var temp : {id:any, itemName: any} = {id: event[0].id, itemName : event[0].id};
+      this.selectedVersion.push(temp);
     }
     this.getNoConfigFoundReport();
     this.versionFilterToggle = false
