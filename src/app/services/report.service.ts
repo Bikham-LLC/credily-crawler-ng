@@ -230,4 +230,13 @@ export class ReportService {
     return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.report + '/log-count', {params});
   }
 
+  getNoConfigProvider(taxonomyCode:string, taxonomyState:string, currentPage:number, itemsPerPage:number): Observable<any> {
+    var params = new HttpParams()
+    .set('taxonomyCode', taxonomyCode)
+    .set('taxonomyState', taxonomyState)
+    .set('currentPage', currentPage)
+    .set('itemsPerPage', itemsPerPage)
+    return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.report + '/no-config-provider', {params});
+  }
+
 }

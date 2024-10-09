@@ -80,4 +80,36 @@
   .usertableinner{
     min-height: 50vh;
   }
+  .modal-config {
+    max-width: 70%;
+    width: 100%;
+  }
+  .inlineTaxoformsearch .form-control {
+    border-radius: 4px;
+    padding-left: 38px;
+  }
+  .inlineTaxoformsearch {
+    position: relative;
+    top: 21px;
+  }
+  .inlineTaxoform .inlineTaxoformstate {
+    width: 24%;
+  }
+  .inlineTaxoform {
+    display: flex;
+    align-items: flex-end;
+  }
+  .inlineTaxoformsearch i.bi.bi-search {
+    position: absolute;
+    left: 10px;
+    top: 7px;
+    font-size: 14px;
+    color: #636363;
+  }
+
+  .requirednessage {
+    color: red;
+    position: relative;
+    top: -13px;
+  }
   

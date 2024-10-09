@@ -111,12 +111,23 @@
             </tbody>
         </table>
         <app-circular-loader *ngIf="noConfigLoadingToggle" ></app-circular-loader>
+        <div class="empty-notific text-center" style="margin: 10% 10% 13% 3%;" *ngIf="!noConfigLoadingToggle && noConfigFoundList.length==0">
+            <div class="empty-notificinner">
+            <img src="assets/images/allexpirable.svg" style="width: 20%;" alt="no data found" />
+            <h6 class="m-3 ps-5">No data found</h6>
+            </div>
+        </div>
     </div>
     <div class="paginationmain mt-5" *ngIf="!noConfigLoadingToggle && noConfigFoundList.length>0">
         <div class="d-flex align-items-center justify-content-between">
         <p class="currentshowing mb-0">
             Showing <span>{{noConfigFoundList.length}}</span> of <span>{{totalItems}}</span>
         </p>
+
+        <button type="button" class="btn btn-outline-primary me-auto ms-5" (click)="openMulConfigModal()">
+            <span>Mapped Providers</span>
+        </button>
+
         <div class="col-lg-6">
             <div class="card-body d-flex justify-content-end">
             <ngb-pagination class="pagination pagination-separated justify-content-sm-end mb-sm-0"
@@ -126,12 +137,6 @@
             </ngb-pagination>
             </div>
         </div>
-        </div>
-    </div>
-    <div class="empty-notific text-center" style="margin: 10% 10% 13% 3%;" *ngIf="!noConfigLoadingToggle && noConfigFoundList.length==0">
-        <div class="empty-notificinner">
-        <img src="assets/images/allexpirable.svg" style="width: 20%;" alt="no data found" />
-        <h6 class="m-3 ps-5">No data found</h6>
         </div>
     </div>
 </div>
@@ -187,6 +192,128 @@
                 <div class="empty-notificinner">
                     <img src="assets/images/allexpirable.svg" style="width: 25%;" alt="no data found" />
                     <h6 class="m-3 ps-5">No data found</h6>
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+<button data-bs-toggle="modal" style="display: none;" data-bs-target="#multipleLog" id="multipleLogBtn" #multipleLogBtn></button>
+<div class="modal blur-bg-2" id="multipleLog" tabindex="-1" aria-labelledby="viewEditLabel" data-bs-backdrop="static"
+  aria-hidden="true">
+  <div class="modal-dialog modal-config modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header d-flex justify-content-between align-items-center position-relative pe-4">
+        <div>
+            <b> Mapped Configuration</b>
+        </div>
+        <button type="button" class="btn-close pointer" style="margin-left: -70%;" data-bs-dismiss="modal" id="closeMulConfigBtn" #closeMulConfigBtn aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+            <div class="col-lg-4">
+                <app-state-dropdown [_updatedStateName]="selectedStateName"
+                    [(stateNameProp)]="selectedStateName"
+                    [stateNameLabelClass]="'labelCls'" 
+                    [stateCodeLabelClass]="'labelCls'"
+                    [stateCodeDynamic]="'State Code'" 
+                    [stateNameClass]="'col-12 labelCls'" 
+                    [stateCodeClass]="'d-none'"
+                    [requiredClass]="'d-none'"
+                    [cityClass]="'d-none'">
+                </app-state-dropdown>
+                <small class="requirednessage" *ngIf="invalidTaxStateToggle && selectedStateName.length == 0">Select state!</small>
+            </div>
+            <div class="col-lg-4 inlineTaxoformsearch">
+                <div class="position-relative">
+                    <i class="bi bi-search"></i>
+                    <input type="Text" class="form-control" name="searchTaxonomy" placeholder="Enter Taxonomy" [(ngModel)]="taxonomyCode">
+                </div>
+                <small *ngIf="invalidTaxCodeToggle && taxonomyCode.length == 0" style="color: red;">Enter taxonomy code!</small>
+            </div>
+            <div class="col-lg-4">
+                <button type="button" class="btn btn-outline-primary" style="margin: 21px 0px 0px 65px;"  (click)="searchProviderWithConfig()">Search</button>
+            </div>
+        </div>
+
+        <div class="usertableinner table-responsive mt-2">
+            <div class="table-responsive" style="height: 70vh;overflow-y: scroll;">
+                <table class="table" *ngIf="!noConfigProviderLoadingToggle && noConfigProviderList.length>0">
+                    <thead>
+                        <tr>
+                            <th style="min-width: 100px" class="text-nowrap">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" style="font-size: 14px;">
+                                    <label class="form-check-label" for="flexCheckDefault">
+                                      Select All
+                                    </label>
+                                </div>
+                            </th>
+                            <th style="min-width: 100px" class="text-nowrap">Provider Name</th>
+                            <th style="min-width: 100px" class="text-nowrap">Taxonomy State</th>
+                            <th style="min-width: 100px" class="text-nowrap">Action</th>
+                        </tr>
+                    </thead>
+    
+                    <tbody>
+                        <tr *ngFor="let obj of noConfigProviderList; let i =index;">
+                            <td>
+                                <div class="tableinfo text-nowrap">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" style="font-size: 14px;">
+                                        <label class="form-check-label" for="flexCheckDefault">
+                                        </label>
+                                    </div>
+                                </div>
+                            </td>
+                            <td> 
+                                <div class="tableinfo text-nowrap">
+                                    <span class="textClamp">{{obj.providerName}}</span>
+                                </div>
+                            </td>
+                            <td> 
+                                <div class="tableinfo text-nowrap">
+                                    <span class="textClamp">{{obj.taxonomy}}</span>
+                                </div>
+                            </td>
+                            <td> 
+                                <div class="tableinfo text-nowrap">
+                                    <angular2-multiselect id="configSelection" name="configSelection" [data]="configList" [settings]="dropdownSettingsConfig" [(ngModel)]="obj.selectedConfig" (ngModelChange)="selectConfig($event)" required>
+                                    </angular2-multiselect>   
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <app-circular-loader *ngIf="noConfigProviderLoadingToggle"></app-circular-loader>
+                <!-- Empty notification -->
+                <div class="empty-notific text-center" style="margin: 9% 10% 10% 3%;" *ngIf="!noConfigProviderLoadingToggle && noConfigProviderList.length == 0">
+                    <div class="empty-notificinner">
+                        <img src="assets/images/allexpirable.svg" style="width: 25%;" alt="no data found" />
+                        <h6 class="m-3 ps-5">No data found</h6>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="!noConfigProviderLoadingToggle && noConfigProviderList.length > 0">
+                <div class="d-flex align-items-center justify-content-between">
+                <p class="currentshowing mb-0">
+                    Showing <span>{{noConfigProviderList.length}}</span> of <span>{{totalProviders}}</span>
+                </p>
+        
+                <div class="col-lg-6">
+                    <div class="card-body d-flex justify-content-end">
+                    <ngb-pagination class="pagination pagination-separated justify-content-sm-end mb-sm-0"
+                        [collectionSize]="totalItems" [rotate]="true" (pageChange)="pageChangedNoConfigProvider($event)"
+                        [pageSize]="databaseHelper2.itemsPerPage" [(page)]="databaseHelper2.currentPage" [maxSize]="5" [boundaryLinks]="true">
+                    </ngb-pagination>
+                    </div>
+                </div>
                 </div>
             </div>
         </div>

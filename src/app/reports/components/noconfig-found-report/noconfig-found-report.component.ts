@@ -3,9 +3,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
+import { Constant } from 'src/app/models/Constant';
 import { DatabaseHelper } from 'src/app/models/DatabaseHelper';
 import { FailedConfigDTO } from 'src/app/models/FailedConfigDTO';
 import { MappedConfiguraion } from 'src/app/models/MappedConfiguraion';
+import { NoConfigProvider } from 'src/app/models/NoConfigProvider';
 import { Route } from 'src/app/models/Route';
 import { DataService } from 'src/app/services/data.service';
 import { HeaderSubscriptionService } from 'src/app/services/header-subscription.service';
@@ -18,6 +20,7 @@ import { ReportService } from 'src/app/services/report.service';
 })
 export class NoconfigFoundReportComponent implements OnInit {
 
+  readonly Constant = Constant;
 
   dropdownSettingsVersion!: { singleSelection: boolean; text: string; enableSearchFilter: boolean; autoPosition: boolean, badgeShowLimit: number; };
   versionList: any[] = [{id:'V2', itemName:'V2'}, {id:'V3', itemName:'V3'}];
@@ -26,6 +29,10 @@ export class NoconfigFoundReportComponent implements OnInit {
   dropdownSettingsState!: { singleSelection: boolean; text: string; enableSearchFilter: boolean; autoPosition: boolean, badgeShowLimit: number; };
   stateList: any[] = new Array();
   selectedState: any[] = new Array();
+
+  dropdownSettingsConfig!: { singleSelection: boolean; text: string; enableSearchFilter: boolean; autoPosition: boolean, badgeShowLimit: number; };
+  configList: any[] = new Array();
+  selectedConfig: any[] = new Array();
 
   providerSearch = new Subject<string>();
   constructor(private reportService: ReportService,
@@ -74,6 +81,14 @@ export class NoconfigFoundReportComponent implements OnInit {
     this.dropdownSettingsState = {
       singleSelection: false,
       text: 'Select State',
+      enableSearchFilter: true,
+      autoPosition: false,
+      badgeShowLimit: 1,
+    };
+
+    this.dropdownSettingsConfig = {
+      singleSelection: true,
+      text: 'Select Configuration',
       enableSearchFilter: true,
       autoPosition: false,
       badgeShowLimit: 1,
@@ -193,6 +208,90 @@ export class NoconfigFoundReportComponent implements OnInit {
     }
     this.getNoConfigFoundReport();
     this.stateFilterToggle = false;
+  }
+
+
+  @ViewChild('multipleLogBtn') multipleLogBtn!:ElementRef
+  @ViewChild('closeMulConfigBtn') closeMulConfigBtn!:ElementRef
+
+  openMulConfigModal(){
+    this.selectedStateName = '';
+    this.taxonomyCode = '';
+    this.noConfigProviderList = [];
+    this.invalidTaxCodeToggle = false;
+    this.invalidTaxStateToggle = false;
+    this.multipleLogBtn.nativeElement.click();
+  }
+
+
+  selectedStateName: string = '';
+  taxonomyCode: string = '';
+  invalidTaxCodeToggle:boolean = false;
+  invalidTaxStateToggle:boolean = false;
+  searchProviderWithConfig() {
+    this.noConfigProviderList = [];
+    this.configList = [];
+    this.invalidTaxCodeToggle = false;
+    this.invalidTaxStateToggle = false;
+    if(this.Constant.EMPTY_STRINGS.includes(this.selectedStateName)){
+      this.invalidTaxStateToggle = true;
+      return;
+    }
+    if(this.Constant.EMPTY_STRINGS.includes(this.taxonomyCode)){
+      this.invalidTaxCodeToggle = true;
+      return;
+    }
+    this.getNoConfigProvider();
+  }
+
+  noConfigProviderList: NoConfigProvider[] = new Array();
+  noConfigProviderLoadingToggle:boolean = false;
+  totalProviders:number=0;
+  getNoConfigProvider(){
+    this.noConfigProviderLoadingToggle = true;
+    this.reportService.getNoConfigProvider(this.taxonomyCode, this.selectedStateName, 1, 10).subscribe(response=>{
+      if(response != null){
+        this.noConfigProviderList = response.providerList;
+        this.configList = response.configList;
+        this.totalProviders = response.totalProvider;
+      }
+      this.configList = JSON.parse(JSON.stringify(this.configList));
+      this.noConfigProviderLoadingToggle = false;
+    },error=>{
+      this.noConfigProviderLoadingToggle = false;
+    })
+  }
+
+  databaseHelper2: DatabaseHelper = new DatabaseHelper();
+  pageChangedNoConfigProvider(event:any){
+    this.databaseHelper2.currentPage = event;
+    this.getNoConfigProvider();
+  }
+
+  selectConfig(event:any) {
+    if(event != undefined){
+      
+    }
+  }
+
+  mappedLogId: any[] = new Array();
+  selectTaxonomySingle(index: number) {
+    debugger
+
+    if (this.noConfigProviderList[index].checked == undefined) {
+      this.noConfigProviderList[index].checked = false;
+    }
+
+    var i = this.noConfigProviderList.findIndex(x => x.logId == this.noConfigProviderList[index].logId);
+    if (this.noConfigProviderList[index].checked) {
+      if (i > -1) {
+        this.mappedLogId.push(this.noConfigProviderList[index].logId);
+      }
+    } else {
+      if (i > -1) {
+        this.mappedLogId.splice(i, 1);
+      }
+    }
   }
 
 }
