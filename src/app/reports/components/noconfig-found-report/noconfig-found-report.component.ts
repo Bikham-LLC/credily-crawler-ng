@@ -30,7 +30,7 @@ export class NoconfigFoundReportComponent implements OnInit {
   stateList: any[] = new Array();
   selectedState: any[] = new Array();
 
-  dropdownSettingsConfig!: { singleSelection: boolean; text: string; enableSearchFilter: boolean; autoPosition: boolean, badgeShowLimit: number; };
+  dropdownSettingsConfig!: { singleSelection: boolean; text: string; enableSearchFilter: boolean; autoPosition: boolean, badgeShowLimit: number;};
   configList: any[] = new Array();
   selectedConfig: any[] = new Array();
 
@@ -231,6 +231,7 @@ export class NoconfigFoundReportComponent implements OnInit {
   searchProviderWithConfig() {
     this.noConfigProviderList = [];
     this.configList = [];
+    this.selectedConfigId = 0;
     this.invalidTaxCodeToggle = false;
     this.invalidTaxStateToggle = false;
     if(this.Constant.EMPTY_STRINGS.includes(this.selectedStateName)){
@@ -268,30 +269,92 @@ export class NoconfigFoundReportComponent implements OnInit {
     this.getNoConfigProvider();
   }
 
-  selectConfig(event:any) {
-    if(event != undefined){
-      
+  selectedConfigId:number=0;
+  invalidConfigToggle:boolean = false;
+  selectConfig(event:any){
+    this.invalidConfigToggle = false;
+    this.selectedConfigId = 0;
+    if(event != undefined && event.length>0) {
+      this.selectedConfigId = event[0].id;
+    } 
+  }
+
+
+  selectAllProvider(){
+    this.isAllSelected = true;
+  }
+
+  logIds: number[] = new Array();
+  isAllSelected: boolean = false;
+
+  selectAll() {
+    debugger
+    if (!this.isAllSelected) {
+      this.isAllSelected = true;
+      this.logIds = [];
+      this.noConfigProviderList.forEach(element => {
+        element.isChecked = true;
+        this.logIds.push(element.logId);
+      });
+    } else {
+      this.isAllSelected = false;
+      this.noConfigProviderList.forEach(element => {
+        element.isChecked = false;
+      });
+      this.logIds = [];
     }
   }
 
-  mappedLogId: any[] = new Array();
-  selectTaxonomySingle(index: number) {
+  selectOne(obj: any) {
     debugger
-
-    if (this.noConfigProviderList[index].checked == undefined) {
-      this.noConfigProviderList[index].checked = false;
-    }
-
-    var i = this.noConfigProviderList.findIndex(x => x.logId == this.noConfigProviderList[index].logId);
-    if (this.noConfigProviderList[index].checked) {
-      if (i > -1) {
-        this.mappedLogId.push(this.noConfigProviderList[index].logId);
+    var i = this.logIds.findIndex(e => e == obj.logId);
+    if (!obj.isChecked) {
+      obj.isChecked = true;
+      if (i == -1) {
+        this.logIds.push(obj.logId);
       }
     } else {
+      obj.isChecked = false;
+      this.isAllSelected = false;
       if (i > -1) {
-        this.mappedLogId.splice(i, 1);
+        this.logIds.splice(i, 1);
       }
     }
+    if (this.logIds.length == this.noConfigProviderList.length) {
+      this.isAllSelected = true;
+    } else {
+      this.isAllSelected = false;
+    }
   }
+
+  selectProviderToggle:boolean = false;
+  submitProvider(){
+    if(this.logIds.length==0) {
+      this.selectProviderToggle = true;
+
+      setTimeout(() => {
+        this.selectProviderToggle = false;
+      }, 1000);
+      return;
+    }
+
+    if(this.selectedConfigId == 0){
+      this.invalidConfigToggle = true;
+      return;
+    }
+
+    this.mapConfigLog();
+  }
+
+  mapConfigSaveLoading:boolean = false;
+  mapConfigLog(){
+    this.mapConfigSaveLoading = true;
+    this.reportService.mapConfigLog(this.logIds, this.selectedConfigId).subscribe(response=>{
+      this.mapConfigSaveLoading = false;
+    }, error=>{
+      this.mapConfigSaveLoading = false;
+    })
+  }
+
 
 }

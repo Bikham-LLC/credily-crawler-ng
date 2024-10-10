@@ -239,4 +239,11 @@ export class ReportService {
     return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.report + '/no-config-provider', {params});
   }
 
+  mapConfigLog(logIdList:any, configId:number) : Observable<any> {
+    var params = new HttpParams()
+    .set('logIdList', logIdList)
+    .set('configId', configId)
+    return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.report + '/map-log-config', {params});
+  }
+
 }

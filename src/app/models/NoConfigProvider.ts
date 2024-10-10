@@ -3,6 +3,6 @@ export class NoConfigProvider{
     providerName:string='';
     taxonomy:string='';
     selectedConfig: string[] = [];
-    checked:boolean = false;
+    isChecked:boolean = false;
     configId:number = 0;
 }

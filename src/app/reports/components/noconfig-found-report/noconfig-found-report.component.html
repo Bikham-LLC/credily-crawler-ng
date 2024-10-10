@@ -207,17 +207,17 @@
 <button data-bs-toggle="modal" style="display: none;" data-bs-target="#multipleLog" id="multipleLogBtn" #multipleLogBtn></button>
 <div class="modal blur-bg-2" id="multipleLog" tabindex="-1" aria-labelledby="viewEditLabel" data-bs-backdrop="static"
   aria-hidden="true">
-  <div class="modal-dialog modal-config modal-dialog-centered">
+  <div class="modal-dialog modal-config modal-xl">
     <div class="modal-content">
       <div class="modal-header d-flex justify-content-between align-items-center position-relative pe-4">
         <div>
-            <b> Mapped Configuration</b>
+            <b> Mapped Configuration </b>
         </div>
         <button type="button" class="btn-close pointer" style="margin-left: -70%;" data-bs-dismiss="modal" id="closeMulConfigBtn" #closeMulConfigBtn aria-label="Close"></button>
       </div>
-      <div class="modal-body">
+      <div class="modal-body pt-0" style="height: 60vh; overflow: scroll;">
         <div class="row">
-            <div class="col-lg-4">
+            <div class="col-lg-5">
                 <app-state-dropdown [_updatedStateName]="selectedStateName"
                     [(stateNameProp)]="selectedStateName"
                     [stateNameLabelClass]="'labelCls'" 
@@ -230,45 +230,42 @@
                 </app-state-dropdown>
                 <small class="requirednessage" *ngIf="invalidTaxStateToggle && selectedStateName.length == 0">Select state!</small>
             </div>
-            <div class="col-lg-4 inlineTaxoformsearch">
+            <div class="col-lg-5 inlineTaxoformsearch">
                 <div class="position-relative">
                     <i class="bi bi-search"></i>
                     <input type="Text" class="form-control" name="searchTaxonomy" placeholder="Enter Taxonomy" [(ngModel)]="taxonomyCode">
                 </div>
                 <small *ngIf="invalidTaxCodeToggle && taxonomyCode.length == 0" style="color: red;">Enter taxonomy code!</small>
             </div>
-            <div class="col-lg-4">
-                <button type="button" class="btn btn-outline-primary" style="margin: 21px 0px 0px 65px;"  (click)="searchProviderWithConfig()">Search</button>
+            <div class="col-lg-2 d-flex justify-content-center align-items-center pt-1">
+                <button type="button" class="btn btn-outline-primary w-100"  (click)="searchProviderWithConfig()">Search</button>
             </div>
         </div>
 
         <div class="usertableinner table-responsive mt-2">
-            <div class="table-responsive" style="height: 70vh;overflow-y: scroll;">
+            <div class="table-responsive">
                 <table class="table" *ngIf="!noConfigProviderLoadingToggle && noConfigProviderList.length>0">
                     <thead>
                         <tr>
                             <th style="min-width: 100px" class="text-nowrap">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" style="font-size: 14px;">
-                                    <label class="form-check-label" for="flexCheckDefault">
+                                    <input class="form-check-input" type="checkbox" value="" id="selectAllCheck" [checked]="isAllSelected" style="font-size: 14px;" (click)="selectAll()">
+                                    <label class="form-check-label" for="selectAllCheck">
                                       Select All
                                     </label>
                                 </div>
                             </th>
                             <th style="min-width: 100px" class="text-nowrap">Provider Name</th>
                             <th style="min-width: 100px" class="text-nowrap">Taxonomy State</th>
-                            <th style="min-width: 100px" class="text-nowrap">Action</th>
                         </tr>
                     </thead>
     
                     <tbody>
-                        <tr *ngFor="let obj of noConfigProviderList; let i =index;">
+                        <tr *ngFor="let obj of noConfigProviderList; let i = index;">
                             <td>
                                 <div class="tableinfo text-nowrap">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" style="font-size: 14px;">
-                                        <label class="form-check-label" for="flexCheckDefault">
-                                        </label>
+                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" style="font-size: 14px;" [checked]="obj.isChecked" (click)="selectOne(obj)">
                                     </div>
                                 </div>
                             </td>
@@ -282,15 +279,10 @@
                                     <span class="textClamp">{{obj.taxonomy}}</span>
                                 </div>
                             </td>
-                            <td> 
-                                <div class="tableinfo text-nowrap">
-                                    <angular2-multiselect id="configSelection" name="configSelection" [data]="configList" [settings]="dropdownSettingsConfig" [(ngModel)]="obj.selectedConfig" (ngModelChange)="selectConfig($event)" required>
-                                    </angular2-multiselect>   
-                                </div>
-                            </td>
                         </tr>
                     </tbody>
                 </table>
+
                 <app-circular-loader *ngIf="noConfigProviderLoadingToggle"></app-circular-loader>
                 <!-- Empty notification -->
                 <div class="empty-notific text-center" style="margin: 9% 10% 10% 3%;" *ngIf="!noConfigProviderLoadingToggle && noConfigProviderList.length == 0">
@@ -300,20 +292,38 @@
                     </div>
                 </div>
             </div>
+        </div>
+      </div>
+      <div class="row mx-0 p-3">
+        <div class="col-lg-6 col-md-6 align-items-center d-flex justify-content-start">
             <div *ngIf="!noConfigProviderLoadingToggle && noConfigProviderList.length > 0">
-                <div class="d-flex align-items-center justify-content-between">
-                <p class="currentshowing mb-0">
+                <div class="">
+                <!-- <p class="currentshowing mb-0">
                     Showing <span>{{noConfigProviderList.length}}</span> of <span>{{totalProviders}}</span>
-                </p>
-        
-                <div class="col-lg-6">
-                    <div class="card-body d-flex justify-content-end">
+                </p> -->
+                <div class="">
+                    <div class="">
                     <ngb-pagination class="pagination pagination-separated justify-content-sm-end mb-sm-0"
-                        [collectionSize]="totalItems" [rotate]="true" (pageChange)="pageChangedNoConfigProvider($event)"
+                        [collectionSize]="totalProviders" [rotate]="true" (pageChange)="pageChangedNoConfigProvider($event)"
                         [pageSize]="databaseHelper2.itemsPerPage" [(page)]="databaseHelper2.currentPage" [maxSize]="5" [boundaryLinks]="true">
                     </ngb-pagination>
                     </div>
                 </div>
+                </div>
+            </div>
+            <div class="ms-5">
+                <small *ngIf="selectProviderToggle" style="color: red;">Please select provider!</small>
+            </div>
+        </div>
+        <div class="col-lg-6 col-md-6" *ngIf="!noConfigProviderLoadingToggle && noConfigProviderList.length > 0">
+            <div class="row">
+                <div class="col-lg-8 col-md-8">
+                    <angular2-multiselect id="configSelection" name="configSelection" [data]="configList" [settings]="dropdownSettingsConfig" [(ngModel)]="selectedConfig" (ngModelChange)="selectConfig($event)" required>
+                    </angular2-multiselect>   
+                    <small *ngIf="invalidConfigToggle" style="color: red;">Please select configuration</small>
+                </div>
+                <div class="col-lg-4 col-md-4">
+                    <button class="btn justify-content-center btn-outline-primary w-100" (click)="submitProvider()"> Submit </button>
                 </div>
             </div>
         </div>
