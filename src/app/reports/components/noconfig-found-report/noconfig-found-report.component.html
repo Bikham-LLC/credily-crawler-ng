@@ -231,11 +231,9 @@
                 <small class="requirednessage" *ngIf="invalidTaxStateToggle && selectedStateName.length == 0">Select state!</small>
             </div>
             <div class="col-lg-5 inlineTaxoformsearch">
-                <div class="position-relative">
-                    <i class="bi bi-search"></i>
-                    <input type="Text" class="form-control" name="searchTaxonomy" placeholder="Enter Taxonomy" [(ngModel)]="taxonomyCode">
-                </div>
-                <small *ngIf="invalidTaxCodeToggle && taxonomyCode.length == 0" style="color: red;">Enter taxonomy code!</small>
+                <angular2-multiselect id="taxonomySelection" name="taxonomySelection" [data]="taxonomyList" [settings]="dropdownSettingsTaxonomy" [(ngModel)]="selectedTaxonomy" (ngModelChange)="selectTaxonomy($event)" required>
+                </angular2-multiselect>   
+                <small *ngIf="invalidTaxCodeToggle && taxonomyCode.length == 0" style="color: red;">Select taxonomy code!</small>
             </div>
             <div class="col-lg-2 d-flex justify-content-center align-items-center pt-1">
                 <button type="button" class="btn btn-outline-primary w-100"  (click)="searchProviderWithConfig()">Search</button>
@@ -313,6 +311,7 @@
             </div>
             <div class="ms-5">
                 <small *ngIf="selectProviderToggle" style="color: red;">Please select provider!</small>
+                <small *ngIf="configMappedToggle" style="color: green;">Config is mapping with providers.</small>
             </div>
         </div>
         <div class="col-lg-6 col-md-6" *ngIf="!noConfigProviderLoadingToggle && noConfigProviderList.length > 0">

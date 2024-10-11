@@ -34,6 +34,10 @@ export class NoconfigFoundReportComponent implements OnInit {
   configList: any[] = new Array();
   selectedConfig: any[] = new Array();
 
+  dropdownSettingsTaxonomy!: { singleSelection: boolean; text: string; enableSearchFilter: boolean; autoPosition: boolean, badgeShowLimit: number;};
+  taxonomyList: any[] = new Array();
+  selectedTaxonomy: any[] = new Array();
+
   providerSearch = new Subject<string>();
   constructor(private reportService: ReportService,
     private dataService: DataService,
@@ -89,6 +93,14 @@ export class NoconfigFoundReportComponent implements OnInit {
     this.dropdownSettingsConfig = {
       singleSelection: true,
       text: 'Select Configuration',
+      enableSearchFilter: true,
+      autoPosition: false,
+      badgeShowLimit: 1,
+    };
+
+    this.dropdownSettingsTaxonomy = {
+      singleSelection: true,
+      text: 'Select Taxonomy',
       enableSearchFilter: true,
       autoPosition: false,
       badgeShowLimit: 1,
@@ -217,10 +229,12 @@ export class NoconfigFoundReportComponent implements OnInit {
   openMulConfigModal(){
     this.selectedStateName = '';
     this.taxonomyCode = '';
+    this.selectedTaxonomy = [];
     this.noConfigProviderList = [];
     this.invalidTaxCodeToggle = false;
     this.invalidTaxStateToggle = false;
     this.multipleLogBtn.nativeElement.click();
+    this.getNoConfigTaxonomy();
   }
 
 
@@ -256,10 +270,29 @@ export class NoconfigFoundReportComponent implements OnInit {
         this.configList = response.configList;
         this.totalProviders = response.totalProvider;
       }
-      this.configList = JSON.parse(JSON.stringify(this.configList));
+
+      if(this.configList != null && this.configList.length>0){
+        this.configList = JSON.parse(JSON.stringify(this.configList));
+      }
+
       this.noConfigProviderLoadingToggle = false;
     },error=>{
       this.noConfigProviderLoadingToggle = false;
+    })
+  }
+
+  getNoConfigTaxonomy(){
+    this.taxonomyList = [];
+    this.reportService.getNoConfigTaxonomy().subscribe(response=>{
+      if(response != null){
+        this.taxonomyList = response;
+      }
+
+      if(this.taxonomyList != null && this.taxonomyList.length>0) {
+        this.taxonomyList = JSON.parse(JSON.stringify(this.taxonomyList));
+      }
+    },error=>{
+
     })
   }
 
@@ -279,6 +312,14 @@ export class NoconfigFoundReportComponent implements OnInit {
     } 
   }
 
+  selectTaxonomy(event:any){
+    this.invalidTaxCodeToggle =false;
+    this.taxonomyCode = '';
+    if(event != undefined && event.length>0) {
+      this.taxonomyCode = event[0].id;
+    }
+  }
+
 
   selectAllProvider(){
     this.isAllSelected = true;
@@ -289,6 +330,7 @@ export class NoconfigFoundReportComponent implements OnInit {
 
   selectAll() {
     debugger
+    this.selectProviderToggle = false;
     if (!this.isAllSelected) {
       this.isAllSelected = true;
       this.logIds = [];
@@ -307,6 +349,7 @@ export class NoconfigFoundReportComponent implements OnInit {
 
   selectOne(obj: any) {
     debugger
+    this.selectProviderToggle = false;
     var i = this.logIds.findIndex(e => e == obj.logId);
     if (!obj.isChecked) {
       obj.isChecked = true;
@@ -328,6 +371,7 @@ export class NoconfigFoundReportComponent implements OnInit {
   }
 
   selectProviderToggle:boolean = false;
+  configMappedToggle:boolean = false;
   submitProvider(){
     if(this.logIds.length==0) {
       this.selectProviderToggle = true;
@@ -344,12 +388,20 @@ export class NoconfigFoundReportComponent implements OnInit {
     }
 
     this.mapConfigLog();
+    this.configMappedToggle = true;
+    setTimeout(() => {
+      this.configMappedToggle = false;
+      this.searchProviderWithConfig();
+    }, 2500);
   }
 
   mapConfigSaveLoading:boolean = false;
   mapConfigLog(){
     this.mapConfigSaveLoading = true;
     this.reportService.mapConfigLog(this.logIds, this.selectedConfigId).subscribe(response=>{
+      if(response){
+        this.isAllSelected = false;
+      }
       this.mapConfigSaveLoading = false;
     }, error=>{
       this.mapConfigSaveLoading = false;
