@@ -14,6 +14,7 @@ import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
 import { OcrReportComponent } from './components/ocr-report/ocr-report.component';
 import { FollowUpReportComponent } from './components/follow-up-report/follow-up-report.component';
 import { ReFetchReportComponent } from './components/re-fetch-report/re-fetch-report.component';
+import { RpaReportComponent } from './components/rpa-report/rpa-report.component';
 
 
 
@@ -26,7 +27,8 @@ import { ReFetchReportComponent } from './components/re-fetch-report/re-fetch-re
         NoconfigFoundReportComponent,
         OcrReportComponent,
         FollowUpReportComponent,
-        ReFetchReportComponent
+        ReFetchReportComponent,
+        RpaReportComponent
        
     ],
     imports: [

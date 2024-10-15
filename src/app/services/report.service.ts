@@ -250,4 +250,26 @@ export class ReportService {
     return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.report + '/no-config-taxonomy');
   }
 
+  getRpaReport(databaseHelper:DatabaseHelper, startDate:any, endDate:any, status:string): Observable<any> {
+    if(databaseHelper==undefined || databaseHelper==null){
+      databaseHelper = new DatabaseHelper();
+    }
+    var params = new HttpParams()
+    .set('startDate', startDate)
+    .set('endDate', endDate)
+    .set('search', databaseHelper.search)
+    .set('searchBy', databaseHelper.searchBy)
+    .set('currentPage', databaseHelper.currentPage)
+    .set('itemsPerPage', databaseHelper.itemsPerPage)
+    .set('status', status)
+    return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.report + '/rpa-report', {params});
+  }
+
+  getRpaReportCount(startDate:any, endDate:any): Observable<any> {
+    var params = new HttpParams()
+    .set('startDate', startDate)
+    .set('endDate', endDate)
+    return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.report + '/rpa-report-count', {params});
+  }
+
 }

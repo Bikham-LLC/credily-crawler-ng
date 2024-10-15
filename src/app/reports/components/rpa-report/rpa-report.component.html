@@ -1,0 +1,154 @@
+<div class="align-items-center d-flex gap-2 justify-content-start pb-1 roletitlemain">
+    <div class="breadcrumb-bx">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item">
+                    <a class="text-decoration-none">Report</a>
+                    <i class="bi bi-chevron-compact-right"></i>
+                </li>
+                <li class="breadcrumb-item">
+                    <a class="text-decoration-none">RPA Report</a>
+                </li>
+            </ol>
+         </nav>
+    </div>
+</div>
+
+
+<div class="searchRowMain mb-3 ms-3 mt-3">
+    <div class="row align-items-center justify-content-between">
+        <div class="col-lg-4">
+            <div class="position-relative">
+                <input id="searchname" name="searchname" placeholder="Search" class="form-control" style="padding:0px 15px 2px 38px" [(ngModel)]="databaseHelper.search" (ngModelChange)="this.providerSearch.next($event)" />
+                <i class="bi bi-search search-icon"></i>
+            </div>
+        </div>
+        <div class="col-lg-8 d-flex gap-2 justify-content-end">
+            <button type="button" class="tblFilterBtn" [ngClass]="{'tblFilterBtnSuccessActive': filterType == 'completed'}" (click)="getRpaReport('completed', 0)">
+                <i class="bi bi-check2"></i>
+                Completed
+                <span class="filterCount bg-success text-white" >{{completedCount}}</span>
+              </button>
+              <button type="button" class="tblFilterBtn" [ngClass]="{'tblFilterBtnPendingActive': filterType == 'pending'}" (click)="getRpaReport('pending', 0)">
+                <i class="bi bi-exclamation-triangle"></i>
+                Pending
+                <span class="filterCount bg-warning">{{pendingCount}}</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="usertable mt-3 ng-star-inserted">
+    <div class="usertableinner table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th style="min-width: 100px" class="text-nowrap">Provider Name</th>
+                    <th style="min-width: 100px" class="text-nowrap">Account Name</th>
+                    <th style="min-width: 100px" class="text-nowrap">NPI</th>
+                    <th style="min-width: 100px" class="text-nowrap">Version</th>
+                    <th style="min-width: 100px" class="text-nowrap">Lookup Name</th>
+                    <th style="min-width: 100px" class="text-nowrap">Lookup Link</th>
+                    <th style="min-width: 100px" class="text-nowrap">Log Id</th>
+                    <th style="min-width: 100px" class="text-nowrap">Status</th>
+                    <th style="min-width: 100px" class="text-nowrap">Snapshot</th>
+                </tr>
+            </thead>
+            <tbody *ngIf="!reportLoadingToggle && providerList.length>0">
+                <tr *ngFor="let obj of providerList; let i = index">
+                    <td class="text-nowrap">
+                        <div class="tableinfo">{{obj.providerName}}</div>
+                    </td>
+                    <td class="text-nowrap">
+                        <div class="tableinfo">{{obj.accountName}}</div>
+                    </td>
+                    <td class="text-nowrap">
+                        <div class="tableinfo">{{obj.npi}}</div>
+                    </td>
+                    <td class="text-nowrap">
+                        <div class="tableinfo">{{obj.version}}</div>
+                    </td>
+                    <td class="text-nowrap">
+                        <div class="tableinfo">{{obj.lookupName}}</div>
+                    </td>
+                    <td class="text-nowrap">
+                        <div class="tableinfo">{{obj.lookupLink}}</div>
+                    </td>
+                    <td class="text-nowrap">
+                        <div class="tableinfo">{{obj.logId}}</div>
+                    </td>
+                    <td class="text-nowrap">
+                        <div class="tableinfo" [ngClass]="{'statusactive':obj.status.toUpperCase() == 'COMPLETED', 'statuspending': obj.status.toUpperCase() == 'PENDING'}">{{obj.status}}</div>
+                    </td>
+                    <td class="text-nowrap">
+                        <div class="tableinfo">
+                            <button type="button" class="btn primarybtn" [disabled]="Constant.EMPTY_STRINGS.includes(obj.url)" (click)="openImage(obj.url)">View</button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <app-circular-loader *ngIf="reportLoadingToggle" ></app-circular-loader>
+        <div class="empty-notific text-center" style="margin: 10% 10% 13% 3%;" *ngIf="!reportLoadingToggle && providerList.length==0">
+            <div class="empty-notificinner">
+            <img src="assets/images/allexpirable.svg" style="width: 20%;" alt="no data found" />
+            <h6 class="m-3 ps-5">No data found</h6>
+            </div>
+        </div>
+    </div>
+    <div class="paginationmain mt-5" *ngIf="!reportLoadingToggle && providerList.length>0">
+        <div class="d-flex align-items-center justify-content-between">
+        <p class="currentshowing mb-0">
+            Showing <span>{{providerList.length}}</span> of <span>{{totalProviders}}</span>
+        </p>
+
+        <div class="col-lg-6">
+            <div class="card-body d-flex justify-content-end">
+            <ngb-pagination class="pagination pagination-separated justify-content-sm-end mb-sm-0"
+                [collectionSize]="totalProviders" [rotate]="true" (pageChange)="pageChanged($event)"
+                [pageSize]="databaseHelper.itemsPerPage" [(page)]="databaseHelper.currentPage" [maxSize]="5"
+                [boundaryLinks]="true">
+            </ngb-pagination>
+            </div>
+        </div>
+        </div>
+    </div>
+</div>
+
+<!-- show image modal -->
+<!-- <button type="button" #openSnapshotModalBtn id="openSnapshotModalBtn" class="d-none" data-bs-toggle="modal" data-bs-target="imageModal"></button>
+<div class="modal blur-bg-2" id="imageModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="shareModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" style="max-width:95%;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Snapshot</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeSnapshotModalBtn id="closeSnapshotModalBtn"></button>
+      </div>
+      <div class="modal-body text-center" style="overflow: scroll;min-height: 750px;">
+        <app-circular-loader *ngIf="imageLoadingToggle"></app-circular-loader>
+        <iframe *ngIf="!imageLoadingToggle" [src]="imageUrl | safe" style="height: 46rem;width: 100%;" alt=""> </iframe>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+
+<!-- show image modal -->
+<button type="button" #openSnapshotModalButton id="openSnapshotModalButton" class="d-none" data-bs-toggle="modal"
+  data-bs-target="#showImageModal"></button>
+<div class="modal blur-bg-2" id="showImageModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false"
+  aria-labelledby="shareModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" style="max-width:95%;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Snapshot</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeSnapshotModalButton id="closeSnapshotModalButton"></button>
+      </div>
+      <div class="modal-body text-center" style="overflow: scroll;min-height: 750px;">
+        <app-circular-loader *ngIf="imageLoadingToggle"></app-circular-loader>
+        <!-- <img *ngIf="!imageLoadingToggle" [src]="imageUrl | safe" alt="" /> -->
+        <iframe *ngIf="!imageLoadingToggle" [src]="imageUrl | safe" style="height: 46rem;width: 100%;" alt=""> </iframe>
+      </div>
+    </div>
+  </div>
+</div>

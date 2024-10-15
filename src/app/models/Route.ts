@@ -12,6 +12,7 @@ export class Route {
     static OCR_REPORT = '/reports/ocr-report';
     static FOLLOW_UP_REPORT = '/reports/follow-up-report';
     static RE_FETCH_REPORT = '/reports/re-fetch-report';
+    static RPA_REPORT = '/reports/rpa-report';
     static RPA_MODULE = '/rpa';
 
 }
