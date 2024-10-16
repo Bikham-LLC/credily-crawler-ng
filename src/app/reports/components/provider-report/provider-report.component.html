@@ -129,9 +129,21 @@
                 </td>
               </tr>
             </tbody>
+            <tbody>
+              <tr>
+                <td colspan="9" class="border-0">
+                  <app-circular-loader *ngIf="fetchingReport"></app-circular-loader>
+                  <div class="empty-notific text-center" style="margin: 13% 10% 13% 3%;" *ngIf="!fetchingReport && providerList.length==0">
+                    <div class="empty-notificinner">
+                      <img src="assets/images/allexpirable.svg" style="width: 18%;" alt="no data found" />
+                      <h6 class="m-3 ps-5">No data found</h6>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
           </table>
         </div>
-        <app-circular-loader *ngIf="fetchingReport"></app-circular-loader>
         <div class="paginationmain mt-5" *ngIf=" !fetchingReport && providerList.length >0">
           <div class="d-flex align-items-center justify-content-between">
             <p class="currentshowing mb-0">
@@ -149,12 +161,12 @@
           </div>
         </div>
         <!-- Empty notification -->
-        <div class="empty-notific text-center" style="margin: 13% 10% 13% 3%;" *ngIf="!fetchingReport && providerList.length==0">
+        <!-- <div class="empty-notific text-center" style="margin: 13% 10% 13% 3%;" *ngIf="!fetchingReport && providerList.length==0">
           <div class="empty-notificinner">
             <img src="assets/images/allexpirable.svg" style="width: 18%;" alt="no data found" />
             <h6 class="m-3 ps-5">No data found</h6>
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>
