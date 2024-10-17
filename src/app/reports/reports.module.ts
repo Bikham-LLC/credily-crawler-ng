@@ -15,6 +15,7 @@ import { OcrReportComponent } from './components/ocr-report/ocr-report.component
 import { FollowUpReportComponent } from './components/follow-up-report/follow-up-report.component';
 import { ReFetchReportComponent } from './components/re-fetch-report/re-fetch-report.component';
 import { RpaReportComponent } from './components/rpa-report/rpa-report.component';
+import { NpdbReportComponent } from './components/npdb-report/npdb-report.component';
 
 
 
@@ -28,7 +29,8 @@ import { RpaReportComponent } from './components/rpa-report/rpa-report.component
         OcrReportComponent,
         FollowUpReportComponent,
         ReFetchReportComponent,
-        RpaReportComponent
+        RpaReportComponent,
+        NpdbReportComponent
        
     ],
     imports: [

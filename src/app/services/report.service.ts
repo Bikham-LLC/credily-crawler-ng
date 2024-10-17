@@ -272,4 +272,24 @@ export class ReportService {
     return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.report + '/rpa-report-count', {params});
   }
 
+  getNpdbReport(databaseHelper:DatabaseHelper, startDate:any, endDate:any): Observable<any> {
+    if(databaseHelper==undefined || databaseHelper==null){
+      databaseHelper = new DatabaseHelper();
+    }
+    var params = new HttpParams()
+    .set('startDate', startDate)
+    .set('endDate', endDate)
+    .set('search', databaseHelper.search)
+    .set('searchBy', databaseHelper.searchBy)
+    .set('currentPage', databaseHelper.currentPage)
+    .set('itemsPerPage', databaseHelper.itemsPerPage)
+    return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.report + '/npdb-report', {params});
+  }
+
+  mapSnapshotAgain(logId:number): Observable<any>{
+    var params = new HttpParams()
+    .set('logId', logId)
+    return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.report + "/map-snapshot-again", {params});
+  }
+
 }

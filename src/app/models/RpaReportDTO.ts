@@ -9,4 +9,5 @@ export class RpaReportDTO {
     logId:number=0;
     status:string='';
     url:string='';
+    email:string='';
 }

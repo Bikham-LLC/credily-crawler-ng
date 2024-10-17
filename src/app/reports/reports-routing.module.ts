@@ -9,6 +9,7 @@ import { OcrReportComponent } from './components/ocr-report/ocr-report.component
 import { FollowUpReportComponent } from './components/follow-up-report/follow-up-report.component';
 import { ReFetchReportComponent } from './components/re-fetch-report/re-fetch-report.component';
 import { RpaReportComponent } from './components/rpa-report/rpa-report.component';
+import { NpdbReportComponent } from './components/npdb-report/npdb-report.component';
 
 const routes: Routes = [{ 
   path: '', component: ReportsComponent,
@@ -21,6 +22,7 @@ const routes: Routes = [{
     {path: 'follow-up-report', component: FollowUpReportComponent},
     {path: 're-fetch-report', component: ReFetchReportComponent},
     {path: 'rpa-report', component: RpaReportComponent},
+    {path: 'npdb-report', component: NpdbReportComponent},
   ] 
 
 }];

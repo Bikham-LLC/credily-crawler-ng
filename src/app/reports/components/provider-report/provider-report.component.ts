@@ -226,8 +226,10 @@ export class ProviderReportComponent implements OnInit {
   @ViewChild('openSnapshotModalButton') openSnapshotModalButton !: ElementRef;
   imageUrl:string='';
   imageLoadingToggle:boolean = false;
-  viewSnapshot(url:string){
+  imageName:string='';
+  viewSnapshot(url:string, imageName:string){
     debugger
+    this.imageName = imageName;
     this.imageLoadingToggle = true;
     this.imageUrl = url;
     this.closeLogsButton.nativeElement.click();
@@ -316,9 +318,24 @@ export class ProviderReportComponent implements OnInit {
     })
   }
 
+  mapAgainLoadingToggle:boolean = false;
+  showMapMessageToggle:boolean = false;
+  mapSnapshotAgain(logId:number, index:number){
+    this.mapAgainLoadingToggle = true;
+    this.showMapMessageToggle = true;
+    this.providerCrawlerLogList[index].mapAgainLoadingToggle = true;
+    this.reportService.mapSnapshotAgain(logId).subscribe(response=>{
+      this.mapAgainLoadingToggle = false;
+      this.showMapMessageToggle = false;
+      this.providerCrawlerLogList[index].mapAgainLoadingToggle = false;
+    },error=>{
+      this.mapAgainLoadingToggle = false;
+      this.providerCrawlerLogList[index].mapAgainLoadingToggle = false;
+    })
+  }
 
 
-  // --------------------------- firebase doc upload section --------------------------------------
+  // --------------------------- firebase doc upload section start --------------------------------------
 
   uploadedToggle: boolean = false;
   uploadingToggle: boolean = false;
@@ -400,10 +417,6 @@ export class ProviderReportComponent implements OnInit {
 
       let firebaseName = "crawler-manual-upload/"+ this.uuid +"_"+ this.providerName+"/"+this.configName + moment(new Date()).format('MMMDD_YYYY_hh_mm_ss');
       this.fileName = this.providerName + "_" + this.configName+"_"+ moment(new Date()).format('MMMDD_YYYY_hh_mm_ss');
-      
-    
-      // var storageRef = this.firebaseStorage.storage.ref();
-      // const fileRef = storageRef.child(firebaseName);
 
       const fileRef = this.firebaseStorage.ref(firebaseName);
       
@@ -439,4 +452,5 @@ export class ProviderReportComponent implements OnInit {
     this.urlString = '';
   }
 
+    // --------------------------- firebase doc upload section end --------------------------------------
 }

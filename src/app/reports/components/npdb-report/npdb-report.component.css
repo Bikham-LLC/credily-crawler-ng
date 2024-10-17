@@ -1,0 +1,13 @@
+.search-icon {
+    font-size: 15px;
+    position: absolute;
+    left: 10px;
+    top: 9px;
+    display: flex;
+    align-items: center;
+    color: #878a99;
+  }
+  .tableinfo .primarybtn {
+    border-radius: 6px;
+    padding: 2px 10px;
+  }

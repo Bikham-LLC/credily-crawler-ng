@@ -11,7 +11,8 @@ export class ProviderRequestCrawlerLog{
     errorStatus:string='';
     crawlerStatus:string='';
     reTestingToggle:boolean=false;
-    reRunCount:number =0;
+    mapAgainLoadingToggle:boolean=true;
+    reRunCount:number = 0;
     reRunDate:any;
-    licenseNumber:string=''
+    licenseNumber:string='';
 }

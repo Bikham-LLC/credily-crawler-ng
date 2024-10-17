@@ -13,6 +13,7 @@ export class Route {
     static FOLLOW_UP_REPORT = '/reports/follow-up-report';
     static RE_FETCH_REPORT = '/reports/re-fetch-report';
     static RPA_REPORT = '/reports/rpa-report';
+    static NPDB_REPORT = '/reports/npdb-report';
     static RPA_MODULE = '/rpa';
 
 }
