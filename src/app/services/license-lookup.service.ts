@@ -6,6 +6,7 @@ import { DatabaseHelper } from '../models/DatabaseHelper';
 import { LicenseLookupConfigRequest } from '../models/LicenseLookupConfigRequest';
 import { Constant } from '../models/Constant';
 import { RpaTestRequest } from '../models/RpaTestRequest';
+import { LogConfigRequest } from '../models/LogConfigRequest';
 
 @Injectable({
   providedIn: 'root'
@@ -205,6 +206,16 @@ export class LicenseLookupService {
 
   getAllTestQueue() : Observable<any>{
     return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.lookup_config_controller+ '/all-test-queue');
+  }
+
+  matchConfigName(configName:string) : Observable<any>{
+    var params = new HttpParams()
+    .set('configName', configName)
+    return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.lookup_config_controller+ '/match-config-name', {params});
+  }
+
+  createConfig(logConfigRequest:LogConfigRequest) : Observable<any>{
+    return this.http.post<any>(this.key.server_url + this.key.api_version_one + this.key.lookup_config_controller+ '/create-config', logConfigRequest);
   }
 
 }

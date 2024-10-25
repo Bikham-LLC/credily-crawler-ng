@@ -1375,6 +1375,8 @@ export class ConfigurationComponent implements OnInit {
       this.attachmentId = event[0].id;
       this.attachmentType = event[0].itemName;
       this.getAttachmentSubType();
+    } else {
+      this.selectedAttSubType =[];
     }
   }
 

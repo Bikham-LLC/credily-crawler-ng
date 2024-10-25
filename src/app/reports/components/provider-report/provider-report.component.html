@@ -195,6 +195,9 @@
             <i *ngIf="!logLoadingToggle" class="bi bi-arrow-repeat" style="font-size: 17px;color: #003fdaeb;"></i>
             <i *ngIf="logLoadingToggle" class="spinner-border spinner-border-sm" style="color: #003fdaeb;"></i>
           </span>
+          <button type="button" class="btn btn-light btn-outline-light ms-4" (click)="openCreateConfigModel()">
+            <i class="bi bi-plus-lg text-dark"></i>
+          </button>
         </div>
 
         <span *ngIf="showRpaRespToggle" class="successTooltip">
@@ -398,4 +401,121 @@
 </div>
 
 <!--  docc upload section end -->
+
+
+<!-- ------------------------------ add config model -------------------------------------- -->
+<button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#configModal" #createConfigModalButton>Launch Modal</button>
+<div class="modal fade modal-lg" id="configModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-bs-labelledby="exampleModalLabel" aria-bs-hidden="true">
+  <div class="modal-dialog configModal">
+    <div class="modal-content">
+      <form #createConfigForm="ngForm" ngNativeValidate>
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel"> 
+            Add Configuration
+          </h5>
+          <button type="button" class="close" data-bs-dismiss="modal" aria-bs-label="Close" #closeConfigModalButton (click)="closeConfigModal()">
+            <span aria-bs-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="mldConfigurationmain">
+            <div class="mldConfigurationinner">
+              <div class="lookupSearch mb-1">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" (click)="isConfigExist($event)">
+                  <label class="form-check-label" for="flexCheckDefault">
+                    Does config exist ?
+                  </label>
+                </div>
+                <div class="row mb-1">
+                  <div class="col-lg-6" *ngIf="!isConfigExistToggle">
+                    <div class="lookupSearchForm">
+                      <label>Configuration Name <sup class="text-danger">*</sup> </label>
+                      <div class="position-relative">
+                        <input type="text" class="form-control" name="configName" [(ngModel)]="lookupName" (ngModelChange)="this.matchConfig.next($event)" placeholder="Enter Configuration Name" maxlength="155" required>
+                      </div>
+                      <small *ngIf="!Constant.EMPTY_STRINGS.includes(configMessage)" style="color: red;">{{configMessage}}</small>
+                    </div>
+                  </div>
+                  <div class="col-lg-6" *ngIf="!isConfigExistToggle">
+                    <div class="lookupSearchForm">
+                      <label>Config link <sup class="text-danger">*</sup> </label>
+                      <div class="position-relative">
+                        <input type="text" class="form-control" name="configLink" [(ngModel)]="lookupLink" placeholder="Enter Configuration link" maxlength="155" required>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-6">
+                    <div class="lookupSearchForm">
+                      <div class="position-relative">
+                        <label class="">Config Type <sup class="text-danger">*</sup> </label>
+                        <angular2-multiselect id="configType" name="configType" [data]="configTypeList" [settings]="dropdownSettingsAttachmentType" [(ngModel)]="selectedConfigType" (ngModelChange)="selectConfigType($event)" required>
+                        </angular2-multiselect>
+                      </div>
+                      <small *ngIf="createConfigForm.submitted && Constant.EMPTY_STRINGS.includes(configType)" style="color: red;">Select config type!</small>
+                    </div>
+                  </div>
+                  <div class="col-lg-6" *ngIf="isConfigExistToggle">
+                    <div class="lookupSearchForm">
+                      <label>Configuration Name <sup class="text-danger">*</sup> </label>
+                      <angular2-multiselect id="taxoLink" name="taxoLink" [data]="taxonomyLinkList" 
+                        [settings]="dropdownSettingsTaxonomyLink" [(ngModel)]="selectedTaxonomyLink" 
+                        (ngModelChange)="selectTaxonomyLink($event)" (keyup)="onSearchLink($event)" required>
+                      </angular2-multiselect>
+                      <small *ngIf="createConfigForm.submitted && Constant.EMPTY_STRINGS.includes(lookupName)" style="color: red;">Select config!</small>
+                    </div>
+                  </div>
+                  <div class="col-lg-6" *ngIf="configType == 'License Lookup'">
+                    <div class="lookupSearchForm">
+                      <label>License number <sup class="text-danger">*</sup></label>
+                      <div class="position-relative">
+                        <input type="text" class="form-control" id="licenseNumber" name="licenseNumber" [(ngModel)]="licenseNumber" placeholder="Enter license number" minlength="3" maxlength="155" required>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-6" *ngIf="!isConfigExistToggle">
+                    <div class="lookupSearchForm">
+                      <div class="position-relative">
+                        <label class="">Attachment Type <sup class="text-danger">*</sup> </label>
+                        <angular2-multiselect id="attType" name="attType" [data]="attTypeList" [settings]="dropdownSettingsAttachmentType" [(ngModel)]="selectedAttType" (ngModelChange)="selectAttType($event)" required>
+                        </angular2-multiselect>
+                      </div>
+                      <small *ngIf="createConfigForm.submitted && Constant.EMPTY_STRINGS.includes(attachmentType)" style="color: red;">Select attachment type!</small>
+                    </div>
+                  </div>
+                  <div class="col-lg-6" *ngIf="!isConfigExistToggle">
+                    <div class="lookupSearchForm">
+                      <div class="position-relative">
+                        <label class="">Attachment Sub Type <sup class="text-danger">*</sup> </label>
+                        <angular2-multiselect id="attSubType" name="attSubType" [data]="attSubTypeList" [settings]="dropdownSettingsAttachmentSubType" [(ngModel)]="selectedAttSubType" (ngModelChange)="selectAttSubType($event)" required>
+                        </angular2-multiselect>
+                      </div>
+                      <small *ngIf="createConfigForm.submitted && Constant.EMPTY_STRINGS.includes(attachmentSubType)" style="color: red;">Select attachment sub type!</small>
+                    </div>
+                  </div>
+                </div>
+                <!-- <div class="row mb-1" *ngIf="isConfigExistToggle">
+                  <div class="col-lg-6">
+                    <div class="lookupSearchForm">
+                      <label>Configuration Name <sup class="text-danger">*</sup> </label>
+                      <angular2-multiselect id="taxoLink" name="taxoLink" [data]="taxonomyLinkList" 
+                        [settings]="dropdownSettingsTaxonomyLink" [(ngModel)]="selectedTaxonomyLink" 
+                        (ngModelChange)="selectTaxonomyLink($event)" (keyup)="onSearchLink($event)" required>
+                      </angular2-multiselect>
+                    </div>
+                  </div>
+                </div> -->
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn primaryBtn" (click)="createConfig()">
+            Save
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
 

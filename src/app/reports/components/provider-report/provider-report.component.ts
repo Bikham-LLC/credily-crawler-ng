@@ -15,6 +15,9 @@ import * as moment from 'moment';
 import { SnapshotRequest } from 'src/app/models/SnapshotRequest';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { HeaderSubscriptionService } from 'src/app/services/header-subscription.service';
+import { LicenseLookupService } from 'src/app/services/license-lookup.service';
+import { EventManager } from '@angular/platform-browser';
+import { LogConfigRequest } from 'src/app/models/LogConfigRequest';
 
 
 @Component({
@@ -32,11 +35,14 @@ export class ProviderReportComponent implements OnInit {
   selectedVersion: any[] = new Array();
 
   providerSearch = new Subject<string>();
+  matchConfig = new Subject<string>();
+
   constructor( private reportService:ReportService,
     private router : Router,
     private dataService: DataService,
     private firebaseStorage: AngularFireStorage,
     private headerSubscriptionService: HeaderSubscriptionService,
+    private licenseLookupService: LicenseLookupService
     ) { 
 
     this.providerSearch.pipe(
@@ -44,6 +50,12 @@ export class ProviderReportComponent implements OnInit {
       .subscribe(value => {
         this.databaseHelper.currentPage = 1;
         this.getProviderReport(this.filterType, 0);
+      });
+
+    this.matchConfig.pipe(
+      debounceTime(600))
+      .subscribe(value => {
+        this.matchConfigName();
       });
 
       this.subscribeHeader = this.headerSubscriptionService.headerVisibilityChange.subscribe(async (value) => {
@@ -64,6 +76,29 @@ export class ProviderReportComponent implements OnInit {
       autoPosition: false,
       badgeShowLimit: 1
     };
+
+    this.dropdownSettingsAttachmentType = {
+      singleSelection: true,
+      text: 'Select Attachment Type',
+      enableSearchFilter: true,
+      autoPosition: false
+    }
+
+    this.dropdownSettingsAttachmentSubType = {
+      singleSelection: true,
+      text: 'Select Attachment Sub Type',
+      enableSearchFilter: true,
+      autoPosition: false
+    }
+
+    this.dropdownSettingsTaxonomyLink = {
+      singleSelection: true,
+      text: 'Select configuration',
+      enableSearchFilter: true,
+      autoPosition: false,
+      searchPlaceholderText: 'Search By Name'
+    }
+
     this.getProviderReport(this.filterType, 0);
     this.getProviderReportCount();
   }
@@ -332,6 +367,206 @@ export class ProviderReportComponent implements OnInit {
       this.mapAgainLoadingToggle = false;
       this.providerCrawlerLogList[index].mapAgainLoadingToggle = false;
     })
+  }
+
+  dropdownSettingsAttachmentType !: { singleSelection: boolean; text: string; enableSearchFilter: boolean; autoPosition: boolean };
+  selectedAttType: any[] = new Array();
+  attTypeList: any[] = new Array();
+
+  dropdownSettingsAttachmentSubType !: { singleSelection: boolean; text: string; enableSearchFilter: boolean; autoPosition: boolean };
+  selectedAttSubType: any[] = new Array();
+  attSubTypeList: any[] = new Array();
+
+  dropdownSettingsConfigType !: { singleSelection: boolean; text: string; enableSearchFilter: boolean; autoPosition: boolean };
+  configTypeList: any[] = [{id:1, itemName: 'License Lookup'}, {id:2, itemName: 'Board Certification'}];
+  selectedConfigType: any[] = new Array();
+
+  dropdownSettingsTaxonomyLink !: { singleSelection: boolean; text: string; enableSearchFilter: boolean; autoPosition: boolean; searchPlaceholderText: string; };
+  selectedTaxonomyLink: any[] = new Array();
+  taxonomyLinkList: any[] = new Array();
+
+
+
+  attachmentTypeList: any[] = new Array()
+  getAttachmentType() {
+    this.attachmentTypeList =[];
+    this.licenseLookupService.getAttachmentType().subscribe(response => {
+      response.forEach((e: any) => {
+        var temp: { id: any, itemName: any } = { id: e.id, itemName: e.name };
+        this.attTypeList.push(temp);
+      })
+      this.attTypeList = JSON.parse(JSON.stringify(this.attTypeList));
+    }, error => {
+
+    })
+  }
+
+  attachmentId: number = 0;
+  attachmentType: string = '';
+  selectAttType(event: any) {
+    debugger
+    this.attSubTypeList = [];
+    this.attachmentSubType = '';
+    this.attachmentType = '';
+    if (event[0] != undefined && event.length > 0) {
+      this.attachmentId = event[0].id;
+      this.attachmentType = event[0].itemName;
+      this.getAttachmentSubType();
+    } else {
+      this.selectedAttSubType = [];
+    }
+  }
+
+  getAttachmentSubType() {
+    this.licenseLookupService.getAttachmentSubType(this.attachmentId).subscribe(response => {
+      response.forEach((e: any) => {
+        var temp: { id: any, itemName: any, description: any, source: any  } = { id: e.id, itemName: e.name, description: e.description, source: e.source};
+        this.attSubTypeList.push(temp);
+      })
+      this.attSubTypeList = JSON.parse(JSON.stringify(this.attSubTypeList));
+    }, error => {
+
+    })
+  }
+
+  attactmentSource:string='';
+  attachmentSubType: string = '';
+  attachmentSubTypeDescription: string = '';
+  selectAttSubType(event: any) {
+    debugger
+    this.attachmentSubType = '';
+    this.attachmentSubTypeDescription = '';
+    this.attactmentSource = '';
+    if (event[0] != undefined && event.length > 0) {
+      this.attachmentSubType = event[0].itemName;
+      this.attachmentSubTypeDescription = event[0].description;
+      this.attactmentSource = event[0].source;
+    }
+  }
+
+  @ViewChild('createConfigModalButton') createConfigModalButton!: ElementRef
+  @ViewChild('closeConfigModalButton') closeConfigModalButton!: ElementRef
+  @ViewChild('createConfigForm') createConfigForm!: any;
+
+  openCreateConfigModel(){
+    this.selectedTaxonomyLink = [];
+    this.selectedAttType = [];
+    this.selectedAttSubType = [];
+    this.selectedConfigType = [];
+    this.lookupLink ='';
+    this.lookupName ='';
+    this.getAttachmentType();
+    this.getAttachmentSubType();
+    this.createConfigModalButton.nativeElement.click();
+  }
+  closeConfigModal() {
+    this.closeConfigModalButton.nativeElement.click();
+    this.viewLogsButton.nativeElement.click();
+  }
+
+  lookupName:string='';
+  lookupLink:string=''
+  configType:string='';
+  selectConfigType(event:any){
+    this.configType = '';
+    if(event[0] != undefined){
+      this.configType = event[0].itemName
+    }
+  }
+
+  licenseNumber:string='';
+  logConfigRequest : LogConfigRequest = new LogConfigRequest();
+  createConfig() {
+    if(this.isConfigExistToggle){
+      if(Constant.EMPTY_STRINGS.includes(this.configType) || 
+       Constant.EMPTY_STRINGS.includes(this.attachmentType) || 
+        Constant.EMPTY_STRINGS.includes(this.attachmentSubType) || 
+          !this.Constant.EMPTY_STRINGS.includes(this.configMessage)){
+        return;
+      }
+    } else {
+      if(Constant.EMPTY_STRINGS.includes(this.lookupName)) {
+        return;
+      }
+    }
+
+    this.logConfigRequest.lookupLink = this.lookupLink;
+    this.logConfigRequest.lookupName = this.lookupName;
+    this.logConfigRequest.attachmentType = this.attachmentType;
+    this.logConfigRequest.attachmentSubType = this.attachmentSubType;
+    this.logConfigRequest.attachmentTypeDesc = this.attachmentSubTypeDescription
+    this.logConfigRequest.attactmentSource = this.attactmentSource;
+    this.logConfigRequest.isConfigExistToggle = this.isConfigExistToggle;
+
+    
+
+
+
+  }
+
+  configMatchLoadingToggle:boolean = false;
+  configMessage:string='';
+  matchConfigName(){
+    this.configMessage = '';
+    this.configMatchLoadingToggle = true;
+    this.licenseLookupService.matchConfigName(this.lookupName).subscribe(response=>{
+      if(!response) {
+        this.configMessage = 'Config already exists with this name.';
+      }
+      this.configMatchLoadingToggle = false;
+    },error=>{
+      this.configMatchLoadingToggle = false;
+    })
+  }
+
+  isConfigExistToggle:boolean = false;
+  isConfigExist(event:any){
+    debugger
+    this.isConfigExistToggle = false;
+    if(event.target.checked){
+      this.isConfigExistToggle = true;
+      this.getTaxonomyLink('');
+    }
+  }
+
+  onSearchLink(event: any) {
+    debugger
+    this.getTaxonomyLink(event.target.value);
+  }
+
+  taxanomyLinkLoading: boolean = false;
+  getTaxonomyLink(search: string) {
+    debugger
+    if (!this.Constant.EMPTY_STRINGS.includes(this.lookupLink)) {
+      this.taxanomyLinkLoading = true;
+    }
+    this.licenseLookupService.getTaxonomyLink(search, this.configType).subscribe(response => {
+      if (response.object != null) {
+        this.taxonomyLinkList = [];
+        response.object.forEach((element: any) => {
+          var temp: { id: any, itemName: any } = { id: element.link, itemName: element.name };
+          this.taxonomyLinkList.push(temp);
+        })
+      }
+      this.taxanomyLinkLoading = false;
+    }, error => {
+      this.taxanomyLinkLoading = false;
+    })
+    this.taxonomyLinkList = JSON.parse(JSON.stringify(this.taxonomyLinkList));
+  }
+
+  selectTaxonomyLink(event: any) {
+    debugger
+    this.lookupLink = '';
+    this.selectedTaxonomyLink = [];
+    if (event[0] != undefined && event.length>0) {
+      this.selectedTaxonomyLink.push(event[0]);
+      this.lookupLink = event[0].id;
+      this.lookupName = event[0].itemName;
+    } else {
+      this.lookupLink = '';
+      this.lookupName = '';
+    }
   }
 
 
