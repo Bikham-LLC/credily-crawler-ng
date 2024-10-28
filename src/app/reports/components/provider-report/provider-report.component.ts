@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { debounceTime, filter, finalize } from 'rxjs/operators';
@@ -16,8 +16,8 @@ import { SnapshotRequest } from 'src/app/models/SnapshotRequest';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { HeaderSubscriptionService } from 'src/app/services/header-subscription.service';
 import { LicenseLookupService } from 'src/app/services/license-lookup.service';
-import { EventManager } from '@angular/platform-browser';
 import { LogConfigRequest } from 'src/app/models/LogConfigRequest';
+import { LicenseTypeJson } from 'src/app/models/LicenseTypeJson';
 
 
 @Component({
@@ -91,13 +91,21 @@ export class ProviderReportComponent implements OnInit {
       autoPosition: false
     }
 
-    this.dropdownSettingsTaxonomyLink = {
+    this.dropdownSettingsConfigName = {
       singleSelection: true,
       text: 'Select configuration',
       enableSearchFilter: true,
       autoPosition: false,
       searchPlaceholderText: 'Search By Name'
     }
+
+    this.dropdownSettingsLicenseType = {
+      singleSelection: true,
+      text: 'Select License Type',
+      enableSearchFilter: true,
+      autoPosition: false,
+      lazyLoading: true
+    };
 
     this.getProviderReport(this.filterType, 0);
     this.getProviderReportCount();
@@ -187,11 +195,13 @@ export class ProviderReportComponent implements OnInit {
   @ViewChild('viewLogsButton') viewLogsButton!: ElementRef;
   uuid :any;
   providerName:string='';
-  viewLogs(providerUuid:string, providerName:string){
+  providerReqId:number=0;
+  viewLogs(providerUuid:string, providerName:string, providerReqId:number){
     this.providerName = '';
     this.licenseCount = 0;
     this.rpaCount = 0;
     this.providerName = providerName;
+    this.providerReqId = providerReqId;
     this.uuid = providerUuid;
     this.viewLogsButton.nativeElement.click();
     this.getLogCount();
@@ -378,12 +388,17 @@ export class ProviderReportComponent implements OnInit {
   attSubTypeList: any[] = new Array();
 
   dropdownSettingsConfigType !: { singleSelection: boolean; text: string; enableSearchFilter: boolean; autoPosition: boolean };
-  configTypeList: any[] = [{id:1, itemName: 'License Lookup'}, {id:2, itemName: 'Board Certification'}];
+  configTypeList: any[] = [{id:1, itemName: 'License Lookup'}, {id:2, itemName: 'Board Certification'}, {id:3, itemName: 'DEA'}];
   selectedConfigType: any[] = new Array();
 
-  dropdownSettingsTaxonomyLink !: { singleSelection: boolean; text: string; enableSearchFilter: boolean; autoPosition: boolean; searchPlaceholderText: string; };
-  selectedTaxonomyLink: any[] = new Array();
-  taxonomyLinkList: any[] = new Array();
+  dropdownSettingsConfigName !: { singleSelection: boolean; text: string; enableSearchFilter: boolean; autoPosition: boolean; searchPlaceholderText: string; };
+  selectedConfigName: any[] = new Array();
+  configList: any[] = new Array();
+
+  dropdownSettingsLicenseType!: { singleSelection: boolean; text: string; enableSearchFilter: boolean; autoPosition: boolean, lazyLoading: boolean };
+  licenseTypeObj: LicenseTypeJson = new LicenseTypeJson();
+  licenseTypeList: any[] = new Array();
+  selectedLicenseType: any[] = new Array();
 
 
 
@@ -408,7 +423,7 @@ export class ProviderReportComponent implements OnInit {
     this.attSubTypeList = [];
     this.attachmentSubType = '';
     this.attachmentType = '';
-    if (event[0] != undefined && event.length > 0) {
+    if (event != undefined && event.length > 0) {
       this.attachmentId = event[0].id;
       this.attachmentType = event[0].itemName;
       this.getAttachmentSubType();
@@ -429,6 +444,27 @@ export class ProviderReportComponent implements OnInit {
     })
   }
 
+  getLicenseType() {
+    this.licenseTypeList = [];
+    this.licenseTypeObj.licenseType.forEach(element => {
+      var temp: { id: any, itemName: any } = { id: '', itemName: '' };
+      temp.id = element.id
+      temp.itemName = element.licenseTypes
+      this.licenseTypeList.push(temp);
+    });
+    this.licenseTypeList = JSON.parse(JSON.stringify(this.licenseTypeList));
+  }
+
+  licenseType:string='';
+  selectLicenseType(event: any) {
+    this.licenseType = '';
+    if (event != undefined) {
+      this.licenseType = event[0].itemName;
+    }
+  }
+
+  selectedStateName: string='';
+
   attactmentSource:string='';
   attachmentSubType: string = '';
   attachmentSubTypeDescription: string = '';
@@ -437,7 +473,7 @@ export class ProviderReportComponent implements OnInit {
     this.attachmentSubType = '';
     this.attachmentSubTypeDescription = '';
     this.attactmentSource = '';
-    if (event[0] != undefined && event.length > 0) {
+    if (event != undefined && event.length > 0) {
       this.attachmentSubType = event[0].itemName;
       this.attachmentSubTypeDescription = event[0].description;
       this.attactmentSource = event[0].source;
@@ -449,14 +485,25 @@ export class ProviderReportComponent implements OnInit {
   @ViewChild('createConfigForm') createConfigForm!: any;
 
   openCreateConfigModel(){
-    this.selectedTaxonomyLink = [];
-    this.selectedAttType = [];
-    this.selectedAttSubType = [];
+
+    this.createConfigForm.resetForm();
+    this.licenseNumber = '';
+    this.lookupLink = '';
+    this.lookupName = '';
+    this.selectedConfigName = [];
+    this.selectedLicenseType=[];
+    this.licenseType ='';
+    this.attachmentType = '';
+    this.attachmentSubType = '';
     this.selectedConfigType = [];
-    this.lookupLink ='';
-    this.lookupName ='';
+    this.selectedAttSubType = [];
+    this.selectedAttType = [];
+    this.selectedStateName = '';
+
+
     this.getAttachmentType();
     this.getAttachmentSubType();
+    this.getLicenseType();
     this.createConfigModalButton.nativeElement.click();
   }
   closeConfigModal() {
@@ -468,28 +515,47 @@ export class ProviderReportComponent implements OnInit {
   lookupLink:string=''
   configType:string='';
   selectConfigType(event:any){
+    debugger
     this.configType = '';
-    if(event[0] != undefined){
-      this.configType = event[0].itemName
+    this.selectedConfigName = []
+    if(event != undefined){
+      if(event[0].itemName == 'DEA'){
+        this.configType = 'License Lookup';
+        this.getTaxonomyLink('DEA');
+      } else {
+        this.getTaxonomyLink('');
+        this.configType = event[0].itemName
+      }
     }
   }
 
   licenseNumber:string='';
   logConfigRequest : LogConfigRequest = new LogConfigRequest();
+  configCreatingToggle:boolean = false;
   createConfig() {
+    if(Constant.EMPTY_STRINGS.includes(this.configType)){
+      return;
+    }
     if(this.isConfigExistToggle){
-      if(Constant.EMPTY_STRINGS.includes(this.configType) || 
-       Constant.EMPTY_STRINGS.includes(this.attachmentType) || 
-        Constant.EMPTY_STRINGS.includes(this.attachmentSubType) || 
-          !this.Constant.EMPTY_STRINGS.includes(this.configMessage)){
+      if(Constant.EMPTY_STRINGS.includes(this.lookupName)) {
         return;
       }
     } else {
-      if(Constant.EMPTY_STRINGS.includes(this.lookupName)) {
+      if(Constant.EMPTY_STRINGS.includes(this.attachmentType) || Constant.EMPTY_STRINGS.includes(this.attachmentSubType)){
+        return;
+      }
+    }
+    if(!this.Constant.EMPTY_STRINGS.includes(this.configMessage)){
+      return;
+    }
+
+    if(this.configType == 'License Lookup') {
+      if(Constant.EMPTY_STRINGS.includes(this.selectedStateName)){
         return;
       }
     }
 
+    this.configCreatingToggle = true;
     this.logConfigRequest.lookupLink = this.lookupLink;
     this.logConfigRequest.lookupName = this.lookupName;
     this.logConfigRequest.attachmentType = this.attachmentType;
@@ -497,9 +563,22 @@ export class ProviderReportComponent implements OnInit {
     this.logConfigRequest.attachmentTypeDesc = this.attachmentSubTypeDescription
     this.logConfigRequest.attactmentSource = this.attactmentSource;
     this.logConfigRequest.isConfigExistToggle = this.isConfigExistToggle;
+    this.logConfigRequest.state = this.selectedStateName;
+    this.logConfigRequest.licenseType = this.licenseType
+    this.logConfigRequest.configType = this.configType
 
-    
+    this.logConfigRequest.providerUuid = this.uuid;
+    this.logConfigRequest.providerRequestId = this.providerReqId;
 
+    this.reportService.createConfig(this.logConfigRequest).subscribe(response=>{
+      if(response){
+        this.closeConfigModal();
+        this.getProviderLogs(this.uuid);
+      }
+      this.configCreatingToggle = false;
+    },error=>{
+      this.configCreatingToggle = false;
+    })
 
 
   }
@@ -519,9 +598,24 @@ export class ProviderReportComponent implements OnInit {
     })
   }
 
+  @Output() stateDropdown = new EventEmitter();
   isConfigExistToggle:boolean = false;
   isConfigExist(event:any){
     debugger
+    this.lookupLink = '';
+    this.lookupName = '';
+    this.selectedConfigName = [];
+    this.selectedLicenseType=[];
+    this.licenseType ='';
+    this.attachmentType = '';
+    this.attachmentSubType = '';
+    this.selectedConfigType = [];
+    this.selectedAttSubType = [];
+    this.selectedAttType = [];
+    this.selectedConfigName = [];
+    this.selectedStateName = '';
+
+    this.licenseNumber = '';
     this.isConfigExistToggle = false;
     if(event.target.checked){
       this.isConfigExistToggle = true;
@@ -542,30 +636,28 @@ export class ProviderReportComponent implements OnInit {
     }
     this.licenseLookupService.getTaxonomyLink(search, this.configType).subscribe(response => {
       if (response.object != null) {
-        this.taxonomyLinkList = [];
+        this.configList = [];
         response.object.forEach((element: any) => {
           var temp: { id: any, itemName: any } = { id: element.link, itemName: element.name };
-          this.taxonomyLinkList.push(temp);
+          this.configList.push(temp);
         })
       }
       this.taxanomyLinkLoading = false;
     }, error => {
       this.taxanomyLinkLoading = false;
     })
-    this.taxonomyLinkList = JSON.parse(JSON.stringify(this.taxonomyLinkList));
+    this.configList = JSON.parse(JSON.stringify(this.configList));
   }
 
   selectTaxonomyLink(event: any) {
     debugger
     this.lookupLink = '';
-    this.selectedTaxonomyLink = [];
-    if (event[0] != undefined && event.length>0) {
-      this.selectedTaxonomyLink.push(event[0]);
+    this.lookupName = '';
+    this.selectedConfigName = [];
+    if (event != undefined && event.length>0) {
+      this.selectedConfigName.push(event[0]);
       this.lookupLink = event[0].id;
       this.lookupName = event[0].itemName;
-    } else {
-      this.lookupLink = '';
-      this.lookupName = '';
     }
   }
 

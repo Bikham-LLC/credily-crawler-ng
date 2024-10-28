@@ -118,11 +118,7 @@
                 <td class="text-nowrap">
                   <div class="tableinfo">
                     <div class="d-flex align-items-center gap-2">
-                      <button type="button" class="btn primarybtn" (click)="viewLogs(obj.providerUuid, obj.providerName)">View</button>
-                      <!-- <span *ngIf="Constant.REFRESH_HIDE.includes(obj.status)" (click)="refreshProviderStatus(obj.providerUuid, i)">
-                        <i *ngIf="!providerList[i].refreshProviderLoading" class="bi bi-arrow-repeat" style="font-size: 17px;color: #003fdaeb;"></i>
-                        <i *ngIf="providerList[i].refreshProviderLoading"class="spinner-border spinner-border-sm" style="color: #003fdaeb;"></i>
-                      </span> -->
+                      <button type="button" class="btn primarybtn" (click)="viewLogs(obj.providerUuid, obj.providerName, obj.id)">View</button>
                       <span *ngIf="obj.isProviderDeleted == 1" style="margin-left: 13px" class="text-danger" >Deleted!</span>
                     </div>
                   </div>
@@ -160,13 +156,6 @@
             </div>
           </div>
         </div>
-        <!-- Empty notification -->
-        <!-- <div class="empty-notific text-center" style="margin: 13% 10% 13% 3%;" *ngIf="!fetchingReport && providerList.length==0">
-          <div class="empty-notificinner">
-            <img src="assets/images/allexpirable.svg" style="width: 18%;" alt="no data found" />
-            <h6 class="m-3 ps-5">No data found</h6>
-          </div>
-        </div> -->
       </div>
     </div>
   </div>
@@ -413,7 +402,7 @@
           <h5 class="modal-title" id="exampleModalLabel"> 
             Add Configuration
           </h5>
-          <button type="button" class="close" data-bs-dismiss="modal" aria-bs-label="Close" #closeConfigModalButton (click)="closeConfigModal()">
+          <button type="button" class="close" data-bs-dismiss="modal" aria-bs-label="Close" #closeConfigModalButton [disabled]="configCreatingToggle" (click)="closeConfigModal()">
             <span aria-bs-hidden="true">&times;</span>
           </button>
         </div>
@@ -458,19 +447,11 @@
                   <div class="col-lg-6" *ngIf="isConfigExistToggle">
                     <div class="lookupSearchForm">
                       <label>Configuration Name <sup class="text-danger">*</sup> </label>
-                      <angular2-multiselect id="taxoLink" name="taxoLink" [data]="taxonomyLinkList" 
-                        [settings]="dropdownSettingsTaxonomyLink" [(ngModel)]="selectedTaxonomyLink" 
+                      <angular2-multiselect id="config" name="config" [data]="configList" 
+                        [settings]="dropdownSettingsConfigName" [(ngModel)]="selectedConfigName" 
                         (ngModelChange)="selectTaxonomyLink($event)" (keyup)="onSearchLink($event)" required>
                       </angular2-multiselect>
                       <small *ngIf="createConfigForm.submitted && Constant.EMPTY_STRINGS.includes(lookupName)" style="color: red;">Select config!</small>
-                    </div>
-                  </div>
-                  <div class="col-lg-6" *ngIf="configType == 'License Lookup'">
-                    <div class="lookupSearchForm">
-                      <label>License number <sup class="text-danger">*</sup></label>
-                      <div class="position-relative">
-                        <input type="text" class="form-control" id="licenseNumber" name="licenseNumber" [(ngModel)]="licenseNumber" placeholder="Enter license number" minlength="3" maxlength="155" required>
-                      </div>
                     </div>
                   </div>
                   <div class="col-lg-6" *ngIf="!isConfigExistToggle">
@@ -493,25 +474,46 @@
                       <small *ngIf="createConfigForm.submitted && Constant.EMPTY_STRINGS.includes(attachmentSubType)" style="color: red;">Select attachment sub type!</small>
                     </div>
                   </div>
-                </div>
-                <!-- <div class="row mb-1" *ngIf="isConfigExistToggle">
-                  <div class="col-lg-6">
+                  <div class="col-lg-6" *ngIf="configType == 'License Lookup'">
                     <div class="lookupSearchForm">
-                      <label>Configuration Name <sup class="text-danger">*</sup> </label>
-                      <angular2-multiselect id="taxoLink" name="taxoLink" [data]="taxonomyLinkList" 
-                        [settings]="dropdownSettingsTaxonomyLink" [(ngModel)]="selectedTaxonomyLink" 
-                        (ngModelChange)="selectTaxonomyLink($event)" (keyup)="onSearchLink($event)" required>
-                      </angular2-multiselect>
+                      <label>License number <sup class="text-danger">*</sup></label>
+                      <div class="position-relative">
+                        <input type="text" class="form-control" id="licenseNumber" name="licenseNumber" [(ngModel)]="licenseNumber" placeholder="Enter license number" minlength="3" maxlength="155" required>
+                      </div>
                     </div>
                   </div>
-                </div> -->
+                  <div class="col-lg-6" *ngIf="configType == 'License Lookup'">
+                    <div class="lookupSearchForm">
+                      <label>License Type</label>
+                      <div class="position-relative">
+                        <angular2-multiselect id="licenseTypeSelectBox" name="licenseTypeSelectBox" [data]="licenseTypeList" [settings]="dropdownSettingsLicenseType" [(ngModel)]="selectedLicenseType" (ngModelChange)="selectLicenseType($event)">
+                        </angular2-multiselect>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-6" *ngIf="configType == 'License Lookup'">
+                    <app-state-dropdown [_updatedStateName]="selectedStateName"
+                      [(stateNameProp)]="selectedStateName"
+                      [stateNameLabelClass]="'labelCls'" 
+                      [stateCodeLabelClass]="'labelCls'"
+                      [stateNameDynamic]="'State Name'" 
+                      [stateCodeDynamic]="'State Code'" 
+                      [stateNameClass]="'col-12 labelCls'" 
+                      [stateCodeClass]="'d-none'"
+                      [requiredClass]="'d-none'"
+                      [cityClass]="'d-none'">
+                    </app-state-dropdown>
+                    <small *ngIf="createConfigForm.submitted && Constant.EMPTY_STRINGS.includes(selectedStateName)" style="color: red;" >Select state!</small>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
         <div class="modal-footer">
-          <button type="submit" class="btn primaryBtn" (click)="createConfig()">
-            Save
+          <button type="submit" class="btn primaryBtn" [disabled]="configCreatingToggle" (click)="createConfig()">
+            <span *ngIf="!configCreatingToggle">Save</span>
+            <span *ngIf="configCreatingToggle">Saving <i *ngIf="configCreatingToggle" class="spinner-border spinner-border-sm"></i></span>
           </button>
         </div>
       </form>

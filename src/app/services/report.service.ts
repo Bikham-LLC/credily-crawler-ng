@@ -5,6 +5,7 @@ import { DatabaseHelper } from '../models/DatabaseHelper';
 import { Observable } from 'rxjs';
 import { Constant } from '../models/Constant';
 import { CommentRequest } from '../models/CommentRequest';
+import { LogConfigRequest } from '../models/LogConfigRequest';
 
 @Injectable({
   providedIn: 'root'
@@ -290,6 +291,10 @@ export class ReportService {
     var params = new HttpParams()
     .set('logId', logId)
     return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.report + "/map-snapshot-again", {params});
+  }
+
+  createConfig(logConfigRequest:LogConfigRequest) : Observable<any>{
+    return this.http.post<any>(this.key.server_url + this.key.api_version_one + this.key.report+ '/config', logConfigRequest);
   }
 
 }

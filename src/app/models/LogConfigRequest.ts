@@ -2,6 +2,7 @@ export class LogConfigRequest {
 
     logId:number=0;
     providerUuid:string='';
+    providerRequestId:number=0
     lookupName:string='';
     lookupLink:string='';
     attachmentType:string='';
@@ -9,6 +10,9 @@ export class LogConfigRequest {
     attactmentSource:string='';
     attachmentTypeDesc:string='';
     licenseNumber:string='';
+    licenseType:string='';
+    state:string='';
+    configType:string ='';
     isConfigExistToggle:boolean = false;
 
 }
