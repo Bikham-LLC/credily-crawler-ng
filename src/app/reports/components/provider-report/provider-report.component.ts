@@ -661,6 +661,20 @@ export class ProviderReportComponent implements OnInit {
     }
   }
 
+  @ViewChild('deleteModalButton') deleteModalButton!: ElementRef;
+  @ViewChild('deleteCloseModalButton') deleteCloseModalButton!: ElementRef;
+
+  logId:number=0;
+  openDeleteLog(logId:number){
+    this.logId = logId;
+    this.deleteModalButton.nativeElement.click();
+  }
+
+  deletingLogToggle:boolean = false;
+  deleteLog(){
+    this.deletingLogToggle = true;
+    this.getProviderLogs(this.uuid);
+  }
 
   // --------------------------- firebase doc upload section start --------------------------------------
 
