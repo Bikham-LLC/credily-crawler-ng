@@ -118,7 +118,7 @@
                 <td class="text-nowrap">
                   <div class="tableinfo">
                     <div class="d-flex align-items-center gap-2">
-                      <button type="button" class="btn primarybtn" (click)="viewLogs(obj.providerUuid, obj.providerName, obj.id)">View</button>
+                      <button type="button" class="btn primarybtn" (click)="viewLogs(obj.providerUuid, obj.providerName, obj.id, obj.version)">View</button>
                       <span *ngIf="obj.isProviderDeleted == 1" style="margin-left: 13px" class="text-danger" >Deleted!</span>
                     </div>
                   </div>
@@ -285,9 +285,9 @@
                       <i class="bi bi-upload text-dark" style="font-size: 16px;"></i>
                     </button>
 
-                    <!-- <button ngbTooltip="Delete" class="btn btn-light btn-outline-light">
+                    <button *ngIf="providerReqVersion == 'V3'" ngbTooltip="Delete" class="btn btn-light btn-outline-light" (click)="openDeleteLogModal(log.id)">
                       <i class="bi bi-trash text-dark" style="font-size: 16px;"></i>
-                    </button> -->
+                    </button>
                   </div>
                 </td>
               </tr>
@@ -542,7 +542,7 @@
         </small>
       </div>
       <div class="modal-footer justify-content-center">
-        <button type="button" [disabled]="deletingLogToggle" class="btn btnmarkcancel" data-bs-dismiss="modal">
+        <button type="button" [disabled]="deletingLogToggle" class="btn btnmarkcancel" data-bs-dismiss="modal" (click)="closeDeleteLogModal()">
           Cancel
         </button>
         <button type="button" [disabled]="deletingLogToggle" class="btn btnmarkdelete" (click)="deleteLog()">

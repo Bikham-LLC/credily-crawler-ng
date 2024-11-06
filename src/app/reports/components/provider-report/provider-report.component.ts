@@ -196,10 +196,12 @@ export class ProviderReportComponent implements OnInit {
   uuid :any;
   providerName:string='';
   providerReqId:number=0;
-  viewLogs(providerUuid:string, providerName:string, providerReqId:number){
+  providerReqVersion:string = '';
+  viewLogs(providerUuid:string, providerName:string, providerReqId:number, version:string){
     this.providerName = '';
     this.licenseCount = 0;
     this.rpaCount = 0;
+    this.providerReqVersion = version;
     this.providerName = providerName;
     this.providerReqId = providerReqId;
     this.uuid = providerUuid;
@@ -665,16 +667,31 @@ export class ProviderReportComponent implements OnInit {
   @ViewChild('deleteCloseModalButton') deleteCloseModalButton!: ElementRef;
 
   logId:number=0;
-  openDeleteLog(logId:number){
+  openDeleteLogModal(logId:number){
     this.logId = logId;
     this.deleteModalButton.nativeElement.click();
+  }
+
+  closeDeleteLogModal(){
+    this.deleteCloseModalButton.nativeElement.click();
+    this.viewLogsButton.nativeElement.click();
   }
 
   deletingLogToggle:boolean = false;
   deleteLog(){
     this.deletingLogToggle = true;
-    this.getProviderLogs(this.uuid);
+    this.reportService.deleteLog(this.logId).subscribe(response=>{
+      if(response){
+        this.closeDeleteLogModal();
+        this.getProviderLogs(this.uuid);
+      }
+      this.deletingLogToggle = false;
+    },error=>{
+      this.deletingLogToggle = false;
+    })
   }
+
+  
 
   // --------------------------- firebase doc upload section start --------------------------------------
 

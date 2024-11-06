@@ -297,4 +297,10 @@ export class ReportService {
     return this.http.post<any>(this.key.server_url + this.key.api_version_one + this.key.report+ '/config', logConfigRequest);
   }
 
+  deleteLog(logId:number) : Observable<any>{
+    var params = new HttpParams()
+    .set('logId', logId)
+    return this.http.delete<any>(this.key.server_url + this.key.api_version_one + this.key.report+ '/delete-log', {params});
+  }
+
 }
