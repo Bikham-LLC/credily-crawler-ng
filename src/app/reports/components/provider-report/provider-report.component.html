@@ -18,13 +18,14 @@
   
   <div class="searchRowMain mb-2">
     <div class="row align-items-center justify-content-between m-0">
-      <div class="col-lg-3">
+      <div class="col-lg-4">
         <div class="d-flex justify-content-start align-items-start gap-2">
           <button class="btn mt-2" [ngClass]="{'primarybtn': providerType == 'licensed', 'secondaryBtn' : providerType != 'licensed'}" (click)="switchProviderType('licensed')">Licensed Provider</button>
           <button class="btn mt-2" [ngClass]="{'primarybtn': providerType == 'unlicensed', 'secondaryBtn' : providerType != 'unlicensed'}" (click)="switchProviderType('unlicensed')">Unlicensed Provider</button>
+          <button class="btn mt-2" [ngClass]="{'primarybtn': providerType == 'scheduledProvider', 'secondaryBtn' : providerType != 'scheduledProvider'}" (click)="switchProviderType('scheduledProvider')">Scheduled Provider</button>
         </div>
       </div>
-      <div class="col-lg-9">
+      <div class="col-lg-8">
         <div class="d-flex justify-content-end align-items-center gap-2">
           <div class="position-relative w-25">
             <input id="searchname" name="searchname" placeholder="Search" class="form-control" style="padding:0px 15px 0px 38px" [(ngModel)]="databaseHelper.search" (ngModelChange)="this.providerSearch.next($event)"/>
@@ -57,7 +58,7 @@
                 <th style="min-width: 100px" class="text-nowrap">NPI Number</th>
                 <th style="min-width: 100px" class="text-nowrap">Email</th>
                 <th style="min-width: 100px" class="text-nowrap">Phone</th>
-                <th style="min-width: 140px" class="text-nowrap">
+                <th style="min-width: 140px" class="text-nowrap" *ngIf="providerType != 'scheduledProvider'">
                   <span *ngIf="!versionFilterToggle" (click)="filterByVersion()" style="cursor: pointer;">
                       version 
                       <i class="bi bi-funnel-fill" *ngIf="selectedVersion.length == 0"></i>
@@ -70,7 +71,7 @@
                   </angular2-multiselect>                              
                 </th>
                 <th style="min-width: 100px" class="text-nowrap">Updated Date</th>
-                <th style="min-width: 100px" class="text-nowrap">Status</th>
+                <th style="min-width: 100px" class="text-nowrap" *ngIf="providerType != 'scheduledProvider'">Status</th>
                 <th style="min-width: 100px" class="text-nowrap">Logs</th>
               </tr>
             </thead>
@@ -95,7 +96,7 @@
                     {{obj.phone}}
                   </div>
                 </td>
-                <td class="text-nowrap">
+                <td class="text-nowrap" *ngIf="providerType != 'scheduledProvider'">
                   <div class="tableinfo ">
                     {{obj.version}}
                   </div>                    
@@ -103,10 +104,11 @@
                 
                 <td class="text-nowrap">
                   <div class="tableinfo text-muted">
-                    {{obj.updatedDate | date:'MM/dd/yyyy, hh:mm:a'}}
+                    <span *ngIf="providerType != 'scheduledProvider'">{{obj.updatedDate | date:'MM/dd/yyyy, hh:mm:a'}}</span>
+                    <span *ngIf="providerType == 'scheduledProvider'">{{obj.scheduledDate}}</span>
                   </div>
                 </td>
-                <td class="text-nowrap">
+                <td class="text-nowrap" *ngIf="providerType != 'scheduledProvider'">
                   <div class="tableinfo">
                     <span class=" mx-auto"><span
                       [ngClass]="{'statusactive':obj.status.toUpperCase()=='COMPLETED', 'statusinactive':(obj.status =='NO CONFIG FOUND' || obj.status =='Failed'), 'statuspending':(obj.status =='IN PROCESS' || obj.status=='IN QUEUE' || obj.status =='Partially Complete' || obj.status == 'Await Queue') }">
@@ -215,6 +217,7 @@
                 <th style="min-width: 100px" class="text-center text-nowrap">Status</th>
                 <th style="min-width: 100px" class="text-center text-nowrap">State</th>
                 <th style="min-width: 100px" class="text-center text-nowrap">License Number</th>
+                <th style="min-width: 100px" class="text-center text-nowrap">License Type</th>
                 <th style="min-width: 100px" class="text-center text-nowrap">updated Date</th>
                 <th style="min-width: 100px" class="text-center text-nowrap">Re-run Count</th>
                 <th style="min-width: 100px" class="text-end text-center text-nowrap">Action</th>
@@ -253,6 +256,11 @@
                 <td>
                   <div class="tableinfo text-nowrap text-center">
                     <span>{{log.licenseNumber?log.licenseNumber:'----'}}</span>
+                  </div>
+                </td>
+                <td>
+                  <div class="tableinfo text-nowrap text-center">
+                    <span>{{log.licenseType?log.licenseType:'----'}}</span>
                   </div>
                 </td>
                 <td>

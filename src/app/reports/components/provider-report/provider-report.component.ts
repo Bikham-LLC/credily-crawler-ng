@@ -145,6 +145,7 @@ export class ProviderReportComponent implements OnInit {
     } else {
       this.filterType = filterType;
     }
+    this.providerList = [];
     this.reportService.getProviderReport(this.databaseHelper, this.filterType, this.dataService.startDate, this.dataService.endDate, this.version, this.providerType).subscribe(response => {
       if(response!=null){
         this.providerList = response.object;
@@ -225,7 +226,7 @@ export class ProviderReportComponent implements OnInit {
   logLoadingToggle:boolean = false;
   getProviderLogs(providerUuid:string){
     this.logLoadingToggle = true;
-    this.reportService.getProviderLogs(providerUuid, this.isRpaConfig).subscribe(response=>{
+    this.reportService.getProviderLogs(providerUuid, this.isRpaConfig, this.providerType).subscribe(response=>{
       this.providerCrawlerLogList = response;
       this.logLoadingToggle = false;
     },error=>{

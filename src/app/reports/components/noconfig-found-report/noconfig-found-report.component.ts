@@ -263,6 +263,7 @@ export class NoconfigFoundReportComponent implements OnInit {
   noConfigProviderLoadingToggle:boolean = false;
   totalProviders:number=0;
   getNoConfigProvider(){
+    debugger
     this.noConfigProviderLoadingToggle = true;
     this.reportService.getNoConfigProvider(this.taxonomyCode, this.selectedStateName, 1, 10).subscribe(response=>{
       if(response != null){

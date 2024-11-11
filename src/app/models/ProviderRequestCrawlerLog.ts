@@ -15,4 +15,5 @@ export class ProviderRequestCrawlerLog{
     reRunCount:number = 0;
     reRunDate:any;
     licenseNumber:string='';
+    licenseType:string='';
 }
