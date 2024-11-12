@@ -214,7 +214,7 @@ export class ProviderReportComponent implements OnInit {
   licenseCount:number=0;
   rpaCount:number=0;
   getLogCount(){
-    this.reportService.getLogCount(this.uuid).subscribe(response=>{
+    this.reportService.getLogCount(this.uuid, this.providerType).subscribe(response=>{
       this.licenseCount = response.licenseCount;
       this.rpaCount = response.rpaCount;
     },error=>{

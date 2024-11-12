@@ -226,9 +226,10 @@ export class ReportService {
   // }
 
 
-  getLogCount(providerUuid:string): Observable<any> {
+  getLogCount(providerUuid:string, providerType:string): Observable<any> {
     var params = new HttpParams()
     .set('providerUuid', providerUuid)
+    .set('providerType', providerType)
     return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.report + '/log-count', {params});
   }
 

@@ -71,7 +71,7 @@
                   </angular2-multiselect>                              
                 </th>
                 <th style="min-width: 100px" class="text-nowrap">Updated Date</th>
-                <th style="min-width: 100px" class="text-nowrap" *ngIf="providerType != 'scheduledProvider'">Status</th>
+                <th style="min-width: 100px" class="text-nowrap">Status</th>
                 <th style="min-width: 100px" class="text-nowrap">Logs</th>
               </tr>
             </thead>
@@ -108,7 +108,7 @@
                     <span *ngIf="providerType == 'scheduledProvider'">{{obj.scheduledDate}}</span>
                   </div>
                 </td>
-                <td class="text-nowrap" *ngIf="providerType != 'scheduledProvider'">
+                <td class="text-nowrap">
                   <div class="tableinfo">
                     <span class=" mx-auto"><span
                       [ngClass]="{'statusactive':obj.status.toUpperCase()=='COMPLETED', 'statusinactive':(obj.status =='NO CONFIG FOUND' || obj.status =='Failed'), 'statuspending':(obj.status =='IN PROCESS' || obj.status=='IN QUEUE' || obj.status =='Partially Complete' || obj.status == 'Await Queue') }">
@@ -178,9 +178,13 @@
             Crawler Log
             <sup class="logCount">{{licenseCount}}</sup>
           </button>
-          <button type="button" class="btn credTabsBtn me-2" [ngClass]="{'credTabsBtnActive' : logType == 'rpaLog'}" (click)="switchLogTab('rpaLog')">
+          <button *ngIf="providerType != 'scheduledProvider'" type="button" class="btn credTabsBtn me-2" [ngClass]="{'credTabsBtnActive' : logType == 'rpaLog'}" (click)="switchLogTab('rpaLog')">
             Rpa Log
             <sup class="logCount">{{rpaCount}}</sup>
+          </button>
+          <button *ngIf="providerType == 'scheduledProvider'" type="button" class="btn credTabsBtn me-2" [ngClass]="{'credTabsBtnActive' : logType == 'archiveLog'}" (click)="switchLogTab('archiveLog')">
+            Archive Log
+            <sup class="logCount">0</sup>
           </button>
           <span class="pointer" style="margin-left: 12px;" (click)="refreshProviderLogs()">
             <i *ngIf="!logLoadingToggle" class="bi bi-arrow-repeat" style="font-size: 17px;color: #003fdaeb;"></i>
