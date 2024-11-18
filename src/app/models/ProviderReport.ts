@@ -14,6 +14,7 @@ export class ProviderReport{
     allocatedQueue : string = '';
     providerUuid:string='';
     scheduledDate:string='';
+    lastScheduledDate:string='';
     isProviderDeleted:number=0;
     refreshProviderLoading:boolean=false;
 }

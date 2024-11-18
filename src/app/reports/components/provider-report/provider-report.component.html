@@ -71,6 +71,7 @@
                   </angular2-multiselect>                              
                 </th>
                 <th style="min-width: 100px" class="text-nowrap">Updated Date</th>
+                <th style="min-width: 100px" class="text-nowrap" *ngIf="providerType != 'scheduledProvider'">Last Scheduled Date</th>
                 <th style="min-width: 100px" class="text-nowrap">Status</th>
                 <th style="min-width: 100px" class="text-nowrap">Logs</th>
               </tr>
@@ -104,8 +105,14 @@
                 
                 <td class="text-nowrap">
                   <div class="tableinfo text-muted">
-                    <span *ngIf="providerType != 'scheduledProvider'">{{obj.updatedDate | date:'MM/dd/yyyy, hh:mm:a'}}</span>
+                    <span *ngIf="providerType != 'scheduledProvider'">{{obj.updatedDate | date:'MM/dd/yyyy'}}</span>
                     <span *ngIf="providerType == 'scheduledProvider'">{{obj.scheduledDate}}</span>
+                  </div>
+                </td>
+                <td class="text-nowrap" *ngIf="providerType != 'scheduledProvider'">
+                  <div class="tableinfo text-muted">
+                    <span *ngIf="!Constant.EMPTY_STRINGS.includes(obj.lastScheduledDate)">{{obj.lastScheduledDate | date:'MM/dd/yyyy'}}</span>
+                    <span *ngIf="Constant.EMPTY_STRINGS.includes(obj.lastScheduledDate)">---</span>
                   </div>
                 </td>
                 <td class="text-nowrap">
