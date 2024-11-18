@@ -52,11 +52,12 @@ export class ReportService {
     return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.report + '/provider-config-report-count', {params});
   }
 
-  getProviderLogs(providerUuid:string, isRpaConfig:number, providerType:string):Observable<any> {
+  getProviderLogs(providerUuid:string, isRpaConfig:number, providerType:string, isArchive:number):Observable<any> {
     var params = new HttpParams()
     .set('providerUuid', providerUuid)
     .set('isRpaConfig', isRpaConfig)
     .set('providerType', providerType)
+    .set('isArchive', isArchive)
     return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.report + '/logs', {params});
   }
   

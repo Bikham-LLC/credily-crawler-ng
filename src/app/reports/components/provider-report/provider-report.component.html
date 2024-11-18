@@ -191,7 +191,7 @@
           </button>
           <button *ngIf="providerType == 'scheduledProvider'" type="button" class="btn credTabsBtn me-2" [ngClass]="{'credTabsBtnActive' : logType == 'archiveLog'}" (click)="switchLogTab('archiveLog')">
             Archive Log
-            <sup class="logCount">0</sup>
+            <sup class="logCount">{{archiveCount}}</sup>
           </button>
           <span class="pointer" style="margin-left: 12px;" (click)="refreshProviderLogs()">
             <i *ngIf="!logLoadingToggle" class="bi bi-arrow-repeat" style="font-size: 17px;color: #003fdaeb;"></i>
