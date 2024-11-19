@@ -186,8 +186,9 @@ export class ProviderReportComponent implements OnInit {
   isArchive:number=0;
   switchLogTab(tab:string){
     this.logType = tab;
+    this.isArchive = 0;
     if(tab == 'archiveLog') {
-      this.isArchive = 1
+      this.isArchive = 1;
     }
     if(tab == 'rpaLog') {
       this.isRpaConfig = 1;
