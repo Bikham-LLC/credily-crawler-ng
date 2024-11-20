@@ -13,6 +13,7 @@ export class ProviderRequestCrawlerLog{
     reTestingToggle:boolean=false;
     mapAgainLoadingToggle:boolean=true;
     reRunCount:number = 0;
+    manualUploadCount:number = 0;
     reRunDate:any;
     licenseNumber:string='';
     licenseType:string='';
