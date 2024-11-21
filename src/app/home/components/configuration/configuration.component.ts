@@ -855,7 +855,7 @@ export class ConfigurationComponent implements OnInit {
         this.message = response.message;
         setTimeout(()=>{
           this.message = '';
-        },1200)
+        },1500)
       } else {
         this.closeTestModel.nativeElement.click();
         this.dataService.showToast('Valid Configuration.', 'success');
