@@ -348,8 +348,7 @@
       </div>
       <div class="modal-body text-center" style="overflow: scroll;height: 680px;">
         <app-circular-loader *ngIf="imageLoadingToggle"></app-circular-loader>
-        <img *ngIf="imageUrl.includes('.png') && !imageLoadingToggle" [src]="imageUrl | safe" alt="" />
-        <iframe *ngIf="imageUrl.includes('.pdf') && !imageLoadingToggle" [src]="imageUrl | safe" style="height: 46rem;width: 100%;" alt=""> </iframe>
+        <iframe *ngIf="!imageLoadingToggle" [src]="imageUrl | safe" style="height: 46rem;width: 100%;" alt=""> </iframe>
       </div>
     </div>
   </div>
