@@ -531,10 +531,13 @@ export class ProviderReportComponent implements OnInit {
     this.configType = '';
     this.selectedConfigName = []
     if(event != undefined){
-      if(event[0].itemName == 'DEA'){
+      if(event[0].itemName == 'DEA') {
         this.configType = 'License Lookup';
         this.getTaxonomyLink('DEA');
-      } else {
+      }  else {
+        if(event[0].itemName == 'Common'){
+          this.configType = 'Common';
+        }
         this.getTaxonomyLink('');
         this.configType = event[0].itemName
       }

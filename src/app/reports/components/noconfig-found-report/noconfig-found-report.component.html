@@ -44,11 +44,21 @@
                                 <sup class="filterActive">{{selectedState.length}}</sup>
                             </i>
                         </span>
-                        <angular2-multiselect *ngIf="stateFilterToggle" id="stateSelectBox" name="stateSelectBox" [data]="stateList" [settings]="dropdownSettingsState" [(ngModel)]="selectedState" (ngModelChange)="selectState($event)"
-                            required>
+                        <angular2-multiselect *ngIf="stateFilterToggle" id="stateSelectBox" name="stateSelectBox" [data]="stateList" [settings]="dropdownSettingsState" [(ngModel)]="selectedState" (ngModelChange)="selectState($event)">
                         </angular2-multiselect>                              
                     </th>
-                    <th style="min-width: 100px" class="text-nowrap">Board</th>
+                    <th style="min-width: 300px" class="text-nowrap">
+                        <span *ngIf="!boardFilterToggle" (click)="filterByBoard()" style="cursor: pointer;">
+                            Board 
+                            <i class="bi bi-funnel-fill" *ngIf="selectedBoard.length == 0"></i>
+                            <i *ngIf="selectedBoard.length > 0" class="bi bi-funnel-fill">
+                                <sup class="filterActive">{{selectedBoard.length}}</sup>
+                            </i>
+                        </span>
+                        <angular2-multiselect *ngIf="boardFilterToggle" id="boardSelectBox" name="boardSelectBox" [data]="boardList" [settings]="dropdownSettingsBoardName" [(ngModel)]="selectedBoard" #boardSelectBox="ngModel" (ngModelChange)="selectBoardName($event)">
+                        </angular2-multiselect>                              
+                    </th>
+
                     <th style="min-width: 100px" class="text-nowrap">License Number</th>
                     <th style="min-width: 100px" class="text-nowrap">Credential</th>
                     <th style="min-width: 140px" class="text-nowrap">
@@ -59,8 +69,7 @@
                                 <sup class="filterActive">{{selectedVersion.length}}</sup>
                             </i>
                         </span>
-                        <angular2-multiselect *ngIf="versionFilterToggle" id="versionSelectBox" name="versionSelectBox" [data]="versionList" [settings]="dropdownSettingsVersion" [(ngModel)]="selectedVersion" #versionSelectBox="ngModel" (ngModelChange)="selectVersion($event)"
-                            required>
+                        <angular2-multiselect *ngIf="versionFilterToggle" id="versionSelectBox" name="versionSelectBox" [data]="versionList" [settings]="dropdownSettingsVersion" [(ngModel)]="selectedVersion" #versionSelectBox="ngModel" (ngModelChange)="selectVersion($event)">
                         </angular2-multiselect>                              
                     </th>
                     <th style="min-width: 100px" class="text-nowrap">Updated Date</th>

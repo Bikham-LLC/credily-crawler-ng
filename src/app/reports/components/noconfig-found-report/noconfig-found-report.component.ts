@@ -37,6 +37,10 @@ export class NoconfigFoundReportComponent implements OnInit {
   dropdownSettingsTaxonomy!: { singleSelection: boolean; text: string; enableSearchFilter: boolean; autoPosition: boolean, badgeShowLimit: number;};
   taxonomyList: any[] = new Array();
   selectedTaxonomy: any[] = new Array();
+  
+  dropdownSettingsBoardName!: { singleSelection: boolean; text: string; enableSearchFilter: boolean; autoPosition: boolean, badgeShowLimit: number;};
+  boardList: any[] = new Array();
+  selectedBoard: any[] = new Array();
 
   providerSearch = new Subject<string>();
   constructor(private reportService: ReportService,
@@ -48,6 +52,7 @@ export class NoconfigFoundReportComponent implements OnInit {
         debugger
         if(router.url == Route.NO_CONFIG_FOUND_REPORT){
           this.getNoConfigFoundReport();
+          this.getBoardConfigName();
         }
       })
 
@@ -106,7 +111,16 @@ export class NoconfigFoundReportComponent implements OnInit {
       badgeShowLimit: 1,
     };
 
+    this.dropdownSettingsBoardName = {
+      singleSelection: false,
+      text: 'Select Board',
+      enableSearchFilter: true,
+      autoPosition: false,
+      badgeShowLimit: 1,
+    };
+
     this.getNoConfigFoundReport();
+    this.getBoardConfigName();
     this.getStates();
   }
 
@@ -114,6 +128,7 @@ export class NoconfigFoundReportComponent implements OnInit {
   filterByVersion(){
     this.versionFilterToggle = !this.versionFilterToggle;
   }
+
 
   selectVersion(event:any){
     debugger
@@ -136,7 +151,7 @@ export class NoconfigFoundReportComponent implements OnInit {
   noConfigLoadingToggle:boolean = false;
   getNoConfigFoundReport(){
     this.noConfigLoadingToggle = true;
-    this.reportService.getNoConfigFoundReport(this.dataService.startDate, this.dataService.endDate, this.databaseHelper, this.version, this.states).subscribe(response=>{
+    this.reportService.getNoConfigFoundReport(this.dataService.startDate, this.dataService.endDate, this.databaseHelper, this.version, this.states, this.boardNameList).subscribe(response=>{
       if(response != null){
         this.noConfigFoundList = response.list;
         this.totalItems = response.totalItems;
@@ -407,6 +422,36 @@ export class NoconfigFoundReportComponent implements OnInit {
     }, error=>{
       this.mapConfigSaveLoading = false;
     })
+  }
+
+  boardFilterToggle:boolean = false;
+  filterByBoard(){
+    this.boardFilterToggle = !this.boardFilterToggle;
+  }
+
+
+  getBoardConfigName() {
+    this.boardList = [];
+    this.reportService.getBoardConfigName(this.dataService.startDate, this.dataService.endDate).subscribe(response=>{
+      if(response != null){
+        this.boardList = response;
+      }
+    },error=>{
+
+    })
+  }
+
+  boardNameList: string[] = [];
+  selectBoardName(event:any) {
+    debugger
+    this.boardNameList = [];
+    if(event != undefined && event.length > 0){
+      event.forEach((element:any) => {
+        this.boardNameList.push(element.itemName);
+      });
+    }
+    this.getNoConfigFoundReport();
+    this.boardFilterToggle = false;
   }
 
 

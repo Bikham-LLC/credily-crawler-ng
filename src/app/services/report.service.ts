@@ -139,12 +139,13 @@ export class ReportService {
   }
 
 
-  getNoConfigFoundReport(startDate:string, endDate:string, databaseHelper:DatabaseHelper, version:string, stateList:any) :Observable<any> { 
+  getNoConfigFoundReport(startDate:string, endDate:string, databaseHelper:DatabaseHelper, version:string, stateList:any, boardNameList:any) :Observable<any> { 
     var params = new HttpParams()
     .set('startDate', startDate)
     .set('endDate', endDate)
     .set('version', version)
     .set('stateList', stateList)
+    .set('boardNameList', boardNameList)
     .set('search', databaseHelper.search)
     .set('currentPage', databaseHelper.currentPage)
     .set('itemsPerPage', databaseHelper.itemsPerPage)
@@ -304,6 +305,13 @@ export class ReportService {
     var params = new HttpParams()
     .set('logId', logId)
     return this.http.delete<any>(this.key.server_url + this.key.api_version_one + this.key.report+ '/delete-log', {params});
+  }
+
+  getBoardConfigName(startDate:any, endDate:any) : Observable<any>{
+    var params = new HttpParams()
+    .set('startDate', startDate)
+    .set('endDate', endDate)
+    return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.report+ '/board-name', {params});
   }
 
 }
