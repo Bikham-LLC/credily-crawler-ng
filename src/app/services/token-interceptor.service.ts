@@ -6,6 +6,7 @@ import { Keys } from '../models/key';
 import { AuthService } from './auth.service';
 import { HttpClient, HttpErrorResponse, HttpEvent, HttpHandler, HttpRequest } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { Route } from '../models/Route';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,7 @@ export class TokenInterceptorService {
   private refreshTokenSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
   readonly Constant = Constant;
-  // readonly Route = Route;
+  readonly Route = Route;
 
   key:Keys = new Keys;
   constructor(private readonly _injector: Injector,
@@ -46,14 +47,12 @@ export class TokenInterceptorService {
 
       });
     }
-    return next.handle(req);
-    // .pipe(catchError((error:any) => {
-    //   if (error instanceof HttpErrorResponse && !req.url.includes('auth') && error.status === 401) {
-    //     return this.handle401Error(req, next);
-    //   }
-
-    //   return throwError(error);
-    // }));
+    return next.handle(req).pipe(catchError((error:any) => {
+      if (error instanceof HttpErrorResponse && !req.url.includes('auth') && error.status === 401) {
+        return this.handle401Error(req, next);
+      }
+      return throwError(error);
+    }));
   }
 
   errorHandler(error: any, req: any, next: any) {
