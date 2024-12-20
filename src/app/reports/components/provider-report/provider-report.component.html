@@ -349,6 +349,7 @@
       <div class="modal-body text-center" style="overflow: scroll;height: 680px;">
         <app-circular-loader *ngIf="imageLoadingToggle"></app-circular-loader>
         <iframe *ngIf="!imageLoadingToggle" [src]="imageUrl | safe" style="height: 46rem;width: 100%;" alt=""> </iframe>
+        <!-- <div *ngIf="!imageLoadingToggle" style="height: 46rem;width: 100%;" alt="" id="pdfContainer" #pdfContainer></div> -->
       </div>
     </div>
   </div>

@@ -18,6 +18,7 @@ import { HeaderSubscriptionService } from 'src/app/services/header-subscription.
 import { LicenseLookupService } from 'src/app/services/license-lookup.service';
 import { LogConfigRequest } from 'src/app/models/LogConfigRequest';
 import { LicenseTypeJson } from 'src/app/models/LicenseTypeJson';
+import { PdfService } from 'src/app/services/pdf.service';
 
 
 @Component({
@@ -42,7 +43,8 @@ export class ProviderReportComponent implements OnInit {
     private dataService: DataService,
     private firebaseStorage: AngularFireStorage,
     private headerSubscriptionService: HeaderSubscriptionService,
-    private licenseLookupService: LicenseLookupService
+    private licenseLookupService: LicenseLookupService,
+    private pdfService: PdfService
     ) { 
 
     this.providerSearch.pipe(
@@ -286,6 +288,7 @@ export class ProviderReportComponent implements OnInit {
   imageName:string='';
   viewSnapshot(url:string, imageName:string){
     debugger
+    // this.handleRenderPdf();
     this.imageName = imageName;
     this.imageLoadingToggle = true;
     this.imageUrl = url;
@@ -295,6 +298,18 @@ export class ProviderReportComponent implements OnInit {
     },1000)
     this.openSnapshotModalButton.nativeElement.click();
   }
+
+
+
+
+  // handleRenderPdf() {
+  //   this.pdfService.getPdf().subscribe({next: (res) => {
+  //       if (this.imageUrl) {
+  //         PDFObject.embed(this.imageUrl, '#pdfContainer');
+  //       }
+  //     },
+  //   });
+  // }
 
   @ViewChild('closeSnapshotModalButton') closeSnapshotModalButton !: ElementRef;
   closeSnapshotModal(){
@@ -538,8 +553,8 @@ export class ProviderReportComponent implements OnInit {
         if(event[0].itemName == 'Common'){
           this.configType = 'Common';
         }
-        this.getTaxonomyLink('');
         this.configType = event[0].itemName
+        this.getTaxonomyLink('');
       }
     }
   }
@@ -577,7 +592,7 @@ export class ProviderReportComponent implements OnInit {
     this.logConfigRequest.attachmentSubType = this.attachmentSubType;
     this.logConfigRequest.attachmentTypeDesc = this.attachmentSubTypeDescription
     this.logConfigRequest.attactmentSource = this.attactmentSource;
-    this.logConfigRequest.isConfigExistToggle = this.isConfigExistToggle;
+    this.logConfigRequest.isConfigAlreadyExist = this.isConfigAlreadyExist;
     this.logConfigRequest.state = this.selectedStateName;
     this.logConfigRequest.licenseType = this.licenseType
     this.logConfigRequest.configType = this.configType
@@ -615,6 +630,7 @@ export class ProviderReportComponent implements OnInit {
 
   @Output() stateDropdown = new EventEmitter();
   isConfigExistToggle:boolean = false;
+  isConfigAlreadyExist:number=0;
   isConfigExist(event:any){
     debugger
     this.lookupLink = '';
@@ -631,9 +647,10 @@ export class ProviderReportComponent implements OnInit {
     this.selectedStateName = '';
 
     this.licenseNumber = '';
-    this.isConfigExistToggle = false;
-    if(event.target.checked){
-      this.isConfigExistToggle = true;
+    this.isConfigAlreadyExist = 0;
+    this.isConfigExistToggle = !this.isConfigExistToggle;
+    if(this.isConfigExistToggle) {
+      this.isConfigAlreadyExist = 1;
       this.getTaxonomyLink('');
     }
   }

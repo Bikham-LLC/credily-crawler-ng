@@ -13,6 +13,6 @@ export class LogConfigRequest {
     licenseType:string='';
     state:string='';
     configType:string ='';
-    isConfigExistToggle:boolean = false;
+    isConfigAlreadyExist:number = 0;
 
 }
