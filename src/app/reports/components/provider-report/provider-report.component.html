@@ -73,6 +73,7 @@
                 <th style="min-width: 100px" class="text-nowrap">Updated Date</th>
                 <th style="min-width: 100px" class="text-nowrap" *ngIf="providerType != 'scheduledProvider'">Last Scheduled Date</th>
                 <th style="min-width: 100px" class="text-nowrap">Status</th>
+                <th style="min-width: 100px" class="text-nowrap">AI Verification Status</th>
                 <th style="min-width: 100px" class="text-nowrap">Logs</th>
               </tr>
             </thead>
@@ -123,7 +124,13 @@
                     </span></span>
                   </div>
                 </td>
-                
+                <td class="text-nowrap">
+                  <div class="tableinfo">
+                    <span class="mx-auto aistatuspending" ngbTooltip="Partially Verified"  *ngIf="obj.inValidCount > 0 && obj.validCount > 0"><i class="bi bi-check2-circle"></i></span>
+                    <span class="mx-auto aistatusactive" ngbTooltip="All Verified" *ngIf="obj.inValidCount == 0 && obj.validCount > 0"><i class="bi bi-check2-circle"></i></span>
+                    <span class="mx-auto aistatusinactive" ngbTooltip="Not Verified" *ngIf="obj.inValidCount == 0 && obj.validCount == 0"><i class="bi bi-check2-circle"></i></span>
+                  </div>
+                </td>
                 <td class="text-nowrap">
                   <div class="tableinfo">
                     <div class="d-flex align-items-center gap-2">
@@ -226,6 +233,7 @@
                 <th style="min-width: 100px" class="text-nowrap">Lookup Name</th>
                 <th style="min-width: 100px" class="text-nowrap">Lookup Link</th>
                 <th style="min-width: 100px" class="text-center text-nowrap">Status</th>
+                <th style="min-width: 100px" class="text-center text-nowrap">Ai Verification Status</th>
                 <th style="min-width: 100px" class="text-center text-nowrap">State</th>
                 <th style="min-width: 100px" class="text-center text-nowrap">License Number</th>
                 <th style="min-width: 100px" class="text-center text-nowrap">License Type</th>
@@ -258,6 +266,14 @@
                   <div class="tableinfo text-nowrap text-center">
                     <span *ngIf="!Constant.EMPTY_STRINGS.includes(log.errorStatus)" class="statusinactive">{{log.errorStatus?log.errorStatus:'N/A'}}</span>
                     <span *ngIf="Constant.EMPTY_STRINGS.includes(log.errorStatus)" [ngClass]="{'statusactive':log.crawlerStatus=='COMPLETED', 'statuspending' :log.crawlerStatus=='PENDING'}" >{{log.crawlerStatus}}</span>
+                  </div>
+                </td>
+                <td>
+                  <div class="tableinfo text-nowrap text-center">
+                    <div class="tableinfo pointer">
+                      <span class="mx-auto aistatusactive" ngbTooltip="Verified"  *ngIf="log.verificationStatus == 1"><i class="bi bi-check2-circle"></i></span>
+                      <span class="mx-auto aistatusinactive" ngbTooltip="Not Verified" *ngIf="log.verificationStatus == 0"><i class="bi bi-check2-circle"></i></span>
+                    </div>
                   </div>
                 </td>
                 <td>
