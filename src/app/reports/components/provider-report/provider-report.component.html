@@ -271,8 +271,8 @@
                 <td>
                   <div class="tableinfo text-nowrap text-center">
                     <div class="tableinfo pointer">
-                      <span class="mx-auto aistatusactive" [ngbTooltip]="log.verificationLog"  *ngIf="log.verificationStatus == 1"><i class="bi bi-check2-circle"></i></span>
-                      <span class="mx-auto aistatusinactive" [ngbTooltip]="log.verificationLog" *ngIf="log.verificationStatus == 0"><i class="bi bi-check2-circle"></i></span>
+                      <span class="mx-auto aistatusactive" [ngbTooltip]="log.verificationLog ? log.verificationLog: 'No Description'"  *ngIf="log.verificationStatus == 1"><i class="bi bi-check2-circle"></i></span>
+                      <span class="mx-auto aistatusinactive" [ngbTooltip]="log.verificationLog ? log.verificationLog: 'No Description'" *ngIf="log.verificationStatus == 0"><i class="bi bi-check2-circle"></i></span>
                     </div>
                   </div>
                 </td>
