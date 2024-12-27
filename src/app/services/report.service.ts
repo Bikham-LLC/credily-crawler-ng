@@ -314,4 +314,17 @@ export class ReportService {
     return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.report+ '/board-name', {params});
   }
 
+  getCredilyProvider(uuid:any, npi:any) : Observable<any>{
+    var params = new HttpParams()
+    .set('uuid', uuid)
+    .set('npi', npi)
+    return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.report+ '/provider', {params});
+  }
+
+  replicateLog(uuid:string, uuidList:any) : Observable<any>{
+    var params = new HttpParams()
+    .set('v3ProviderUuid', uuid)
+    .set('uuidList', uuidList)
+    return this.http.post<any>(this.key.server_url + this.key.api_version_one + this.key.report+ '/replicate-log', {}, {params});
+  }
 }

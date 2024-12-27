@@ -188,16 +188,96 @@ export class ProviderReportComponent implements OnInit {
   isArchive:number=0;
   switchLogTab(tab:string){
     this.logType = tab;
-    this.isArchive = 0;
-    if(tab == 'archiveLog') {
-      this.isArchive = 1;
-    }
-    if(tab == 'rpaLog') {
-      this.isRpaConfig = 1;
+    if(tab == 'replicateLog'){
+      this.openConfigReplicateModal();
     } else {
-      this.isRpaConfig = 0;
-    } 
-    this.getProviderLogs(this.uuid);
+      this.isArchive = 0;
+      if(tab == 'archiveLog') {
+        this.isArchive = 1;
+      }
+      if(tab == 'rpaLog') {
+        this.isRpaConfig = 1;
+      } else {
+        this.isRpaConfig = 0;
+      } 
+      this.getProviderLogs(this.uuid);
+    }
+  }
+
+  credilyProviderList : {uuid:any, providerName:string, accountName:string, checked: boolean}[] = []
+  credilyProviderLoading: boolean = false;
+  getCredilyProvider() {
+    this.credilyProviderLoading = true;
+    this.reportService.getCredilyProvider(this.uuid, this.providerNpi).subscribe(response=>{
+      if(response != null){
+        this.credilyProviderList = response;
+      }
+      this.credilyProviderLoading = false;
+    },error =>{
+      this.credilyProviderLoading = false;
+    })
+  }
+
+  openConfigReplicateModal(){
+    this.configReplicateModalButton.nativeElement.click();
+    this.getCredilyProvider();
+  }
+
+  @ViewChild('configReplicateModalButton') configReplicateModalButton!: ElementRef;
+  @ViewChild('closeReplicateModalButton') closeReplicateModalButton!:ElementRef
+  closeReplicateModal(){
+    this.logType = 'crawlerLog';
+    this.viewLogsButton.nativeElement.click();
+    this.closeReplicateModalButton.nativeElement.click();
+  }
+
+  uuidList:string[] = []
+  isAllSelected:boolean = false;
+  selectAllProvider(){
+    this.uuidList = [];
+    this.credilyProviderList.forEach(e=>{
+      e.checked = !this.isAllSelected;
+      if (!this.isAllSelected) {
+        this.uuidList.push(e.uuid);
+      }
+    })
+    this.isAllSelected = !this.isAllSelected;
+  } 
+
+  selectSingleProvider(provider:any){
+    debugger
+    var i = this.uuidList.findIndex(uuid => uuid == provider.uuid);
+    if (!provider.checked) {
+      provider.checked = true;
+      if (i == -1) {
+        this.uuidList.push(provider.uuid);
+      }
+    } else {
+      provider.checked = false;
+      if (i > -1) {
+        this.uuidList.splice(i, 1);
+      }
+    }
+
+    var index = this.credilyProviderList.findIndex(x => x.checked == false);
+    if (index > -1) {
+      this.isAllSelected = false;
+    } else {
+      this.isAllSelected = true;
+    }
+  }
+
+  logReplicateToggle:boolean = false;
+  replicateLogs(){
+    this.logReplicateToggle = true;
+    this.reportService.replicateLog(this.uuid, this.uuidList).subscribe(response=>{
+      if(response){
+        this.closeReplicateModal()
+      }
+      this.logReplicateToggle = false;
+    }, error=>{
+      this.logReplicateToggle = false;
+    })
   }
 
   @ViewChild('viewLogsButton') viewLogsButton!: ElementRef;
@@ -205,7 +285,8 @@ export class ProviderReportComponent implements OnInit {
   providerName:string='';
   providerReqId:number=0;
   providerReqVersion:string = '';
-  viewLogs(providerUuid:string, providerName:string, providerReqId:number, version:string){
+  providerNpi:string='';
+  viewLogs(providerUuid:string, providerName:string, providerReqId:number, version:string, npi:string){
     this.providerName = '';
     this.licenseCount = 0;
     this.rpaCount = 0;
@@ -213,6 +294,7 @@ export class ProviderReportComponent implements OnInit {
     this.providerName = providerName;
     this.providerReqId = providerReqId;
     this.uuid = providerUuid;
+    this.providerNpi = npi;
     this.viewLogsButton.nativeElement.click();
     this.getLogCount();
     this.getProviderLogs(this.uuid);
@@ -512,7 +594,6 @@ export class ProviderReportComponent implements OnInit {
   @ViewChild('createConfigForm') createConfigForm!: any;
 
   openCreateConfigModel(){
-
     this.createConfigForm.resetForm();
     this.licenseNumber = '';
     this.lookupLink = '';
@@ -803,12 +884,12 @@ export class ProviderReportComponent implements OnInit {
 
       this.providerName = this.dataService.getNameInTitleCase(this.providerName);
 
-      let firebaseName = "crawler-manual-upload/"+ this.uuid +"_"+ this.providerName+"/"+this.configName + moment(new Date()).format('MMMDD_YYYY_hh_mm_ss');
+      let firebasePath = "crawler-manual-upload/"+ this.uuid +"_"+ this.providerName+"/"+this.configName + moment(new Date()).format('MMMDD_YYYY_hh_mm_ss');
       this.fileName = this.providerName + "_" + this.configName+"_"+ moment(new Date()).format('MMMDD_YYYY_hh_mm_ss');
 
-      const fileRef = this.firebaseStorage.ref(firebaseName);
+      const fileRef = this.firebaseStorage.ref(firebasePath);
       
-      this.firebaseStorage.upload(firebaseName, this.currentUpload.file).snapshotChanges().pipe(
+      this.firebaseStorage.upload(firebasePath, this.currentUpload.file).snapshotChanges().pipe(
         finalize(async () => {
           fileRef.getDownloadURL().subscribe((url: any) => {
             this.urlString = url;
