@@ -42,6 +42,10 @@ export class NoconfigFoundReportComponent implements OnInit {
   boardList: any[] = new Array();
   selectedBoard: any[] = new Array();
 
+  dropdownSettingsBoardConfigName!: { singleSelection: boolean; text: string; enableSearchFilter: boolean; autoPosition: boolean, badgeShowLimit: number;};
+  boardConfigList: any[] = new Array();
+  selectedBoardConfig: any[] = new Array();
+
   providerSearch = new Subject<string>();
   constructor(private reportService: ReportService,
     private dataService: DataService,
@@ -113,6 +117,14 @@ export class NoconfigFoundReportComponent implements OnInit {
 
     this.dropdownSettingsBoardName = {
       singleSelection: false,
+      text: 'Select Board',
+      enableSearchFilter: true,
+      autoPosition: false,
+      badgeShowLimit: 1,
+    };
+
+    this.dropdownSettingsBoardConfigName = {
+      singleSelection: true,
       text: 'Select Board',
       enableSearchFilter: true,
       autoPosition: false,
@@ -244,12 +256,35 @@ export class NoconfigFoundReportComponent implements OnInit {
   openMulConfigModal(){
     this.selectedStateName = '';
     this.taxonomyCode = '';
+    this.selectedBoardConfig = [];
     this.selectedTaxonomy = [];
     this.noConfigProviderList = [];
     this.invalidTaxCodeToggle = false;
     this.invalidTaxStateToggle = false;
     this.multipleLogBtn.nativeElement.click();
+    this.databaseHelper2 = new DatabaseHelper();
     this.getNoConfigTaxonomy();
+  }
+
+  configType:string='license';
+  selectConfigType(event:any){
+    if(event.target.checked){
+      this.configType = 'board';
+      this.boardConfigList = this.boardList;
+    } else {
+      this.configType = 'license';
+    }
+  }
+
+  selectedBoardConfigName:string='';
+  selectBoardConfig(event:any) {
+    this.selectedBoardConfigName = '';
+    if(event != undefined && event.length>0){
+      this.selectedBoardConfigName = event[0].id;
+      this.searchProviderWithConfig();
+    } else {
+      this.noConfigProviderList = [];
+    }
   }
 
 
@@ -263,13 +298,15 @@ export class NoconfigFoundReportComponent implements OnInit {
     this.selectedConfigId = 0;
     this.invalidTaxCodeToggle = false;
     this.invalidTaxStateToggle = false;
-    if(this.Constant.EMPTY_STRINGS.includes(this.selectedStateName)){
-      this.invalidTaxStateToggle = true;
-      return;
-    }
-    if(this.Constant.EMPTY_STRINGS.includes(this.taxonomyCode)){
-      this.invalidTaxCodeToggle = true;
-      return;
+    if(this.configType == 'license'){
+      if(this.Constant.EMPTY_STRINGS.includes(this.selectedStateName)){
+        this.invalidTaxStateToggle = true;
+        return;
+      }
+      if(this.Constant.EMPTY_STRINGS.includes(this.taxonomyCode)){
+        this.invalidTaxCodeToggle = true;
+        return;
+      }
     }
     this.getNoConfigProvider();
   }
@@ -280,11 +317,13 @@ export class NoconfigFoundReportComponent implements OnInit {
   getNoConfigProvider(){
     debugger
     this.noConfigProviderLoadingToggle = true;
-    this.reportService.getNoConfigProvider(this.taxonomyCode, this.selectedStateName, 1, 10).subscribe(response=>{
+    this.reportService.getNoConfigProvider(this.taxonomyCode, this.selectedStateName, this.databaseHelper2, this.selectedBoardConfigName).subscribe(response=>{
       if(response != null){
         this.noConfigProviderList = response.providerList;
-        this.configList = response.configList;
         this.totalProviders = response.totalProvider;
+        if(this.configType == 'license') {
+          this.configList = response.configList;
+        }
       }
 
       if(this.configList != null && this.configList.length>0){
@@ -398,7 +437,7 @@ export class NoconfigFoundReportComponent implements OnInit {
       return;
     }
 
-    if(this.selectedConfigId == 0){
+    if(this.configType == 'license' && this.selectedConfigId == 0){
       this.invalidConfigToggle = true;
       return;
     }
@@ -414,7 +453,7 @@ export class NoconfigFoundReportComponent implements OnInit {
   mapConfigSaveLoading:boolean = false;
   mapConfigLog(){
     this.mapConfigSaveLoading = true;
-    this.reportService.mapConfigLog(this.logIds, this.selectedConfigId).subscribe(response=>{
+    this.reportService.mapConfigLog(this.logIds, this.selectedConfigId, this.selectedBoardConfigName).subscribe(response=>{
       if(response){
         this.isAllSelected = false;
       }
