@@ -208,7 +208,7 @@ export class ProviderReportComponent implements OnInit {
   credilyProviderLoading: boolean = false;
   getCredilyProvider() {
     this.credilyProviderLoading = true;
-    this.reportService.getCredilyProvider(this.uuid, this.providerNpi).subscribe(response=>{
+    this.reportService.getCredilyProvider(this.providerNpi).subscribe(response=>{
       if(response != null){
         this.credilyProviderList = response;
       }
