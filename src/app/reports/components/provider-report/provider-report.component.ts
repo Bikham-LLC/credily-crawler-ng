@@ -272,7 +272,8 @@ export class ProviderReportComponent implements OnInit {
     this.logReplicateToggle = true;
     this.reportService.replicateLog(this.uuid, this.uuidList).subscribe(response=>{
       if(response){
-        this.closeReplicateModal()
+        this.closeReplicateModalButton.nativeElement.click();
+        this.getProviderReport(this.filterType, 0);
       }
       this.logReplicateToggle = false;
     }, error=>{

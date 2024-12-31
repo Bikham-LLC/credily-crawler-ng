@@ -332,7 +332,7 @@ input[type="file"] {
   padding: 5px 20px;
   border-radius: 4px;
   position: relative;
-  margin-right: 14%;
+  margin-right: 25%;
   font-weight: 500;
   animation: shake-animation 2s ease infinite;
 }
