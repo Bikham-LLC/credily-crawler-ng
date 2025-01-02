@@ -236,8 +236,8 @@
                     </label>
                 </div>
 
-                <div class="row" *ngIf="configType == 'license'">
-                    <div class="col-lg-5">
+                <div class="row">
+                    <div class="col-lg-5" *ngIf="configType == 'license'">
                         <app-state-dropdown [_updatedStateName]="selectedStateName"
                             [(stateNameProp)]="selectedStateName"
                             [stateNameLabelClass]="'labelCls'" 
@@ -250,21 +250,19 @@
                         </app-state-dropdown>
                         <small *ngIf="invalidTaxStateToggle && selectedStateName.length == 0" style="color: red;">Select state!</small>
                     </div>
-                    <div class="col-lg-5 inlineTaxoformsearch">
+                    <div class="col-lg-5 inlineTaxoformsearch" *ngIf="configType == 'license'">
                         <angular2-multiselect id="taxonomySelection" name="taxonomySelection" [data]="taxonomyList" [settings]="dropdownSettingsTaxonomy" [(ngModel)]="selectedTaxonomy" (ngModelChange)="selectTaxonomy($event)" required>
                         </angular2-multiselect>   
                         <small *ngIf="invalidTaxCodeToggle && taxonomyCode.length == 0" style="color: red;">Select taxonomy code!</small>
                     </div>
-                    <div class="col-lg-2 inlineTaxoformsearch">
-                        <button type="button" class="btn btn-outline-primary w-100"  (click)="searchProviderWithConfig()">Search</button>
-                    </div>
-                </div>
-
-                <div class="row" *ngIf="configType == 'board'">
-                    <div class="col-lg-4 inlineTaxoformsearch">
+                    <div class="col-lg-4 inlineTaxoformsearch" *ngIf="configType == 'board'">
                         <angular2-multiselect id="boardNameSelectBox" name="boardNameSelectBox" [data]="boardConfigList" [settings]="dropdownSettingsBoardConfigName" 
                         [(ngModel)]="selectedBoardConfig" (ngModelChange)="selectBoardConfig($event)">
-                        </angular2-multiselect>    
+                        </angular2-multiselect>  
+                        <small *ngIf="noBoardConfigToggle" style="color: red;">The selected configuration does not exist!</small>  
+                    </div>
+                    <div class="col-lg-2 inlineTaxoformsearch">
+                        <button type="button" class="btn btn-outline-primary w-100"  (click)="searchProviderWithConfig()">Search</button>
                     </div>
                 </div>
 

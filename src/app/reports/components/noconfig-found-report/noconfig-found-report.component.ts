@@ -277,13 +277,16 @@ export class NoconfigFoundReportComponent implements OnInit {
   }
 
   selectedBoardConfigName:string='';
+  boardConfigId:number=0;
   selectBoardConfig(event:any) {
+    debugger
+    this.noBoardConfigToggle = false;
+    this.noConfigProviderList = [];
     this.selectedBoardConfigName = '';
+    this.boardConfigId = 0;
     if(event != undefined && event.length>0){
       this.selectedBoardConfigName = event[0].id;
-      this.searchProviderWithConfig();
-    } else {
-      this.noConfigProviderList = [];
+      this.boardConfigId = event[0].boardConfigId;
     }
   }
 
@@ -292,12 +295,14 @@ export class NoconfigFoundReportComponent implements OnInit {
   taxonomyCode: string = '';
   invalidTaxCodeToggle:boolean = false;
   invalidTaxStateToggle:boolean = false;
+  noBoardConfigToggle:boolean = false;
   searchProviderWithConfig() {
     this.noConfigProviderList = [];
     this.configList = [];
     this.selectedConfigId = 0;
     this.invalidTaxCodeToggle = false;
     this.invalidTaxStateToggle = false;
+    this.noBoardConfigToggle = false;
     if(this.configType == 'license'){
       if(this.Constant.EMPTY_STRINGS.includes(this.selectedStateName)){
         this.invalidTaxStateToggle = true;
@@ -308,13 +313,16 @@ export class NoconfigFoundReportComponent implements OnInit {
         return;
       }
     }
+
+    this.selectedConfigId = this.boardConfigId;
+
     this.getNoConfigProvider();
   }
 
   noConfigProviderList: NoConfigProvider[] = new Array();
   noConfigProviderLoadingToggle:boolean = false;
   totalProviders:number=0;
-  getNoConfigProvider(){
+  getNoConfigProvider() {
     debugger
     this.noConfigProviderLoadingToggle = true;
     this.reportService.getNoConfigProvider(this.taxonomyCode, this.selectedStateName, this.databaseHelper2, this.selectedBoardConfigName).subscribe(response=>{
@@ -453,9 +461,12 @@ export class NoconfigFoundReportComponent implements OnInit {
   mapConfigSaveLoading:boolean = false;
   mapConfigLog(){
     this.mapConfigSaveLoading = true;
-    this.reportService.mapConfigLog(this.logIds, this.selectedConfigId, this.selectedBoardConfigName).subscribe(response=>{
-      if(response){
+    this.reportService.mapConfigLog(this.logIds, this.selectedConfigId).subscribe(response=>{
+      if(response.status){
         this.isAllSelected = false;
+        this.getNoConfigProvider();
+      } else {
+        this.noBoardConfigToggle = true;
       }
       this.mapConfigSaveLoading = false;
     }, error=>{
