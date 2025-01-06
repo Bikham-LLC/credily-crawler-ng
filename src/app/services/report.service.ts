@@ -278,7 +278,7 @@ export class ReportService {
     return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.report + '/rpa-report-count', {params});
   }
 
-  getNpdbReport(databaseHelper:DatabaseHelper, startDate:any, endDate:any): Observable<any> {
+  getNpdbReport(databaseHelper:DatabaseHelper, startDate:any, endDate:any, isLive: number): Observable<any> {
     if(databaseHelper==undefined || databaseHelper==null){
       databaseHelper = new DatabaseHelper();
     }
@@ -289,6 +289,7 @@ export class ReportService {
     .set('searchBy', databaseHelper.searchBy)
     .set('currentPage', databaseHelper.currentPage)
     .set('itemsPerPage', databaseHelper.itemsPerPage)
+    .set('isLive', isLive)
     return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.report + '/npdb-report', {params});
   }
 

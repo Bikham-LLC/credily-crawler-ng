@@ -47,25 +47,42 @@ export class HeaderComponent implements OnInit {
   }
 
   options: any[] = [
-    { id: 1, name: 'All' },
-    { id: 2, name: 'Live' },
-    { id: 3, name: 'Test' }
+    { id: -1, name: 'All' },
+    { id: 1, name: 'Live' },
+    { id: 0, name: 'Test' }
   ];
 
   // Array to hold selected options
-  selectedOptions: any[] = [];
+  selectedOptions: any[] = [{ id: 1, name: 'All' }];
 
   // Dropdown settings for customization (optional)
   dropdownSettings = {
-    singleSelection: true,  // Allow multiple selections
-    text: "Select options",  // Placeholder text
-    enableSearchFilter: true, // Enable search filter
-    classes: "myclass custom-class", // Add custom classes if needed
+    singleSelection: true, // Set to true for single selection
+    text: 'All', // Placeholder text
+    selectAllText: 'Select All', // Text for select all
+    unSelectAllText: 'Unselect All', // Text for unselect all
+    enableSearchFilter: true, // Enable search functionality
+    classes: '',
+    primaryKey: 'id', // Key for unique identification
+    labelKey: 'name'
   };
 
   // Method called when selection changes
   onSelectionChange(event: any) {
-    console.log('Selected Options:', event);
+    this.selectReportFilter(event);
+  }
+
+  selectReportFilter(event: any) {
+    debugger
+
+    const value = event[0].id
+
+    this.headerSubscriptionService.startTestLiveReport(value)
+  }
+
+  isReportTab: boolean = false;
+  reportTab(){
+    this.isReportTab = true;
   }
 
 }
