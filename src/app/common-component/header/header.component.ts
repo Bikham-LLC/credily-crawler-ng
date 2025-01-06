@@ -46,4 +46,26 @@ export class HeaderComponent implements OnInit {
     this.headerSubscriptionService.start();
   }
 
+  options: any[] = [
+    { id: 1, name: 'All' },
+    { id: 2, name: 'Live' },
+    { id: 3, name: 'Test' }
+  ];
+
+  // Array to hold selected options
+  selectedOptions: any[] = [];
+
+  // Dropdown settings for customization (optional)
+  dropdownSettings = {
+    singleSelection: true,  // Allow multiple selections
+    text: "Select options",  // Placeholder text
+    enableSearchFilter: true, // Enable search filter
+    classes: "myclass custom-class", // Add custom classes if needed
+  };
+
+  // Method called when selection changes
+  onSelectionChange(event: any) {
+    console.log('Selected Options:', event);
+  }
+
 }
