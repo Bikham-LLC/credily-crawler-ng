@@ -48,7 +48,6 @@
   <div class="container-fluid">
     <div class="dashboardArea">
       <div class="dashNav-paneinner">
-        <div class="usertable mt-3 ng-star-inserted">
         <div class="usertableinner table-responsive">
           <table class="table">
             <thead>
@@ -73,6 +72,7 @@
                 <th style="min-width: 100px" class="text-nowrap">Updated Date</th>
                 <th style="min-width: 100px" class="text-nowrap" *ngIf="providerType != 'scheduledProvider'">Last Scheduled Date</th>
                 <th style="min-width: 100px" class="text-nowrap">Status</th>
+                <th style="min-width: 100px" class="text-nowrap">AI Verification Status</th>
                 <th style="min-width: 100px" class="text-nowrap">Logs</th>
               </tr>
             </thead>
@@ -123,11 +123,17 @@
                     </span></span>
                   </div>
                 </td>
-                
+                <td class="text-nowrap">
+                  <div class="tableinfo">
+                    <span class="mx-auto aistatuspending" ngbTooltip="Partially Verified"  *ngIf="obj.inValidCount > 0 && obj.validCount > 0"><i class="bi bi-check2-circle"></i></span>
+                    <span class="mx-auto aistatusactive" ngbTooltip="All Verified" *ngIf="obj.inValidCount == 0 && obj.validCount > 0"><i class="bi bi-check2-circle"></i></span>
+                    <span class="mx-auto aistatusinactive" ngbTooltip="Not Verified" *ngIf="obj.inValidCount == 0 && obj.validCount == 0"><i class="bi bi-check2-circle"></i></span>
+                  </div>
+                </td>
                 <td class="text-nowrap">
                   <div class="tableinfo">
                     <div class="d-flex align-items-center gap-2">
-                      <button type="button" class="btn primarybtn" (click)="viewLogs(obj.providerUuid, obj.providerName, obj.id, obj.version)">View</button>
+                      <button type="button" class="btn primarybtn" (click)="viewLogs(obj.providerUuid, obj.providerName, obj.id, obj.version, obj.npi)">View</button>
                       <span *ngIf="obj.isProviderDeleted == 1" style="margin-left: 13px" class="text-danger" >Deleted!</span>
                     </div>
                   </div>
@@ -136,7 +142,7 @@
             </tbody>
             <tbody>
               <tr>
-                <td colspan="9" class="border-0">
+                <td colspan="12" class="border-0">
                   <app-circular-loader *ngIf="fetchingReport"></app-circular-loader>
                   <div class="empty-notific text-center" style="margin: 13% 10% 13% 3%;" *ngIf="!fetchingReport && providerList.length==0">
                     <div class="empty-notificinner">
@@ -189,6 +195,9 @@
             Rpa Log
             <sup class="logCount">{{rpaCount}}</sup>
           </button>
+          <button *ngIf="providerType != 'scheduledProvider' && providerReqVersion == 'V3'" type="button" class="btn credTabsBtn me-2" (click)="switchLogTab('replicateLog')">
+            Replicate Log
+          </button>
           <button *ngIf="providerType == 'scheduledProvider'" type="button" class="btn credTabsBtn me-2" [ngClass]="{'credTabsBtnActive' : logType == 'archiveLog'}" (click)="switchLogTab('archiveLog')">
             Archive Log
             <sup class="logCount">{{archiveCount}}</sup>
@@ -226,6 +235,7 @@
                 <th style="min-width: 100px" class="text-nowrap">Lookup Name</th>
                 <th style="min-width: 100px" class="text-nowrap">Lookup Link</th>
                 <th style="min-width: 100px" class="text-center text-nowrap">Status</th>
+                <th style="min-width: 100px" class="text-center text-nowrap">Ai Verification Status</th>
                 <th style="min-width: 100px" class="text-center text-nowrap">State</th>
                 <th style="min-width: 100px" class="text-center text-nowrap">License Number</th>
                 <th style="min-width: 100px" class="text-center text-nowrap">License Type</th>
@@ -258,6 +268,14 @@
                   <div class="tableinfo text-nowrap text-center">
                     <span *ngIf="!Constant.EMPTY_STRINGS.includes(log.errorStatus)" class="statusinactive">{{log.errorStatus?log.errorStatus:'N/A'}}</span>
                     <span *ngIf="Constant.EMPTY_STRINGS.includes(log.errorStatus)" [ngClass]="{'statusactive':log.crawlerStatus=='COMPLETED', 'statuspending' :log.crawlerStatus=='PENDING'}" >{{log.crawlerStatus}}</span>
+                  </div>
+                </td>
+                <td>
+                  <div class="tableinfo text-nowrap text-center">
+                    <div class="tableinfo pointer">
+                      <span class="mx-auto aistatusactive" [ngbTooltip]="log.verificationLog ? log.verificationLog: 'No Description'"  *ngIf="log.verificationStatus == 1"><i class="bi bi-check2-circle"></i></span>
+                      <span class="mx-auto aistatusinactive" [ngbTooltip]="log.verificationLog ? log.verificationLog: 'No Description'" *ngIf="log.verificationStatus == 0"><i class="bi bi-check2-circle"></i></span>
+                    </div>
                   </div>
                 </td>
                 <td>
@@ -574,6 +592,81 @@
           Yes Delete It <span><i class="spinner-border spinner-border-sm" role="status" *ngIf="deletingLogToggle"></i></span>
         </button>
       </div>
+    </div>
+  </div>
+</div>
+
+<!-- ------------------------------ Log Replicate Modal -------------------------------------- -->
+<button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#replicateModal" #configReplicateModalButton>Launch Modal</button>
+<div class="modal fade modal-lg" id="replicateModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-bs-labelledby="exampleModalLabel" aria-bs-hidden="true">
+  <div class="modal-dialog replicateModal">
+    <div class="modal-content">
+      <form #replicateLogForm="ngForm" ngNativeValidate>
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel"> 
+            Add Configuration
+          </h5>
+          <button type="button" class="close" data-bs-dismiss="modal" aria-bs-label="Close" #closeReplicateModalButton (click)="closeReplicateModal()">
+            <span aria-bs-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="usertableinner table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th> 
+                    <div class="d-flex gap-2">
+                      <input class="form-check-input" type="checkbox" value="" id="uuidSelect" [checked]="isAllSelected" (click)="selectAllProvider()">
+                      <label class="form-check-label" for="uuidSelect">
+                        Select All
+                      </label>
+                    </div>
+                  </th>
+                  <th style="min-width: 100px" class="text-nowrap">Provider Name</th>
+                  <th style="min-width: 100px" class="text-nowrap">Client Name</th>
+                </tr>
+              </thead>
+              <tbody *ngIf="!credilyProviderLoading && credilyProviderList.length>0">
+                <tr *ngFor="let obj of credilyProviderList; let i = index">
+                  <td class="text-nowrap">
+                    <div>
+                      <input class="form-check-input" type="checkbox" [checked]="obj.checked" value="" id="uuidSlct" (click)="selectSingleProvider(obj)">
+                    </div>
+                  </td>
+                  <td class="text-nowrap">
+                      <div class="tableinfo" >{{obj.providerName}}</div>
+                  </td>
+                  <td class="text-nowrap">
+                    <div class="tableinfo">{{obj.accountName?obj.accountName:'---'}}</div>
+                  </td>
+                </tr>
+              </tbody>
+              <tbody > 
+                <tr>
+                  <td colspan="12" class="border-0">
+                    <app-circular-loader *ngIf="credilyProviderLoading"></app-circular-loader>
+                    <div class="empty-notific text-center" style="margin: 13% 10% 13% 3%;" *ngIf="!credilyProviderLoading && credilyProviderList.length==0">
+                      <div class="empty-notificinner">
+                        <img src="assets/images/allexpirable.svg" style="width: 18%;" alt="no data found" />
+                        <h6 class="m-3 ps-5">No data found</h6>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn primaryBtn" [disabled]="logReplicateToggle || this.uuidList.length == 0" (click)="replicateLogs()">
+            <span *ngIf="!logReplicateToggle">Replicate</span>
+            <span *ngIf="logReplicateToggle">Replicating 
+              <i class="spinner-border spinner-border-sm" role="status"></i>
+            </span>
+          </button>
+        </div>
+      </form>
     </div>
   </div>
 </div>

@@ -6,6 +6,7 @@ export class FailedConfigDTO{
 	configLink:string='';
 	state:string='';
 	providerName:string='';
+	email:string='';
 	npi:string='';
 	version:string='';
 	updatedDate:string='';

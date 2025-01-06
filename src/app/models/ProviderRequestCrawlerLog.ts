@@ -17,4 +17,6 @@ export class ProviderRequestCrawlerLog{
     reRunDate:any;
     licenseNumber:string='';
     licenseType:string='';
+    verificationStatus:number=0;
+    verificationLog:string='';
 }

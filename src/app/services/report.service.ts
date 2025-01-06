@@ -235,12 +235,13 @@ export class ReportService {
     return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.report + '/log-count', {params});
   }
 
-  getNoConfigProvider(taxonomyCode:string, taxonomyState:string, currentPage:number, itemsPerPage:number): Observable<any> {
+  getNoConfigProvider(taxonomyCode:string, taxonomyState:string, databaseHelper:DatabaseHelper, boardName:string): Observable<any> {
     var params = new HttpParams()
     .set('taxonomyCode', taxonomyCode)
     .set('taxonomyState', taxonomyState)
-    .set('currentPage', currentPage)
-    .set('itemsPerPage', itemsPerPage)
+    .set('currentPage', databaseHelper.currentPage)
+    .set('itemsPerPage', databaseHelper.itemsPerPage)
+    .set('boardName', boardName)
     return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.report + '/no-config-provider', {params});
   }
 
@@ -314,4 +315,16 @@ export class ReportService {
     return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.report+ '/board-name', {params});
   }
 
+  getCredilyProvider(npi:any) : Observable<any>{
+    var params = new HttpParams()
+    .set('npi', npi)
+    return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.report+ '/provider', {params});
+  }
+
+  replicateLog(uuid:string, uuidList:any) : Observable<any>{
+    var params = new HttpParams()
+    .set('v3ProviderUuid', uuid)
+    .set('uuidList', uuidList)
+    return this.http.post<any>(this.key.server_url + this.key.api_version_one + this.key.report+ '/replicate-log', {}, {params});
+  }
 }
