@@ -52,12 +52,13 @@ export class ReportService {
     return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.report + '/provider-config-report-count', {params});
   }
 
-  getProviderLogs(providerUuid:string, isRpaConfig:number, providerType:string, isArchive:number):Observable<any> {
+  getProviderLogs(providerUuid:string, isRpaConfig:number, providerType:string, isArchive:number, isConfigNotFound:number):Observable<any> {
     var params = new HttpParams()
     .set('providerUuid', providerUuid)
     .set('isRpaConfig', isRpaConfig)
     .set('providerType', providerType)
     .set('isArchive', isArchive)
+    .set('isConfigNotFound', isConfigNotFound)
     return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.report + '/logs', {params});
   }
   
@@ -190,8 +191,8 @@ export class ReportService {
     return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.report + "/report-state", {params});
   }
 
-  updateSnapshot(snapShotRequest:any) :Observable<any> {
-    return this.http.post<any>(this.key.server_url + this.key.api_version_one + this.key.report + "/update-screenshot", snapShotRequest);
+  uploadSnapshot(snapShotRequest:any) :Observable<any> {
+    return this.http.post<any>(this.key.server_url + this.key.api_version_one + this.key.report + "/upload-screenshot", snapShotRequest);
   }
 
   saveRpaResponse(logId:string, status:string, snapshotUrl:string): Observable<any>{
