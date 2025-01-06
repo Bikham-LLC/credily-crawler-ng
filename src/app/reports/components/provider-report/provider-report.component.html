@@ -195,6 +195,10 @@
             Rpa Log
             <sup class="logCount">{{rpaCount}}</sup>
           </button>
+          <button *ngIf="providerType != 'scheduledProvider'" type="button" class="btn credTabsBtn me-2" [ngClass]="{'credTabsBtnActive' : logType == 'configNotFound'}" (click)="switchLogTab('configNotFound')">
+            Not Found config
+            <sup class="logCount">{{configNotFoundCount}}</sup>
+          </button>
           <button *ngIf="providerType != 'scheduledProvider' && providerReqVersion == 'V3'" type="button" class="btn credTabsBtn me-2" (click)="switchLogTab('replicateLog')">
             Replicate Log
           </button>
@@ -260,7 +264,7 @@
                 </td>
                 <td>
                   <div class="tableinfo text-nowrap d-flex">
-                    <span class="tbleditBtn text-primary"><i class="bi bi-box-arrow-up-left" style="cursor: pointer" (click)="routeToConfiguration(log)"></i></span>
+                    <span class="tbleditBtn text-primary"><i *ngIf="!Constant.EMPTY_STRINGS.includes(log.lookupLink)" class="bi bi-box-arrow-up-left" style="cursor: pointer" (click)="routeToConfiguration(log)"></i></span>
                     <span class="textClamp" >{{log.lookupLink}}</span>
                   </div>
                 </td>
@@ -324,7 +328,7 @@
                       <i class="bi bi-eye text-dark" style="font-size: 16px;"></i>
                     </button>
 
-                    <button ngbTooltip="Upload Snapshot" class="btn btn-light btn-outline-light" (click)="openSnapshotUploadModal(log.id, log.lookupName)">
+                    <button ngbTooltip="Upload Snapshot" class="btn btn-light btn-outline-light" [disabled]="Constant.EMPTY_STRINGS.includes(log.lookupLink)" (click)="openSnapshotUploadModal(log.id, log.lookupName)">
                       <i class="bi bi-upload text-dark" style="font-size: 16px;"></i>
                     </button>
 
@@ -427,7 +431,7 @@
           <button type="button" class="btn btn-outline-secondary mx-0" style="color: #c6c2c2;" (click)="closeSnapShotUploadModal()">
             Cancel
           </button>
-          <button type="button" class="btn btn-outline-primary" [disabled]="updatingSnapshotToggle" (click)="updateSnapshot()">
+          <button type="button" class="btn btn-outline-primary" [disabled]="updatingSnapshotToggle" (click)="uploadSnapshot()">
             <span>Update </span> <i class="spinner-border spinner-border-sm" role="spin" *ngIf="updatingSnapshotToggle"></i>
           </button>
         </div>

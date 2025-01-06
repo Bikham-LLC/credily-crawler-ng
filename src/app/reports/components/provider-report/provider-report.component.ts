@@ -186,20 +186,25 @@ export class ProviderReportComponent implements OnInit {
   logType:string='crawlerLog';
   isRpaConfig:number=0;
   isArchive:number=0;
+  isConfigNotFound:number=0
   switchLogTab(tab:string){
     this.logType = tab;
     if(tab == 'replicateLog'){
       this.openConfigReplicateModal();
     } else {
       this.isArchive = 0;
+      this.isRpaConfig = 0;
+      this.isConfigNotFound = 0;
+
       if(tab == 'archiveLog') {
         this.isArchive = 1;
       }
+      if(tab == 'configNotFound') {
+        this.isConfigNotFound = 1;
+      }
       if(tab == 'rpaLog') {
         this.isRpaConfig = 1;
-      } else {
-        this.isRpaConfig = 0;
-      } 
+      }
       this.getProviderLogs(this.uuid);
     }
   }
@@ -304,10 +309,12 @@ export class ProviderReportComponent implements OnInit {
   licenseCount:number=0;
   rpaCount:number=0;
   archiveCount:number=0;
+  configNotFoundCount:number=0;
   getLogCount(){
     this.reportService.getLogCount(this.uuid, this.providerType).subscribe(response=>{
       this.licenseCount = response.licenseCount;
       this.rpaCount = response.rpaCount;
+      this.configNotFoundCount = response.configNotFoundCount;
       if(this.providerType == 'scheduledProvider'){
         this.archiveCount = response.archiveCount;
       }
@@ -320,7 +327,7 @@ export class ProviderReportComponent implements OnInit {
   logLoadingToggle:boolean = false;
   getProviderLogs(providerUuid:string){
     this.logLoadingToggle = true;
-    this.reportService.getProviderLogs(providerUuid, this.isRpaConfig, this.providerType, this.isArchive).subscribe(response=>{
+    this.reportService.getProviderLogs(providerUuid, this.isRpaConfig, this.providerType, this.isArchive, this.isConfigNotFound).subscribe(response=>{
       this.providerCrawlerLogList = response;
       this.logLoadingToggle = false;
     },error=>{
@@ -456,14 +463,14 @@ export class ProviderReportComponent implements OnInit {
   snapshotRequest: SnapshotRequest = new SnapshotRequest();
   updatingSnapshotToggle:boolean = false
   uploadValidToggle:boolean =false;
-  updateSnapshot(){
+  uploadSnapshot(){
     this.uploadValidToggle = false;
     if(this.Constant.EMPTY_STRINGS.includes(this.fileName)){
       this.uploadValidToggle = true;
       return;
     }
     this.updatingSnapshotToggle = true;
-    this.reportService.updateSnapshot(this.snapshotRequest).subscribe(response=>{
+    this.reportService.uploadSnapshot(this.snapshotRequest).subscribe(response=>{
       if(response){
         this.closeSnapShotUploadModal();
       }
