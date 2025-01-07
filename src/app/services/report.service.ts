@@ -23,7 +23,7 @@ export class ReportService {
   }
   // ------------------------------- config report section -----------------------
 
-  getProviderReport(databaseHelper:DatabaseHelper, filterType:any, startDate:any, endDate:any, version:string, providerType:string): Observable<any> {
+  getProviderReport(databaseHelper:DatabaseHelper, filterType:any, startDate:any, endDate:any, version:string, providerType:string, isLive: number): Observable<any> {
     if(databaseHelper==undefined || databaseHelper==null){
       databaseHelper = new DatabaseHelper();
     }
@@ -35,6 +35,7 @@ export class ReportService {
     .set('filterType', filterType)
     .set('version', version)
     .set('providerType', providerType)
+    .set('isLive', isLive)
     if(!Constant.EMPTY_STRINGS.includes(startDate) && !Constant.EMPTY_STRINGS.includes(startDate)){
       params = params.set('startDate', startDate)
       .set('endDate', endDate)
@@ -114,7 +115,7 @@ export class ReportService {
     return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.report + "/config-id", {params});
   }
 
-  getFailedConfigs(startDate:string, endDate:string, databaseHelper:DatabaseHelper, searchFilter:string, version:string, state:any) :Observable<any> { 
+  getFailedConfigs(startDate:string, endDate:string, databaseHelper:DatabaseHelper, searchFilter:string, version:string, state:any, isLive: number) :Observable<any> { 
     var params = new HttpParams()
     .set('startDate', startDate)
     .set('endDate', endDate)
@@ -124,6 +125,7 @@ export class ReportService {
     .set('stateList', state)
     .set('currentPage', databaseHelper.currentPage)
     .set('itemsPerPage', databaseHelper.itemsPerPage)
+    .set('isLive', isLive)
     return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.report + "/failed-config-report", {params});
   }
 
@@ -140,7 +142,7 @@ export class ReportService {
   }
 
 
-  getNoConfigFoundReport(startDate:string, endDate:string, databaseHelper:DatabaseHelper, version:string, stateList:any, boardNameList:any) :Observable<any> { 
+  getNoConfigFoundReport(startDate:string, endDate:string, databaseHelper:DatabaseHelper, version:string, stateList:any, boardNameList:any, isLive: number) :Observable<any> { 
     var params = new HttpParams()
     .set('startDate', startDate)
     .set('endDate', endDate)
@@ -150,11 +152,12 @@ export class ReportService {
     .set('search', databaseHelper.search)
     .set('currentPage', databaseHelper.currentPage)
     .set('itemsPerPage', databaseHelper.itemsPerPage)
+    .set('isLive', isLive)
     return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.report + "/no-config-found-report", {params});
   }
 
 
-  getOcrProviderAttachment(version:string, startDate:string, endDate:string, databaseHelper:DatabaseHelper) :Observable<any> { 
+  getOcrProviderAttachment(version:string, startDate:string, endDate:string, databaseHelper:DatabaseHelper, isLive:number) :Observable<any> { 
     var params = new HttpParams()
     .set('version', version)
     .set('startDate', startDate)
@@ -162,6 +165,7 @@ export class ReportService {
     .set('search', databaseHelper.search)
     .set('currentPage', databaseHelper.currentPage)
     .set('itemsPerPage', databaseHelper.itemsPerPage)
+    .set('isLive', isLive)
     return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.report + "/provider-attachment", {params});
   }
 
@@ -206,7 +210,7 @@ export class ReportService {
     return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.report + "/re-run-rpa-config", {params});
   }
 
-  getReFetchLicenseReport(databaseHelper:DatabaseHelper, startDate:any, endDate:any): Observable<any> {
+  getReFetchLicenseReport(databaseHelper:DatabaseHelper, startDate:any, endDate:any, isLive:number): Observable<any> {
     if(databaseHelper==undefined || databaseHelper==null){
       databaseHelper = new DatabaseHelper();
     }
@@ -215,6 +219,7 @@ export class ReportService {
     .set('searchBy', databaseHelper.searchBy)
     .set('currentPage', databaseHelper.currentPage)
     .set('itemsPerPage', databaseHelper.itemsPerPage)
+    .set('isLive', isLive)
     if(!Constant.EMPTY_STRINGS.includes(startDate) && !Constant.EMPTY_STRINGS.includes(startDate)){
       params = params.set('startDate', startDate)
       .set('endDate', endDate)
@@ -257,7 +262,7 @@ export class ReportService {
     return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.report + '/no-config-taxonomy');
   }
 
-  getRpaReport(databaseHelper:DatabaseHelper, startDate:any, endDate:any, status:string): Observable<any> {
+  getRpaReport(databaseHelper:DatabaseHelper, startDate:any, endDate:any, status:string, isLive: number): Observable<any> {
     if(databaseHelper==undefined || databaseHelper==null){
       databaseHelper = new DatabaseHelper();
     }
@@ -269,6 +274,7 @@ export class ReportService {
     .set('currentPage', databaseHelper.currentPage)
     .set('itemsPerPage', databaseHelper.itemsPerPage)
     .set('status', status)
+    .set('isLive', isLive)
     return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.report + '/rpa-report', {params});
   }
 

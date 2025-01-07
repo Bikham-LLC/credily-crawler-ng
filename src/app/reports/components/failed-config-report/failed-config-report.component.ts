@@ -65,9 +65,11 @@ export class FailedConfigReportComponent implements OnInit {
         this.getFailedConfigsCount();
       }
     })
+
   }
 
   subscribeHeader : any;
+  
   dashboardDateFilterToggle:boolean = false;
   ngOnInit(): void {
     this.dropdownSettingsVersion = {
@@ -121,7 +123,7 @@ export class FailedConfigReportComponent implements OnInit {
     } else {
       this.configType = configType;
     }
-    this.reportService.getFailedConfigs(this.dataService.startDate, this.dataService.endDate, this.databaseHelper, this.configType, this.version, this.states).subscribe(response=>{
+    this.reportService.getFailedConfigs(this.dataService.startDate, this.dataService.endDate, this.databaseHelper, this.configType, this.version, this.states, this.dataService.isLiveAccount).subscribe(response=>{
       if(response != null){
         this.failedConfigList = response.list;
         this.totalConfigsCount = response.totalItems;

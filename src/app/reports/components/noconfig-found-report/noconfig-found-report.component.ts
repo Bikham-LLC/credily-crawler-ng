@@ -81,6 +81,7 @@ export class NoconfigFoundReportComponent implements OnInit {
     }
 
   routeVersion:any;
+  
   subscribeHeader:any;
   ngOnInit(): void {
     this.dropdownSettingsVersion = {
@@ -163,7 +164,7 @@ export class NoconfigFoundReportComponent implements OnInit {
   noConfigLoadingToggle:boolean = false;
   getNoConfigFoundReport(){
     this.noConfigLoadingToggle = true;
-    this.reportService.getNoConfigFoundReport(this.dataService.startDate, this.dataService.endDate, this.databaseHelper, this.version, this.states, this.boardNameList).subscribe(response=>{
+    this.reportService.getNoConfigFoundReport(this.dataService.startDate, this.dataService.endDate, this.databaseHelper, this.version, this.states, this.boardNameList, this.dataService.isLiveAccount).subscribe(response=>{
       if(response != null){
         this.noConfigFoundList = response.list;
         this.totalItems = response.totalItems;

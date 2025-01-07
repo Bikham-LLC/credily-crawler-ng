@@ -67,9 +67,11 @@ export class ProviderReportComponent implements OnInit {
           this.getProviderReportCount();
         }
       })
+
   }
 
   subscribeHeader :any;
+  
   ngOnInit(): void {
     this.dropdownSettingsVersion = {
       singleSelection: true,
@@ -109,8 +111,8 @@ export class ProviderReportComponent implements OnInit {
       lazyLoading: true
     };
 
-    this.getProviderReport(this.filterType, 0);
-    this.getProviderReportCount();
+    // this.getProviderReport(this.filterType, 0);
+    // this.getProviderReportCount();
   }
 
   databaseHelper:DatabaseHelper = new DatabaseHelper();
@@ -148,7 +150,7 @@ export class ProviderReportComponent implements OnInit {
       this.filterType = filterType;
     }
     this.providerList = [];
-    this.reportService.getProviderReport(this.databaseHelper, this.filterType, this.dataService.startDate, this.dataService.endDate, this.version, this.providerType).subscribe(response => {
+    this.reportService.getProviderReport(this.databaseHelper, this.filterType, this.dataService.startDate, this.dataService.endDate, this.version, this.providerType, this.dataService.isLiveAccount).subscribe(response => {
       if(response!=null){
         this.providerList = response.object;
         this.totalProviders = response.totalItems;

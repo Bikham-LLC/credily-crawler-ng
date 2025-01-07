@@ -44,6 +44,7 @@ export class RpaReportComponent implements OnInit {
 
 
   subscribeHeader :any;
+  
   ngOnInit(): void {
     this.getRpaReport(this.filterType, 0);
     this.getRpaReportCount();
@@ -65,7 +66,7 @@ export class RpaReportComponent implements OnInit {
     }
 
     this.reportLoadingToggle = true;
-    this.reportService.getRpaReport(this.databaseHelper, this.dataService.startDate, this.dataService.endDate, this.filterType).subscribe(response=>{
+    this.reportService.getRpaReport(this.databaseHelper, this.dataService.startDate, this.dataService.endDate, this.filterType, this.dataService.isLiveAccount).subscribe(response=>{
       if(response){
         this.providerList = response.object;
         this.totalProviders = response.totalItems;

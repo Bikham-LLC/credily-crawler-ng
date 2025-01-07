@@ -46,6 +46,7 @@ export class OcrReportComponent implements OnInit {
 
   readonly Route = Route;
   subscribeHeader:any;
+  
   version: string='V3';
   getAttachmentWithVersion(version: string){
     this.version = version;
@@ -59,7 +60,7 @@ export class OcrReportComponent implements OnInit {
   getOcrProviderAttachment(){
     this.providerAttachmentList = [];
     this.providerLoadingToggle = true;
-    this.reportService.getOcrProviderAttachment(this.version, this.dataService.startDate, this.dataService.endDate, this.databaseHelper).subscribe(response=>{
+    this.reportService.getOcrProviderAttachment(this.version, this.dataService.startDate, this.dataService.endDate, this.databaseHelper, this.dataService.isLiveAccount).subscribe(response=>{
       if(response != null){
         this.providerAttachmentList = response.list;
         this.totalProviderAttachment = response.totalItems;

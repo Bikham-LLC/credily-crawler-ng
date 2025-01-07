@@ -39,14 +39,6 @@ export class NpdbReportComponent implements OnInit {
           }
         })
 
-        this.subscribeHeader = this.headerSubscriptionService.testLiveReportChange.subscribe(async (value) => {
-          debugger
-          if(router.url == Route.NPDB_REPORT){
-            this.subscribeHeaderIsLive = value;
-            this.getProviderReport();
-          }
-        })
-
     }
 
   ngOnInit(): void {
@@ -54,7 +46,7 @@ export class NpdbReportComponent implements OnInit {
   }
 
   subscribeHeader:any;
-  subscribeHeaderIsLive: number = -1;
+  
 
   providerSearch = new Subject<string>();
   totalProviders:number = 0;
@@ -65,7 +57,7 @@ export class NpdbReportComponent implements OnInit {
 
   getProviderReport(){
     this.reportLoadingToggle = true;
-    this.reportService.getNpdbReport(this.databaseHelper, this.dataService.startDate, this.dataService.endDate, this.subscribeHeaderIsLive).subscribe(response=>{
+    this.reportService.getNpdbReport(this.databaseHelper, this.dataService.startDate, this.dataService.endDate, this.dataService.isLiveAccount).subscribe(response=>{
       if(response.status){
         this.providerList = response.object;
         this.totalProviders = response.totalItems;

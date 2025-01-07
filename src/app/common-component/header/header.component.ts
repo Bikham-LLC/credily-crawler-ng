@@ -48,41 +48,26 @@ export class HeaderComponent implements OnInit {
 
   options: any[] = [
     { id: -1, name: 'All' },
-    { id: 1, name: 'Live' },
-    { id: 0, name: 'Test' }
+    { id: 1, name: 'Live Account' },
+    { id: 0, name: 'Test Account' }
   ];
 
   // Array to hold selected options
-  selectedOptions: any[] = [{ id: 1, name: 'All' }];
+  selectedOptions: any[] = [{ id: -1, name: 'All' }];
 
   // Dropdown settings for customization (optional)
   dropdownSettings = {
     singleSelection: true, // Set to true for single selection
-    text: 'All', // Placeholder text
-    selectAllText: 'Select All', // Text for select all
-    unSelectAllText: 'Unselect All', // Text for unselect all
-    enableSearchFilter: true, // Enable search functionality
-    classes: '',
     primaryKey: 'id', // Key for unique identification
     labelKey: 'name'
   };
 
   // Method called when selection changes
   onSelectionChange(event: any) {
-    this.selectReportFilter(event);
-  }
-
-  selectReportFilter(event: any) {
-    debugger
-
-    const value = event[0].id
-
-    this.headerSubscriptionService.startTestLiveReport(value)
-  }
-
-  isReportTab: boolean = false;
-  reportTab(){
-    this.isReportTab = true;
+    if(event != undefined){
+      this.dataService.isLiveAccount = event[0].id
+      this.headerSubscriptionService.start();
+    }
   }
 
 }

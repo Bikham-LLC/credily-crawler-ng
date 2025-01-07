@@ -41,7 +41,7 @@
             </div>
         </div>
         <div class="navigation-bar d-flex">
-            <div class="navigationitemsmain col-lg-7" >
+            <div class="navigationitemsmain col-lg-6" >
                 <a class="btn navigationitem" routerLinkActive="navActive" [routerLink]="Route.HOME_DASHBOARD_ROUTE">
                     Dashboard
                 </a>
@@ -52,7 +52,7 @@
                     Queue
                 </a>
                 <div class="dropdown">
-                    <button class="btn navigationitem dropdown-toggle" (click)="reportTab()" [ngClass]="{'navActive': _router.url.includes('reports/')}" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <button class="btn navigationitem dropdown-toggle" [ngClass]="{'navActive': _router.url.includes('reports/')}" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Report
                         <i class="fa-solid fa-chevron-down"></i>
                     </button>
@@ -90,23 +90,10 @@
                 <a class="btn navigationitem" routerLinkActive="navActive" routerLinkActive="navActive" [routerLink]="Route.RPA_MODULE">
                     RPA    
                 </a>
-
-                <!-- <div *ngIf="_router.url.includes('reports/')" class="col-lg-4">
-                    <angular2-multiselect
-                    id="multiSelect"
-                    name="multiSelect"
-                    [data]="options"
-                    [(ngModel)]="selectedOptions"
-                    [settings]="dropdownSettings"
-                    (ngModelChange)="onSelectionChange($event)">
-                  </angular2-multiselect>
-              </div>  -->
-               
             </div>
 
-           <div class="navigationitemsmain col-lg-5 gap-4" style="padding-top: 2.4px;">
-           <!-- <div class="row"> -->
-            <div class="col-lg-2">
+           <div class="navigationitemsmain col-lg-6 gap-4" style="padding-top: 2.4px;">
+            <div class="col-lg-3">
                 <angular2-multiselect *ngIf="_router.url.includes('reports/')"
                 id="multiSelect"
                 name="multiSelect"
@@ -117,16 +104,12 @@
               </angular2-multiselect>
           </div> 
           
-            <div class="col-lg-9" >
+            <div class="col-lg-8" >
                 <div class="dateRangeFilter position-relative" style="margin-right: 20px;">
                     <input type="text" autocomplete="off" class="form-control" name="daterange" placeholder="Select Date Range" ngxDaterangepickerMd [opens]="'right'" [locale]="{applyLabel: 'Apply', format: 'MM-DD-YYYY'}" [(ngModel)]="dataService.selected" (ngModelChange)="selectDateFilter($event)">
                 </div>
             </div>
-
-           <!-- </div> -->
            </div>
-
-
         </div>
     </header>
 </div>

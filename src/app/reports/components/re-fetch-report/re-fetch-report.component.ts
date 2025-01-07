@@ -42,6 +42,7 @@ export class ReFetchReportComponent implements OnInit {
     }
 
   subscribeHeader :any;
+  
   ngOnInit(): void {
     this.getReFetchReport();
   }
@@ -53,7 +54,7 @@ export class ReFetchReportComponent implements OnInit {
   reportLoadingToggle:boolean = false;
   getReFetchReport(){
     this.reportLoadingToggle = true;
-    this.reportService.getReFetchLicenseReport(this.databaseHelper, this.dataService.startDate, this.dataService.endDate).subscribe(response=>{
+    this.reportService.getReFetchLicenseReport(this.databaseHelper, this.dataService.startDate, this.dataService.endDate, this.dataService.isLiveAccount).subscribe(response=>{
       if(response.status){
         this.reportList = response.object;
         this.totalProviders = response.totalItems;
