@@ -20,6 +20,7 @@ import { AuditTrail } from 'src/app/models/AuditTrail';
 import { HeaderSubscriptionService } from 'src/app/services/header-subscription.service';
 import { RpaTestRequest } from 'src/app/models/RpaTestRequest';
 import { USStates } from 'src/app/models/UsStatesJson';
+import { Credential } from 'src/app/models/Credential';
 
 @Component({
   selector: 'app-configuration',
@@ -127,6 +128,7 @@ export class ConfigurationComponent implements OnInit {
   @ViewChild('mapLookupTaxonomyForm') mapLookupTaxonomyForm: any;
 
 
+
   dropdownSettingsTaxonomyLink !: { singleSelection: boolean; text: string; enableSearchFilter: boolean; autoPosition: boolean; searchPlaceholderText: string; };
   selectedTaxonomyLink: any[] = new Array();
   taxonomyLinkList: any[] = new Array();
@@ -152,6 +154,7 @@ export class ConfigurationComponent implements OnInit {
   dropdownSettingsState !: { singleSelection: boolean; text: string; enableSearchFilter: boolean; autoPosition: boolean };
   selectedState: any[] = new Array();
   stateList: any[] = new Array();
+
 
   ngOnInit(): void {
 
@@ -228,6 +231,12 @@ export class ConfigurationComponent implements OnInit {
     this.dropdownSettingsState = {
       singleSelection: true,
       text: 'Select State',
+      enableSearchFilter: true,
+      autoPosition: false
+    }
+    this.dropdownSettingsCredential = {
+      singleSelection: true,
+      text: 'Select Credential',
       enableSearchFilter: true,
       autoPosition: false
     }
@@ -565,6 +574,10 @@ export class ConfigurationComponent implements OnInit {
   selectedLookupNames: any[] = new Array();
   mappedLookupNames: any[] = new Array();
 
+  dropdownSettingsCredential !: { singleSelection: boolean; text: string; enableSearchFilter: boolean; autoPosition: boolean };
+  selectedCredential: any[] = new Array();
+  credentialList: any[] = new Array();
+
   openAddConfigModal() {
     this.attributeList = [];
     this.classList = [];
@@ -612,9 +625,10 @@ export class ConfigurationComponent implements OnInit {
     this.classList = JSON.parse(JSON.stringify(this.classList));
   }
 
-
+  credentials: Credential = new Credential();
   selectCrawlerAttribute(event: any) {
     debugger
+    this.credentialList = []
     this.cofnigStepRequest.crawlerAttributeId = 0;
     if (event[0] != undefined) {
       this.selectedAttribute = event;
@@ -642,6 +656,27 @@ export class ConfigurationComponent implements OnInit {
           autoPosition: false
         }
       }
+      if(event[0].id == 40){
+        this.credentialList = this.credentials.credentialJSON;
+        console.log(this.credentialList);
+      }
+    }
+  }
+
+  credential:string='';
+  selectCredential(event:any){
+    this.credential ='';
+    if(event != undefined){
+      this.credential = event[0].itemName;
+    }
+  }
+
+  isProviderCredential:number=0;
+  selectProviderCredential(event:any){
+    if(event.target.checked){
+      this.isProviderCredential = 1
+    } else {
+      this.isProviderCredential = 0;
     }
   }
 
@@ -1639,4 +1674,8 @@ export class ConfigurationComponent implements OnInit {
   addNewLink(){
     this.newLinkToggle = !this.newLinkToggle;
   }
+
+
+
+
 }
