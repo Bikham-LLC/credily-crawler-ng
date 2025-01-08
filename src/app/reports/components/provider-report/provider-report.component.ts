@@ -18,8 +18,6 @@ import { HeaderSubscriptionService } from 'src/app/services/header-subscription.
 import { LicenseLookupService } from 'src/app/services/license-lookup.service';
 import { LogConfigRequest } from 'src/app/models/LogConfigRequest';
 import { LicenseTypeJson } from 'src/app/models/LicenseTypeJson';
-import { PdfService } from 'src/app/services/pdf.service';
-
 
 @Component({
   selector: 'app-provider-report',
@@ -43,8 +41,7 @@ export class ProviderReportComponent implements OnInit {
     private dataService: DataService,
     private firebaseStorage: AngularFireStorage,
     private headerSubscriptionService: HeaderSubscriptionService,
-    private licenseLookupService: LicenseLookupService,
-    private pdfService: PdfService
+    private licenseLookupService: LicenseLookupService
     ) { 
 
     this.providerSearch.pipe(
