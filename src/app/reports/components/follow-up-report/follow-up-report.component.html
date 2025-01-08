@@ -19,7 +19,7 @@
     <div class="row align-items-center justify-content-between">
         <div class="col-lg-4">
             <div class="position-relative">
-                <input id="searchname" name="searchname" placeholder="Search" class="form-control" style="padding:0px 15px 0px 38px"/>
+                <input id="searchname" name="searchname" placeholder="Search" class="form-control" style="padding:0px 15px 2px 38px" [(ngModel)]="databaseHelper.search" (ngModelChange)="this.providerSearch.next($event)" />
                 <i class="bi bi-search search-icon"></i>
             </div>
         </div>
@@ -32,64 +32,73 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th style="width: 15%;"><span style="cursor: pointer;"> Provider Name</span></th>
-                        <th style="width: 13%;">NPI Number</th>
-                        <th style="width: 15%;">Email</th>
-                        <th style="width: 9%;">Document Name</th>
-                        <th style="width: 15%;">Update Date</th>
-                        <th style="width: 9%;">Actions</th>
+                        <th style="width: 15%;"><span style="cursor: pointer;">Lookup Name</span></th>
+                        <th style="width: 13%;">Lookup Link</th>
+                        <th style="width: 6%;">Ticked Id</th>
+                        <th style="width: 9%;">Ticket Type</th>
+                        <th style="width: 6%;">Plan Id</th>
+                        <th style="width: 7%;"> Date</th>
+                        <th style="width: 9%;">Status</th>
+                        <th style="width: 12%;" class="text-center">Screenshot</th>
                     </tr>
                 </thead>
-                <tbody >
-                    <tr *ngFor="let obj of [].constructor(10)">
-                        <td><div class="tableinfo">ABC</div></td>
+                <tbody *ngIf="!reportLoadingToggle && followupList.length>0">
+                    <tr *ngFor="let followup of followupList; let i=index;">
+                        <td><div class="tableinfo"></div>{{followup.lookupName}}</td>
                         <td>
-                            <div class="tableinfo"><span class="badge-grey npi-badge">65767667</span></div>
+                            <div class="tableinfo">{{followup.lookupLink}}</div>
                         </td>
                         <td>
-                            <div class="tableinfo line-clamp">123gmail.com</div>
+                            <div class="tableinfo line-clamp">{{followup.ticketId}}</div>
                         </td>
                         <td>
-                            <div class="tableinfo line-clamp">NPI</div>
+                            <div class="tableinfo line-clamp">{{followup.ticketType}}</div>
                         </td>
                         <td>
-                            <div class="tableinfo line-clamp">2024/05/08</div>
+                            <div class="tableinfo line-clamp">{{followup.planId}}</div>
                         </td>
                         <td>
-                            <div class="d-flex gap-2 pointer">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none"><path _ngcontent-bgf-c74="" d="M13.1774 4.68958L9.71073 1.22292C9.61046 1.12265 9.47499 1.06665 9.33366 1.06665H3.73366C3.14433 1.06665 2.66699 1.54398 2.66699 2.13332V13.8667C2.66699 14.456 3.14433 14.9333 3.73366 14.9333H12.267C12.8563 14.9333 13.3337 14.456 13.3337 13.8667V5.06665C13.3337 4.92532 13.2777 4.78985 13.1774 4.68958ZM9.60033 11.2H5.33366C5.03926 11.2 4.80033 10.9611 4.80033 10.6667C4.80033 10.3723 5.03926 10.1333 5.33366 10.1333H9.60033C9.89473 10.1333 10.1337 10.3723 10.1337 10.6667C10.1337 10.9611 9.89473 11.2 9.60033 11.2ZM10.667 9.06665H5.33366C5.03926 9.06665 4.80033 8.82772 4.80033 8.53332C4.80033 8.23892 5.03926 7.99998 5.33366 7.99998H10.667C10.9614 7.99998 11.2003 8.23892 11.2003 8.53332C11.2003 8.82772 10.9614 9.06665 10.667 9.06665ZM9.60033 5.33332C9.30593 5.33332 9.06699 5.09438 9.06699 4.79998V2.08212L12.3182 5.33332H9.60033Z" fill="#058AFF"></path></svg>
-                                <i class="bi bi-eye" style="color: rgb(23, 108, 227);"></i>
+                            <div class="tableinfo line-clamp">{{followup.updatedDate | date: 'MM-dd-YYYY'}}</div>
+                        </td>
+                        <td>
+                            <div class="tableinfo line-clamp"
+                            [ngClass]="{'statusactive':followup.status.toUpperCase()=='COMPLETED', 'statusinactive':(followup.status =='NO CONFIG FOUND') }">{{followup.status}}</div>
+                        </td>
+                        <td>
+                            <div class="tableinfo d-flex justify-content-center">
+                                <button type="button" class="btn primarybtn" [disabled]="Constant.EMPTY_STRINGS.includes(followup.url)" (click)="openImage(followup.url)">View</button>
                             </div>
                         </td>
                     </tr>
                 </tbody>
             </table>
-            <!-- <div class="row justify-content-center" *ngIf="!providerLoadingToggle && providerAttachmentList.length>0">  
+            <div class="row justify-content-center" *ngIf="!reportLoadingToggle && followupList.length>0">  
                 <div class="paginationmain w-100 px-3 mt-2">
                     <div class="d-flex align-items-center justify-content-between">
                         <p class="currentshowing mb-0">
-                            Showing <span>{{providerAttachmentList.length}}</span> of <span>{{totalProviderAttachment}}</span>  
+                            Showing <span>{{followupList.length}}</span> of <span>{{totalProviders}}</span>  
                         </p>
                         <div class="d-flex justify-content-end">
-                            <ngb-pagination [collectionSize]="totalProviderAttachment" [rotate]="true" (pageChange)="pageChange($event)" [pageSize]="databaseHelper.itemsPerPage" [(page)]="databaseHelper.currentPage" [maxSize]="5" [boundaryLinks]="true">
+                            <ngb-pagination [collectionSize]="totalProviders" [rotate]="true" (pageChange)="pageChange($event)" [pageSize]="databaseHelper.itemsPerPage" 
+                            [(page)]="databaseHelper.currentPage" [maxSize]="5" [boundaryLinks]="true">
                             </ngb-pagination>
                         </div>
                     </div>
                 </div>
-            </div> -->
+            </div>
         </div>
-        <!-- <div class="empty-notific text-center" style="margin: 12% 10% 15% 4%;" *ngIf="!providerLoadingToggle && providerAttachmentList.length==0">
+        <div class="empty-notific text-center" style="margin: 12% 10% 15% 4%;" *ngIf="!reportLoadingToggle && followupList.length==0">
             <div class="empty-notificinner">
               <img src="assets/images/allexpirable.svg" style="width: 18%; margin-right: 1%;" alt="no data found" />
               <h6 class="m-3 ps-5">No data found</h6>
             </div>
-        </div> -->
+        </div>
     </div>
-    <!-- <app-circular-loader *ngIf="providerLoadingToggle"></app-circular-loader> -->
+    <app-circular-loader *ngIf="reportLoadingToggle"></app-circular-loader>
 </div>
 
   <!-- show image modal -->
-<!-- <button type="button" #openSnapshotModalButton id="openSnapshotModalButton" class="d-none" data-bs-toggle="modal" data-bs-target="#showImageModal"></button>
+<button type="button" #openSnapshotModalButton id="openSnapshotModalButton" class="d-none" data-bs-toggle="modal" data-bs-target="#showImageModal"></button>
 <div class="modal blur-bg-2" id="showImageModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="shareModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" style="max-width:95%;">
         <div class="modal-content">
@@ -103,5 +112,5 @@
         </div>
         </div>
     </div>
-</div> -->
+</div>
 
