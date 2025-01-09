@@ -18,4 +18,6 @@ export class ConfigRequest{
     isNewStep:number=0;
     subAttributeMapList: SubAttributeMap[] = new Array();
     isRemoveAlphabet:number=0;
+    credentialType: string ='';
+    isProviderCred: number = 0;
 }

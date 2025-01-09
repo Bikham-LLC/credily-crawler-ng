@@ -40,7 +40,6 @@ export class FollowUpReportComponent implements OnInit {
             this.getFollowUpReport();
           }
         })
-
     }
 
   ngOnInit(): void {

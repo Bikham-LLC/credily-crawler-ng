@@ -663,20 +663,18 @@ export class ConfigurationComponent implements OnInit {
     }
   }
 
-  credential:string='';
   selectCredential(event:any){
-    this.credential ='';
+    this.cofnigStepRequest.credentialType ='';
     if(event != undefined){
-      this.credential = event[0].itemName;
+      this.cofnigStepRequest.credentialType = event[0].itemName;
     }
   }
 
-  isProviderCredential:number=0;
   selectProviderCredential(event:any){
     if(event.target.checked){
-      this.isProviderCredential = 1
+      this.cofnigStepRequest.isProviderCred = 1
     } else {
-      this.isProviderCredential = 0;
+      this.cofnigStepRequest.isProviderCred = 0;
     }
   }
 
@@ -747,6 +745,7 @@ export class ConfigurationComponent implements OnInit {
     debugger
     this.cofnigStepRequest.isStepUpdted = false;
     this.selectedAttribute =[];
+    this.selectedCredential =[];
     this.isEditStepToggle = true;
     this.editStepIndex = index;
     this.openAddConfigModal();
@@ -802,6 +801,13 @@ export class ConfigurationComponent implements OnInit {
     this.cofnigStepRequest.pattern = step.pattern;
     this.cofnigStepRequest.actionButton = step.actionButton;
     this.cofnigStepRequest.isRemoveAlphabet = step.isRemoveAlphabet;
+    
+    this.cofnigStepRequest.isProviderCred = step.isProviderCred;
+    if(step.credentialType){
+      var tempCredType: {id: any, itemName:any} = {id:step.credentialType, itemName:step.credentialType};
+      this.credentialList = this.credentials.credentialJSON;
+      this.selectedCredential.push(tempCredType);
+    }
 
     var classTemp:{id: any, itemName : any} = {id: '', itemName : ''};
     if(!this.Constant.EMPTY_STRINGS.includes(step.className)){

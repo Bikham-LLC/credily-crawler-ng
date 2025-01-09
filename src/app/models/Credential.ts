@@ -1,23 +1,23 @@
 export class Credential {
 
     credentialJSON : any[] = [    
-        { id: 1, itemName: "AAPA Portal (American Academy of Physician Associates)" },
-        { id: 2, itemName: "ABFM Login (American Board of Family Medicine)" },
-        { id: 3, itemName: "ABIM Login (American Board of Internal Medicine)" },
-        { id: 4, itemName: "Aetna Login" },
-        { id: 5, itemName: "AHCA Florida Medicaid Portal Logins" },
-        { id: 6, itemName: "AHCCCS Portal (AZ Medicaid)" },
-        { id: 7, itemName: "AMA Physician Masterfile" },
-        { id: 8, itemName: "Amerigroup Provider Portal" },
-        { id: 9, itemName: "CAQH Logins" },
-        { id: 10, itemName: "CAQH Portal logins" },
-        { id: 11, itemName: "CareSource Provider Portal" },
-        { id: 12, itemName: "DYP Portal Provider" },
-        { id: 13, itemName: "EMedNY Portal logins" },
-        { id: 14, itemName: "Gainwell Technologies Medicaid Portal" },
-        { id: 15, itemName: "HCP Provider Portal (Indiana Medicaid)" },
-        { id: 16, itemName: "IMLCC Compact Logins" },
-        { id: 17, itemName: "NPPES Portal Logins" },
-        { id: 18, itemName: "PT Compact Logins" }
+        { id: "AAPA Portal (American Academy of Physician Associates)", itemName: "AAPA Portal (American Academy of Physician Associates)" },
+        { id: "ABFM Login (American Board of Family Medicine)", itemName: "ABFM Login (American Board of Family Medicine)" },
+        { id: "ABIM Login (American Board of Internal Medicine)", itemName: "ABIM Login (American Board of Internal Medicine)" },
+        { id: "Aetna Login", itemName: "Aetna Login" },
+        { id: "AHCA Florida Medicaid Portal Logins", itemName: "AHCA Florida Medicaid Portal Logins" },
+        { id: "AHCCCS Portal (AZ Medicaid)", itemName: "AHCCCS Portal (AZ Medicaid)" },
+        { id: "AMA Physician Masterfile", itemName: "AMA Physician Masterfile" },
+        { id: "Amerigroup Provider Portal", itemName: "Amerigroup Provider Portal" },
+        { id: "CAQH Logins", itemName: "CAQH Logins" },
+        { id: "CAQH Portal logins", itemName: "CAQH Portal logins" },
+        { id: "CareSource Provider Portal", itemName: "CareSource Provider Portal" },
+        { id: "DYP Portal Provider", itemName: "DYP Portal Provider" },
+        { id: "EMedNY Portal logins", itemName: "EMedNY Portal logins" },
+        { id: "Gainwell Technologies Medicaid Portal", itemName: "Gainwell Technologies Medicaid Portal" },
+        { id: "HCP Provider Portal (Indiana Medicaid)", itemName: "HCP Provider Portal (Indiana Medicaid)" },
+        { id: "IMLCC Compact Logins", itemName: "IMLCC Compact Logins" },
+        { id: "NPPES Portal Logins", itemName: "NPPES Portal Logins" },
+        { id: "PT Compact Logins", itemName: "PT Compact Logins" }
     ]
 }

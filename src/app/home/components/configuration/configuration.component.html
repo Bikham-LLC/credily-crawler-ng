@@ -760,7 +760,7 @@
                                                     <angular2-multiselect id="credential" name="credential" [data]="credentialList" [settings]="dropdownSettingsCredential" [(ngModel)]="selectedCredential" (ngModelChange)="selectCredential($event)" required>
                                                     </angular2-multiselect>
 
-                                                    <input type="checkbox" id="cred" name="cred" value="cr" class="mb-4 mt-2 pointer" [checked]="isProviderCredential" (click)="selectProviderCredential($event)">
+                                                    <input type="checkbox" id="cred" name="cred" value="cr" class="mb-4 mt-2 pointer" [checked]="cofnigStepRequest.isProviderCred" (click)="selectProviderCredential($event)">
                                                     <label for="cred" style="margin-left: 5px;">Is provider credential ?</label>
                                                 </div>
                                             </div>
