@@ -630,6 +630,7 @@ export class ConfigurationComponent implements OnInit {
     debugger
     this.credentialList = []
     this.cofnigStepRequest.crawlerAttributeId = 0;
+    this.cofnigStepRequest.crawlerAttribute = '';
     if (event[0] != undefined) {
       this.selectedAttribute = event;
       this.cofnigStepRequest.crawlerAttributeId = event[0].id;
