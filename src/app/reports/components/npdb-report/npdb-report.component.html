@@ -37,6 +37,7 @@
                     <th style="min-width: 100px" class="text-nowrap">Email</th>
                     <th style="min-width: 100px" class="text-nowrap">Lookup Name</th>
                     <th style="min-width: 100px" class="text-nowrap">Lookup Link</th>
+                    <th style="min-width: 100px" class="text-nowrap">Updated Date</th>
                     <th style="min-width: 100px" class="text-nowrap">Status</th>
                     <th style="min-width: 100px" class="text-nowrap">Snapshot</th>
                 </tr>
@@ -60,6 +61,9 @@
                     </td>
                     <td class="text-nowrap">
                         <div class="tableinfo">{{obj.lookupLink}}</div>
+                    </td>
+                    <td class="text-nowrap">
+                        <div class="tableinfo">{{obj.updatedDate | date : 'MM/dd/yyyy'}}</div>
                     </td>
                     <td class="text-nowrap">
                         <div class="tableinfo" [ngClass]="{'statusactive':obj.status.toUpperCase() == 'COMPLETED', 'statuspending': obj.status.toUpperCase() == 'PENDING'}">{{obj.status}}</div>

@@ -10,4 +10,5 @@ export class RpaReportDTO {
     status:string='';
     url:string='';
     email:string='';
+    updatedDate: any;
 }

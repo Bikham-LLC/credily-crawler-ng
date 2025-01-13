@@ -5,6 +5,7 @@ import { Route } from 'src/app/models/Route';
 import * as moment from 'moment';
 import { DataService } from 'src/app/services/data.service';
 import { HeaderSubscriptionService } from 'src/app/services/header-subscription.service';
+import { moveItemInArray } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-header',
@@ -53,7 +54,7 @@ export class HeaderComponent implements OnInit {
   ];
 
   // Array to hold selected options
-  selectedOptions: any[] = [{ id: -1, name: 'All' }];
+  selectedOptions: any[] = [{ id: 1, name: 'Live Account' }];
 
   // Dropdown settings for customization (optional)
   dropdownSettings = {
@@ -64,10 +65,16 @@ export class HeaderComponent implements OnInit {
 
   // Method called when selection changes
   onSelectionChange(event: any) {
-    if(event != undefined){
+    debugger
+    if(event != undefined && event.length >0){ 
       this.dataService.isLiveAccount = event[0].id
-      this.headerSubscriptionService.start();
+    }else{
+      var temp = {id: -1, name: 'All'}
+      this.selectedOptions.push(temp);
+      this.dataService.isLiveAccount = -1
     }
+
+    this.headerSubscriptionService.start();
   }
 
 }
