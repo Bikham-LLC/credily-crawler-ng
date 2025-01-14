@@ -188,10 +188,10 @@ export class ProviderReportComponent implements OnInit {
   isConfigNotFound:number=0
   switchLogTab(tab:string){
     this.logType = tab;
+    this.isArchive = 0;
     if(tab == 'replicateLog'){
       this.openConfigReplicateModal();
     } else {
-      this.isArchive = 0;
       this.isRpaConfig = 0;
       this.isConfigNotFound = 0;
 

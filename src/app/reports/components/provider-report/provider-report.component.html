@@ -314,12 +314,12 @@
                 </td>
                 <td>
                   <div class="tableinfo text-nowrap d-flex align-items-center justify-content-center gap-2 pointer">
-                    <button ngbTooltip="Map again" class="btn btn-light btn-outline-light" [disabled]="log.mapAgainLoadingToggle || mapAgainLoadingToggle || Constant.EMPTY_STRINGS.includes(log.snapShotUrl)" (click)="mapSnapshotAgain(log.id, i)">
+                    <button *ngIf="isArchive != 1" ngbTooltip="Map again" class="btn btn-light btn-outline-light" [disabled]="log.mapAgainLoadingToggle || mapAgainLoadingToggle || Constant.EMPTY_STRINGS.includes(log.snapShotUrl)" (click)="mapSnapshotAgain(log.id, i)">
                       <i *ngIf="!log.mapAgainLoadingToggle" class="bi bi-link text-dark" style="font-size: 20px;"></i>
                       <i *ngIf="log.mapAgainLoadingToggle" style="font-size: 16px;" class="spinner-border spinner-border-sm text-dark"></i>
                     </button>
                     
-                    <button placement="top" ngbTooltip="Re-run" class="btn btn-light btn-outline-light" [disabled]="log.reTestingToggle || providerTestingToggle || (Constant.EMPTY_STRINGS.includes(log.lookupName) && Constant.EMPTY_STRINGS.includes(log.lookupLink))" (click)="reRunProviderLog(log.id, i)">
+                    <button *ngIf="isArchive != 1" placement="top" ngbTooltip="Re-run" class="btn btn-light btn-outline-light" [disabled]="log.reTestingToggle || providerTestingToggle || (Constant.EMPTY_STRINGS.includes(log.lookupName) && Constant.EMPTY_STRINGS.includes(log.lookupLink))" (click)="reRunProviderLog(log.id, i)">
                       <i *ngIf="!log.reTestingToggle" style="font-size: 16px;" class="bi bi-arrow-clockwise text-dark"></i>
                       <i *ngIf="log.reTestingToggle" style="font-size: 16px;" class="spinner-border spinner-border-sm text-dark"></i>
                     </button>
@@ -328,7 +328,7 @@
                       <i class="bi bi-eye text-dark" style="font-size: 16px;"></i>
                     </button>
 
-                    <button ngbTooltip="Upload Snapshot" class="btn btn-light btn-outline-light" [disabled]="Constant.EMPTY_STRINGS.includes(log.lookupLink)" (click)="openSnapshotUploadModal(log.id, log.lookupName)">
+                    <button *ngIf="isArchive != 1" ngbTooltip="Upload Snapshot" class="btn btn-light btn-outline-light" [disabled]="Constant.EMPTY_STRINGS.includes(log.lookupLink)" (click)="openSnapshotUploadModal(log.id, log.lookupName)">
                       <i class="bi bi-upload text-dark" style="font-size: 16px;"></i>
                     </button>
 
