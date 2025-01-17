@@ -45,6 +45,7 @@ export class NoconfigFoundReportComponent implements OnInit {
   dropdownSettingsBoardConfigName!: { singleSelection: boolean; text: string; enableSearchFilter: boolean; autoPosition: boolean, badgeShowLimit: number;};
   boardConfigList: any[] = new Array();
   selectedBoardConfig: any[] = new Array();
+  isHeaderServiceCall: boolean = false;
 
   providerSearch = new Subject<string>();
   constructor(private reportService: ReportService,
@@ -55,8 +56,11 @@ export class NoconfigFoundReportComponent implements OnInit {
       this.subscribeHeader = this.headerSubscriptionService.headerVisibilityChange.subscribe(async (value) => {
         debugger
         if(router.url == Route.NO_CONFIG_FOUND_REPORT){
-          this.getNoConfigFoundReport();
-          this.getBoardConfigName();
+          if(!this.isHeaderServiceCall){
+            this.getNoConfigFoundReport();
+            this.getBoardConfigName();
+          }
+          this.isHeaderServiceCall = false;
         }
       })
 
@@ -132,9 +136,17 @@ export class NoconfigFoundReportComponent implements OnInit {
       badgeShowLimit: 1,
     };
 
-    this.getNoConfigFoundReport();
-    this.getBoardConfigName();
+    if(!this.isHeaderServiceCall){
+      this.isHeaderServiceCall = true;
+      this.dataService.isLiveAccount = 1
+      this.getNoConfigFoundReport();
+      this.getBoardConfigName();
+    }
     this.getStates();
+  }
+
+  ngOnDestroy(){
+    this.subscribeHeader.complete();
   }
 
   versionFilterToggle:boolean = false;

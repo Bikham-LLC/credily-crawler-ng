@@ -19,6 +19,7 @@ export class NpdbReportComponent implements OnInit {
 
   readonly Route = Route;
   readonly Constant = Constant;
+  isHeaderServiceCall: boolean = false;
 
   constructor(private reportService : ReportService,
     private dataService: DataService,
@@ -35,14 +36,24 @@ export class NpdbReportComponent implements OnInit {
         this.subscribeHeader = this.headerSubscriptionService.headerVisibilityChange.subscribe(async (value) => {
           debugger
           if(router.url == Route.NPDB_REPORT){
-            this.getProviderReport();
+            if(!this.isHeaderServiceCall){
+              this.getProviderReport();
+            }
+            this.isHeaderServiceCall = false;
           }
         })
-
     }
 
   ngOnInit(): void {
-    this.getProviderReport()
+    if(!this.isHeaderServiceCall){
+      this.isHeaderServiceCall = true;
+      this.dataService.isLiveAccount = 1
+      this.getProviderReport()
+    }
+  }
+
+  ngOnDestroy(){
+    this.subscribeHeader.complete();
   }
 
   subscribeHeader:any;

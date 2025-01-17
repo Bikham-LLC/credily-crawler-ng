@@ -19,6 +19,7 @@ export class ReFetchReportComponent implements OnInit {
 
   readonly Constant = Constant;
   readonly Route = Route;
+  isHeaderServiceCall: boolean = false;
   
   providerSearch = new Subject<string>();
   constructor(private reportService: ReportService,
@@ -29,7 +30,10 @@ export class ReFetchReportComponent implements OnInit {
       this.subscribeHeader = this.headerSubscriptionService.headerVisibilityChange.subscribe(async (value) => {
         debugger
         if(this.router.url == Route.RE_FETCH_REPORT){
-          this.getReFetchReport();
+          if(!this.isHeaderServiceCall){
+            this.getReFetchReport();
+          }
+          this.isHeaderServiceCall = false;
         }
       })
 
@@ -44,7 +48,15 @@ export class ReFetchReportComponent implements OnInit {
   subscribeHeader :any;
   
   ngOnInit(): void {
-    this.getReFetchReport();
+    if(!this.isHeaderServiceCall){
+      this.isHeaderServiceCall = true;
+      this.dataService.isLiveAccount = 1
+      this.getReFetchReport(); 
+    }
+  }
+
+  ngOnDestroy(){
+    this.subscribeHeader.complete();
   }
 
   databaseHelper:DatabaseHelper = new DatabaseHelper();

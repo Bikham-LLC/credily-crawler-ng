@@ -21,6 +21,13 @@ export class HeaderComponent implements OnInit {
     if(!this.Constant.EMPTY_STRINGS.includes(localStorage.getItem(this.Constant.USER_NAME))){
       this.userName = String(localStorage.getItem(this.Constant.USER_NAME));
     }
+
+    // this.subscribeHeader = this.headerSubscriptionService.headerVisibilityChange.subscribe(async (value) => {
+    //   const filteredOptions = this.options.filter(option => this.options.includes(dataService.isLiveAccount));
+    //   console.log('filteredOptions: ',filteredOptions);
+    //   this.selectedOptions.push(filteredOptions);
+    // })
+    
    }
 
    readonly Constant = Constant;
@@ -73,7 +80,6 @@ export class HeaderComponent implements OnInit {
       this.selectedOptions.push(temp);
       this.dataService.isLiveAccount = -1
     }
-
     this.headerSubscriptionService.start();
   }
 

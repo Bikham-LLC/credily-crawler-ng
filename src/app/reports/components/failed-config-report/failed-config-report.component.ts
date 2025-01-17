@@ -32,6 +32,7 @@ export class FailedConfigReportComponent implements OnInit {
   dropdownSettingsState!: { singleSelection: boolean; text: string; enableSearchFilter: boolean; autoPosition: boolean, badgeShowLimit: number; };
   stateList: any[] = new Array();
   selectedState: any[] = new Array();
+  isHeaderServiceCall: boolean = false;
 
   providerSearch = new Subject<string>();
   constructor(private reportService : ReportService,
@@ -61,8 +62,11 @@ export class FailedConfigReportComponent implements OnInit {
     this.subscribeHeader = this.headerSubscriptionService.headerVisibilityChange.subscribe(async (value) => {
       debugger
       if(router.url == Route.FAILED_CONFIG_REPORT){
-        this.getFailedConfigs(this.configType, 0);
-        this.getFailedConfigsCount();
+        if(!this.isHeaderServiceCall){
+          this.getFailedConfigs(this.configType, 0);
+          this.getFailedConfigsCount();
+        }
+        this.isHeaderServiceCall = false;
       }
     })
 
@@ -88,9 +92,18 @@ export class FailedConfigReportComponent implements OnInit {
       badgeShowLimit: 1
     };
     
-    this.getFailedConfigs(this.configType, 0);
-    this.getFailedConfigsCount();
+    if(!this.isHeaderServiceCall){
+      this.isHeaderServiceCall = true;
+      this.dataService.isLiveAccount = 1
+      
+      this.getFailedConfigs(this.configType, 0);
+      this.getFailedConfigsCount();
+    }
     this.getStates();
+  }
+
+  ngOnDestroy(){
+    this.subscribeHeader.complete();
   }
 
   versionFilterToggle:boolean = false;

@@ -19,6 +19,7 @@ export class RpaReportComponent implements OnInit {
 
   readonly Route = Route;
   readonly Constant = Constant;
+  isHeaderServiceCall: boolean = false;
 
   constructor(private reportService: ReportService,
     private dataService: DataService,
@@ -35,8 +36,11 @@ export class RpaReportComponent implements OnInit {
         this.subscribeHeader = this.headerSubscriptionService.headerVisibilityChange.subscribe(async (value) => {
           debugger
           if(router.url == Route.RPA_REPORT){
-            this.getRpaReport(this.filterType, 0);
-            this.getRpaReportCount();
+            if(!this.isHeaderServiceCall){
+              this.getRpaReport(this.filterType, 0);
+              this.getRpaReportCount();
+            }
+            this.isHeaderServiceCall = false;
           }
         })
 
@@ -46,8 +50,16 @@ export class RpaReportComponent implements OnInit {
   subscribeHeader :any;
   
   ngOnInit(): void {
-    this.getRpaReport(this.filterType, 0);
-    this.getRpaReportCount();
+    if(!this.isHeaderServiceCall){
+      this.isHeaderServiceCall = true;
+      this.dataService.isLiveAccount = 1
+      this.getRpaReport(this.filterType, 0);
+      this.getRpaReportCount();
+    }
+  }
+
+  ngOnDestroy(){
+    this.subscribeHeader.complete();
   }
 
   providerSearch = new Subject<string>();
