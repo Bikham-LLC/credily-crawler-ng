@@ -38,7 +38,7 @@ export class ConfigurationComponent implements OnInit {
   auditConfigNameSearch = new Subject<string>();
   auditConfigLinkSearch = new Subject<string>();
   taxonomySearch = new Subject<string>();
-
+  matchConfig = new Subject<string>();
   search: string = '';
   searchLink: string = '';
   constructor(
@@ -99,6 +99,11 @@ export class ConfigurationComponent implements OnInit {
           this.getMappedTaxonomy(this.type);
         });
   
+        this.matchConfig.pipe(
+          debounceTime(600))
+          .subscribe(value => {
+            this.matchConfigName();
+          });
 
       this.subscribeHeader = this.headerSubscriptionService.headerVisibilityChange.subscribe(async (value) => {
         debugger
@@ -107,6 +112,7 @@ export class ConfigurationComponent implements OnInit {
         }
       })
   }
+
 
   subscribeHeader:any;
   configurationId :number =0;
@@ -1682,6 +1688,20 @@ export class ConfigurationComponent implements OnInit {
     this.newLinkToggle = !this.newLinkToggle;
   }
 
+  configMatchLoadingToggle:boolean = false;
+  configMessage:string='';
+  matchConfigName(){
+    this.configMessage = '';
+    this.configMatchLoadingToggle = true;
+    this.licenseLookupService.matchConfigName(this.lookupName).subscribe(response=>{
+      if(!response) {
+        this.configMessage = 'Config already exists with this name.';
+      }
+      this.configMatchLoadingToggle = false;
+    },error=>{
+      this.configMatchLoadingToggle = false;
+    })
+  }
 
 
 

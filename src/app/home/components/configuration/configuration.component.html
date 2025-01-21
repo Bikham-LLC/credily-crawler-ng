@@ -349,9 +349,20 @@
                                             <div class="lookupSearchForm">
                                                 <label>Configuration Name <sup class="text-danger">*</sup> </label>
                                                 <div class="position-relative">
-                                                    <input type="text" class="form-control" name="lname" placeholder="Enter Configuration Name" [(ngModel)]="lookupName" maxlength="155" required>
+                                                    <input type="text" class="form-control" name="lname" placeholder="Enter Configuration Name" [(ngModel)]="lookupName" maxlength="155" (ngModelChange)="this.matchConfig.next($event)" required>
                                                 </div>
+                                                <small *ngIf="!Constant.EMPTY_STRINGS.includes(configMessage)" style="color: red;">{{configMessage}}</small>
                                             </div>
+
+                                            <!-- <div class="col-lg-6" *ngIf="!isConfigExistToggle">
+                                                <div class="lookupSearchForm">
+                                                  <label>Configuration Name <sup class="text-danger">*</sup> </label>
+                                                  <div class="position-relative">
+                                                    <input type="text" class="form-control" name="configName" [(ngModel)]="lookupName" (ngModelChange)="this.matchConfig.next($event)" placeholder="Enter Configuration Name" maxlength="155" required>
+                                                  </div>
+                                                  <small *ngIf="!Constant.EMPTY_STRINGS.includes(configMessage)" style="color: red;">{{configMessage}}</small>
+                                                </div>
+                                              </div> -->
                                         </div>
                                         <div class="col-lg-6" *ngIf="crawlerType == Constant.APPLICATION_FOLLOW_UP">
                                             <div class="lookupSearchForm">
@@ -622,7 +633,8 @@
                     <div class="modal-footer">
                         <button type="button" class="btn primarycancelbtn d-none" style="border-color: #F05252 !important;" data-bs-dismiss="modal" #closeTaxomonyModalButton (click)="closeTaxonomyModal()">Close</button>
                         
-                        <button *ngIf="crawlerType != Constant.RPA" type="submit" class="btn primaryBtn" [disabled]="mapLookupTaxonomyForm.invalid || updateLinkToggle || taxanomyLinkLoading || loadingLookupTaxonomy">
+                        <button *ngIf="crawlerType != Constant.RPA" type="submit" class="btn primaryBtn" 
+                        [disabled]="mapLookupTaxonomyForm.invalid || updateLinkToggle || taxanomyLinkLoading || loadingLookupTaxonomy || !Constant.EMPTY_STRINGS.includes(configMessage)">
                             <span *ngIf="configId==0">Save</span>
                             <span *ngIf="configId>0">Update</span>
                         </button>
