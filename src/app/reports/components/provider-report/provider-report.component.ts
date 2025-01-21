@@ -35,7 +35,6 @@ export class ProviderReportComponent implements OnInit {
 
   providerSearch = new Subject<string>();
   matchConfig = new Subject<string>();
-  isHeaderServiceCall: boolean = false;
 
   constructor( private reportService:ReportService,
     private router : Router,
@@ -61,19 +60,17 @@ export class ProviderReportComponent implements OnInit {
       this.subscribeHeader = this.headerSubscriptionService.headerVisibilityChange.subscribe(async (value) => {
         debugger
         if(router.url == Route.PROVIDER_REPORT){
-          if(!this.isHeaderServiceCall){
-            this.getProviderReport(this.filterType, 0);
-            this.getProviderReportCount();
-          }
-          this.isHeaderServiceCall = false;
+          this.getProviderReport(this.filterType, 0);
+          this.getProviderReportCount();
         }
+        console.log('In constructor - '+ this.subscribeHeader?.destination?.closed)
       })
   }
 
   subscribeHeader :any;
   
   ngOnInit(): void {
-    
+    debugger
     this.dropdownSettingsVersion = {
       singleSelection: true,
       text: 'Select Version',
@@ -112,18 +109,14 @@ export class ProviderReportComponent implements OnInit {
       lazyLoading: true
     };
 
-    if(!this.isHeaderServiceCall){
-      this.isHeaderServiceCall = true;
-      this.dataService.isLiveAccount = 1
-
-      this.getProviderReport(this.filterType, 0);
-      this.getProviderReportCount();
-    }
+    this.getProviderReport(this.filterType, 0);
+    this.getProviderReportCount();
+    console.log('In ngOnInit - '+ this.subscribeHeader.destination.closed)
 
   }
 
   ngOnDestroy(){
-    this.subscribeHeader.complete();
+    this.subscribeHeader.unsubscribe();
   }
 
   databaseHelper:DatabaseHelper = new DatabaseHelper();

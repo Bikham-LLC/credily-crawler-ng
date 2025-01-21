@@ -52,7 +52,6 @@ export class RpaReportComponent implements OnInit {
   ngOnInit(): void {
     if(!this.isHeaderServiceCall){
       this.isHeaderServiceCall = true;
-      this.dataService.isLiveAccount = 1
       this.getRpaReport(this.filterType, 0);
       this.getRpaReportCount();
     }

@@ -50,7 +50,6 @@ export class ReFetchReportComponent implements OnInit {
   ngOnInit(): void {
     if(!this.isHeaderServiceCall){
       this.isHeaderServiceCall = true;
-      this.dataService.isLiveAccount = 1
       this.getReFetchReport(); 
     }
   }

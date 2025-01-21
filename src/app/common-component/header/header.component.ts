@@ -21,13 +21,6 @@ export class HeaderComponent implements OnInit {
     if(!this.Constant.EMPTY_STRINGS.includes(localStorage.getItem(this.Constant.USER_NAME))){
       this.userName = String(localStorage.getItem(this.Constant.USER_NAME));
     }
-
-    // this.subscribeHeader = this.headerSubscriptionService.headerVisibilityChange.subscribe(async (value) => {
-    //   const filteredOptions = this.options.filter(option => this.options.includes(dataService.isLiveAccount));
-    //   console.log('filteredOptions: ',filteredOptions);
-    //   this.selectedOptions.push(filteredOptions);
-    // })
-    
    }
 
    readonly Constant = Constant;
@@ -54,30 +47,26 @@ export class HeaderComponent implements OnInit {
     this.headerSubscriptionService.start();
   }
 
-  options: any[] = [
+  dataList: any[] = [
     { id: -1, name: 'All' },
     { id: 1, name: 'Live Account' },
     { id: 0, name: 'Test Account' }
   ];
 
-  // Array to hold selected options
-  selectedOptions: any[] = [{ id: 1, name: 'Live Account' }];
 
-  // Dropdown settings for customization (optional)
   dropdownSettings = {
-    singleSelection: true, // Set to true for single selection
-    primaryKey: 'id', // Key for unique identification
+    singleSelection: true, 
+    primaryKey: 'id',
     labelKey: 'name'
   };
 
-  // Method called when selection changes
   onSelectionChange(event: any) {
     debugger
     if(event != undefined && event.length >0){ 
       this.dataService.isLiveAccount = event[0].id
-    }else{
+    } else {
       var temp = {id: -1, name: 'All'}
-      this.selectedOptions.push(temp);
+      this.dataService.selectedOptions.push(temp);
       this.dataService.isLiveAccount = -1
     }
     this.headerSubscriptionService.start();

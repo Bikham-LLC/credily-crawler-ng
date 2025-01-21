@@ -94,7 +94,6 @@ export class FailedConfigReportComponent implements OnInit {
     
     if(!this.isHeaderServiceCall){
       this.isHeaderServiceCall = true;
-      this.dataService.isLiveAccount = 1
       
       this.getFailedConfigs(this.configType, 0);
       this.getFailedConfigsCount();

@@ -138,7 +138,6 @@ export class NoconfigFoundReportComponent implements OnInit {
 
     if(!this.isHeaderServiceCall){
       this.isHeaderServiceCall = true;
-      this.dataService.isLiveAccount = 1
       this.getNoConfigFoundReport();
       this.getBoardConfigName();
     }

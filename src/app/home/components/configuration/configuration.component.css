@@ -671,6 +671,7 @@ span.removeSteps {
   background-color: #0070d2;
   color: #ffffff;
 }
+
 .inlineTaxoformsearch .form-control {
   border-radius: 0px 4px 4px 0px;
   border-left: 0px;
@@ -684,16 +685,17 @@ span.removeSteps {
 .inlineTaxoform .inlineTaxoformstate {
   width: 24%;
 }
-.inlineTaxoform {
-  display: flex;
-  align-items: flex-end;
-}
 .inlineTaxoformsearch i.bi.bi-search {
   position: absolute;
   left: 10px;
   top: 7px;
   font-size: 14px;
   color: #636363;
+}
+
+.inlineTaxoform {
+  display: flex;
+  align-items: flex-end;
 }
 .line-clamp {
   display: -webkit-box;

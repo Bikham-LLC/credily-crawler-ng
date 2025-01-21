@@ -457,18 +457,6 @@
                                                         </angular2-multiselect>
                                                     </div>
 
-                                                    <!-- <div class="col-lg-12" *ngIf="newLinkToggle">
-                                                        <div class="lookupSearchForm d-flex justify-content-between">
-                                                            <label>New Link <sup class="text-danger">*</sup> </label>
-                                                            <span *ngIf="newLinkToggle" class="text-danger pointer" (click)="addNewLink()"> 
-                                                                Cancel
-                                                            </span>
-                                                        </div>
-                                                        <div class="position-relative">
-                                                            <input type="text" class="form-control" name="newLink" placeholder="Enter New Link" [(ngModel)]="newLink" maxlength="250" required>
-                                                        </div>
-                                                    </div> -->
-
                                                 </div>
                                                 <small *ngIf="mapLookupTaxonomyForm.submitted && Constant.EMPTY_STRINGS.includes(lookupLink)" style="color: red;">Select Link!</small>
                                             </div>
@@ -512,42 +500,41 @@
                                               <div id="collapseOne" class="taxonomyCollapse accordion-collapse collapse" [ngClass]="{'show':showTaxonomyListToggle}" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
                                                 <div class="accordion-body">
                                                     <div class="usertableinner" >
-                                                        <div class="lookupSearch lookupSearchbdr">
-
-                                                            <div class="inlineTaxoform">
-                                                                <div class="inlineTaxoformstate">
+                                                        <div class="lookupSearch lookupSearchbdr pb-2">
+                                                            <div class="row g-2">
+                                                                <div class="col-4">
                                                                     <app-state-dropdown [_updatedStateName]="selectedStateName"
-                                                                        [(stateNameProp)]="selectedStateName"
-                                                                        [stateNameLabelClass]="'labelCls'" 
-                                                                        [stateCodeLabelClass]="'labelCls'"
-                                                                        [stateNameDynamic]="'State Name'" 
-                                                                        [stateCodeDynamic]="'State Code'" 
-                                                                        [stateNameClass]="'col-12 labelCls'" 
-                                                                        [stateCodeClass]="'d-none'"
-                                                                        [requiredClass]="'d-none'"
-                                                                        [cityClass]="'d-none'" (callFunction)="selectStateName()">
-                                                                    </app-state-dropdown>
+                                                                    [(stateNameProp)]="selectedStateName"
+                                                                    [stateNameLabelClass]="'d-none'" 
+                                                                    [stateCodeLabelClass]="'d-none'"
+                                                                    [stateNameDynamic]="'State Name'" 
+                                                                    [stateCodeDynamic]="'State Code'" 
+                                                                    [stateNameClass]="'col-12 labelCls'" 
+                                                                    [stateCodeClass]="'d-none'"
+                                                                    [requiredClass]="'d-none'"
+                                                                    [cityClass]="'d-none'" (callFunction)="selectStateName()">
+                                                                </app-state-dropdown>
                                                                 </div>
-                                                                <div class="inlineTaxoformsearch">
+                                                                <div class="col-8">
                                                                     <div class="position-relative">
-                                                                        <i class="bi bi-search"></i>
+                                                                        <i class="bi bi-search" style="position: absolute; top: 8px; right: 10px;"></i>
                                                                         <input type="Text" class="form-control" name="searchTaxonomy" placeholder="Search Taxonomy" [(ngModel)]="databaseHelper.search" (ngModelChange)="this.taxonomySearch.next($event)">
                                                                     </div>
                                                                 </div>
+
                                                             </div>
                                                         </div>
 
-                                                        <div class="mppedBtninner d-flex align-items-center">
-                                                            <p class="mb-0 mppedBtn" [ngClass]="{'mpactive':type=='mapped'}" (click)="getMappedTaxonomy('mapped')">
-                                                                Mapped
-                                                            </p>
-                                                            <p class="mb-0 mppedBtn" [ngClass]="{'mpactive':type == 'unmapped'}" (click)="getMappedTaxonomy('unmapped')">
-                                                                Unmapped
-                                                            </p>
-                                                        </div>
-                                                        
-                                                        <div>
-                                                            <div *ngIf="!Constant.EMPTY_STRINGS.includes(lookupLink)" class="text-ceter pointer" (click)="unmapAllTaxonomy($event)">
+                                                        <div class="align-items-center d-flex mppedBtninner row">
+                                                            <div class="col-4 d-flex">
+                                                                <p class="mb-0 mppedBtn" [ngClass]="{'mpactive':type=='mapped'}" (click)="getMappedTaxonomy('mapped')">
+                                                                    Mapped
+                                                                </p>
+                                                                <p class="mb-0 mppedBtn" [ngClass]="{'mpactive':type == 'unmapped'}" (click)="getMappedTaxonomy('unmapped')">
+                                                                    Unmapped
+                                                                </p>
+                                                            </div>
+                                                            <div *ngIf="!Constant.EMPTY_STRINGS.includes(lookupLink)" class="col-8 d-flex justify-content-end pointer" (click)="unmapAllTaxonomy($event)">
                                                                 <input type="checkbox" id="unmappedAll" name="unmappedAll" value="unmap">
                                                                 <label for="unmappedAll" style="margin-left: 5px;">Unmap All</label>
                                                             </div>
