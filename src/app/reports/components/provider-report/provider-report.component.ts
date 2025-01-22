@@ -935,5 +935,29 @@ export class ProviderReportComponent implements OnInit {
     this.urlString = '';
   }
 
+  tempConfigIds: number[] = new Array();
+  configAIReRun(id : any){
+    this.tempConfigIds.push(id);
+    this.reportService.configAIReRun(id).subscribe((res: any) => {
+      if (res) {
+        this.dataService.showToast('AI Config re-run successfully.', 'success');
+      }
+    }, error => {
+      this.dataService.showToast('Something went wrong.', 'error');
+    })
+  }
+
+  tempMarkedConfigIds: number[] = new Array();
+  markAsComplete(id : any){
+    this.tempMarkedConfigIds.push(id);
+    this.reportService.markAsComplete(id).subscribe((res: any) => {
+      if (res) {
+        this.dataService.showToast('Marked as complete successfully.', 'success');
+      }
+    }, error => {
+      this.dataService.showToast('Something went wrong.', 'error');
+    })
+  }
+
     // --------------------------- firebase doc upload section end --------------------------------------
 }

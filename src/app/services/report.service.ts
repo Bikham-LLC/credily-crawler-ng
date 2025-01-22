@@ -349,4 +349,17 @@ export class ReportService {
     .set('uuidList', uuidList)
     return this.http.post<any>(this.key.server_url + this.key.api_version_one + this.key.report+ '/replicate-log', {}, {params});
   }
+
+  configAIReRun(configId:number) : Observable<any>{
+    var params = new HttpParams()
+    .set('configId', configId)
+    return this.http.patch<any>(this.key.server_url + this.key.api_version_one + this.key.provider_crawler_controller+ '/ai-re-run', {}, {params});
+  }
+
+  markAsComplete(configId:number) : Observable<any>{
+    var params = new HttpParams()
+    .set('configId', configId)
+    return this.http.patch<any>(this.key.server_url + this.key.api_version_one + this.key.provider_crawler_controller+ '/mark-complete', {}, {params});
+  }
+
 }

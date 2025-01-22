@@ -428,3 +428,18 @@ input[type="file"] {
   color: #ffc107;
   padding: 3px 14px;
 }
+
+.is-read{
+  border: 1px solid #ed7e7e;
+  border-style: double;
+}
+
+.ai-re-run{
+  display: inline-block;
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 15px;
+  text-align: center;
+  padding: 4px 13px;
+}
