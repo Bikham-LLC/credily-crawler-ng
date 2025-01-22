@@ -71,10 +71,6 @@ export class LicenseLookupService {
     .set('itemsPerPage', databaseHelper.itemsPerPage)
     .set('configReportStatus', configReportStatus)
     .set('type', type)
-    // if(!Constant.EMPTY_STRINGS.includes(startDate) && !Constant.EMPTY_STRINGS.includes(startDate)){
-    //   params = params.set('startDate', startDate)
-    //   .set('endDate', endDate)
-    // }
     return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.lookup_config_controller+'/lookup', {params});
   }
 
@@ -212,6 +208,10 @@ export class LicenseLookupService {
     var params = new HttpParams()
     .set('configName', configName)
     return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.lookup_config_controller+ '/match-config-name', {params});
+  }
+
+  getCredentialType() : Observable<any>{
+    return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.lookup_config_controller+'/credential-type');
   }
 
 }
