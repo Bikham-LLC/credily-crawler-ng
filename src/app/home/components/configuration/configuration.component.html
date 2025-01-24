@@ -412,6 +412,31 @@
                                                 <!-- <small *ngIf="mapLookupTaxonomyForm.submitted && Constant.EMPTY_STRINGS.includes(credilyVersion)" style="color: red;">Select Credily Version!</small> -->
                                             </div>
                                         </div>
+
+                                        <!-- Create High Configuration Section -->
+                                        <div class="col-lg-12 mt-2">
+                                            <div class="lookupSearchForm">
+                                                <div class="position-relative">
+                                                    <div class="d-flex justify-content-between">
+                                                        <label>
+                                                            <input type="checkbox" name="isHighPriority" [(ngModel)]="isHighPriority" (ngModelChange)="onHighPriorityChange($event)"> Mark As High Priority
+                                                        </label>
+                                                    </div>
+                                                    <div *ngIf="isHighPriority" class="mt-2">
+                                                        <div class="form-check form-check-inline">
+                                                            <input class="form-check-input" type="radio" name="highPriorityType" id="paid" value="Paid" [(ngModel)]="highPriorityType" (change)="changeHighPriorityType('Paid')">
+                                                            <label class="form-check-label" for="paid">Paid</label>
+                                                        </div>
+                                                        <div class="form-check form-check-inline mx-4">
+                                                            <input class="form-check-input" type="radio" name="highPriorityType" id="unpaid" value="Unpaid" [(ngModel)]="highPriorityType" (change)="changeHighPriorityType('Unpaid')">
+                                                            <label class="form-check-label" for="unpaid">Unpaid</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
                                         <div class="col-lg-12 " *ngIf="crawlerType != Constant.CRAWLER_TYPE_COMMON_LINKS && crawlerType != Constant.APPLICATION_FOLLOW_UP && crawlerType != Constant.RPA">
                                             <div class="lookupSearchForm">
                                                 <div class="position-relative">

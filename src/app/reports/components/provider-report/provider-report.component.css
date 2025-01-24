@@ -443,3 +443,10 @@ input[type="file"] {
   text-align: center;
   padding: 4px 13px;
 }
+
+.form-input{
+  border: none;
+  border-bottom: 1px solid #ccc;
+  width: 100%;
+  padding: 0px 5px;
+}

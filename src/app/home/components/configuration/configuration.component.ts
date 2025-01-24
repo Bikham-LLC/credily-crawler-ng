@@ -953,6 +953,13 @@ export class ConfigurationComponent implements OnInit {
     if(this.cofnigStepRequest.subAttributeMapList.length>0){
       this.licenseLookupConfigRequest.configRequests[this.index].subAttributeMapList = this.cofnigStepRequest.subAttributeMapList;
     }
+
+    if(this.isHighPriority){
+      this.licenseLookupConfigRequest.isHighPriority = this.isHighPriority ? 1 : 0;
+      this.licenseLookupConfigRequest.highPriorityType = this.highPriorityType;
+      console.log('pType: ', this.licenseLookupConfigRequest.highPriorityType);
+    }
+
     this.licenseLookupConfigRequest.removeStepList = this.removeStepList;
     if (!this.isInvalidConfiguration) {
       if (this.selectedLookupConfigId > 0) {
@@ -962,7 +969,8 @@ export class ConfigurationComponent implements OnInit {
         this.licenseLookupConfigRequest.configReportStatus = this.configReportStatus;
         this.licenseLookupService.updateConfiguration(this.licenseLookupConfigRequest).subscribe(response => {
           this.savingConfiguration = false;
-          this.dataService.showToast('Configuration Saved Successfully.');
+          this.dataService.showToast('Configuration Saved Successfully.', 'success');
+          this.getConfiguration();
           this.addStepToggle = false;
           this.selectedLookupConfigId = 0;
           if(this.crawlerType == this.Constant.RPA){
@@ -979,7 +987,8 @@ export class ConfigurationComponent implements OnInit {
       } else {
         this.licenseLookupService.createConfiguration(this.licenseLookupConfigRequest).subscribe(response => {
           this.savingConfiguration = false;
-          this.dataService.showToast('Configuration Saved Successfully.');
+          this.dataService.showToast('Configuration Saved Successfully.', 'success');
+          this.getConfiguration();
           this.addStepToggle = false;
           this.selectedLookupConfigId = 0;
           if(this.crawlerType == this.Constant.RPA){
@@ -994,7 +1003,7 @@ export class ConfigurationComponent implements OnInit {
           this.dataService.showToast('Something went wrong!');
         })
       }
-      this.getConfiguration();
+      // this.getConfiguration();
     }
   }
 
@@ -1238,6 +1247,9 @@ export class ConfigurationComponent implements OnInit {
     this.configId = config.id;
     this.planId = config.planIds;
     this.rpaEndPoint = config.endPoint;
+
+    this.isHighPriority = config.isHightPriority == 1 ? true : false;
+    this.highPriorityType = config.highPriorityType;
 
     if (!Constant.EMPTY_STRINGS.includes(config.attachmentType)) {
       var attType: { id: any, itemName: any } = { id: config.attachmentType, itemName: config.attachmentType };
@@ -1712,6 +1724,24 @@ export class ConfigurationComponent implements OnInit {
     })
   }
 
+  isHighPriority: boolean = false;
+  highPriorityType: string = 'Unpaid';
+  onHighPriorityChange(event: any){
 
+    if(!this.highPriorityType){
+      this.highPriorityType = 'Unpaid';
+    }
 
+    if(event){
+      this.isHighPriority = true;
+    } else {
+      this.isHighPriority = false;
+      this.highPriorityType = 'Unpaid';
+    }
+  }
+
+  changeHighPriorityType(type:string){
+    this.highPriorityType = type;
+    console.log(this.highPriorityType);
+  }
 }

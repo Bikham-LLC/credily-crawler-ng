@@ -53,13 +53,14 @@ export class ReportService {
     return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.report + '/provider-config-report-count', {params});
   }
 
-  getProviderLogs(providerUuid:string, isRpaConfig:number, providerType:string, isArchive:number, isConfigNotFound:number):Observable<any> {
+  getProviderLogs(providerUuid:string, isRpaConfig:number, providerType:string, isArchive:number, isConfigNotFound:number, isOcrConfig:number):Observable<any> {
     var params = new HttpParams()
     .set('providerUuid', providerUuid)
     .set('isRpaConfig', isRpaConfig)
     .set('providerType', providerType)
     .set('isArchive', isArchive)
     .set('isConfigNotFound', isConfigNotFound)
+    .set('isOcrConfig', isOcrConfig)
     return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.report + '/logs', {params});
   }
   
@@ -353,13 +354,13 @@ export class ReportService {
   configAIReRun(configId:number) : Observable<any>{
     var params = new HttpParams()
     .set('configId', configId)
-    return this.http.patch<any>(this.key.server_url + this.key.api_version_one + this.key.provider_crawler_controller+ '/ai-re-run', {}, {params});
+    return this.http.patch<any>(this.key.server_url + this.key.api_version_one + this.key.report+ '/ai-re-run', {}, {params});
   }
 
   markAsComplete(configId:number) : Observable<any>{
     var params = new HttpParams()
     .set('configId', configId)
-    return this.http.patch<any>(this.key.server_url + this.key.api_version_one + this.key.provider_crawler_controller+ '/mark-complete', {}, {params});
+    return this.http.patch<any>(this.key.server_url + this.key.api_version_one + this.key.report+ '/mark-complete', {}, {params});
   }
 
 }

@@ -192,10 +192,12 @@ export class ProviderReportComponent implements OnInit {
   logType:string='crawlerLog';
   isRpaConfig:number=0;
   isArchive:number=0;
+  isOcrConfig:number=0;
   isConfigNotFound:number=0
   switchLogTab(tab:string){
     this.logType = tab;
     this.isArchive = 0;
+    this.isOcrConfig = 0;
     if(tab == 'replicateLog'){
       this.openConfigReplicateModal();
     } else {
@@ -211,7 +213,12 @@ export class ProviderReportComponent implements OnInit {
       if(tab == 'rpaLog') {
         this.isRpaConfig = 1;
       }
-      this.getProviderLogs(this.uuid);
+      if(tab == 'ocrLog') {
+        this.isOcrConfig = 1;
+        this.getOcrProviderAttachment();
+      }else{
+        this.getProviderLogs(this.uuid);
+      }
     }
   }
 
@@ -333,8 +340,24 @@ export class ProviderReportComponent implements OnInit {
   logLoadingToggle:boolean = false;
   getProviderLogs(providerUuid:string){
     this.logLoadingToggle = true;
-    this.reportService.getProviderLogs(providerUuid, this.isRpaConfig, this.providerType, this.isArchive, this.isConfigNotFound).subscribe(response=>{
+    this.reportService.getProviderLogs(providerUuid, this.isRpaConfig, this.providerType, this.isArchive, this.isConfigNotFound, this.isOcrConfig).subscribe(response=>{
       this.providerCrawlerLogList = response;
+      this.logLoadingToggle = false;
+    },error=>{
+      this.logLoadingToggle = false;
+    })
+  }
+
+  getOcrProviderAttachment(){
+    this.providerCrawlerLogList = [];
+    this.logLoadingToggle = true;
+    this.version= 'V2'
+    this.reportService.getOcrProviderAttachment(this.version, this.dataService.startDate, this.dataService.endDate, this.databaseHelper, this.dataService.isLiveAccount).subscribe(response=>{
+      if(response != null){
+        this.providerCrawlerLogList = response.list;
+        // this.totalProviderAttachment = response.totalItems;
+        console.log(this.providerCrawlerLogList)
+      }
       this.logLoadingToggle = false;
     },error=>{
       this.logLoadingToggle = false;
@@ -935,6 +958,8 @@ export class ProviderReportComponent implements OnInit {
     this.urlString = '';
   }
 
+  // --------------------------- firebase doc upload section end --------------------------------------
+
   tempConfigIds: number[] = new Array();
   configAIReRun(id : any){
     this.tempConfigIds.push(id);
@@ -959,5 +984,44 @@ export class ProviderReportComponent implements OnInit {
     })
   }
 
-    // --------------------------- firebase doc upload section end --------------------------------------
+  @ViewChild('showOcrDataModalButton') showOcrDataModalButton!:ElementRef
+  openOcrDataModal(attachmentId:number){
+    this.getAttachmentOcrData(attachmentId);
+    this.showOcrDataModalButton.nativeElement.click();
+  }
+
+  closeOcrDataModal(){
+    this.editToggle = false;
+    this.viewLogsButton.nativeElement.click();
+    // this.showOcrDataModalButton.nativeElement.click();
+  }
+
+  ocrDataLoadingToggle:boolean = false;
+  keys : any[]  = new Array();
+  myMap: any;
+  getAttachmentOcrData(attachmentId:number){
+    debugger
+    this.keys = [];
+    this.ocrDataLoadingToggle = true;
+    this.reportService.getAttachmentOcrData(this.version, attachmentId).subscribe(response=>{
+      if(response!=null){
+        this.myMap = response;
+        console.log('this.myMap',this.myMap);
+        Object.keys(response).forEach(element => {
+          this.keys.push(element);
+        });
+      }
+      this.ocrDataLoadingToggle = false;
+    },error=>{
+      this.ocrDataLoadingToggle = false;
+    })
+  }
+
+  editToggle:boolean = false;
+  editedOcrData:any = {};
+  editOcrData(){
+    this.editToggle = !this.editToggle;
+  }
+  updateOcrData(){}
+    
 }

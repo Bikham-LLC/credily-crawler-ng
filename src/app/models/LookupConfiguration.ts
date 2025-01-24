@@ -17,4 +17,7 @@ export class LookupConfiguration{
     toggle:boolean=false;
     ticketType:string='';
     endPoint:string='';
+
+    isHightPriority: number = 0;
+    highPriorityType: string = '';
 }

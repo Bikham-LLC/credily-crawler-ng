@@ -211,6 +211,10 @@
             Archive Log
             <sup class="logCount">{{archiveCount}}</sup>
           </button>
+          <button *ngIf="providerType != 'scheduledProvider'" type="button" class="btn credTabsBtn me-2"
+           [ngClass]="{'credTabsBtnActive' : logType == 'ocrLog'}" (click)="switchLogTab('ocrLog')">
+            OCR Log
+          </button>
           <span class="pointer" style="margin-left: 12px;" (click)="refreshProviderLogs()">
             <i *ngIf="!logLoadingToggle" class="bi bi-arrow-repeat" style="font-size: 17px;color: #003fdaeb;"></i>
             <i *ngIf="logLoadingToggle" class="spinner-border spinner-border-sm" style="color: #003fdaeb;"></i>
@@ -236,7 +240,7 @@
         <button type="button" class="btn-close" style="margin-left: -70%;" [disabled]="providerTestingToggle" data-bs-dismiss="modal" id="closeLogsButton" #closeLogsButton aria-label="Close" (click)="closeLogModel()"></button>
       </div>
       <div class="modal-body">
-        <div class="table-responsive" style="height: 70vh;overflow-y: scroll;">
+        <div *ngIf="isOcrConfig == 0" class="table-responsive" style="height: 70vh;overflow-y: scroll;">
           <table class="table" *ngIf="!logLoadingToggle && providerCrawlerLogList.length>0">
             <thead>
               <tr>
@@ -285,6 +289,7 @@
                     <div class="tableinfo pointer">
                       <span class="mx-auto aistatusactive" [ngbTooltip]="log.verificationLog ? log.verificationLog: 'No Description'"  *ngIf="log.verificationStatus == 1"><i class="bi bi-check2-circle"></i></span>
                       <span class="mx-auto aistatusinactive" [ngbTooltip]="log.verificationLog ? log.verificationLog: 'No Description'" *ngIf="log.verificationStatus == 0"><i class="bi bi-check2-circle"></i></span>
+                      <span class="mx-auto aistatusinactive" [ngbTooltip]="log.verificationLog ? log.verificationLog: 'No Description'" *ngIf="log.verificationStatus == 2"><i class="bi bi-check2-circle"></i></span>
 
                     <button class="border-0 mx-2 bg-light pointer ai-re-run" [disabled]="log.verificationStatus == 2 || tempConfigIds != null && tempConfigIds.includes(log.id)" 
                     [ngbTooltip]="tempConfigIds != null && tempConfigIds.includes(log.id) ? 'Running' : 'Re-run'" (click)="configAIReRun(log.id)">
@@ -382,6 +387,72 @@
           </div>
           <app-circular-loader *ngIf="logLoadingToggle"></app-circular-loader>
         </div>
+
+        <div *ngIf="isOcrConfig == 1" class="table-responsive" style="height: 70vh;overflow-y: scroll;">
+          <table class="table" *ngIf="!logLoadingToggle && providerCrawlerLogList.length>0">
+            <thead>
+              <tr>
+                <th style="min-width: 100px" class="text-nowrap">S.No.</th>
+                <th style="min-width: 100px" class="text-nowrap">Document Name</th>
+                <th style="min-width: 100px" class="text-center text-nowrap">Updated Date</th>
+                <th style="min-width: 100px" class="text-center text-nowrap">Status</th>
+                <th style="min-width: 100px" class="text-end text-center text-nowrap">Action</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr *ngFor="let log of providerCrawlerLogList; let i =index;" [ngClass]="{'is-read': tempMarkedConfigIds.includes(log.id) ? false : log.isRead == 1}">
+                <td>
+                  <div class="tableinfo text-nowrap">
+                    {{i+1}}
+                  </div>
+                </td>
+                <td> 
+                  <div class="tableinfo text-nowrap">
+                    <span class="textClamp"> {{log.lookupName}}</span>
+                  </div>
+                </td>
+                <td>
+                  <div class="tableinfo text-nowrap text-center">
+                    <span class="badge-grey">{{log.updatedDate | date:'MM-dd-yyyy hh:mm'}}</span>
+                  </div>
+                </td>
+                <td>
+                  <div class="tableinfo text-nowrap text-center">
+                    <span>Yes</span>
+                  </div>
+                </td>
+                <td>
+                  <div class="d-flex gap-2 justify-content-center">
+                    <button *ngIf="isArchive != 1" ngbTooltip="View Document" class="btn btn-light btn-outline-light" >
+                      <i class="bi bi-file-earmark-medical" style="color: rgb(23, 108, 227); font-size: 14px;"></i>
+                    </button>
+
+                    <button ngbTooltip="OCR Data" class="btn btn-light btn-outline-light" >
+                      <i class="bi bi-eye" style="color: rgb(23, 108, 227); font-size: 14px;" (click)="openOcrDataModal(191277)"></i>
+                    </button>
+
+                    <button ngbTooltip="OCR Re-run" class="btn btn-light btn-outline-light" >
+                      <i class="bi  bi-arrow-clockwise text-dark" style="color: rgb(23, 108, 227); font-size: 15px;"></i>
+                    </button>
+
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <!-- Empty notification -->
+          <div class="empty-notific text-center" style="margin: 9% 10% 10% 3%;"
+            *ngIf="!logLoadingToggle && providerCrawlerLogList.length==0">
+            <div class="empty-notificinner">
+
+              <img src="assets/images/allexpirable.svg" style="width: 25%;" alt="no data found" />
+              <h6 class="m-3 ps-5">No data found</h6>
+            </div>
+          </div>
+          <app-circular-loader *ngIf="logLoadingToggle"></app-circular-loader>
+        </div>
+
       </div>
     </div>
   </div>
@@ -705,3 +776,67 @@
     </div>
   </div>
 </div>
+
+
+<!-- ------------------------------ View OCR Data Modal -------------------------------------- -->
+<button type="button" class="d-none" id="showOcrDataModalButton" #showOcrDataModalButton data-bs-toggle="modal" data-bs-target= "#showOcrData"></button>
+<div class="modal blur-bg-2" id="showOcrData" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="showOcrDataLabel" aria-hidden="true">
+    <div class="modal-dialog  modal-dialog-centered">
+        <div class="modal-content">
+            <!-- <div class="d-flex justify-content-between"> -->
+              <div class="modal-header">
+                <h6 class="modal-title" id="showOcrDataLabel">Ocr Data</h6>
+               
+                <div class="d-flex gap-2">
+                  <div >
+                    <button type="button" [ngClass]="{'secondaryBtn': editToggle, 'primaryBtn': !editToggle}" class="btn" (click)="editOcrData()">
+                      <span *ngIf="!editToggle">Edit <i class="bi bi-pencil"></i></span>
+                      <span *ngIf="editToggle">Cancel <i class="bi bi-x-circle"></i></span>
+                    </button>
+                  </div>
+
+                  <div>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal" aria-label="Close" (click)="closeOcrDataModal()"> Close <i class="bi bi-x"></i></button>
+                  </div>
+
+                </div>
+            </div>
+            <!-- </div> -->
+
+            <div class="modal-body" style="overflow: scroll;">
+                <div class="usertable mt-3">
+                    <div class="m-5" *ngIf="ocrDataLoadingToggle">
+                        <app-circular-loader></app-circular-loader>
+                    </div>
+                    <div class="m-3" *ngIf="!ocrDataLoadingToggle">
+                        <div class="credemptyBxinner text-center" *ngIf="keys.length==0">
+                            <img src="assets/images/allexpirable.svg" alt="" class="mt-5" style="width: 50%;margin-right: 14%;">
+                            <h6 class="m-3">No data found!</h6>
+                        </div>
+                    </div>
+  
+                    <!-- <div class="d-flex justify-content-end mb-2">
+                      <button type="button" class="btn primaryBtn" (click)="editOcrData()">Edit</button>
+                    </div> -->
+                    <div class="caqhJsonTable table-responsive">
+                      <table class="table" *ngIf="!ocrDataLoadingToggle">
+                        <tbody>
+                          <tr *ngFor="let myMapObj of keys; let i = index">
+                              <td>{{myMapObj | titlecase}}</td>
+                              <td> : </td>
+                              <td *ngIf="!editToggle">{{myMap[myMapObj] | titlecase}}</td>
+                              <td *ngIf="editToggle">
+                                <input type="text" class="form-input" [(ngModel)]="myMap[myMapObj]">
+                              </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    <div class="modal-footer" *ngIf="editToggle">
+                      <button type="button" class="btn primaryBtn" (click)="updateOcrData()">Update</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>

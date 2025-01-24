@@ -30,4 +30,7 @@ export class LicenseLookupConfigRequest{
     attactmentSource:string='';
     ticketType:string='';
     queueId:string='';
+
+    isHighPriority: number = 0;
+    highPriorityType: string = '';
 }
