@@ -631,7 +631,6 @@ export class ConfigurationComponent implements OnInit {
     this.classList = JSON.parse(JSON.stringify(this.classList));
   }
 
-  credentials: Credential = new Credential();
   selectCrawlerAttribute(event: any) {
     debugger
     this.credentialList = []
@@ -664,10 +663,20 @@ export class ConfigurationComponent implements OnInit {
         }
       }
       if(event[0].id == 40){
-        this.credentialList = this.credentials.credentialJSON;
-        console.log(this.credentialList);
+        this.selectedCredential = []
+        this.getCredentialsType();
       }
     }
+  }
+
+  getCredentialsType() {
+    this.licenseLookupService.getCredentialType().subscribe(response=>{
+      if(response != null){
+        this.credentialList = response;
+      }
+    },error=>{
+
+    })
   }
 
   selectCredential(event:any){
@@ -812,8 +821,8 @@ export class ConfigurationComponent implements OnInit {
     this.cofnigStepRequest.isProviderCred = step.isProviderCred;
     if(step.credentialType){
       var tempCredType: {id: any, itemName:any} = {id:step.credentialType, itemName:step.credentialType};
-      this.credentialList = this.credentials.credentialJSON;
       this.selectedCredential.push(tempCredType);
+      this.getCredentialsType();
     }
 
     var classTemp:{id: any, itemName : any} = {id: '', itemName : ''};
