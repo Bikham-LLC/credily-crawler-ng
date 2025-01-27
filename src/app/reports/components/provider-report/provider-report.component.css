@@ -429,6 +429,18 @@ input[type="file"] {
   padding: 3px 14px;
 }
 
+.aistatusLogRequired {
+  display: inline-block;
+  background-color: #f6896b;
+  border-radius: 6px;
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 19px;
+  text-align: center;
+  color: white;
+  padding: 3px 14px;
+}
+
 .is-read{
   border: 1px solid #ed7e7e;
   border-style: double;
@@ -448,5 +460,5 @@ input[type="file"] {
   border: none;
   border-bottom: 1px solid #ccc;
   width: 100%;
-  padding: 0px 5px;
+  padding: 0px 5px 1px;
 }

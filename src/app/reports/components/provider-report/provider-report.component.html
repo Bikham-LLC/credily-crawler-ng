@@ -74,10 +74,11 @@
                       required>
                   </angular2-multiselect>                              
                 </th> -->
+                <th style="min-width: 100px" class="text-nowrap">Onboarding Date</th>
                 <th style="min-width: 100px" class="text-nowrap">Updated Date</th>
-                <th style="min-width: 100px" class="text-nowrap" *ngIf="providerType != 'scheduledProvider'">Last Scheduled Date</th>
+                <!-- <th style="min-width: 100px" class="text-nowrap" *ngIf="providerType != 'scheduledProvider'">Last Scheduled Date</th> -->
                 <th style="min-width: 100px" class="text-nowrap">Status</th>
-                <th style="min-width: 100px" class="text-nowrap">AI</th>
+                <!-- <th style="min-width: 100px" class="text-nowrap">AI</th> -->
                 <th style="min-width: 100px" class="text-nowrap">Logs</th>
               </tr>
             </thead>
@@ -107,34 +108,50 @@
                     {{obj.version}}
                   </div>                    
                 </td> -->
+
+                <td>
+                  {{obj.createdDate | date:'MM/dd/yyyy'}}
+                </td>
                 
                 <td class="text-nowrap">
                   <div class="tableinfo text-muted">
                     <span *ngIf="providerType != 'scheduledProvider'">{{obj.updatedDate | date:'MM/dd/yyyy'}}</span>
-                    <span *ngIf="providerType == 'scheduledProvider'">{{obj.scheduledDate}}</span>
+                    <!-- <span *ngIf="providerType == 'scheduledProvider'">{{obj.scheduledDate}}</span> -->
                   </div>
                 </td>
-                <td class="text-nowrap" *ngIf="providerType != 'scheduledProvider'">
+                <!-- <td class="text-nowrap" *ngIf="providerType != 'scheduledProvider'">
                   <div class="tableinfo text-muted">
                     <span *ngIf="!Constant.EMPTY_STRINGS.includes(obj.lastScheduledDate)">{{obj.lastScheduledDate | date:'MM/dd/yyyy'}}</span>
                     <span *ngIf="Constant.EMPTY_STRINGS.includes(obj.lastScheduledDate)">---</span>
                   </div>
-                </td>
-                <td class="text-nowrap">
+                </td> -->
+               
+                <!-- <td class="text-nowrap">
                   <div class="tableinfo">
                     <span class=" mx-auto"><span
                       [ngClass]="{'statusactive':obj.status.toUpperCase()=='COMPLETED', 'statusinactive':(obj.status =='NO CONFIG FOUND' || obj.status =='Failed'), 'statuspending':(obj.status =='IN PROCESS' || obj.status=='IN QUEUE' || obj.status =='Partially Complete' || obj.status == 'Await Queue') }">
                       {{obj.status | titlecase}}
                     </span></span>
                   </div>
-                </td>
-                <td class="text-nowrap">
+                </td> -->
+
+                <!-- <td class="text-nowrap">
                   <div class="tableinfo">
                     <span class="mx-auto aistatuspending" ngbTooltip="Partially Verified"  *ngIf="obj.inValidCount > 0 && obj.validCount > 0"><i class="bi bi-check2-circle"></i></span>
                     <span class="mx-auto aistatusactive" ngbTooltip="All Verified" *ngIf="obj.inValidCount == 0 && obj.validCount > 0"><i class="bi bi-check2-circle"></i></span>
                     <span class="mx-auto aistatusinactive" ngbTooltip="Not Verified" *ngIf="obj.inValidCount == 0 && obj.validCount == 0"><i class="bi bi-check2-circle"></i></span>
                   </div>
+                </td> -->
+
+                <td class="text-nowrap">
+                  <div class="tableinfo">
+                    <span [ngClass]="{'aistatusactive': obj.status.toUpperCase()=='COMPLETED', 'aistatuspending': obj.status=='Partially Complete', 'aistatusinactive': obj.status=='Failed', 'aistatusLogRequired': obj.status=='LOGS REQUIRED'}" 
+                    [ngbTooltip]="obj.status.toUpperCase()=='COMPLETED' ? 'COMPLETED' : obj.status=='Partially Complete' ? 'Partially Completed' : obj.status=='Failed' ? 'Failed' : 'Logs Required'" 
+                    ><i class="bi bi-check2-circle"></i>
+                </span>
+                 </div> 
                 </td>
+
                 <td class="text-nowrap">
                   <div class="tableinfo">
                     <div class="d-flex align-items-center gap-2">
@@ -791,49 +808,44 @@
                   <div >
                     <button type="button" [ngClass]="{'secondaryBtn': editToggle, 'primaryBtn': !editToggle}" class="btn" (click)="editOcrData()">
                       <span *ngIf="!editToggle">Edit <i class="bi bi-pencil"></i></span>
-                      <span *ngIf="editToggle">Cancel <i class="bi bi-x-circle"></i></span>
+                      <span *ngIf="editToggle" >Cancel <i class="bi bi-x-circle"></i></span>
                     </button>
                   </div>
-
                   <div>
                     <button type="button" class="btn btn-danger" data-bs-dismiss="modal" aria-label="Close" (click)="closeOcrDataModal()"> Close <i class="bi bi-x"></i></button>
                   </div>
-
                 </div>
             </div>
             <!-- </div> -->
 
             <div class="modal-body" style="overflow: scroll;">
-                <div class="usertable mt-3">
+                <div class="usertable mt-1">
                     <div class="m-5" *ngIf="ocrDataLoadingToggle">
                         <app-circular-loader></app-circular-loader>
                     </div>
-                    <div class="m-3" *ngIf="!ocrDataLoadingToggle">
-                        <div class="credemptyBxinner text-center" *ngIf="keys.length==0">
+                    <div  *ngIf="!ocrDataLoadingToggle">
+                        <div  class="m-3 credemptyBxinner text-center" *ngIf="keys.length==0">
                             <img src="assets/images/allexpirable.svg" alt="" class="mt-5" style="width: 50%;margin-right: 14%;">
                             <h6 class="m-3">No data found!</h6>
                         </div>
                     </div>
-  
-                    <!-- <div class="d-flex justify-content-end mb-2">
-                      <button type="button" class="btn primaryBtn" (click)="editOcrData()">Edit</button>
-                    </div> -->
+
                     <div class="caqhJsonTable table-responsive">
                       <table class="table" *ngIf="!ocrDataLoadingToggle">
                         <tbody>
-                          <tr *ngFor="let myMapObj of keys; let i = index">
-                              <td>{{myMapObj | titlecase}}</td>
+                          <tr *ngFor="let key of keys; let i = index">
+                              <td>{{key | titlecase}}</td>
                               <td> : </td>
-                              <td *ngIf="!editToggle">{{myMap[myMapObj] | titlecase}}</td>
+                              <td *ngIf="!editToggle">{{myMap[key] | titlecase}}</td>
                               <td *ngIf="editToggle">
-                                <input type="text" class="form-input" [(ngModel)]="myMap[myMapObj]">
+                                <input type="text" class="form-input text-muted" [(ngModel)]="myMap[key]">
                               </td>
                           </tr>
                         </tbody>
                       </table>
                     </div>
-                    <div class="modal-footer" *ngIf="editToggle">
-                      <button type="button" class="btn primaryBtn" (click)="updateOcrData()">Update</button>
+                    <div class="d-flex justify-content-end" *ngIf="editToggle">
+                      <button type="button" class="btn primaryBtn" (click)="updateOcrData(myMap)">Update</button>
                     </div>
                 </div>
             </div>

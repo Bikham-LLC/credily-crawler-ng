@@ -1022,6 +1022,9 @@ export class ProviderReportComponent implements OnInit {
   editOcrData(){
     this.editToggle = !this.editToggle;
   }
-  updateOcrData(){}
+
+  updateOcrData(myMap: any){
+    console.log('myMap',myMap);
+  }
     
 }
