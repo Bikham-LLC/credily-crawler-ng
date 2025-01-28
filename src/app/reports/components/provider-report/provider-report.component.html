@@ -1,3 +1,6 @@
+provider -report
+
+
 <div class="main">
   
   <div class="align-items-center d-flex gap-2 justify-content-start ms-3 pb-1 roletitlemain">
@@ -36,7 +39,7 @@
             required>
         </angular2-multiselect> 
           </div>
-          <button type="button" class="tblFilterBtn" [ngClass]="{'tblFilterBtnSuccessActive': filterType == 'completed'}" (click)="getProviderReport('completed', 0)">
+          <!-- <button type="button" class="tblFilterBtn" [ngClass]="{'tblFilterBtnSuccessActive': filterType == 'completed'}" (click)="getProviderReport('completed', 0)">
             <i class="bi bi-check2"></i>
             Completed
             <span class="filterCount bg-success text-white" >{{completedCount}}</span>
@@ -46,6 +49,32 @@
             Partially Completed
             <span class="filterCount bg-warning">{{partiallyCompletedCount}}</span>
           </button>
+          <button type="button" class="tblFilterBtn" [ngClass]="{'tblFilterBtnPendingActive': filterType == 'logRequired'}" (click)="getProviderReport('logRequired', 0)">
+            <i class="bi bi-exclamation-triangle"></i>
+            Log Required
+            <span class="filterCount bg-warning">{{logRequiredCount}}</span>
+          </button> -->
+          <div class="position-relative col-lg-2">
+            <select class="form-control" (change)="getProviderReport($event, 0)">
+              <option value="" disabled [selected]="!filterType">Select Status</option>
+              <option value="completed" [ngClass]="{'tblFilterBtnSuccessActive': filterType == 'completed'}">
+                Completed - ({{completedCount}})
+              </option>
+              <option value="partiallyCompleted" [ngClass]="{'tblFilterBtnPendingActive': filterType == 'partiallyCompleted'}">
+                Partially Completed - ({{partiallyCompletedCount}})
+              </option>
+              <option value="logRequired" [ngClass]="{'tblFilterBtnPendingActive': filterType == 'logRequired'}">
+                Log Required - ({{logRequiredCount}})
+              </option>
+            </select>
+
+            <!-- <angular2-multiselect id="statusSelectBox" name="statusSelectBox" [data]="statusList" [settings]="dropdownSettingsStatus" [(ngModel)]="selectedStatus" #statusSelectBox="ngModel" (ngModelChange)="getProviderReport($event, 0)"
+            required>
+            <span class="filterCount bg-warning">({{partiallyCompletedCount}})</span>
+        </angular2-multiselect>  -->
+
+          </div>
+
         </div>
       </div>
     </div>

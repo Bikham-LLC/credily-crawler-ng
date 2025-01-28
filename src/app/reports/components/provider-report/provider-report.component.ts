@@ -30,8 +30,12 @@ export class ProviderReportComponent implements OnInit {
   readonly Constant = Constant;
  
   dropdownSettingsVersion!: { singleSelection: boolean; text: string; enableSearchFilter: boolean; autoPosition: boolean, badgeShowLimit: number; };
+  dropdownSettingsStatus!: { singleSelection: boolean; text: string; enableSearchFilter: boolean; autoPosition: boolean, badgeShowLimit: number; };
   versionList: any[] = [{id:'V2', itemName:'V2'}, {id:'V3', itemName:'V3'}];
+  // statusList: any[] = [{id:'completed', itemName: `Completed - (${this.completedCount})`}, {id:'partiallyCompleted', itemName:'Partially Completed'}, {id:'logRequired', itemName:'Log Required'}];
+  statusList: any;
   selectedVersion: any[] = new Array();
+  selectedStatus: any[] = new Array();
 
   providerSearch = new Subject<string>();
   matchConfig = new Subject<string>();
@@ -74,6 +78,14 @@ export class ProviderReportComponent implements OnInit {
     this.dropdownSettingsVersion = {
       singleSelection: true,
       text: 'Select Version',
+      enableSearchFilter: false,
+      autoPosition: false,
+      badgeShowLimit: 1
+    };
+
+    this.dropdownSettingsStatus = {
+      singleSelection: true,
+      text: 'Select Status',
       enableSearchFilter: false,
       autoPosition: false,
       badgeShowLimit: 1
@@ -127,11 +139,13 @@ export class ProviderReportComponent implements OnInit {
 
   completedCount:number =0;
   partiallyCompletedCount:number =0;
+  logRequiredCount:number =0;
   getProviderReportCount(){
-    this.reportService.getProviderReportCount(this.dataService.startDate, this.dataService.endDate, this.version, this.providerType).subscribe(response=>{
+    this.reportService.getProviderReportCount(this.dataService.startDate, this.dataService.endDate, this.version, this.providerType, this.dataService.isLiveAccount).subscribe(response=>{
       if(response != null){
         this.completedCount = response.completedCount;
         this.partiallyCompletedCount = response.partiallyCompletedCount;
+        this.logRequiredCount = response.logRequiredCount;
       }
     },error=>{
 
@@ -145,8 +159,10 @@ export class ProviderReportComponent implements OnInit {
     this.getProviderReportCount();
   }
 
-  getProviderReport(filterType:string, isPageChange:number){
+  // getProviderReport(filterType:string, isPageChange:number){
+  getProviderReport(filterType:any, isPageChange:number){
     debugger
+    console.log('type: ',filterType)
     this.fetchingReport = true;
     if(this.filterType == filterType && isPageChange != 1){
       this.filterType = '';

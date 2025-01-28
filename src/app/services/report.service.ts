@@ -44,12 +44,13 @@ export class ReportService {
     return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.report + '/provider-config-report', {params});
   }
 
-  getProviderReportCount(startDate:string, endDate:string, version:string, providerType:string):Observable<any> {
+  getProviderReportCount(startDate:string, endDate:string, version:string, providerType:string, isLive: number):Observable<any> {
     var params = new HttpParams()
     .set('startDate', startDate)
     .set('endDate', endDate)
     .set('version', version)
     .set('providerType', providerType)
+    .set('isLive', isLive)
     return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.report + '/provider-config-report-count', {params});
   }
 
