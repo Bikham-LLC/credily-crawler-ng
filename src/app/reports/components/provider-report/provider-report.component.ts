@@ -32,8 +32,8 @@ export class ProviderReportComponent implements OnInit {
   dropdownSettingsVersion!: { singleSelection: boolean; text: string; enableSearchFilter: boolean; autoPosition: boolean, badgeShowLimit: number; };
   dropdownSettingsStatus!: { singleSelection: boolean; text: string; enableSearchFilter: boolean; autoPosition: boolean, badgeShowLimit: number; };
   versionList: any[] = [{id:'V2', itemName:'V2'}, {id:'V3', itemName:'V3'}];
-  // statusList: any[] = [{id:'completed', itemName: `Completed - (${this.completedCount})`}, {id:'partiallyCompleted', itemName:'Partially Completed'}, {id:'logRequired', itemName:'Log Required'}];
-  statusList: any;
+  statusList: any[] = [{id:'completed', itemName: 'Completed'}, {id:'partiallyCompleted', itemName:'Partially Completed'}, {id:'logRequired', itemName:'Log Required'}];
+  // statusList: any;
   selectedVersion: any[] = new Array();
   selectedStatus: any[] = new Array();
 
@@ -159,17 +159,16 @@ export class ProviderReportComponent implements OnInit {
     this.getProviderReportCount();
   }
 
-  // getProviderReport(filterType:string, isPageChange:number){
-  getProviderReport(filterType:any, isPageChange:number){
-    debugger
-    console.log('type: ',filterType)
-    this.fetchingReport = true;
-    if(this.filterType == filterType && isPageChange != 1){
-      this.filterType = '';
-    } else {
-      this.filterType = filterType;
-    }
-    this.providerList = [];
+  getProviderReport(filterType:string, isPageChange:number){
+      debugger
+      this.fetchingReport = true;
+      // if(this.filterType == filterType && isPageChange != 1){
+      //   this.filterType = '';
+      // } else {
+      //   this.filterType = filterType;
+      // }
+
+      this.providerList = [];
     this.reportService.getProviderReport(this.databaseHelper, this.filterType, this.dataService.startDate, this.dataService.endDate, this.version, this.providerType, this.dataService.isLiveAccount).subscribe(response => {
       if(response!=null){
         this.providerList = response.object;
@@ -197,6 +196,17 @@ export class ProviderReportComponent implements OnInit {
     this.getProviderReport(this.filterType, 1);
     this.getProviderReportCount();
     this.versionFilterToggle = false
+  }
+
+  selectStatus(event:any){
+    debugger
+    this.filterType = '';
+    this.databaseHelper.currentPage = 1;
+    if(event != undefined && event.length > 0){
+      this.filterType = event[0].id;
+    }
+    this.getProviderReport("", 1);
+    this.getProviderReportCount();
   }
 
   pageChanged(event:any){

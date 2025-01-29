@@ -1,6 +1,3 @@
-provider -report
-
-
 <div class="main">
   
   <div class="align-items-center d-flex gap-2 justify-content-start ms-3 pb-1 roletitlemain">
@@ -54,26 +51,11 @@ provider -report
             Log Required
             <span class="filterCount bg-warning">{{logRequiredCount}}</span>
           </button> -->
-          <div class="position-relative col-lg-2">
-            <select class="form-control" (change)="getProviderReport($event, 0)">
-              <option value="" disabled [selected]="!filterType">Select Status</option>
-              <option value="completed" [ngClass]="{'tblFilterBtnSuccessActive': filterType == 'completed'}">
-                Completed - ({{completedCount}})
-              </option>
-              <option value="partiallyCompleted" [ngClass]="{'tblFilterBtnPendingActive': filterType == 'partiallyCompleted'}">
-                Partially Completed - ({{partiallyCompletedCount}})
-              </option>
-              <option value="logRequired" [ngClass]="{'tblFilterBtnPendingActive': filterType == 'logRequired'}">
-                Log Required - ({{logRequiredCount}})
-              </option>
-            </select>
-
-            <!-- <angular2-multiselect id="statusSelectBox" name="statusSelectBox" [data]="statusList" [settings]="dropdownSettingsStatus" [(ngModel)]="selectedStatus" #statusSelectBox="ngModel" (ngModelChange)="getProviderReport($event, 0)"
-            required>
-            <span class="filterCount bg-warning">({{partiallyCompletedCount}})</span>
-        </angular2-multiselect>  -->
-
-          </div>
+            <div class="position-relative col-lg-2">
+              <angular2-multiselect id="statusSelectBox" name="statusSelectBox" [data]="statusList" [settings]="dropdownSettingsStatus" [(ngModel)]="selectedStatus"
+               #statusSelectBox="ngModel" (ngModelChange)="selectStatus($event)" required>
+              </angular2-multiselect> 
+           </div>
 
         </div>
       </div>
@@ -410,9 +392,10 @@ provider -report
                       <i class="bi bi-box-arrow-up-right text-dark" style="font-size: 16px;"></i>
                     </a>
 
-                    <!-- <button ngbTooltip="OCR-Log" class="btn btn-light btn-outline-light">
+                    <button ngbTooltip="OCR-Data" class="btn btn-light btn-outline-light">
                       <i class="bi bi-0-circle text-dark" style="font-size: 16px;"></i>
-                    </button> -->
+                    </button>
+
                     <button [disabled]="log.isRead == 0" ngbTooltip="Mark as complete" (click)="markAsComplete(log.id)" class="btn btn-light btn-outline-light">
                       <i class="bi bi-check-circle text-dark" style="font-size: 16px;"></i>
                     </button>
@@ -474,8 +457,8 @@ provider -report
                       <i class="bi bi-file-earmark-medical" style="color: rgb(23, 108, 227); font-size: 14px;"></i>
                     </button>
 
-                    <button ngbTooltip="OCR Data" class="btn btn-light btn-outline-light" >
-                      <i class="bi bi-eye" style="color: rgb(23, 108, 227); font-size: 14px;" (click)="openOcrDataModal(191277)"></i>
+                    <button ngbTooltip="OCR Data" class="btn btn-light btn-outline-light" (click)="openOcrDataModal(191277)">
+                      <i class="bi bi-eye" style="color: rgb(23, 108, 227); font-size: 14px;"></i>
                     </button>
 
                     <button ngbTooltip="OCR Re-run" class="btn btn-light btn-outline-light" >
