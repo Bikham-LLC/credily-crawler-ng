@@ -377,7 +377,8 @@ export class ProviderReportComponent implements OnInit {
   getOcrProviderAttachment(){
     this.providerCrawlerLogList = [];
     this.logLoadingToggle = true;
-    this.version= 'V2'
+    this.version= 'V3'
+    // this.version= 'V2' amit
     this.reportService.getOcrProviderAttachment(this.version, this.dataService.startDate, this.dataService.endDate, this.databaseHelper, this.dataService.isLiveAccount).subscribe(response=>{
       if(response != null){
         this.providerCrawlerLogList = response.list;
@@ -1051,6 +1052,15 @@ export class ProviderReportComponent implements OnInit {
 
   updateOcrData(myMap: any){
     console.log('myMap',myMap);
+    this.reportService.updateOcrData(67714, this.logId, this.version, myMap).subscribe(response=>{
+      if(response){
+        // this.closeOcrDataModal();
+        // this.getProviderLogs(this.uuid);
+        console.log("success")
+      }
+    },error=>{
+      this.dataService.showToast('Something went wrong.', 'error');
+    })
   }
     
 }

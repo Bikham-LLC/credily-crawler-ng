@@ -364,4 +364,12 @@ export class ReportService {
     return this.http.patch<any>(this.key.server_url + this.key.api_version_one + this.key.report+ '/mark-complete', {}, {params});
   }
 
+  updateOcrData(attachmentId: number, crawlerLogId: number, version: string, myMap: any){
+    var params = new HttpParams()
+    .set('attachmentId', attachmentId)
+    .set('crawlerLogId', crawlerLogId)
+    .set('version', version)
+    return this.http.patch<any>(this.key.server_url + this.key.api_version_one + this.key.report+ '/ocr-data', myMap, {params});
+  }
+
 }
