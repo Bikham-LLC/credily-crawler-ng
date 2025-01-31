@@ -415,7 +415,7 @@ export class ProviderReportComponent implements OnInit {
     this.logLoadingToggle = true;
     this.version= this.providerReqVersion;
     // this.version= 'V2' amit
-    this.reportService.getOcrProviderAttachment(this.version, this.dataService.startDate, this.dataService.endDate, this.databaseHelper, this.dataService.isLiveAccount).subscribe(response=>{
+    this.reportService.getOcrProviderAttachment(this.version, this.dataService.startDate, this.dataService.endDate, this.databaseHelper, this.dataService.isLiveAccount, this.uuid).subscribe(response=>{
       if(response != null){
         this.providerCrawlerLogList = response.list;
         // this.totalProviderAttachment = response.totalItems;
@@ -1048,8 +1048,8 @@ export class ProviderReportComponent implements OnInit {
   }
 
   @ViewChild('showOcrDataModalButton') showOcrDataModalButton!:ElementRef
-  openOcrDataModal(attachmentId:number){
-    this.getAttachmentOcrData(attachmentId);
+  openOcrDataModal(attachmentId:number, crawlerLogId:number, lookupName:string){
+    this.getAttachmentOcrData(attachmentId, crawlerLogId, lookupName);
     this.showOcrDataModalButton.nativeElement.click();
   }
 
@@ -1062,11 +1062,12 @@ export class ProviderReportComponent implements OnInit {
   ocrDataLoadingToggle:boolean = false;
   keys : any[]  = new Array();
   myMap: any;
-  getAttachmentOcrData(attachmentId:number){
+  getAttachmentOcrData(attachmentId:number, crawlerLogId:number, lookupName:string){
     debugger
     this.keys = [];
     this.ocrDataLoadingToggle = true;
-    this.reportService.getAttachmentOcrData(this.version, attachmentId).subscribe(response=>{
+    this.reportService.getAttachmentOcrData(this.providerReqVersion, attachmentId, crawlerLogId, lookupName).subscribe(response=>{
+    // this.reportService.getAttachmentOcrData(this.version, attachmentId, crawlerLogId).subscribe(response=>{
       if(response!=null){
         this.myMap = response;
         console.log('this.myMap',this.myMap);

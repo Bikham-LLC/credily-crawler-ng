@@ -159,7 +159,7 @@ export class ReportService {
   }
 
 
-  getOcrProviderAttachment(version:string, startDate:string, endDate:string, databaseHelper:DatabaseHelper, isLive:number) :Observable<any> { 
+  getOcrProviderAttachment(version:string, startDate:string, endDate:string, databaseHelper:DatabaseHelper, isLive:number, uuid:string) :Observable<any> { 
     var params = new HttpParams()
     .set('version', version)
     .set('startDate', startDate)
@@ -168,13 +168,16 @@ export class ReportService {
     .set('currentPage', databaseHelper.currentPage)
     .set('itemsPerPage', databaseHelper.itemsPerPage)
     .set('isLive', isLive)
+    .set('providerUuid', uuid)
     return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.report + "/provider-attachment", {params});
   }
 
-  getAttachmentOcrData(version:string, attachmentId:number) :Observable<any> { 
+  getAttachmentOcrData(version:string, attachmentId:number, crawlerLogId:number, configName: string) :Observable<any> { 
     var params = new HttpParams()
     .set('version', version)
     .set('attachmentId', attachmentId)
+    .set('crawlerLogId', crawlerLogId)
+    .set('configName', configName)
     return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.report + "/attachment-ocr", {params});
   }
 

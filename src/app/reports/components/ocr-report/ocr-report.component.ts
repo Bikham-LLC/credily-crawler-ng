@@ -60,7 +60,7 @@ export class OcrReportComponent implements OnInit {
   getOcrProviderAttachment(){
     this.providerAttachmentList = [];
     this.providerLoadingToggle = true;
-    this.reportService.getOcrProviderAttachment(this.version, this.dataService.startDate, this.dataService.endDate, this.databaseHelper, this.dataService.isLiveAccount).subscribe(response=>{
+    this.reportService.getOcrProviderAttachment(this.version, this.dataService.startDate, this.dataService.endDate, this.databaseHelper, this.dataService.isLiveAccount, '').subscribe(response=>{
       if(response != null){
         this.providerAttachmentList = response.list;
         this.totalProviderAttachment = response.totalItems;
@@ -83,7 +83,7 @@ export class OcrReportComponent implements OnInit {
     debugger
     this.keys = [];
     this.ocrDataLoadingToggle = true;
-    this.reportService.getAttachmentOcrData(this.version, attachmentId).subscribe(response=>{
+    this.reportService.getAttachmentOcrData(this.version, attachmentId, 0, '').subscribe(response=>{
       if(response!=null){
         this.myMap = response;
         Object.keys(response).forEach(element => {

@@ -1,7 +1,6 @@
 export class ProviderAttachmentDTO{
 
-    firstName:string='';
-    lastName:string='';
+    providerName: string  ='';
     npi:string='';
     email:string='';
     docName:string='';
