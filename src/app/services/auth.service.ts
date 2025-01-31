@@ -28,6 +28,12 @@ export class AuthService {
     return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.login, {params});
   }
 
+  renewNewToken(refreshToken: any): Observable<any> {
+    const params = new HttpParams()
+    .set("refreshToken", refreshToken)
+    return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.refresh_token, {params});
+  }
+
   getForgetPasswordOTP(userName:any): Observable<any> {
     const params = new HttpParams()
     .set('userName', userName)

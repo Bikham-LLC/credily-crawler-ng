@@ -57,6 +57,8 @@ export class TokenInterceptorService {
 
   errorHandler(error: any, req: any, next: any) {
     if (error.status === 401) {
+
+      console.log("error",error)
       this.authService.renewToken().subscribe((response: any) => {
         if (response != null && response.object[0] != null) {
 
@@ -86,6 +88,7 @@ export class TokenInterceptorService {
       return this.authService.renewToken().pipe(
         switchMap((response: any) => {
           this.isRefreshing = false;
+          console.log("error initiate..")
 
           localStorage.setItem("token", response.access_token);
           localStorage.setItem("refresh_token", response.refresh_token);

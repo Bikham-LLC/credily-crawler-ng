@@ -10,6 +10,7 @@ export class Keys{
 
     api_version_one = "/api/v1";
     login = '/auth/login';
+    refresh_token = '/auth/refresh-token';
     lookup_config_controller = '/license-lookup-configuration';
     lookup_taxonomy = '/license-lookup-configuration/taxonomy';
     lookup_crawler_attribute = '/license-lookup-configuration/attribute';
