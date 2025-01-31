@@ -14,6 +14,7 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
 import { RpaModule } from './rpa/rpa.module';
+import { AuthInterceptor } from './interceptor/auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,7 @@ import { RpaModule } from './rpa/rpa.module';
   ],
   providers: [ {
     provide: HTTP_INTERCEPTORS,
-    useClass: TokenInterceptorService,
+    useClass: AuthInterceptor,
     multi: true
   }
 ] ,
