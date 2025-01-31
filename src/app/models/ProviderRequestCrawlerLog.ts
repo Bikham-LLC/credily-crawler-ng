@@ -20,4 +20,7 @@ export class ProviderRequestCrawlerLog{
     verificationStatus:number=0;
     isRead:number=0;
     verificationLog:string='';
+    docName:string='';
+    docUrl:string='';
+    attachmentId: number=0;
 }

@@ -431,7 +431,7 @@ input[type="file"] {
 
 .aistatusLogRequired {
   display: inline-block;
-  background-color: #f6896b;
+  background-color: #c0c5bc;
   border-radius: 6px;
   font-weight: 400;
   font-size: 15px;

@@ -277,7 +277,7 @@
                 <!-- <th style="min-width: 100px" class="text-nowrap">Lookup Link</th> -->
                 <th style="min-width: 100px" class="text-center text-nowrap">Status</th>
                 <th style="min-width: 100px" class="text-center text-nowrap">AI</th>
-                <th style="min-width: 100px" class="text-center text-nowrap">OCR</th>
+                <!-- <th style="min-width: 100px" class="text-center text-nowrap">OCR</th> -->
                 <th style="min-width: 100px" class="text-center text-nowrap">State</th>
                 <th style="min-width: 100px" class="text-center text-nowrap">License #</th>
                 <th style="min-width: 100px" class="text-center text-nowrap">License Type</th>
@@ -327,9 +327,9 @@
                     </div>
                   </div>
                 </td>
-                <td class="text-center">
+                <!-- <td class="text-center">
                   No
-                </td>
+                </td> -->
                 <td>
                   <div class="tableinfo text-nowrap text-center">
                     <span>{{log.stateName?log.stateName:'----'}}</span>
@@ -438,7 +438,7 @@
                 </td>
                 <td> 
                   <div class="tableinfo text-nowrap">
-                    <span class="textClamp"> {{log.lookupName}}</span>
+                    <span class="textClamp"> {{log.docName}}</span>
                   </div>
                 </td>
                 <td>
@@ -453,11 +453,11 @@
                 </td>
                 <td>
                   <div class="d-flex gap-2 justify-content-center">
-                    <button *ngIf="isArchive != 1" ngbTooltip="View Document" class="btn btn-light btn-outline-light" >
+                    <button *ngIf="isArchive != 1" ngbTooltip="View Document" (click)="viewSnapshot(log.docUrl, log.docName)" class="btn btn-light btn-outline-light" >
                       <i class="bi bi-file-earmark-medical" style="color: rgb(23, 108, 227); font-size: 14px;"></i>
                     </button>
 
-                    <button ngbTooltip="OCR Data" class="btn btn-light btn-outline-light" (click)="openOcrDataModal(67714)">
+                    <button ngbTooltip="OCR Data" class="btn btn-light btn-outline-light" (click)="openOcrDataModal(log.attachmentId)">
                       <i class="bi bi-eye" style="color: rgb(23, 108, 227); font-size: 14px;"></i>
                     </button>
 

@@ -32,8 +32,8 @@ export class ProviderReportComponent implements OnInit {
   dropdownSettingsVersion!: { singleSelection: boolean; text: string; enableSearchFilter: boolean; autoPosition: boolean, badgeShowLimit: number; };
   dropdownSettingsStatus!: { singleSelection: boolean; text: string; enableSearchFilter: boolean; autoPosition: boolean, badgeShowLimit: number; };
   versionList: any[] = [{id:'V2', itemName:'V2'}, {id:'V3', itemName:'V3'}];
-  statusList: any[] = [{id:'completed', itemName: 'Completed'}, {id:'partiallyCompleted', itemName:'Partially Completed'}, {id:'logRequired', itemName:'Log Required'}];
-  // statusList: any;
+  // statusList: any[] = [{id:'completed', itemName: 'Completed'}, {id:'partiallyCompleted', itemName:'Partially Completed'}, {id:'logRequired', itemName:'Log Required'}];
+  statusList: any;
   selectedVersion: any[] = new Array();
   selectedStatus: any[] = new Array();
 
@@ -125,6 +125,7 @@ export class ProviderReportComponent implements OnInit {
     this.getProviderReportCount();
     console.log('In ngOnInit - '+ this.subscribeHeader.destination.closed)
 
+
   }
 
   ngOnDestroy(){
@@ -146,6 +147,14 @@ export class ProviderReportComponent implements OnInit {
         this.completedCount = response.completedCount;
         this.partiallyCompletedCount = response.partiallyCompletedCount;
         this.logRequiredCount = response.logRequiredCount;
+
+        setTimeout(() =>{
+          this.statusList = [ 
+            {id:'completed', itemName: `Completed - ${this.completedCount}`}, 
+            {id:'partiallyCompleted', itemName:`Partially Completed - ${this.partiallyCompletedCount}`}, 
+            {id:'logRequired', itemName:`Log Required - ${this.logRequiredCount}`}];
+        }, 200)
+
       }
     },error=>{
 
@@ -167,6 +176,7 @@ export class ProviderReportComponent implements OnInit {
       // } else {
       //   this.filterType = filterType;
       // }
+      this.providerCrawlerLogList = [];
 
       this.providerList = [];
     this.reportService.getProviderReport(this.databaseHelper, this.filterType, this.dataService.startDate, this.dataService.endDate, this.version, this.providerType, this.dataService.isLiveAccount).subscribe(response => {
@@ -225,6 +235,8 @@ export class ProviderReportComponent implements OnInit {
     this.isArchive = 0;
     this.isOcrConfig = 0;
     if(tab == 'replicateLog'){
+      this.uuidList = [];
+      this.isAllSelected = false;
       this.openConfigReplicateModal();
     } else {
       this.isRpaConfig = 0;
@@ -246,6 +258,13 @@ export class ProviderReportComponent implements OnInit {
         this.getProviderLogs(this.uuid);
       }
     }
+  }
+
+  clear(){
+    this.isArchive = 0;
+    this.isOcrConfig = 0;
+    this.isRpaConfig = 0;
+    this.isConfigNotFound = 0;
   }
 
   credilyProviderList : {uuid:any, providerName:string, accountName:string, checked: boolean}[] = []
@@ -286,6 +305,7 @@ export class ProviderReportComponent implements OnInit {
       }
     })
     this.isAllSelected = !this.isAllSelected;
+    console.log('All uuidList: ',this.uuidList);
   } 
 
   selectSingleProvider(provider:any){
@@ -309,13 +329,20 @@ export class ProviderReportComponent implements OnInit {
     } else {
       this.isAllSelected = true;
     }
+
+    console.log('uuidList: ',this.uuidList);
+
   }
 
   logReplicateToggle:boolean = false;
   replicateLogs(){
+    debugger
     this.logReplicateToggle = true;
     this.reportService.replicateLog(this.uuid, this.uuidList).subscribe(response=>{
       if(response){
+        this.uuidList = [];
+        this.uuid = '';
+        this.isAllSelected = false;
         this.closeReplicateModalButton.nativeElement.click();
         this.getProviderReport(this.filterType, 0);
       }
@@ -333,6 +360,7 @@ export class ProviderReportComponent implements OnInit {
   providerNpi:string='';
   viewLogs(providerUuid:string, providerName:string, providerReqId:number, version:string, npi:string){
     this.providerName = '';
+    this.uuid = ''
     this.licenseCount = 0;
     this.rpaCount = 0;
     this.providerReqVersion = version;
@@ -342,7 +370,14 @@ export class ProviderReportComponent implements OnInit {
     this.providerNpi = npi;
     this.viewLogsButton.nativeElement.click();
     this.getLogCount();
+
+    this.clear();
+    this.databaseHelper.currentPage = 1;
+    this.logType = 'crawlerLog';
     this.getProviderLogs(this.uuid);
+
+    this.uuidList = [];
+    this.isAllSelected = false;
   }
 
   licenseCount:number=0;
@@ -366,6 +401,7 @@ export class ProviderReportComponent implements OnInit {
   logLoadingToggle:boolean = false;
   getProviderLogs(providerUuid:string){
     this.logLoadingToggle = true;
+    this.providerCrawlerLogList = [];
     this.reportService.getProviderLogs(providerUuid, this.isRpaConfig, this.providerType, this.isArchive, this.isConfigNotFound, this.isOcrConfig).subscribe(response=>{
       this.providerCrawlerLogList = response;
       this.logLoadingToggle = false;
@@ -377,7 +413,7 @@ export class ProviderReportComponent implements OnInit {
   getOcrProviderAttachment(){
     this.providerCrawlerLogList = [];
     this.logLoadingToggle = true;
-    this.version= 'V3'
+    this.version= this.providerReqVersion;
     // this.version= 'V2' amit
     this.reportService.getOcrProviderAttachment(this.version, this.dataService.startDate, this.dataService.endDate, this.databaseHelper, this.dataService.isLiveAccount).subscribe(response=>{
       if(response != null){
