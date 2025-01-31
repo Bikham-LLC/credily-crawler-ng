@@ -88,6 +88,7 @@
                 <th style="min-width: 100px" class="text-nowrap">Onboarding Date</th>
                 <th style="min-width: 100px" class="text-nowrap">Updated Date</th>
                 <!-- <th style="min-width: 100px" class="text-nowrap" *ngIf="providerType != 'scheduledProvider'">Last Scheduled Date</th> -->
+                <th style="min-width: 100px" class="text-nowrap">Source</th>
                 <th style="min-width: 100px" class="text-nowrap">Status</th>
                 <!-- <th style="min-width: 100px" class="text-nowrap">AI</th> -->
                 <th style="min-width: 100px" class="text-nowrap">Logs</th>
@@ -156,11 +157,17 @@
 
                 <td class="text-nowrap">
                   <div class="tableinfo">
+                    <span>{{obj.version == 'V2'?'Credily':'Provider Passport'}}</span>
+                  </div> 
+                </td>
+
+                <td class="text-nowrap">
+                  <div class="tableinfo">
                     <span [ngClass]="{'aistatusactive': obj.status.toUpperCase()=='COMPLETED', 'aistatuspending': obj.status=='Partially Complete', 'aistatusinactive': obj.status=='Failed', 'aistatusLogRequired': obj.status=='LOGS REQUIRED'}" 
-                    [ngbTooltip]="obj.status.toUpperCase()=='COMPLETED' ? 'COMPLETED' : obj.status=='Partially Complete' ? 'Partially Completed' : obj.status=='Failed' ? 'Failed' : 'Logs Required'" 
-                    ><i class="bi bi-check2-circle"></i>
-                </span>
-                 </div> 
+                      [ngbTooltip]="obj.status.toUpperCase()=='COMPLETED' ? 'COMPLETED' : obj.status=='Partially Complete' ? 'Partially Completed' : obj.status=='Failed' ? 'Failed' : 'Logs Required'" 
+                      ><i class="bi bi-check2-circle"></i>
+                    </span>
+                  </div> 
                 </td>
 
                 <td class="text-nowrap">
@@ -309,7 +316,7 @@
                 <td>
                   <div class="tableinfo text-nowrap text-center">
                     <span *ngIf="!Constant.EMPTY_STRINGS.includes(log.errorStatus)" class="statusinactive">{{log.errorStatus?log.errorStatus:'N/A'}}</span>
-                    <span *ngIf="Constant.EMPTY_STRINGS.includes(log.errorStatus)" [ngClass]="{'statusactive':log.crawlerStatus=='COMPLETED', 'statuspending' :log.crawlerStatus=='PENDING', 'statusinactive' :log.crawlerStatus =='NO RECORD'}" >{{log.crawlerStatus}}</span>
+                    <span *ngIf="Constant.EMPTY_STRINGS.includes(log.errorStatus)" [ngClass]="{'statusactive':log.crawlerStatus=='COMPLETED', 'statuspending' :log.crawlerStatus=='PENDING', 'statusinactive' :log.crawlerStatus =='LOGS REQUIRED', 'statusinprocess' :log.crawlerStatus =='IN PROCESS', 'statusinawait' :log.crawlerStatus =='AWAIT QUEUE', 'statusinqueue' :log.crawlerStatus == 'IN QUEUE'}" >{{log.crawlerStatus}}</span>
                   </div>
                 </td>
                 <td>

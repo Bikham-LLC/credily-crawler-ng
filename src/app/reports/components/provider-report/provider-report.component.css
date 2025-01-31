@@ -462,3 +462,36 @@ input[type="file"] {
   width: 100%;
   padding: 0px 5px 1px;
 }
+.statusinprocess {
+  display: inline-block;
+  background-color: #81b05c;
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 18px;
+  text-align: center;
+  color: #810606;
+  padding: 4px 13px;
+}
+.statusinawait {
+  display: inline-block;
+  background-color: #af6e5e;
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 18px;
+  text-align: center;
+  color: #810606;
+  padding: 4px 13px;
+}
+.statusinqueue {
+  display: inline-block;
+  background-color: #65949e;
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 18px;
+  text-align: center;
+  color: #810606;
+  padding: 4px 13px;
+}

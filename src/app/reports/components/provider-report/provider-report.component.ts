@@ -31,8 +31,7 @@ export class ProviderReportComponent implements OnInit {
  
   dropdownSettingsVersion!: { singleSelection: boolean; text: string; enableSearchFilter: boolean; autoPosition: boolean, badgeShowLimit: number; };
   dropdownSettingsStatus!: { singleSelection: boolean; text: string; enableSearchFilter: boolean; autoPosition: boolean, badgeShowLimit: number; };
-  versionList: any[] = [{id:'V2', itemName:'V2'}, {id:'V3', itemName:'V3'}];
-  // statusList: any[] = [{id:'completed', itemName: 'Completed'}, {id:'partiallyCompleted', itemName:'Partially Completed'}, {id:'logRequired', itemName:'Log Required'}];
+  versionList: any[] = [{id:'V2', itemName:'Credily'}, {id:'V3', itemName:'Passport Passport'}];
   statusList: any;
   selectedVersion: any[] = new Array();
   selectedStatus: any[] = new Array();
