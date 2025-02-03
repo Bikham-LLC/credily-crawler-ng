@@ -126,8 +126,8 @@
                 </td>
                 
                 <td class="text-nowrap">
-                  <div class="tableinfo text-muted">
-                    <span *ngIf="providerType != 'scheduledProvider'">{{obj.updatedDate | date:'MM/dd/yyyy'}}</span>
+                  <div class="tableinfo">
+                    <span >{{obj.updatedDate | date:'MM/dd/yyyy'}}</span>
                     <!-- <span *ngIf="providerType == 'scheduledProvider'">{{obj.scheduledDate}}</span> -->
                   </div>
                 </td>
@@ -402,7 +402,7 @@
                       <i class="bi bi-box-arrow-up-right text-dark" style="font-size: 16px;"></i>
                     </a>
 
-                    <button ngbTooltip="OCR-Data" class="btn btn-light btn-outline-light" (click)="openOcrDataModal(0,log.id, log.lookupName)">
+                    <button ngbTooltip="OCR-Data" class="btn btn-light btn-outline-light" (click)="openOcrDataModal(0, log.id, log.lookupName)">
                       <i class="bi bi-0-circle text-dark" style="font-size: 16px;"></i>
                     </button>
 
@@ -867,7 +867,12 @@
                       </table>
                     </div>
                     <div class="d-flex justify-content-end" *ngIf="editToggle">
-                      <button type="button" class="btn primaryBtn" (click)="updateOcrData(myMap)">Update</button>
+                      <button type="button" [disabled]="updateOcrToggle" class="btn primaryBtn" (click)="updateOcrData(myMap)">
+                        <span *ngIf="!updateOcrToggle">Update</span>
+                        <span *ngIf="updateOcrToggle">Updating 
+                          <i class="spinner-border spinner-border-sm" role="status"></i>
+                        </span>
+                      </button>
                     </div>
                 </div>
             </div>

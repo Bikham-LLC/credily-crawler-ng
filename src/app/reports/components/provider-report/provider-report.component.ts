@@ -1056,6 +1056,9 @@ export class ProviderReportComponent implements OnInit {
 
   @ViewChild('showOcrDataModalButton') showOcrDataModalButton!:ElementRef
   openOcrDataModal(attachmentId:number, crawlerLogId:number, lookupName:string){
+    this.ocrAttachmentId = attachmentId;
+    this.ocrCrawlerLogId = crawlerLogId;
+    this.ocrConfigName = lookupName;
     this.getAttachmentOcrData(attachmentId, crawlerLogId, lookupName);
     this.showOcrDataModalButton.nativeElement.click();
   }
@@ -1077,7 +1080,6 @@ export class ProviderReportComponent implements OnInit {
     // this.reportService.getAttachmentOcrData(this.version, attachmentId, crawlerLogId).subscribe(response=>{
       if(response!=null){
         this.myMap = response;
-        console.log('this.myMap',this.myMap);
         Object.keys(response).forEach(element => {
           this.keys.push(element);
         });
@@ -1094,13 +1096,20 @@ export class ProviderReportComponent implements OnInit {
     this.editToggle = !this.editToggle;
   }
 
+  updateOcrToggle: boolean = false;
+  ocrAttachmentId:number = 0;
+  ocrCrawlerLogId:number = 0;
+  ocrConfigName: string = ''
   updateOcrData(myMap: any){
-    console.log('myMap',myMap);
-    this.reportService.updateOcrData(67714, this.logId, this.version, myMap).subscribe(response=>{
+    this.updateOcrToggle = true;
+    this.reportService.updateOcrData(this.ocrAttachmentId, this.ocrCrawlerLogId, this.ocrConfigName, this.providerReqVersion, myMap).subscribe(response=>{
       if(response){
-        // this.closeOcrDataModal();
-        // this.getProviderLogs(this.uuid);
-        console.log("success")
+        this.ocrAttachmentId = 0;
+        this.ocrCrawlerLogId = 0;
+        this.ocrConfigName = '';
+        this.editToggle = false;
+        this.updateOcrToggle = false;
+        this.dataService.showToast('Updated successfully.', 'success');
       }
     },error=>{
       this.dataService.showToast('Something went wrong.', 'error');
