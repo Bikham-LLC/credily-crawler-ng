@@ -320,8 +320,8 @@
                       <span class="mx-auto aistatusinactive" [ngbTooltip]="log.verificationLog ? log.verificationLog: 'No Description'" *ngIf="log.verificationStatus == 2"><i class="bi bi-check2-circle"></i></span>
 
                     <button class="border-0 mx-2 bg-light pointer ai-re-run" [disabled]="log.verificationStatus == 2 || tempConfigIds != null && tempConfigIds.includes(log.id)" 
-                    [ngbTooltip]="tempConfigIds != null && tempConfigIds.includes(log.id) ? 'Running' : 'Re-run'" (click)="configAIReRun(log.id)">
-                      <i *ngIf="!log.reTestingToggle" style="font-size: 16px;" class="bi bi-arrow-clockwise text-dark"></i>
+                    (click)="configAIReRun(log.id)" [ngbTooltip]="log.verificationStatus == 2 || tempConfigIds != null && tempConfigIds.includes(log.id) ? 'Running' : 'Re-run'">
+                      <i style="font-size: 16px;" class="bi bi-arrow-clockwise text-dark"></i>
                     </button>
 
                     </div>

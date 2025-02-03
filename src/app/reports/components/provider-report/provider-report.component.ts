@@ -123,8 +123,9 @@ export class ProviderReportComponent implements OnInit {
 
     this.getProviderReport(this.filterType, 0);
     this.getProviderReportCount();
-    console.log('In ngOnInit - '+ this.subscribeHeader.destination.closed)
+    // console.log('In ngOnInit - '+ this.subscribeHeader.destination.closed)
 
+    this.tempConfigIds = []
 
   }
 
@@ -1025,6 +1026,7 @@ export class ProviderReportComponent implements OnInit {
 
   tempConfigIds: number[] = new Array();
   configAIReRun(id : any){
+    debugger
     this.tempConfigIds.push(id);
     this.reportService.configAIReRun(id).subscribe((res: any) => {
       if (res) {
