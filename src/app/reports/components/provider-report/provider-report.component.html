@@ -229,15 +229,18 @@
           <span style="font-weight: 500;" *ngIf="!Constant.EMPTY_STRINGS.includes(providerName)" >{{providerName}} : </span>
           <button type="button" class="btn credTabsBtn" [ngClass]="{'credTabsBtnActive' : logType == 'crawlerLog'}" (click)="switchLogTab('crawlerLog')">
             Crawler Log
-            <sup class="logCount">{{licenseCount}}</sup>
+            <i class="spinner-border spinner-border-sm" role="status" *ngIf="countToggle"></i>
+            <sup class="logCount" *ngIf="!countToggle">{{licenseCount}}</sup>
           </button>
           <button *ngIf="providerType != 'scheduledProvider'" type="button" class="btn credTabsBtn me-2" [ngClass]="{'credTabsBtnActive' : logType == 'rpaLog'}" (click)="switchLogTab('rpaLog')">
             Rpa Log
-            <sup class="logCount">{{rpaCount}}</sup>
+            <i class="spinner-border spinner-border-sm" role="status" *ngIf="countToggle"></i>
+            <sup class="logCount" *ngIf="!countToggle">{{rpaCount}}</sup>
           </button>
           <button *ngIf="providerType != 'scheduledProvider'" type="button" class="btn credTabsBtn me-2" [ngClass]="{'credTabsBtnActive' : logType == 'configNotFound'}" (click)="switchLogTab('configNotFound')">
             Not Found config
-            <sup class="logCount">{{configNotFoundCount}}</sup>
+            <i class="spinner-border spinner-border-sm" role="status" *ngIf="countToggle"></i>
+            <sup class="logCount" *ngIf="!countToggle">{{configNotFoundCount}}</sup>
           </button>
           <button *ngIf="providerType != 'scheduledProvider' && providerReqVersion == 'V3'" type="button" class="btn credTabsBtn me-2" (click)="switchLogTab('replicateLog')">
             Replicate Log
@@ -327,8 +330,8 @@
                       <span class="mx-auto aistatusinactive" [ngbTooltip]="log.verificationLog ? log.verificationLog: 'No Description'" *ngIf="log.verificationStatus == 2"><i class="bi bi-check2-circle"></i></span>
 
                     <button class="border-0 mx-2 bg-light pointer ai-re-run" [disabled]="log.verificationStatus == 2 || tempConfigIds != null && tempConfigIds.includes(log.id)" 
-                    [ngbTooltip]="tempConfigIds != null && tempConfigIds.includes(log.id) ? 'Running' : 'Re-run'" (click)="configAIReRun(log.id)">
-                      <i *ngIf="!log.reTestingToggle" style="font-size: 16px;" class="bi bi-arrow-clockwise text-dark"></i>
+                    [ngbTooltip]="log.verificationStatus == 2 || ((tempConfigIds != null && tempConfigIds.includes(log.id))) ? 'Running' : 'Re-run'" (click)="configAIReRun(log.id)">
+                    <i style="font-size: 16px;" [ngClass]="{'text-dark': !(log.verificationStatus == 2 || tempConfigIds != null && tempConfigIds.includes(log.id))}" class="bi bi-arrow-clockwise"></i>
                     </button>
 
                     </div>
@@ -825,7 +828,7 @@
                
                 <div class="d-flex gap-2">
                   <div >
-                    <button type="button" [ngClass]="{'secondaryBtn': editToggle, 'primaryBtn': !editToggle}" class="btn" (click)="editOcrData()">
+                    <button *ngIf="keys.length > 0" type="button" [ngClass]="{'secondaryBtn': editToggle, 'primaryBtn': !editToggle}" class="btn" (click)="editOcrData()">
                       <span *ngIf="!editToggle">Edit <i class="bi bi-pencil"></i></span>
                       <span *ngIf="editToggle" >Cancel <i class="bi bi-x-circle"></i></span>
                     </button>

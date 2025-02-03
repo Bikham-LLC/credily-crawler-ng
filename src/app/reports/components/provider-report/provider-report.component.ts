@@ -175,7 +175,7 @@ export class ProviderReportComponent implements OnInit {
       // } else {
       //   this.filterType = filterType;
       // }
-      this.providerCrawlerLogList = [];
+      // this.providerCrawlerLogList = [];
 
       this.providerList = [];
     this.reportService.getProviderReport(this.databaseHelper, this.filterType, this.dataService.startDate, this.dataService.endDate, this.version, this.providerType, this.dataService.isLiveAccount).subscribe(response => {
@@ -343,7 +343,10 @@ export class ProviderReportComponent implements OnInit {
         this.uuid = '';
         this.isAllSelected = false;
         this.closeReplicateModalButton.nativeElement.click();
+       
+        // this.logType = 'crawlerLog';
         this.getProviderReport(this.filterType, 0);
+
       }
       this.logReplicateToggle = false;
     }, error=>{
@@ -383,16 +386,19 @@ export class ProviderReportComponent implements OnInit {
   rpaCount:number=0;
   archiveCount:number=0;
   configNotFoundCount:number=0;
+  countToggle: boolean = false;
   getLogCount(){
+    this.countToggle = true;
     this.reportService.getLogCount(this.uuid, this.providerType).subscribe(response=>{
       this.licenseCount = response.licenseCount;
       this.rpaCount = response.rpaCount;
       this.configNotFoundCount = response.configNotFoundCount;
+      this.countToggle = false;
       if(this.providerType == 'scheduledProvider'){
         this.archiveCount = response.archiveCount;
       }
     },error=>{
-
+      this.countToggle = false;
     })
   }
 
@@ -450,8 +456,10 @@ export class ProviderReportComponent implements OnInit {
           this.message = '';
         },1200)
       }
-      this.providerCrawlerLogList[index].reTestingToggle = false;
       this.providerTestingToggle = false;
+      if(this.providerCrawlerLogList[index] && this.providerCrawlerLogList[index].reTestingToggle){
+        this.providerCrawlerLogList[index].reTestingToggle = false;
+      }
     },error=>{
       this.providerTestingToggle = false;
       this.providerCrawlerLogList[index].reTestingToggle = false;
