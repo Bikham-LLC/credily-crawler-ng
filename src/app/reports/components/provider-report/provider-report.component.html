@@ -319,7 +319,9 @@
                 <td>
                   <div class="tableinfo text-nowrap text-center">
                     <span *ngIf="!Constant.EMPTY_STRINGS.includes(log.errorStatus)" class="statusinactive">{{log.errorStatus?log.errorStatus:'N/A'}}</span>
-                    <span *ngIf="Constant.EMPTY_STRINGS.includes(log.errorStatus)" [ngClass]="{'statusactive':log.crawlerStatus=='COMPLETED', 'statuspending' :log.crawlerStatus=='PENDING', 'statusinactive' :log.crawlerStatus =='LOGS REQUIRED', 'statusinprocess' :log.crawlerStatus =='IN PROCESS', 'statusinawait' :log.crawlerStatus =='AWAIT QUEUE', 'statusinqueue' :log.crawlerStatus == 'IN QUEUE'}" >{{log.crawlerStatus}}</span>
+                    <!-- <span *ngIf="Constant.EMPTY_STRINGS.includes(log.errorStatus)" [ngClass]="{'statusactive':log.crawlerStatus=='COMPLETED', 'statuspending' :log.crawlerStatus=='PENDING', 'statusinactive' :log.crawlerStatus =='LOGS REQUIRED', 'statusinprocess' :log.crawlerStatus =='IN PROCESS', 'statusinawait' :log.crawlerStatus =='AWAIT QUEUE', 'statusinqueue' :log.crawlerStatus == 'IN QUEUE'}" >{{log.crawlerStatus}}</span> -->
+                    <span *ngIf="Constant.EMPTY_STRINGS.includes(log.errorStatus)" [ngClass]="{'statusactive':log.crawlerStatus=='COMPLETED', 'statuspending' :log.crawlerStatus=='PENDING', 
+                    'statusinactive' :log.crawlerStatus =='LOGS REQUIRED', 'statusinprocess' :log.crawlerStatus =='IN PROCESS', 'statusinawait' :log.crawlerStatus =='AWAIT QUEUE', 'statusinqueue' :log.crawlerStatus == 'IN QUEUE', 'reRunStatus' :log.crawlerStatus == 'RE-RUN'}" >{{log.crawlerStatus}}</span>
                   </div>
                 </td>
                 <td>
@@ -377,10 +379,16 @@
                       <i *ngIf="log.mapAgainLoadingToggle" style="font-size: 16px;" class="spinner-border spinner-border-sm text-dark"></i>
                     </button>
                     
-                    <button *ngIf="isArchive != 1" placement="top" ngbTooltip="Re-run" class="btn btn-light btn-outline-light" [disabled]="log.reTestingToggle || providerTestingToggle || (Constant.EMPTY_STRINGS.includes(log.lookupName) && Constant.EMPTY_STRINGS.includes(log.lookupLink))" (click)="reRunProviderLog(log.id, i)">
+                   
+                    <button class="border-0 mx-2 bg-light pointer ai-re-run" [disabled]="log.crawlerStatus == 'RE-RUN' || (Constant.EMPTY_STRINGS.includes(log.lookupName) && Constant.EMPTY_STRINGS.includes(log.lookupLink)) || tempReRunIds != null && tempReRunIds.includes(log.id)" 
+                    [ngbTooltip]="log.crawlerStatus == 'RE-RUN' || ((tempReRunIds != null && tempReRunIds.includes(log.id))) ? 'Running' : 'Re-run'" (click)="reRunProviderLog(log.id, i)">
+                    <i style="font-size: 16px;" [ngClass]="{'text-dark': !(log.crawlerStatus == 'RE-RUN' || tempReRunIds != null && tempReRunIds.includes(log.id))}" class="bi bi-arrow-clockwise"></i>
+                    </button>
+
+                    <!-- <button *ngIf="isArchive != 1" placement="top" ngbTooltip="Re-run" class="btn btn-light btn-outline-light" [disabled]="log.reTestingToggle || providerTestingToggle || (Constant.EMPTY_STRINGS.includes(log.lookupName) && Constant.EMPTY_STRINGS.includes(log.lookupLink))" (click)="reRunProviderLog(log.id, i)">
                       <i *ngIf="!log.reTestingToggle" style="font-size: 16px;" class="bi bi-arrow-clockwise text-dark"></i>
                       <i *ngIf="log.reTestingToggle" style="font-size: 16px;" class="spinner-border spinner-border-sm text-dark"></i>
-                    </button>
+                    </button> -->
 
                     <button ngbTooltip="View" class="btn btn-light btn-outline-light" [disabled]="Constant.EMPTY_STRINGS.includes(log.snapShotUrl)" (click)="viewSnapshot(log.snapShotUrl, log.lookupName)" >
                       <i class="bi bi-eye text-dark" style="font-size: 16px;"></i>

@@ -8,4 +8,5 @@ export class QueueInstance{
     status:string='';
     maxRequest:number = 0;
     currentRequest:number = 0;
+    isDefault:number = 0;
 }

@@ -326,10 +326,10 @@ export class ProviderReportComponent implements OnInit {
     if (index > -1) {
       this.isAllSelected = false;
     } else {
-      this.isAllSelected = true;
+      if(this.credilyProviderList.length == this.uuidList.length){
+        this.isAllSelected = true;
+      }
     }
-
-    console.log('uuidList: ',this.uuidList);
 
   }
 
@@ -432,12 +432,14 @@ export class ProviderReportComponent implements OnInit {
     })
   }
 
+  tempReRunIds: number[] = new Array();
   providerTestingToggle:boolean = false;
   showRpaRespToggle:boolean = false;
   message:string = '';
   reRunProviderLog(logId:number, index:number){
     debugger
     console.log("method called 1")
+    this.tempReRunIds.push(logId);
     this.providerTestingToggle = true;
     this.providerCrawlerLogList[index].reTestingToggle = true;
     this.reportService.reRunProviderLog(logId, this.isRpaConfig).subscribe(response=>{
@@ -449,6 +451,7 @@ export class ProviderReportComponent implements OnInit {
           }, 800);
         } else {
           this.getProviderLogs(this.uuid);
+          this.tempReRunIds = [];
         }
       } else {
         this.message = response.message;
@@ -736,13 +739,15 @@ export class ProviderReportComponent implements OnInit {
     if(event != undefined){
       if(event[0].itemName == 'DEA') {
         this.configType = 'License Lookup';
-        this.getTaxonomyLink('DEA');
+        // this.getTaxonomyLink('DEA');
+        this.getConfigurationLink('DEA');
       }  else {
         if(event[0].itemName == 'Common'){
           this.configType = 'Common';
         }
         this.configType = event[0].itemName
-        this.getTaxonomyLink('');
+        // this.getTaxonomyLink('');
+        this.getConfigurationLink('');
       }
     }
   }
@@ -784,6 +789,7 @@ export class ProviderReportComponent implements OnInit {
     this.logConfigRequest.state = this.selectedStateName;
     this.logConfigRequest.licenseType = this.licenseType
     this.logConfigRequest.configType = this.configType
+    this.logConfigRequest.licenseNumber = this.licenseNumber
 
     this.logConfigRequest.providerUuid = this.uuid;
     this.logConfigRequest.providerRequestId = this.providerReqId;
@@ -792,6 +798,7 @@ export class ProviderReportComponent implements OnInit {
       if(response){
         this.closeConfigModal();
         this.getProviderLogs(this.uuid);
+        this.logConfigRequest = new LogConfigRequest();
       }
       this.configCreatingToggle = false;
     },error=>{
@@ -839,13 +846,15 @@ export class ProviderReportComponent implements OnInit {
     this.isConfigExistToggle = !this.isConfigExistToggle;
     if(this.isConfigExistToggle) {
       this.isConfigAlreadyExist = 1;
-      this.getTaxonomyLink('');
+      // this.getTaxonomyLink('');
+      this.getConfigurationLink('');
     }
   }
 
   onSearchLink(event: any) {
     debugger
-    this.getTaxonomyLink(event.target.value);
+    // this.getTaxonomyLink(event.target.value);
+    this.getConfigurationLink(event.target.value);
   }
 
   taxanomyLinkLoading: boolean = false;
@@ -879,6 +888,26 @@ export class ProviderReportComponent implements OnInit {
       this.lookupLink = event[0].id;
       this.lookupName = event[0].itemName;
     }
+  }
+
+  getConfigurationLink(search: string) {
+    debugger
+    if (!this.Constant.EMPTY_STRINGS.includes(this.lookupLink)) {
+      this.taxanomyLinkLoading = true;
+    }
+    this.licenseLookupService.getConfigurationLink(search, this.configType).subscribe(response => {
+      if (response.object != null) {
+        this.configList = [];
+        response.object.forEach((element: any) => {
+          var temp: { id: any, itemName: any } = { id: element.link, itemName: element.name };
+          this.configList.push(temp);
+        })
+      }
+      this.taxanomyLinkLoading = false;
+    }, error => {
+      this.taxanomyLinkLoading = false;
+    })
+    this.configList = JSON.parse(JSON.stringify(this.configList));
   }
 
   @ViewChild('deleteModalButton') deleteModalButton!: ElementRef;
@@ -991,8 +1020,8 @@ export class ProviderReportComponent implements OnInit {
 
       this.providerName = this.dataService.getNameInTitleCase(this.providerName);
 
-      let firebasePath = "crawler-manual-upload/"+ this.uuid +"_"+ this.providerName+"/"+this.configName + moment(new Date()).format('MMMDD_YYYY_hh_mm_ss');
-      this.fileName = this.providerName + "_" + this.configName+"_"+ moment(new Date()).format('MMMDD_YYYY_hh_mm_ss');
+      let firebasePath = "crawler-manual-upload/"+ this.uuid +"_"+ this.providerName+"/"+this.configName + moment(new Date()).format('MMMDD_YYYY_hh_mm_ss')+'.'+fileExt;
+      this.fileName = this.providerName + "_" + this.configName+"_"+ moment(new Date()).format('MMMDD_YYYY_hh_mm_ss')+'.'+fileExt;
 
       const fileRef = this.firebaseStorage.ref(firebasePath);
       

@@ -21,6 +21,7 @@ import { HeaderSubscriptionService } from 'src/app/services/header-subscription.
 import { RpaTestRequest } from 'src/app/models/RpaTestRequest';
 import { USStates } from 'src/app/models/UsStatesJson';
 import { Credential } from 'src/app/models/Credential';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-configuration',
@@ -45,7 +46,7 @@ export class ConfigurationComponent implements OnInit {
     private _router: Router,
     private sanitizer: DomSanitizer,
     private licenseLookupService: LicenseLookupService,
-    private dataService: DataService,
+    public dataService: DataService,
     private route: ActivatedRoute,
     private headerSubscriptionService: HeaderSubscriptionService) {
 
@@ -957,7 +958,8 @@ export class ConfigurationComponent implements OnInit {
     if(this.isHighPriority){
       this.licenseLookupConfigRequest.isHighPriority = this.isHighPriority ? 1 : 0;
       this.licenseLookupConfigRequest.highPriorityType = this.highPriorityType;
-      console.log('pType: ', this.licenseLookupConfigRequest.highPriorityType);
+      this.licenseLookupConfigRequest.highPriorityDate = this.highPriorityDate;
+      console.log('pDate: ', this.licenseLookupConfigRequest.highPriorityDate);
     }
 
     this.licenseLookupConfigRequest.removeStepList = this.removeStepList;
@@ -1742,6 +1744,21 @@ export class ConfigurationComponent implements OnInit {
 
   changeHighPriorityType(type:string){
     this.highPriorityType = type;
-    console.log(this.highPriorityType);
+    // console.log(this.highPriorityType);
   }
+
+
+  // High priority date
+  highPriorityDate: any;
+  selected : { startDate: moment.Moment } = {startDate:moment()};
+  startDate: any = new Date(this.selected.startDate.toDate()).toDateString();
+  selectDateFilter(event: any) {
+    this.highPriorityDate = event.startDate ? new Date(event.startDate).toDateString()+' 00:00:00' : ''
+    // this.highPriorityDate = event.startDate ? new Date(event.startDate).toISOString().slice(0, 10) : ''
+    // let date = new Date(this.highPriorityDate);
+    // date.setDate(date.getDate() + 1);
+    // this.highPriorityDate = date.toISOString().slice(0, 10);
+    console.log(this.highPriorityDate)
+  }
+
 }

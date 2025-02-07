@@ -495,3 +495,15 @@ input[type="file"] {
   color: #810606;
   padding: 4px 13px;
 }
+
+.reRunStatus {
+  display: inline-block;
+  background-color: cornsilk;
+  border-radius: 6px;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 18px;
+  text-align: center;
+  /* color: black; */
+  padding: 3px 14px;
+}
