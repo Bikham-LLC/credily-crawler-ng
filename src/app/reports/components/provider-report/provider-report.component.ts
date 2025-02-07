@@ -853,7 +853,7 @@ export class ProviderReportComponent implements OnInit {
 
   onSearchLink(event: any) {
     debugger
-    // this.getTaxonomyLink(event.target.value);
+    // this.getTaxonomyLink(event.target.value); //commented by amit
     this.getConfigurationLink(event.target.value);
   }
 
