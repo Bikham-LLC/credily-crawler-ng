@@ -31,8 +31,7 @@ export class ProviderReportComponent implements OnInit {
  
   dropdownSettingsVersion!: { singleSelection: boolean; text: string; enableSearchFilter: boolean; autoPosition: boolean, badgeShowLimit: number; };
   dropdownSettingsStatus!: { singleSelection: boolean; text: string; enableSearchFilter: boolean; autoPosition: boolean, badgeShowLimit: number; };
-  versionList: any[] = [{id:'V2', itemName:'V2'}, {id:'V3', itemName:'V3'}];
-  // statusList: any[] = [{id:'completed', itemName: 'Completed'}, {id:'partiallyCompleted', itemName:'Partially Completed'}, {id:'logRequired', itemName:'Log Required'}];
+  versionList: any[] = [{id:'V2', itemName:'Credily'}, {id:'V3', itemName:'Provider Passport'}];
   statusList: any;
   selectedVersion: any[] = new Array();
   selectedStatus: any[] = new Array();
@@ -177,11 +176,17 @@ export class ProviderReportComponent implements OnInit {
       // } else {
       //   this.filterType = filterType;
       // }
-      this.providerCrawlerLogList = [];
+      // this.providerCrawlerLogList = [];
+      this.databaseHelper.currentPage = this.p;
+      if (!this.pageToggle) {
+        this.p = 1;
+        this.databaseHelper.currentPage = this.p;
+      }
 
       this.providerList = [];
     this.reportService.getProviderReport(this.databaseHelper, this.filterType, this.dataService.startDate, this.dataService.endDate, this.version, this.providerType, this.dataService.isLiveAccount).subscribe(response => {
       if(response!=null){
+        this.pageToggle = false;
         this.providerList = response.object;
         this.totalProviders = response.totalItems;
       }
@@ -220,9 +225,13 @@ export class ProviderReportComponent implements OnInit {
     this.getProviderReportCount();
   }
 
+  p: number = 1;
+  pageToggle: boolean = false;
   pageChanged(event:any){
     debugger
-    this.databaseHelper.currentPage = event;
+    // this.databaseHelper.currentPage = event;
+    this.pageToggle = true;
+    this.p = event;
     this.getProviderReport(this.filterType, 1);
   }
 
@@ -328,10 +337,10 @@ export class ProviderReportComponent implements OnInit {
     if (index > -1) {
       this.isAllSelected = false;
     } else {
-      this.isAllSelected = true;
+      if(this.credilyProviderList.length == this.uuidList.length){
+        this.isAllSelected = true;
+      }
     }
-
-    console.log('uuidList: ',this.uuidList);
 
   }
 
@@ -345,7 +354,10 @@ export class ProviderReportComponent implements OnInit {
         this.uuid = '';
         this.isAllSelected = false;
         this.closeReplicateModalButton.nativeElement.click();
+       
+        // this.logType = 'crawlerLog';
         this.getProviderReport(this.filterType, 0);
+
       }
       this.logReplicateToggle = false;
     }, error=>{
@@ -385,16 +397,19 @@ export class ProviderReportComponent implements OnInit {
   rpaCount:number=0;
   archiveCount:number=0;
   configNotFoundCount:number=0;
+  countToggle: boolean = false;
   getLogCount(){
+    this.countToggle = true;
     this.reportService.getLogCount(this.uuid, this.providerType).subscribe(response=>{
       this.licenseCount = response.licenseCount;
       this.rpaCount = response.rpaCount;
       this.configNotFoundCount = response.configNotFoundCount;
+      this.countToggle = false;
       if(this.providerType == 'scheduledProvider'){
         this.archiveCount = response.archiveCount;
       }
     },error=>{
-
+      this.countToggle = false;
     })
   }
 
@@ -411,12 +426,13 @@ export class ProviderReportComponent implements OnInit {
     })
   }
 
+  providerVersion: string = '';
   getOcrProviderAttachment(){
     this.providerCrawlerLogList = [];
     this.logLoadingToggle = true;
-    this.version= this.providerReqVersion;
-    // this.version= 'V2' amit
-    this.reportService.getOcrProviderAttachment(this.version, this.dataService.startDate, this.dataService.endDate, this.databaseHelper, this.dataService.isLiveAccount, this.uuid).subscribe(response=>{
+    // this.version= this.providerReqVersion;  changed version to providerVersion
+    this.providerVersion= this.providerReqVersion;
+    this.reportService.getOcrProviderAttachment(this.providerVersion, this.dataService.startDate, this.dataService.endDate, this.databaseHelper, this.dataService.isLiveAccount, this.uuid).subscribe(response=>{
       if(response != null){
         this.providerCrawlerLogList = response.list;
         // this.totalProviderAttachment = response.totalItems;
@@ -428,12 +444,14 @@ export class ProviderReportComponent implements OnInit {
     })
   }
 
+  tempReRunIds: number[] = new Array();
   providerTestingToggle:boolean = false;
   showRpaRespToggle:boolean = false;
   message:string = '';
   reRunProviderLog(logId:number, index:number){
     debugger
     console.log("method called 1")
+    this.tempReRunIds.push(logId);
     this.providerTestingToggle = true;
     this.providerCrawlerLogList[index].reTestingToggle = true;
     this.reportService.reRunProviderLog(logId, this.isRpaConfig).subscribe(response=>{
@@ -445,6 +463,7 @@ export class ProviderReportComponent implements OnInit {
           }, 800);
         } else {
           this.getProviderLogs(this.uuid);
+          this.tempReRunIds = [];
         }
       } else {
         this.message = response.message;
@@ -452,8 +471,10 @@ export class ProviderReportComponent implements OnInit {
           this.message = '';
         },1200)
       }
-      this.providerCrawlerLogList[index].reTestingToggle = false;
       this.providerTestingToggle = false;
+      if(this.providerCrawlerLogList[index] && this.providerCrawlerLogList[index].reTestingToggle){
+        this.providerCrawlerLogList[index].reTestingToggle = false;
+      }
     },error=>{
       this.providerTestingToggle = false;
       this.providerCrawlerLogList[index].reTestingToggle = false;
@@ -730,13 +751,15 @@ export class ProviderReportComponent implements OnInit {
     if(event != undefined){
       if(event[0].itemName == 'DEA') {
         this.configType = 'License Lookup';
-        this.getTaxonomyLink('DEA');
+        // this.getTaxonomyLink('DEA');
+        this.getConfigurationLink('DEA');
       }  else {
         if(event[0].itemName == 'Common'){
           this.configType = 'Common';
         }
         this.configType = event[0].itemName
-        this.getTaxonomyLink('');
+        // this.getTaxonomyLink('');
+        this.getConfigurationLink('');
       }
     }
   }
@@ -778,6 +801,7 @@ export class ProviderReportComponent implements OnInit {
     this.logConfigRequest.state = this.selectedStateName;
     this.logConfigRequest.licenseType = this.licenseType
     this.logConfigRequest.configType = this.configType
+    this.logConfigRequest.licenseNumber = this.licenseNumber
 
     this.logConfigRequest.providerUuid = this.uuid;
     this.logConfigRequest.providerRequestId = this.providerReqId;
@@ -786,6 +810,7 @@ export class ProviderReportComponent implements OnInit {
       if(response){
         this.closeConfigModal();
         this.getProviderLogs(this.uuid);
+        this.logConfigRequest = new LogConfigRequest();
       }
       this.configCreatingToggle = false;
     },error=>{
@@ -833,13 +858,15 @@ export class ProviderReportComponent implements OnInit {
     this.isConfigExistToggle = !this.isConfigExistToggle;
     if(this.isConfigExistToggle) {
       this.isConfigAlreadyExist = 1;
-      this.getTaxonomyLink('');
+      // this.getTaxonomyLink('');
+      this.getConfigurationLink('');
     }
   }
 
   onSearchLink(event: any) {
     debugger
-    this.getTaxonomyLink(event.target.value);
+    // this.getTaxonomyLink(event.target.value); //commented by amit
+    this.getConfigurationLink(event.target.value);
   }
 
   taxanomyLinkLoading: boolean = false;
@@ -873,6 +900,26 @@ export class ProviderReportComponent implements OnInit {
       this.lookupLink = event[0].id;
       this.lookupName = event[0].itemName;
     }
+  }
+
+  getConfigurationLink(search: string) {
+    debugger
+    if (!this.Constant.EMPTY_STRINGS.includes(this.lookupLink)) {
+      this.taxanomyLinkLoading = true;
+    }
+    this.licenseLookupService.getConfigurationLink(search, this.configType).subscribe(response => {
+      if (response.object != null) {
+        this.configList = [];
+        response.object.forEach((element: any) => {
+          var temp: { id: any, itemName: any } = { id: element.link, itemName: element.name };
+          this.configList.push(temp);
+        })
+      }
+      this.taxanomyLinkLoading = false;
+    }, error => {
+      this.taxanomyLinkLoading = false;
+    })
+    this.configList = JSON.parse(JSON.stringify(this.configList));
   }
 
   @ViewChild('deleteModalButton') deleteModalButton!: ElementRef;
@@ -985,8 +1032,8 @@ export class ProviderReportComponent implements OnInit {
 
       this.providerName = this.dataService.getNameInTitleCase(this.providerName);
 
-      let firebasePath = "crawler-manual-upload/"+ this.uuid +"_"+ this.providerName+"/"+this.configName + moment(new Date()).format('MMMDD_YYYY_hh_mm_ss');
-      this.fileName = this.providerName + "_" + this.configName+"_"+ moment(new Date()).format('MMMDD_YYYY_hh_mm_ss');
+      let firebasePath = "crawler-manual-upload/"+ this.uuid +"_"+ this.providerName+"/"+this.configName + moment(new Date()).format('MMMDD_YYYY_hh_mm_ss')+'.'+fileExt;
+      this.fileName = this.providerName + "_" + this.configName+"_"+ moment(new Date()).format('MMMDD_YYYY_hh_mm_ss')+'.'+fileExt;
 
       const fileRef = this.firebaseStorage.ref(firebasePath);
       
@@ -1051,6 +1098,9 @@ export class ProviderReportComponent implements OnInit {
 
   @ViewChild('showOcrDataModalButton') showOcrDataModalButton!:ElementRef
   openOcrDataModal(attachmentId:number, crawlerLogId:number, lookupName:string){
+    this.ocrAttachmentId = attachmentId;
+    this.ocrCrawlerLogId = crawlerLogId;
+    this.ocrConfigName = lookupName;
     this.getAttachmentOcrData(attachmentId, crawlerLogId, lookupName);
     this.showOcrDataModalButton.nativeElement.click();
   }
@@ -1072,7 +1122,6 @@ export class ProviderReportComponent implements OnInit {
     // this.reportService.getAttachmentOcrData(this.version, attachmentId, crawlerLogId).subscribe(response=>{
       if(response!=null){
         this.myMap = response;
-        console.log('this.myMap',this.myMap);
         Object.keys(response).forEach(element => {
           this.keys.push(element);
         });
@@ -1089,13 +1138,20 @@ export class ProviderReportComponent implements OnInit {
     this.editToggle = !this.editToggle;
   }
 
+  updateOcrToggle: boolean = false;
+  ocrAttachmentId:number = 0;
+  ocrCrawlerLogId:number = 0;
+  ocrConfigName: string = ''
   updateOcrData(myMap: any){
-    console.log('myMap',myMap);
-    this.reportService.updateOcrData(67714, this.logId, this.version, myMap).subscribe(response=>{
+    this.updateOcrToggle = true;
+    this.reportService.updateOcrData(this.ocrAttachmentId, this.ocrCrawlerLogId, this.ocrConfigName, this.providerReqVersion, myMap).subscribe(response=>{
       if(response){
-        // this.closeOcrDataModal();
-        // this.getProviderLogs(this.uuid);
-        console.log("success")
+        this.ocrAttachmentId = 0;
+        this.ocrCrawlerLogId = 0;
+        this.ocrConfigName = '';
+        this.editToggle = false;
+        this.updateOcrToggle = false;
+        this.dataService.showToast('Updated successfully.', 'success');
       }
     },error=>{
       this.dataService.showToast('Something went wrong.', 'error');

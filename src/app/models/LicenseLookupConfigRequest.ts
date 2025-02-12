@@ -33,4 +33,5 @@ export class LicenseLookupConfigRequest{
 
     isHighPriority: number = 0;
     highPriorityType: string = '';
+    highPriorityDate: any;
 }

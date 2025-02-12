@@ -90,7 +90,7 @@
                     </td>
                     <td class="text-nowrap">
                       <div class="tableinfo">
-                        <button type="button" class="btn primarybtn" (click)="openImageModal(obj.snapshotUrl)">View</button>
+                        <button type="button" [disabled]="obj.snapshotUrl == null || obj.snapshotUrl == ''" class="btn primarybtn" (click)="openImageModal(obj.snapshotUrl)">View</button>
                       </div>
                     </td>
                   </tr>

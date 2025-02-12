@@ -80,6 +80,13 @@ export class LicenseLookupService {
     .set('type', crawlerType)
     return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.lookup_config_controller+'/taxonomy-link', {params});
   }
+ 
+  getConfigurationLink(search:any, crawlerType:string): Observable<any> {
+    const params = new HttpParams()
+    .set('search', search)
+    .set('type', crawlerType)
+    return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.lookup_config_controller+'/configuration-link', {params});
+  }
 
   getCrawlerAttribute(): Observable<any> {
     return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.lookup_crawler_attribute);

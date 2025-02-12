@@ -22,7 +22,7 @@
         <div class="d-flex justify-content-start align-items-start gap-2">
           <button class="btn mt-2" [ngClass]="{'primarybtn': providerType == 'licensed', 'secondaryBtn' : providerType != 'licensed'}" (click)="switchProviderType('licensed')">Licensed Provider</button>
           <!-- <button class="btn mt-2" [ngClass]="{'primarybtn': providerType == 'unlicensed', 'secondaryBtn' : providerType != 'unlicensed'}" (click)="switchProviderType('unlicensed')">Unlicensed Provider</button> -->
-          <button class="btn mt-2" [ngClass]="{'primarybtn': providerType == 'scheduledProvider', 'secondaryBtn' : providerType != 'scheduledProvider'}" (click)="switchProviderType('scheduledProvider')">Scheduled Provider</button>
+          <!-- <button class="btn mt-2" [ngClass]="{'primarybtn': providerType == 'scheduledProvider', 'secondaryBtn' : providerType != 'scheduledProvider'}" (click)="switchProviderType('scheduledProvider')">Scheduled Provider</button> -->
         </div>
       </div>
       <div class="col-lg-8">
@@ -88,6 +88,7 @@
                 <th style="min-width: 100px" class="text-nowrap">Onboarding Date</th>
                 <th style="min-width: 100px" class="text-nowrap">Updated Date</th>
                 <!-- <th style="min-width: 100px" class="text-nowrap" *ngIf="providerType != 'scheduledProvider'">Last Scheduled Date</th> -->
+                <th style="min-width: 100px" class="text-nowrap">Source</th>
                 <th style="min-width: 100px" class="text-nowrap">Status</th>
                 <!-- <th style="min-width: 100px" class="text-nowrap">AI</th> -->
                 <th style="min-width: 100px" class="text-nowrap">Logs</th>
@@ -125,8 +126,8 @@
                 </td>
                 
                 <td class="text-nowrap">
-                  <div class="tableinfo text-muted">
-                    <span *ngIf="providerType != 'scheduledProvider'">{{obj.updatedDate | date:'MM/dd/yyyy'}}</span>
+                  <div class="tableinfo">
+                    <span >{{obj.updatedDate | date:'MM/dd/yyyy'}}</span>
                     <!-- <span *ngIf="providerType == 'scheduledProvider'">{{obj.scheduledDate}}</span> -->
                   </div>
                 </td>
@@ -156,11 +157,17 @@
 
                 <td class="text-nowrap">
                   <div class="tableinfo">
+                    <span>{{obj.version == 'V2'?'Credily':'Provider Passport'}}</span>
+                  </div> 
+                </td>
+
+                <td class="text-nowrap">
+                  <div class="tableinfo">
                     <span [ngClass]="{'aistatusactive': obj.status.toUpperCase()=='COMPLETED', 'aistatuspending': obj.status=='Partially Complete', 'aistatusinactive': obj.status=='Failed', 'aistatusLogRequired': obj.status=='LOGS REQUIRED'}" 
-                    [ngbTooltip]="obj.status.toUpperCase()=='COMPLETED' ? 'COMPLETED' : obj.status=='Partially Complete' ? 'Partially Completed' : obj.status=='Failed' ? 'Failed' : 'Logs Required'" 
-                    ><i class="bi bi-check2-circle"></i>
-                </span>
-                 </div> 
+                      [ngbTooltip]="obj.status.toUpperCase()=='COMPLETED' ? 'COMPLETED' : obj.status=='Partially Complete' ? 'Partially Completed' : obj.status=='Failed' ? 'Failed' : 'Logs Required'" 
+                      ><i class="bi bi-check2-circle"></i>
+                    </span>
+                  </div> 
                 </td>
 
                 <td class="text-nowrap">
@@ -195,11 +202,16 @@
             </p>
             <div class="col-lg-6">
               <div class="card-body d-flex justify-content-end">
-                <ngb-pagination class="pagination pagination-separated justify-content-sm-end mb-sm-0"
+                <!-- <ngb-pagination class="pagination pagination-separated justify-content-sm-end mb-sm-0"
                   [collectionSize]="totalProviders" [rotate]="true" (pageChange)="pageChanged($event)"
                   [pageSize]="databaseHelper.itemsPerPage" [(page)]="databaseHelper.currentPage" [maxSize]="5"
                   [boundaryLinks]="true">
-                </ngb-pagination>
+                </ngb-pagination> -->
+                <ngb-pagination class="pagination pagination-separated justify-content-sm-end mb-sm-0"
+                [collectionSize]="totalProviders" [rotate]="true" (pageChange)="pageChanged($event)"
+                [pageSize]="databaseHelper.itemsPerPage" [(page)]="p" [maxSize]="8"
+                [boundaryLinks]="true">
+              </ngb-pagination>
               </div>
             </div>
           </div>
@@ -222,15 +234,18 @@
           <span style="font-weight: 500;" *ngIf="!Constant.EMPTY_STRINGS.includes(providerName)" >{{providerName}} : </span>
           <button type="button" class="btn credTabsBtn" [ngClass]="{'credTabsBtnActive' : logType == 'crawlerLog'}" (click)="switchLogTab('crawlerLog')">
             Crawler Log
-            <sup class="logCount">{{licenseCount}}</sup>
+            <i class="spinner-border spinner-border-sm" role="status" *ngIf="countToggle"></i>
+            <sup class="logCount" *ngIf="!countToggle">{{licenseCount}}</sup>
           </button>
           <button *ngIf="providerType != 'scheduledProvider'" type="button" class="btn credTabsBtn me-2" [ngClass]="{'credTabsBtnActive' : logType == 'rpaLog'}" (click)="switchLogTab('rpaLog')">
             Rpa Log
-            <sup class="logCount">{{rpaCount}}</sup>
+            <i class="spinner-border spinner-border-sm" role="status" *ngIf="countToggle"></i>
+            <sup class="logCount" *ngIf="!countToggle">{{rpaCount}}</sup>
           </button>
           <button *ngIf="providerType != 'scheduledProvider'" type="button" class="btn credTabsBtn me-2" [ngClass]="{'credTabsBtnActive' : logType == 'configNotFound'}" (click)="switchLogTab('configNotFound')">
             Not Found config
-            <sup class="logCount">{{configNotFoundCount}}</sup>
+            <i class="spinner-border spinner-border-sm" role="status" *ngIf="countToggle"></i>
+            <sup class="logCount" *ngIf="!countToggle">{{configNotFoundCount}}</sup>
           </button>
           <button *ngIf="providerType != 'scheduledProvider' && providerReqVersion == 'V3'" type="button" class="btn credTabsBtn me-2" (click)="switchLogTab('replicateLog')">
             Replicate Log
@@ -282,8 +297,8 @@
                 <th style="min-width: 100px" class="text-center text-nowrap">License #</th>
                 <th style="min-width: 100px" class="text-center text-nowrap">License Type</th>
                 <th style="min-width: 100px" class="text-center text-nowrap">updated Date</th>
-                <th style="min-width: 100px" class="text-center text-nowrap">Re-run Count</th>
-                <th style="min-width: 100px" class="text-center text-nowrap">Manual Upload Count</th>
+                <th style="min-width: 100px" class="text-center text-nowrap">Re-run</th>
+                <th style="min-width: 100px" class="text-center text-nowrap">Manual</th>
                 <th style="min-width: 100px" class="text-end text-center text-nowrap">Action</th>
               </tr>
             </thead>
@@ -309,7 +324,9 @@
                 <td>
                   <div class="tableinfo text-nowrap text-center">
                     <span *ngIf="!Constant.EMPTY_STRINGS.includes(log.errorStatus)" class="statusinactive">{{log.errorStatus?log.errorStatus:'N/A'}}</span>
-                    <span *ngIf="Constant.EMPTY_STRINGS.includes(log.errorStatus)" [ngClass]="{'statusactive':log.crawlerStatus=='COMPLETED', 'statuspending' :log.crawlerStatus=='PENDING', 'statusinactive' :log.crawlerStatus =='NO RECORD'}" >{{log.crawlerStatus}}</span>
+                    <!-- <span *ngIf="Constant.EMPTY_STRINGS.includes(log.errorStatus)" [ngClass]="{'statusactive':log.crawlerStatus=='COMPLETED', 'statuspending' :log.crawlerStatus=='PENDING', 'statusinactive' :log.crawlerStatus =='LOGS REQUIRED', 'statusinprocess' :log.crawlerStatus =='IN PROCESS', 'statusinawait' :log.crawlerStatus =='AWAIT QUEUE', 'statusinqueue' :log.crawlerStatus == 'IN QUEUE'}" >{{log.crawlerStatus}}</span> -->
+                    <span *ngIf="Constant.EMPTY_STRINGS.includes(log.errorStatus)" [ngClass]="{'statusactive':log.crawlerStatus=='COMPLETED', 'statuspending' :log.crawlerStatus=='PENDING', 
+                    'statusinactive' :log.crawlerStatus =='LOGS REQUIRED', 'statusinprocess' :log.crawlerStatus =='IN PROCESS', 'statusinawait' :log.crawlerStatus =='AWAIT QUEUE', 'statusinqueue' :log.crawlerStatus == 'IN QUEUE', 'reRunStatus' :log.crawlerStatus == 'RE-RUN'}" >{{log.crawlerStatus}}</span>
                   </div>
                 </td>
                 <td>
@@ -320,8 +337,8 @@
                       <span class="mx-auto aistatusinactive" [ngbTooltip]="log.verificationLog ? log.verificationLog: 'No Description'" *ngIf="log.verificationStatus == 2"><i class="bi bi-check2-circle"></i></span>
 
                     <button class="border-0 mx-2 bg-light pointer ai-re-run" [disabled]="log.verificationStatus == 2 || tempConfigIds != null && tempConfigIds.includes(log.id)" 
-                    (click)="configAIReRun(log.id)" [ngbTooltip]="log.verificationStatus == 2 || tempConfigIds != null && tempConfigIds.includes(log.id) ? 'Running' : 'Re-run'">
-                      <i style="font-size: 16px;" class="bi bi-arrow-clockwise text-dark"></i>
+                    [ngbTooltip]="log.verificationStatus == 2 || ((tempConfigIds != null && tempConfigIds.includes(log.id))) ? 'Running' : 'Re-run'" (click)="configAIReRun(log.id)">
+                    <i style="font-size: 16px;" [ngClass]="{'text-dark': !(log.verificationStatus == 2 || tempConfigIds != null && tempConfigIds.includes(log.id))}" class="bi bi-arrow-clockwise"></i>
                     </button>
 
                     </div>
@@ -367,10 +384,16 @@
                       <i *ngIf="log.mapAgainLoadingToggle" style="font-size: 16px;" class="spinner-border spinner-border-sm text-dark"></i>
                     </button>
                     
-                    <button *ngIf="isArchive != 1" placement="top" ngbTooltip="Re-run" class="btn btn-light btn-outline-light" [disabled]="log.reTestingToggle || providerTestingToggle || (Constant.EMPTY_STRINGS.includes(log.lookupName) && Constant.EMPTY_STRINGS.includes(log.lookupLink))" (click)="reRunProviderLog(log.id, i)">
+                   
+                    <button class="border-0 mx-2 bg-light pointer ai-re-run" [disabled]="log.crawlerStatus == 'RE-RUN' || (Constant.EMPTY_STRINGS.includes(log.lookupName) && Constant.EMPTY_STRINGS.includes(log.lookupLink)) || tempReRunIds != null && tempReRunIds.includes(log.id)" 
+                    [ngbTooltip]="log.crawlerStatus == 'RE-RUN' || ((tempReRunIds != null && tempReRunIds.includes(log.id))) ? 'Running' : 'Re-run'" (click)="reRunProviderLog(log.id, i)">
+                    <i style="font-size: 16px;" [ngClass]="{'text-dark': !(log.crawlerStatus == 'RE-RUN' || tempReRunIds != null && tempReRunIds.includes(log.id))}" class="bi bi-arrow-clockwise"></i>
+                    </button>
+
+                    <!-- <button *ngIf="isArchive != 1" placement="top" ngbTooltip="Re-run" class="btn btn-light btn-outline-light" [disabled]="log.reTestingToggle || providerTestingToggle || (Constant.EMPTY_STRINGS.includes(log.lookupName) && Constant.EMPTY_STRINGS.includes(log.lookupLink))" (click)="reRunProviderLog(log.id, i)">
                       <i *ngIf="!log.reTestingToggle" style="font-size: 16px;" class="bi bi-arrow-clockwise text-dark"></i>
                       <i *ngIf="log.reTestingToggle" style="font-size: 16px;" class="spinner-border spinner-border-sm text-dark"></i>
-                    </button>
+                    </button> -->
 
                     <button ngbTooltip="View" class="btn btn-light btn-outline-light" [disabled]="Constant.EMPTY_STRINGS.includes(log.snapShotUrl)" (click)="viewSnapshot(log.snapShotUrl, log.lookupName)" >
                       <i class="bi bi-eye text-dark" style="font-size: 16px;"></i>
@@ -392,7 +415,7 @@
                       <i class="bi bi-box-arrow-up-right text-dark" style="font-size: 16px;"></i>
                     </a>
 
-                    <button ngbTooltip="OCR-Data" class="btn btn-light btn-outline-light" (click)="openOcrDataModal(0,log.id, log.lookupName)">
+                    <button ngbTooltip="OCR-Data" class="btn btn-light btn-outline-light" (click)="openOcrDataModal(0, log.id, log.lookupName)">
                       <i class="bi bi-0-circle text-dark" style="font-size: 16px;"></i>
                     </button>
 
@@ -818,7 +841,7 @@
                
                 <div class="d-flex gap-2">
                   <div >
-                    <button type="button" [ngClass]="{'secondaryBtn': editToggle, 'primaryBtn': !editToggle}" class="btn" (click)="editOcrData()">
+                    <button *ngIf="keys.length > 0" type="button" [ngClass]="{'secondaryBtn': editToggle, 'primaryBtn': !editToggle}" class="btn" (click)="editOcrData()">
                       <span *ngIf="!editToggle">Edit <i class="bi bi-pencil"></i></span>
                       <span *ngIf="editToggle" >Cancel <i class="bi bi-x-circle"></i></span>
                     </button>
@@ -857,7 +880,12 @@
                       </table>
                     </div>
                     <div class="d-flex justify-content-end" *ngIf="editToggle">
-                      <button type="button" class="btn primaryBtn" (click)="updateOcrData(myMap)">Update</button>
+                      <button type="button" [disabled]="updateOcrToggle" class="btn primaryBtn" (click)="updateOcrData(myMap)">
+                        <span *ngIf="!updateOcrToggle">Update</span>
+                        <span *ngIf="updateOcrToggle">Updating 
+                          <i class="spinner-border spinner-border-sm" role="status"></i>
+                        </span>
+                      </button>
                     </div>
                 </div>
             </div>
