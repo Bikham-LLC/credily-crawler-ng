@@ -369,12 +369,15 @@
                 </td>
                 <td>
                   <div class="tableinfo text-nowrap text-center">
-                    <span>{{log.reRunCount}}</span>
+                    <span>{{log.reRunCount}} <span *ngIf="log.reRunCount > 0 && log.updatedBy == 'Crawler' " class="fw-semibold text-primary">L</span></span>
                   </div>
                 </td>
                 <td>
                   <div class="tableinfo text-nowrap text-center">
-                    <span>{{log.manualUploadCount}}</span>
+                    <span>
+                      {{ log.manualUploadCount }} 
+                      <span *ngIf="log.manualUploadCount > 0 && log.updatedBy == 'Manual'" class="fw-semibold text-primary">L</span>
+                    </span>
                   </div>
                 </td>
                 <td>

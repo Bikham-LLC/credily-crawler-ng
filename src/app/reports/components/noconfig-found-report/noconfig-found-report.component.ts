@@ -516,5 +516,11 @@ export class NoconfigFoundReportComponent implements OnInit {
     this.boardFilterToggle = false;
   }
 
+  closeMappedConfigModal(){
+    this.configType = 'license';
+    this.boardConfigList = []
+    this.taxonomyList = []
+    this.selectedStateName = ' '
+  }
 
 }

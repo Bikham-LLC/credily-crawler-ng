@@ -225,7 +225,7 @@
             <div>
                 <b> Mapped Configuration </b>
             </div>
-            <button type="button" class="btn-close pointer" style="margin-left: -70%;" data-bs-dismiss="modal" id="closeMulConfigBtn" #closeMulConfigBtn aria-label="Close"></button>
+            <button type="button" class="btn-close pointer" style="margin-left: -70%;" (click)="closeMappedConfigModal()" data-bs-dismiss="modal" id="closeMulConfigBtn" #closeMulConfigBtn aria-label="Close"></button>
         </div>
             <div class="modal-body pt-0" style="height: 60vh; overflow: scroll;">
 
@@ -334,7 +334,7 @@
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-6" *ngIf="!noConfigProviderLoadingToggle && noConfigProviderList.length > 0">
-                    <div class="row justify-content-end">
+                    <div *ngIf="configList.length > 0" class="row justify-content-end">
                         <div class="col-lg-8 col-md-8" *ngIf="configType == 'license' ">
                             <angular2-multiselect id="configSelection" name="configSelection" [data]="configList" [settings]="dropdownSettingsConfig" [(ngModel)]="selectedConfig" (ngModelChange)="selectConfig($event)" required>
                             </angular2-multiselect>   
@@ -343,6 +343,9 @@
                         <div class="col-lg-4 col-md-4 justify-content-end">
                             <button class="btn justify-content-center btn-outline-primary w-100" (click)="submitProvider()"> Submit </button>
                         </div>
+                    </div>
+                    <div *ngIf="configList.length == 0 && configType == 'license' " class="d-flex justify-content-end">
+                        <p class="text-danger fs-15">No Config Found</p>
                     </div>
                 </div>
             </div>
