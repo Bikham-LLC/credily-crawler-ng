@@ -520,7 +520,9 @@ export class NoconfigFoundReportComponent implements OnInit {
     this.configType = 'license';
     this.boardConfigList = []
     this.taxonomyList = []
-    this.selectedStateName = ' '
+    this.selectedStateName = ''
+    this.getStates();
+    console.log('selectedStateName: ',this.selectedStateName)
   }
 
 }

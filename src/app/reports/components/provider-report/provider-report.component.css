@@ -441,6 +441,30 @@ input[type="file"] {
   padding: 3px 14px;
 }
 
+.aistatusAwaitQueue {
+  display: inline-block;
+  background-color: mistyrose;
+  border-radius: 6px;
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 19px;
+  text-align: center;
+  color: white;
+  padding: 3px 14px;
+}
+
+.aistatusInQueue {
+  display: inline-block;
+  background-color: #a1dbf3;
+  border-radius: 6px;
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 19px;
+  text-align: center;
+  color: white;
+  padding: 3px 14px;
+}
+
 .is-read{
   border: 1px solid #ed7e7e;
   border-style: double;

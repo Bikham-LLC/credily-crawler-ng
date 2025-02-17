@@ -32,6 +32,10 @@ export class StateDropdownComponent implements OnInit {
       autoPosition: false
     };
     this.getStateCode();
+
+    this.stateName = '';
+    this.updatedStateName = []
+
   }
 
   @Input()
@@ -214,8 +218,8 @@ export class StateDropdownComponent implements OnInit {
     if (this.stateCodeObj == null) {
       this.stateCodeObj = new USStates();
     }
-    var stateCodeList: any[] = new Array();;
-    var stateNameList: any[] = new Array();;
+    var stateCodeList: any[] = new Array();
+    var stateNameList: any[] = new Array();
     this.stateCodeObj.statesJson.forEach((element: any) => {
       var temp: { id: any, itemName: any, stateName: any } = { id: '', itemName: '', stateName: '' };
       temp.id = element.abbreviation

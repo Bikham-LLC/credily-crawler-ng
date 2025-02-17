@@ -163,9 +163,26 @@
 
                 <td class="text-nowrap">
                   <div class="tableinfo">
-                    <span [ngClass]="{'aistatusactive': obj.status.toUpperCase()=='COMPLETED', 'aistatuspending': obj.status=='Partially Complete', 'aistatusinactive': obj.status=='Failed', 'aistatusLogRequired': obj.status=='LOGS REQUIRED'}" 
+                    <!-- <span [ngClass]="{'aistatusactive': obj.status.toUpperCase()=='COMPLETED', 'aistatuspending': obj.status=='Partially Complete', 'aistatusinactive': obj.status=='Failed', 'aistatusLogRequired': obj.status=='LOGS REQUIRED'}" 
                       [ngbTooltip]="obj.status.toUpperCase()=='COMPLETED' ? 'COMPLETED' : obj.status=='Partially Complete' ? 'Partially Completed' : obj.status=='Failed' ? 'Failed' : 'Logs Required'" 
                       ><i class="bi bi-check2-circle"></i>
+                    </span> -->
+                    <span [ngClass]="{
+                      'aistatusactive': obj.status.toUpperCase() == 'COMPLETED', 
+                      'aistatuspending': obj.status == 'Partially Complete', 
+                      'aistatusinactive': obj.status == 'Failed', 
+                      'aistatusLogRequired': obj.status == 'LOGS REQUIRED',
+                      'aistatusAwaitQueue': obj.status == 'AWAIT QUEUE',
+                      'aistatusInQueue': obj.status == 'IN QUEUE'
+                    }" 
+                    [ngbTooltip]="
+                      obj.status.toUpperCase() == 'COMPLETED' ? 'COMPLETED' : 
+                      obj.status == 'Partially Complete' ? 'Partially Completed' : 
+                      obj.status == 'Failed' ? 'Failed' : 
+                      obj.status == 'LOGS REQUIRED' ? 'Logs Required' :
+                      obj.status == 'AWAIT QUEUE' ? 'Await Queue' :
+                      obj.status == 'IN QUEUE' ? 'In Queue' : ''">
+                      <i class="bi bi-check2-circle"></i>
                     </span>
                   </div> 
                 </td>
@@ -369,15 +386,13 @@
                 </td>
                 <td>
                   <div class="tableinfo text-nowrap text-center">
-                    <span>{{log.reRunCount}} <span *ngIf="log.reRunCount > 0 && log.updatedBy == 'Crawler' " class="fw-semibold text-primary">L</span></span>
+                    <!-- <span>{{log.reRunCount}} <span *ngIf="log.reRunCount > 0 && log.updatedBy == 'Crawler' " class="fw-semibold text-primary">L</span></span> -->
+                    <span [ngClass]="{'fw-semibold text-primary': log.reRunCount > 0 && log.updatedBy == 'Crawler'}">{{log.reRunCount}} </span>
                   </div>
                 </td>
                 <td>
                   <div class="tableinfo text-nowrap text-center">
-                    <span>
-                      {{ log.manualUploadCount }} 
-                      <span *ngIf="log.manualUploadCount > 0 && log.updatedBy == 'Manual'" class="fw-semibold text-primary">L</span>
-                    </span>
+                    <span [ngClass]="{'fw-semibold text-primary': log.manualUploadCount > 0 && log.updatedBy == 'Manual'}">{{ log.manualUploadCount }} </span>
                   </div>
                 </td>
                 <td>
