@@ -146,8 +146,10 @@
       </div>
       <div class="modal-body text-center" style="overflow: scroll;min-height: 750px;">
         <app-circular-loader *ngIf="imageLoadingToggle"></app-circular-loader>
-        <!-- <img *ngIf="!imageLoadingToggle" [src]="imageUrl | safe" alt="" /> -->
-        <iframe *ngIf="!imageLoadingToggle" [src]="imageUrl | safe" style="height: 46rem;width: 100%;" alt=""> </iframe>
+        <!-- <iframe *ngIf="!imageLoadingToggle" [src]="imageUrl | safe" style="height: 46rem;width: 100%;" alt=""> </iframe> -->
+        <img *ngIf="!imageLoadingToggle && (imageExtension == 'png' || imageExtension == 'jpg')" [src]="imageUrl" [alt]="'Image description'" style="width: 100%;" />
+        <iframe *ngIf="!imageLoadingToggle && !(imageExtension == 'png' || imageExtension == 'jpg')" [src]="imageUrl | safe" style="height: 46rem;width: 100%;" alt=""> </iframe>
+        
       </div>
     </div>
   </div>

@@ -490,12 +490,16 @@ export class ProviderReportComponent implements OnInit {
   imageUrl:string='';
   imageLoadingToggle:boolean = false;
   imageName:string='';
+  imageExtension:string='';
   viewSnapshot(url:string, imageName:string){
     debugger
     // this.handleRenderPdf();
     this.imageName = imageName;
     this.imageLoadingToggle = true;
     this.imageUrl = url;
+    this.imageExtension = this.getFileExtension(url);
+    console.log("Ext: ",this.imageExtension)
+
     this.closeLogsButton.nativeElement.click();
     setTimeout(()=>{
       this.imageLoadingToggle = false;
@@ -503,10 +507,18 @@ export class ProviderReportComponent implements OnInit {
     this.openSnapshotModalButton.nativeElement.click();
   }
 
+  // getFileExtension(url: string): string {
+  //   return url.split('.').pop() || '';
+  // }
+
+  getFileExtension(url: string): string {
+    const match = url.match(/\.([a-zA-Z0-9]+)(?:\?|$)/);
+    return match ? match[1] : '';
+  }
 
 
 
-  // handleRenderPdf() {
+// handleRenderPdf() {
   //   this.pdfService.getPdf().subscribe({next: (res) => {
   //       if (this.imageUrl) {
   //         PDFObject.embed(this.imageUrl, '#pdfContainer');
@@ -533,6 +545,7 @@ export class ProviderReportComponent implements OnInit {
   }
 
   refreshProviderLogs(){
+    this.tempConfigIds = []
     this.getProviderLogs(this.uuid);
   }
 
@@ -737,6 +750,7 @@ export class ProviderReportComponent implements OnInit {
     this.createConfigModalButton.nativeElement.click();
   }
   closeConfigModal() {
+    this.isConfigExistToggle = false;
     this.closeConfigModalButton.nativeElement.click();
     this.viewLogsButton.nativeElement.click();
   }
@@ -810,6 +824,7 @@ export class ProviderReportComponent implements OnInit {
       if(response){
         this.closeConfigModal();
         this.getProviderLogs(this.uuid);
+        this.isConfigExistToggle = false;
         this.logConfigRequest = new LogConfigRequest();
       }
       this.configCreatingToggle = false;

@@ -192,10 +192,17 @@ export class FailedConfigReportComponent implements OnInit {
     debugger
     this.imageLoadingToggle = true;
     this.imageUrl = url;
+    this.imageExtension = this.getFileExtension(url);
     this.openSnapshotModalButton.nativeElement.click();
     setTimeout(()=>{
       this.imageLoadingToggle = false;
     },1000)
+  }
+
+  imageExtension:string='';
+  getFileExtension(url: string): string {
+    const match = url.match(/\.([a-zA-Z0-9]+)(?:\?|$)/);
+    return match ? match[1] : '';
   }
 
   @ViewChild('completeModalButton') completeModalButton !: ElementRef;

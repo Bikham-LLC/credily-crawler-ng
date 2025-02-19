@@ -82,9 +82,16 @@ export class FollowUpReportComponent implements OnInit {
     this.imageLoadingToggle = true;
     this.openSnapshotModalButton.nativeElement.click();
     this.imageUrl = url;
+    this.imageExtension = this.getFileExtension(url);
     setTimeout(() => {
       this.imageLoadingToggle = false;
     }, 1000);
+  }
+
+  imageExtension:string='';
+  getFileExtension(url: string): string {
+    const match = url.match(/\.([a-zA-Z0-9]+)(?:\?|$)/);
+    return match ? match[1] : '';
   }
 
 }

@@ -92,7 +92,14 @@ export class ReFetchReportComponent implements OnInit {
       this.imageLoadingToggle = false;
     }, 1000);
     this.imageUrl = url;
+    this.imageExtension = this.getFileExtension(url);
   }
 
+
+  imageExtension:string='';
+  getFileExtension(url: string): string {
+    const match = url.match(/\.([a-zA-Z0-9]+)(?:\?|$)/);
+    return match ? match[1] : '';
+  }
 
 }

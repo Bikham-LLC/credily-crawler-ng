@@ -108,11 +108,17 @@ export class OcrReportComponent implements OnInit {
   openImageModal(imageUrl:string){
     this.imageLoadingToggle =true;
     this.imageUrl = imageUrl;
+    this.imageExtension = this.getFileExtension(imageUrl);
     this.openSnapshotModalButton.nativeElement.click();
     setTimeout(()=>{
       this.imageLoadingToggle =false;
     },1000)
   }
   
+  imageExtension:string='';
+  getFileExtension(url: string): string {
+    const match = url.match(/\.([a-zA-Z0-9]+)(?:\?|$)/);
+    return match ? match[1] : '';
+  }
 
 }

@@ -353,6 +353,11 @@
                       <span class="mx-auto aistatusinactive" [ngbTooltip]="log.verificationLog ? log.verificationLog: 'No Description'" *ngIf="log.verificationStatus == 0"><i class="bi bi-check2-circle"></i></span>
                       <span class="mx-auto aistatusinactive" [ngbTooltip]="log.verificationLog ? log.verificationLog: 'No Description'" *ngIf="log.verificationStatus == 2"><i class="bi bi-check2-circle"></i></span>
 
+                    <!-- <button class="border-0 mx-2 bg-light pointer ai-re-run" [disabled]="log.verificationStatus == 2 || tempConfigIds != null && tempConfigIds.includes(log.id)" 
+                    [ngbTooltip]="log.verificationStatus == 2 || ((tempConfigIds != null && tempConfigIds.includes(log.id))) ? 'Running' : 'Re-run'" (click)="configAIReRun(log.id)">
+                    <i style="font-size: 16px;" [ngClass]="{'text-dark': !(log.verificationStatus == 2 || tempConfigIds != null && tempConfigIds.includes(log.id))}" class="bi bi-arrow-clockwise"></i>
+                    </button> -->
+
                     <button class="border-0 mx-2 bg-light pointer ai-re-run" [disabled]="log.verificationStatus == 2 || tempConfigIds != null && tempConfigIds.includes(log.id)" 
                     [ngbTooltip]="log.verificationStatus == 2 || ((tempConfigIds != null && tempConfigIds.includes(log.id))) ? 'Running' : 'Re-run'" (click)="configAIReRun(log.id)">
                     <i style="font-size: 16px;" [ngClass]="{'text-dark': !(log.verificationStatus == 2 || tempConfigIds != null && tempConfigIds.includes(log.id))}" class="bi bi-arrow-clockwise"></i>
@@ -542,7 +547,12 @@
       </div>
       <div class="modal-body text-center" style="overflow: scroll;height: 680px;">
         <app-circular-loader *ngIf="imageLoadingToggle"></app-circular-loader>
-        <iframe *ngIf="!imageLoadingToggle" [src]="imageUrl | safe" style="height: 46rem;width: 100%;" alt=""> </iframe>
+        <!-- <iframe *ngIf="!imageLoadingToggle" [src]="imageUrl | safe" style="height: 46rem;width: 100%;" alt=""> </iframe> -->
+        
+        <img *ngIf="!imageLoadingToggle && (imageExtension == 'png' || imageExtension == 'jpg')" [src]="imageUrl" [alt]="'Image description'" style="width: 100%;" />
+        
+        <iframe *ngIf="!imageLoadingToggle && !(imageExtension == 'png' || imageExtension == 'jpg')" [src]="imageUrl | safe" style="height: 46rem;width: 100%;" alt=""> </iframe>
+        
         <!-- <div *ngIf="!imageLoadingToggle" style="height: 46rem;width: 100%;" alt="" id="pdfContainer" #pdfContainer></div> -->
       </div>
     </div>
@@ -634,7 +644,7 @@
             <div class="mldConfigurationinner">
               <div class="lookupSearch mb-1">
                 <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" (click)="isConfigExist($event)">
+                  <input class="form-check-input" type="checkbox" id="flexCheckDefault" [checked]="isConfigExistToggle" (change)="isConfigExist($event)">
                   <label class="form-check-label" for="flexCheckDefault">
                     Does config exist ?
                   </label>

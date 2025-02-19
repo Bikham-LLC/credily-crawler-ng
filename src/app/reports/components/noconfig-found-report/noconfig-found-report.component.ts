@@ -280,6 +280,15 @@ export class NoconfigFoundReportComponent implements OnInit {
 
   configType:string='license';
   selectConfigType(event:any){
+    this.logIds = [];
+    this.noConfigProviderList = [];
+
+    this.selectedBoardConfigName = ''
+    this.selectedTaxonomy = []
+    this.selectedStateName = ''
+    this.selectedBoardConfig = []
+    this.isAllSelected = false;
+
     if(event.target.checked){
       this.configType = 'board';
       this.boardConfigList = this.boardList;
@@ -354,6 +363,7 @@ export class NoconfigFoundReportComponent implements OnInit {
     },error=>{
       this.noConfigProviderLoadingToggle = false;
     })
+    console.log('configList: ',this.configList)
   }
 
   getNoConfigTaxonomy(){
@@ -420,6 +430,7 @@ export class NoconfigFoundReportComponent implements OnInit {
       });
       this.logIds = [];
     }
+    console.log('ids: ',this.logIds)
   }
 
   selectOne(obj: any) {
@@ -443,6 +454,7 @@ export class NoconfigFoundReportComponent implements OnInit {
     } else {
       this.isAllSelected = false;
     }
+    console.log('sel one ids: ',this.logIds)
   }
 
   selectProviderToggle:boolean = false;

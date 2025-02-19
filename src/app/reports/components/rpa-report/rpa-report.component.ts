@@ -113,11 +113,19 @@ export class RpaReportComponent implements OnInit {
   imageLoadingToggle:boolean = false;
   openImage(url:string){
     this.imageUrl = url;
+    this.imageExtension = this.getFileExtension(url);
     this.imageLoadingToggle = true;
     this.openSnapshotModalButton.nativeElement.click();
     setTimeout(() => {
       this.imageLoadingToggle = false;
     }, 1200);
   }
+
+  imageExtension:string='';
+  getFileExtension(url: string): string {
+    const match = url.match(/\.([a-zA-Z0-9]+)(?:\?|$)/);
+    return match ? match[1] : '';
+  }
+
 
 }

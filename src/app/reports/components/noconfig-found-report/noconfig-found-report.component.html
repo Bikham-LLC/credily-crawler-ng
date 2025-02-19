@@ -333,7 +333,7 @@
                         <small *ngIf="configMappedToggle" style="color: green;">Config is mapping with providers.</small>
                     </div>
                 </div>
-                <div class="col-lg-6 col-md-6" *ngIf="!noConfigProviderLoadingToggle && noConfigProviderList.length > 0">
+                <!-- <div class="col-lg-6 col-md-6" *ngIf="!noConfigProviderLoadingToggle && noConfigProviderList.length > 0">
                     <div *ngIf="configList.length > 0" class="row justify-content-end">
                         <div class="col-lg-8 col-md-8" *ngIf="configType == 'license' ">
                             <angular2-multiselect id="configSelection" name="configSelection" [data]="configList" [settings]="dropdownSettingsConfig" [(ngModel)]="selectedConfig" (ngModelChange)="selectConfig($event)" required>
@@ -347,7 +347,32 @@
                     <div *ngIf="configList.length == 0 && configType == 'license' " class="d-flex justify-content-end">
                         <p class="text-danger fs-15">No Config Found</p>
                     </div>
+                </div> -->
+
+                <div class="col-lg-6 col-md-6" *ngIf="!noConfigProviderLoadingToggle && noConfigProviderList.length > 0">
+                    <div *ngIf="configList.length > 0 && configType == 'license'" class="row justify-content-end">
+                        <div class="col-lg-8 col-md-8">
+                            <angular2-multiselect id="configSelection" name="configSelection" [data]="configList" [settings]="dropdownSettingsConfig" [(ngModel)]="selectedConfig" (ngModelChange)="selectConfig($event)" required>
+                            </angular2-multiselect>   
+                            <small *ngIf="invalidConfigToggle" style="color: red;">Please select configuration</small>
+                        </div>
+                        <div class="col-lg-4 col-md-4 justify-content-end">
+                            <button class="btn justify-content-center btn-outline-primary w-100" [disabled]="logIds.length == 0" (click)="submitProvider()"> Submit </button>
+                        </div>
+                    </div>
+
+                    <div *ngIf="configType == 'board'" class="row justify-content-end">
+                        <div class="col-lg-4 col-md-4 justify-content-end">
+                            <button class="btn justify-content-center btn-outline-primary w-100" [disabled]="logIds.length == 0" (click)="submitProvider()"> Submit </button>
+                        </div>
+                    </div>
+
+                    <div *ngIf="configList.length == 0 && configType == 'license' " class="d-flex justify-content-end">
+                        <p class="text-danger fs-15">No Config Found</p>
+                    </div>
                 </div>
+
+                
             </div>
         </div>
     </div>
