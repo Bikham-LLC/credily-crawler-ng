@@ -40,7 +40,7 @@
     "@angular/localize": "^12.2.17",
     "@types/jasmine": "~3.8.0",
     "@types/jquery": "^3.5.16",
-    "@types/lodash": "^4.14.112",
+    "@types/lodash": "^4.17.5",
     "@types/node": "^12.11.1",
     "@types/pdfobject": "^2.2.5",
     "jasmine-core": "~3.8.0",
