@@ -88,6 +88,79 @@
                                         <input type="checkbox" name="bulkSelectioncheck" class="form-check mx-auto">
                                     </div>
                                 </th>
+                                <th class="text-nowrap" style="min-width: 100px;">
+                                    <div class="d-flex justify-content-between align-items-center w-100 ">
+                                        Client Name
+                                        <div class="table-filterBtn">
+                                            <div class="d-flex justify-content-end align-items-center gap-2">
+                                                <div class="clientCountMain position-relative">
+                                                    <div class="clientCount d-inline-block fs-10 fw-normal img-20 radius-50 text-bg-primary text-center">+10</div>
+                                                    <div class="clinet">
+                                                        <div class="clinetName" *ngFor="let e of [].constructor(12); let i = index">Name</div>
+                                                    </div>
+                                                </div>
+                                                <button type="button" id="statusDropdown" class="border-0 btn p-0 shadow-none" (click)="shoFilterclient()">
+                                                    <i class="bi bi-sliders fs-10 m-0 iconBold"></i>
+                                                </button>
+                                            </div>
+                                            
+                                            <div class="not-assign-filter p-0 border position-absolute bg-white" *ngIf="shoFilterToggleclient">
+                                                <div class="d-flex align-items-center justify-content-between border-bottom p-3">
+                                                   <h5 class="fs-14 mb-0 text-dark"> Client Filter</h5>
+                                                   <span class="pointer lh-1" (click)="shoFilterclient()">
+                                                   <svg xmlns="http://www.w3.org/2000/svg" width="18" height="19" viewBox="0 0 18 19" fill="none" >
+                                                       <g opacity="0.8">
+                                                       <mask id="mask0_7729_258" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="18" height="19">
+                                                       <rect y="0.5" width="18" height="18" fill="#D9D9D9"/>
+                                                       </mask>
+                                                       <g mask="url(#mask0_7729_258)">
+                                                       <path d="M4.8 14.75L3.75 13.7L7.95 9.5L3.75 5.3L4.8 4.25L9 8.45L13.2 4.25L14.25 5.3L10.05 9.5L14.25 13.7L13.2 14.75L9 10.55L4.8 14.75Z" fill="#1C1B1F"/>
+                                                       </g>
+                                                       </g>
+                                                   </svg>
+                                                   </span>
+                                               </div>
+                                               <div class="row p-3">
+                                                   <div class="col-lg-12">
+                                                    <div class="categroySearchmain">
+                                                        <div class="position-relative">
+                                                            <input type="text" class="form-control" placeholder="Search Client....">
+                                                            <i class="bi bi-search searchIcon iconBold"></i>
+                                                        </div>
+                                                    </div>
+                                                   </div>
+                                                   <div class="col-lg-12 filterScroll noscrollbar mt-3">
+                                                    
+                                                       <div class="categories-filter mb-3 form-check d-flex align-items-center gap-2 mb-2">
+                                                           <input type="checkbox" class="form-check-input" id="all" name="attd-filter" >
+                                                           <label class="form-check-label fw-normal fs-14 text-dark" for="all">All</label>
+                                                         </div>
+                                                         <div class="categories-filter mb-3 form-check d-flex align-items-center gap-2 mb-2">
+                                                           <input type="checkbox" class="form-check-input" id="Present " name="attd-filter">
+                                                           <label class="form-check-label fw-normal fs-14 text-dark" for="Present "> Client Name 1 </label>
+                                                         </div>
+                                                         <div class="categories-filter mb-3 form-check d-flex align-items-center gap-2 mb-2">
+                                                           <input type="checkbox" class="form-check-input" id="Absent" name="attd-filter">
+                                                           <label class="form-check-label fw-normal fs-14 text-dark" for="Absent"> Client Name 3</label>
+                                                         </div>
+                                                         <div class="categories-filter mb-3 form-check d-flex align-items-center gap-2 mb-2">
+                                                           <input type="checkbox" class="form-check-input" id="Halfday" name="attd-filter">
+                                                           <label class="form-check-label fw-normal fs-14 text-dark" for="Halfday">Client Name 3</label>
+                                                         </div>
+                                                         <div class="categories-filter mb-3 form-check d-flex align-items-center gap-2 mb-2">
+                                                          <input type="checkbox" class="form-check-input" id="Leave" name="attd-filter">
+                                                          <label class="form-check-label fw-normal fs-14 text-dark" for="Leave">Client Name 4</label>
+                                                        </div>
+                                                   </div>
+                                               </div>
+                                               <div class="p-2 border-top d-flex gap-2 align-items-center justify-content-end">
+                                                   <button class="btn secondaryBtn" (click)="shoFilterclient()">Reset it</button>
+                                                   <button class="btn primarybtn" (click)="shoFilterclient()">Apply</button>
+                                               </div>
+                                           </div>
+                                        </div>
+                                    </div>
+                                </th>
                                 <th class="text-nowrap" style="min-width: 150px;">
                                     <div class="d-flex justify-content-between align-items-center w-100 ">
                                         Provider Name
@@ -165,81 +238,18 @@
                                         </div>
                                     </div>
                                 </th>
-                                <th class="text-nowrap" style="min-width: 100px;">
-                                    <div class="d-flex justify-content-between align-items-center w-100 ">
-                                        Client Name
-                                        <div class="table-filterBtn d-none">
-                                            <button type="button" id="statusDropdown" class="border-0 btn p-0 shadow-none">
-                                                <i class="bi bi-sliders fs-10 m-0 iconBold"></i>
-                                            </button>
-                                            <div class="not-assign-filter p-0 border position-absolute bg-white" *ngIf="shoFilterToggle">
-                                                <div class="d-flex align-items-center justify-content-between border-bottom p-3">
-                                                   <h5 class="fs-14 mb-0 text-dark"> Status Filter</h5>
-                                                   <span class="pointer lh-1">
-                                                   <svg xmlns="http://www.w3.org/2000/svg" width="18" height="19" viewBox="0 0 18 19" fill="none" >
-                                                       <g opacity="0.8">
-                                                       <mask id="mask0_7729_258" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="18" height="19">
-                                                       <rect y="0.5" width="18" height="18" fill="#D9D9D9"/>
-                                                       </mask>
-                                                       <g mask="url(#mask0_7729_258)">
-                                                       <path d="M4.8 14.75L3.75 13.7L7.95 9.5L3.75 5.3L4.8 4.25L9 8.45L13.2 4.25L14.25 5.3L10.05 9.5L14.25 13.7L13.2 14.75L9 10.55L4.8 14.75Z" fill="#1C1B1F"/>
-                                                       </g>
-                                                       </g>
-                                                   </svg>
-                                                   </span>
-                                               </div>
-                                               <div class="row p-3">
-                                                   <div class="col-lg-12">
-                                                    <div class="categroySearchmain">
-                                                        <div class="position-relative">
-                                                            <input type="text" class="form-control" placeholder="Search Provider....">
-                                                            <i class="bi bi-search searchIcon iconBold"></i>
-                                                        </div>
-                                                    </div>
-                                                   </div>
-                                                   <div class="col-lg-12 filterScroll noscrollbar mt-3">
-                                                    
-                                                       <div class="categories-filter mb-3 form-check d-flex align-items-center gap-2 mb-2">
-                                                           <input type="checkbox" class="form-check-input" id="all" name="attd-filter" >
-                                                           <label class="form-check-label fw-normal fs-14 text-dark" for="all">All</label>
-                                                         </div>
-                                                         <div class="categories-filter mb-3 form-check d-flex align-items-center gap-2 mb-2">
-                                                           <input type="checkbox" class="form-check-input" id="Present " name="attd-filter">
-                                                           <label class="form-check-label fw-normal fs-14 text-dark" for="Present "> Present  </label>
-                                                         </div>
-                                                         <div class="categories-filter mb-3 form-check d-flex align-items-center gap-2 mb-2">
-                                                           <input type="checkbox" class="form-check-input" id="Absent" name="attd-filter">
-                                                           <label class="form-check-label fw-normal fs-14 text-dark" for="Absent"> Absent </label>
-                                                         </div>
-                                                         <div class="categories-filter mb-3 form-check d-flex align-items-center gap-2 mb-2">
-                                                           <input type="checkbox" class="form-check-input" id="Halfday" name="attd-filter">
-                                                           <label class="form-check-label fw-normal fs-14 text-dark" for="Halfday">Halfday  </label>
-                                                         </div>
-                                                         <div class="categories-filter mb-3 form-check d-flex align-items-center gap-2 mb-2">
-                                                          <input type="checkbox" class="form-check-input" id="Leave" name="attd-filter">
-                                                          <label class="form-check-label fw-normal fs-14 text-dark" for="Leave">Leave   </label>
-                                                        </div>
-                                                   </div>
-                                               </div>
-                                               <div class="p-2 border-top d-flex gap-2 align-items-center justify-content-end">
-                                                   <button class="btn secondaryBtn">Reset it</button>
-                                                   <button class="btn primarybtn">Apply</button>
-                                               </div>
-                                           </div>
-                                        </div>
-                                    </div>
-                                </th>
+                               
                                 <th class="text-nowrap" style="min-width: 160px;">
                                     <div class="d-flex justify-content-between align-items-center w-100 ">
                                         License Name
-                                        <div class="table-filterBtn d-none">
-                                            <button type="button" id="statusDropdown" class="border-0 btn p-0 shadow-none" (click)="shoFilter()">
+                                        <div class="table-filterBtn">
+                                            <button type="button" id="statusDropdown" class="border-0 btn p-0 shadow-none" (click)="shoFilterlicense()">
                                                 <i class="bi bi-sliders fs-10 m-0 iconBold"></i>
                                             </button>
-                                            <div class="not-assign-filter p-0 border position-absolute bg-white" *ngIf="shoFilterToggle">
+                                            <div class="not-assign-filter p-0 border position-absolute bg-white" *ngIf="shoFilterTogglelicense">
                                                 <div class="d-flex align-items-center justify-content-between border-bottom p-3">
-                                                   <h5 class="fs-14 mb-0 text-dark"> Status Filter</h5>
-                                                   <span class="pointer lh-1" >
+                                                   <h5 class="fs-14 mb-0 text-dark"> License Filter</h5>
+                                                   <span class="pointer lh-1"  (click)="shoFilterlicense()">
                                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="19" viewBox="0 0 18 19" fill="none" >
                                                        <g opacity="0.8">
                                                        <mask id="mask0_7729_258" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="18" height="19">
@@ -256,7 +266,7 @@
                                                    <div class="col-lg-12">
                                                     <div class="categroySearchmain">
                                                         <div class="position-relative">
-                                                            <input type="text" class="form-control" placeholder="Search Provider....">
+                                                            <input type="text" class="form-control" placeholder="Search License....">
                                                             <i class="bi bi-search searchIcon iconBold"></i>
                                                         </div>
                                                     </div>
@@ -265,29 +275,33 @@
                                                     
                                                        <div class="categories-filter mb-3 form-check d-flex align-items-center gap-2 mb-2">
                                                            <input type="checkbox" class="form-check-input" id="all" name="attd-filter" >
-                                                           <label class="form-check-label fw-normal fs-14 text-dark" for="all">All</label>
+                                                           <label class="form-check-label fw-normal fs-14 text-dark" for="all">Profiessional</label>
                                                          </div>
                                                          <div class="categories-filter mb-3 form-check d-flex align-items-center gap-2 mb-2">
                                                            <input type="checkbox" class="form-check-input" id="Present " name="attd-filter">
-                                                           <label class="form-check-label fw-normal fs-14 text-dark" for="Present "> Present  </label>
+                                                           <label class="form-check-label fw-normal fs-14 text-dark" for="Present "> DEA  </label>
                                                          </div>
                                                          <div class="categories-filter mb-3 form-check d-flex align-items-center gap-2 mb-2">
                                                            <input type="checkbox" class="form-check-input" id="Absent" name="attd-filter">
-                                                           <label class="form-check-label fw-normal fs-14 text-dark" for="Absent"> Absent </label>
+                                                           <label class="form-check-label fw-normal fs-14 text-dark" for="Absent"> CDS </label>
                                                          </div>
                                                          <div class="categories-filter mb-3 form-check d-flex align-items-center gap-2 mb-2">
                                                            <input type="checkbox" class="form-check-input" id="Halfday" name="attd-filter">
-                                                           <label class="form-check-label fw-normal fs-14 text-dark" for="Halfday">Halfday  </label>
+                                                           <label class="form-check-label fw-normal fs-14 text-dark" for="Halfday">OIG  </label>
                                                          </div>
                                                          <div class="categories-filter mb-3 form-check d-flex align-items-center gap-2 mb-2">
                                                           <input type="checkbox" class="form-check-input" id="Leave" name="attd-filter">
-                                                          <label class="form-check-label fw-normal fs-14 text-dark" for="Leave">Leave   </label>
+                                                          <label class="form-check-label fw-normal fs-14 text-dark" for="Leave">SAM</label>
+                                                        </div>
+                                                         <div class="categories-filter mb-3 form-check d-flex align-items-center gap-2 mb-2">
+                                                          <input type="checkbox" class="form-check-input" id="Leave" name="attd-filter">
+                                                          <label class="form-check-label fw-normal fs-14 text-dark" for="Leave">CAQH</label>
                                                         </div>
                                                    </div>
                                                </div>
                                                <div class="p-2 border-top d-flex gap-2 align-items-center justify-content-end">
-                                                   <button class="btn secondaryBtn" >Reset it</button>
-                                                   <button class="btn primarybtn" >Apply</button>
+                                                   <button class="btn secondaryBtn"  (click)="shoFilterlicense()">Reset it</button>
+                                                   <button class="btn primarybtn"  (click)="shoFilterlicense()">Apply</button>
                                                </div>
                                            </div>
                                         </div>
@@ -310,8 +324,9 @@
                                         <input type="checkbox" name="bulkSelectioncheck" class="form-check mx-auto">
                                     </div>
                                 </td>
-                                <td class="text-nowrap"><div class="tableinfo">Sarah Margaret Baker</div></td>
                                 <td class="text-nowrap"><div class="tableinfo">New York City Health And Hospitals Corporation</div></td>
+                                <td class="text-nowrap"><div class="tableinfo">Sarah Margaret Baker</div></td>
+                                
                                 <td class="text-nowrap"><div class="tableinfo">DEA</div></td>
                                 <td class="text-nowrap">
                                     <div class="tableinfo"><span class="badge-grey npi-badge">1952864068</span></div>
@@ -370,7 +385,7 @@
                 </div>
                 <div class="paginationmain mt-5">
                     <div class="d-flex align-items-center justify-content-between">
-                        <p class="currentshowing mb-0">Showing <span>4</span> of <span>4</span></p>
+                        <p class="currentshowing mb-0">Showing <span>10</span> 1181 <span>4</span></p>
                         <div class="col-lg-6">
                             <div class="card-body d-flex justify-content-end">
                                 <ngb-pagination

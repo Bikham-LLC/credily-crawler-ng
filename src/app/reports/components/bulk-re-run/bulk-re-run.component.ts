@@ -13,9 +13,17 @@ export class BulkReRunComponent implements OnInit {
   }
 
 
-  shoFilterToggle:boolean = false;
-  shoFilter(){
+  shoFilterToggle: boolean = false;
+  shoFilter() {
     this.shoFilterToggle = !this.shoFilterToggle;
   }
 
+  shoFilterTogglelicense: boolean = false;
+  shoFilterlicense() {
+    this.shoFilterTogglelicense = !this.shoFilterTogglelicense;
+  }
+  shoFilterToggleclient: boolean = false;
+  shoFilterclient() {
+    this.shoFilterToggleclient = !this.shoFilterToggleclient;
+  }
 }
