@@ -128,6 +128,21 @@ export class LicenseLookupService {
     return this.http.post<any>(this.key.server_url + this.key.api_version_one + this.key.lookup_config_controller + "/mapped-taxonomy", ids, {params});
   }
 
+  getUnMappedTaxonomyIds(ids:any, type:string, state:string, databaseHelper:DatabaseHelper): Observable<any>{
+   
+    if(databaseHelper==undefined || databaseHelper==null){
+      databaseHelper = new DatabaseHelper();
+    }
+    const params = new HttpParams()
+    .set('type', type)
+    .set('state', state)
+    .set('search', databaseHelper.search)
+    .set('searchBy', databaseHelper.searchBy)
+    .set('currentPage', databaseHelper.currentPage)
+    .set('itemsPerPage', databaseHelper.itemsPerPage)
+    return this.http.post<any>(this.key.server_url + this.key.api_version_one + this.key.lookup_config_controller + "/unmapped-taxonomy-ids", ids, {params});
+  }
+
   updateConfigStatus(id:any) :Observable<any> {
     const params = new HttpParams()
     .set('id', id)

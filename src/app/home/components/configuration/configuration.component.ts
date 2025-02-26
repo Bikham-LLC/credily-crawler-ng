@@ -450,6 +450,7 @@ export class ConfigurationComponent implements OnInit {
   }
 
   pageChanged(event: any) {
+    this.allselected = false;
     if (event != this.databaseHelper.currentPage) {
       this.databaseHelper.currentPage = event;
       this.getMappedTaxonomy(this.type);
@@ -485,6 +486,63 @@ export class ConfigurationComponent implements OnInit {
     this.lookupTaxonomyList.splice(index, 1);
     this.totalLookupTaxonomy--;
   }
+
+  allselected: boolean = false;
+  selectSingle(event: any, i: any) {
+    debugger
+    if (event.checked) {
+      this.allselected = false;
+
+      this.lookupTaxonomyList[i].checked = false;
+      var index = this.selectedMappdTaxonomyIds.indexOf(event.id);
+      this.selectedMappdTaxonomyIds.splice(index, 1);
+      this.mappedIds.splice(index, 1);
+  
+      this.unMappedIds.push(event.id);
+
+    } else {
+      this.lookupTaxonomyList[i].checked = true;
+      this.selectedMappdTaxonomyIds.push(event.id);
+      this.mappedIds.push(event.id);
+
+      if (this.selectedMappdTaxonomyIds.length == this.lookupTaxonomyList.length) {
+        this.allselected = true;
+      }
+    }
+
+    console.log('selectedIds: ', this.selectedMappdTaxonomyIds)
+    console.log('unMappedIds: ', this.unMappedIds)
+  }
+
+  selectAll() {
+    if (!this.allselected) {
+      this.lookupTaxonomyList.forEach((element) => {
+        this.selectedMappdTaxonomyIds.push(element.id);
+        this.selectedMappdTaxonomyIds.push(element.id);
+        this.mappedIds.push(element.id);
+        element.checked = true;
+      });
+      this.allselected = true;
+    } else {
+      this.lookupTaxonomyList.forEach((element: any) => {
+        element.checked = false;
+      });
+      this.allselected = false;
+      this.selectedMappdTaxonomyIds = [];
+    }
+    this.selectedMappdTaxonomyIds = Array.from(new Set(this.selectedMappdTaxonomyIds));
+    console.log('After SET Ids: ',this.selectedMappdTaxonomyIds)
+
+  }
+
+  
+clearSelection() {
+  this.selectedMappdTaxonomyIds = [];
+  this.allselected = false; 
+  this.lookupTaxonomyList.forEach((element) => {
+    element.checked = false; 
+  });
+}
 
   @ViewChild('closeTaxomonyModalButton') closeTaxomonyModalButton!: ElementRef;
   @ViewChild('clickIframeButton') clickIframeButton!: ElementRef;
@@ -530,6 +588,7 @@ export class ConfigurationComponent implements OnInit {
   closeTaxonomyModal() {
     this.databaseHelper = new DatabaseHelper();
     this.type = 'mapped';
+    this.selectedMappdTaxonomyIds = []
     this.newLinkToggle = false;
     this.configId = 0;
     if(this.configurationId >0){
@@ -939,8 +998,17 @@ export class ConfigurationComponent implements OnInit {
     this.licenseLookupConfigRequest.lookupNames = this.selectedLookupName;
     this.licenseLookupConfigRequest.version = this.credilyVersion;
     this.licenseLookupConfigRequest.licenseLookUpName = this.lookupName;
-    this.licenseLookupConfigRequest.mappedIds = this.mappedIds;
+    // this.licenseLookupConfigRequest.mappedIds = this.mappedIds;
+
+    this.licenseLookupConfigRequest.mappedIds = [...this.mappedIds, ...this.selectedTaxonomyIds];
     this.licenseLookupConfigRequest.removeIds = this.unMappedIds;
+
+    if (this.licenseLookupConfigRequest.removeIds.length > 0) {
+      this.licenseLookupConfigRequest.mappedIds = this.licenseLookupConfigRequest.mappedIds.filter(
+        id => !this.licenseLookupConfigRequest.removeIds.includes(id)
+      );
+    }
+
     this.licenseLookupConfigRequest.attachmentType = this.attachmentType;
     this.licenseLookupConfigRequest.attactmentSource = this.attactmentSource;
     this.licenseLookupConfigRequest.attachmentSubType = this.attachmentSubType;
@@ -1006,6 +1074,10 @@ export class ConfigurationComponent implements OnInit {
         })
       }
       // this.getConfiguration();
+      this.selectedMappdTaxonomyIds = []
+      this.allselected = false;
+      this.mappedIds = []
+      this.unMappedIds = []
     }
   }
 
@@ -1345,6 +1417,20 @@ export class ConfigurationComponent implements OnInit {
     })
   }
 
+  mapOrUnmapToggle(type: string){
+    this.selectedMappdTaxonomyIds = [];
+    this.unMappedIds = [];
+    this.databaseHelper.currentPage = 1;
+    this.allselected = false;
+    this.getMappedTaxonomy(type);
+
+    if(type == 'unmapped'){
+      this.getUnMappedTaxonomyIds(type);
+    }
+
+  }
+
+
   ids: number[] = new Array;
   type: string = 'mapped';
   getMappedTaxonomy(type: string) {
@@ -1360,6 +1446,16 @@ export class ConfigurationComponent implements OnInit {
       this.licenseLookupService.getMappedTaxonomy(this.selectedTaxonomyIds, type, this.selectedStateName, this.databaseHelper).subscribe(response => {
         if (response.status) {
           this.lookupTaxonomyList = response.object.taxonomyList;
+
+          if (this.lookupTaxonomyList != undefined) {
+            this.lookupTaxonomyList.forEach((taxonomy, index) => {
+              // taxonomy.checked = this.selectedTaxonomyIds.includes(taxonomy.id);
+              taxonomy.checked = this.selectedMappdTaxonomyIds.includes(taxonomy.id);
+            });
+          } else {
+            // this.lookupTaxonomyList = []
+          }
+
           this.totalLookupTaxonomy = response.object.totalItems;
           if (type == 'mapped') {
             this.lookupTaxonomyList.forEach(l => {
@@ -1371,7 +1467,57 @@ export class ConfigurationComponent implements OnInit {
       }, error => {
         this.loadingLookupTaxonomy = false;
       })
-   
+  }
+
+
+  selectedMappdTaxonomyIds: number[] = new Array();
+  getMappedTaxonomy1(type: string) {
+    debugger
+    this.type = type;
+    if (type == 'mapped' && this.selectedTaxonomyIds.length == 0) {
+      this.lookupTaxonomyList = [];
+      this.totalLookupTaxonomy = 0;
+      this.loadingLookupTaxonomy = false;
+      return;
+    }
+
+      this.loadingLookupTaxonomy = true;
+      this.licenseLookupService.getMappedTaxonomy(this.selectedTaxonomyIds, type, this.selectedStateName, this.databaseHelper).subscribe(response => {
+        if (response.status) {
+          this.lookupTaxonomyList = response.object.taxonomyList;
+
+          if (this.lookupTaxonomyList != undefined) {
+            this.lookupTaxonomyList.forEach((taxonomy, index) => {
+              // taxonomy.checked = this.selectedTaxonomyIds.includes(taxonomy.id);
+              taxonomy.checked = this.selectedMappdTaxonomyIds.includes(taxonomy.id);
+            });
+          } else {
+            // this.lookupTaxonomyList = []
+          }
+
+          this.totalLookupTaxonomy = response.object.totalItems;
+          if (type == 'mapped') {
+            this.lookupTaxonomyList.forEach(l => {
+              l.checked = true;
+            })
+          }
+        }
+        this.loadingLookupTaxonomy = false;
+      }, error => {
+        this.loadingLookupTaxonomy = false;
+      })
+  }
+
+  allUnMappedTaxonomyIds: number[] = Array();
+  getUnMappedTaxonomyIds(type: string) {
+    debugger
+      this.licenseLookupService.getUnMappedTaxonomyIds(this.selectedTaxonomyIds, type, this.selectedStateName, this.databaseHelper).subscribe(response => {
+        if (response.status) {
+          this.allUnMappedTaxonomyIds = response.object.unMappedIds;
+          console.log('unMappedTaxonomyIds: ',this.allUnMappedTaxonomyIds)
+        }
+      }, error => {
+      })
   }
 
   showTaxonomyListToggle: boolean = false;
@@ -1379,6 +1525,7 @@ export class ConfigurationComponent implements OnInit {
     this.showTaxonomyListToggle = !this.showTaxonomyListToggle;
   }
   updateStatus(id: any) {
+    debugger
     this.licenseLookupService.updateConfigStatus(id).subscribe(response => {
       if (response.status) {
         this.dataService.showToast("Status updated Successfully ");
@@ -1518,6 +1665,21 @@ export class ConfigurationComponent implements OnInit {
       this.selectedTaxonomyIds = [];
     }
   }
+
+  mapAllToggle: boolean = false;
+  mapAllTaxonomy() {
+    this.mapAllToggle = !this.mapAllToggle;
+    this.selectedMappdTaxonomyIds = []
+
+    if(this.mapAllToggle){
+       // this.selectedTaxonomyIds.push(...this.lookupTaxonomyList.map(item => item.id));
+      this.selectedMappdTaxonomyIds.push(...this.allUnMappedTaxonomyIds);
+      
+    }
+    this.getMappedTaxonomy(this.type);
+   
+  }
+  
 
   openEditModalFromReport(){
     debugger

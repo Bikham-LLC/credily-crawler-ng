@@ -563,26 +563,52 @@
 
                                                         <div class="align-items-center d-flex mppedBtninner row">
                                                             <div class="col-4 d-flex">
-                                                                <p class="mb-0 mppedBtn" [ngClass]="{'mpactive':type=='mapped'}" (click)="getMappedTaxonomy('mapped')">
+                                                                <!-- <p class="mb-0 mppedBtn" [ngClass]="{'mpactive':type=='mapped'}" (click)="getMappedTaxonomy('mapped')">
                                                                     Mapped
                                                                 </p>
                                                                 <p class="mb-0 mppedBtn" [ngClass]="{'mpactive':type == 'unmapped'}" (click)="getMappedTaxonomy('unmapped')">
                                                                     Unmapped
+                                                                </p> -->
+
+                                                                <p class="mb-0 mppedBtn" [ngClass]="{'mpactive':type=='mapped'}" (click)="mapOrUnmapToggle('mapped')">
+                                                                    Mapped
                                                                 </p>
+                                                                <p class="mb-0 mppedBtn" [ngClass]="{'mpactive':type == 'unmapped'}" (click)="mapOrUnmapToggle('unmapped')">
+                                                                    Unmapped
+                                                                </p>
+
                                                             </div>
-                                                            <div *ngIf="!Constant.EMPTY_STRINGS.includes(lookupLink)" class="col-8 d-flex justify-content-end pointer" (click)="unmapAllTaxonomy($event)">
+                                                            <!-- <div *ngIf="!Constant.EMPTY_STRINGS.includes(lookupLink)" class="col-8 d-flex justify-content-end pointer" (click)="unmapAllTaxonomy($event)">
+                                                                <input type="checkbox" id="unmappedAll" name="unmappedAll" value="unmap">
+                                                                <label for="unmappedAll" style="margin-left: 5px;">Unmap All</label>
+                                                            </div> -->
+
+
+                                                            <div *ngIf="!Constant.EMPTY_STRINGS.includes(lookupLink) && type=='mapped'" class="col-8 d-flex justify-content-end pointer" (click)="unmapAllTaxonomy($event)">
                                                                 <input type="checkbox" id="unmappedAll" name="unmappedAll" value="unmap">
                                                                 <label for="unmappedAll" style="margin-left: 5px;">Unmap All</label>
                                                             </div>
+
+                                                            <div *ngIf="!Constant.EMPTY_STRINGS.includes(lookupLink) && type=='unmapped' " class="col-8 d-flex justify-content-end pointer" (click)="mapAllTaxonomy()">
+                                                                <input type="checkbox" id="mappedAll" name="mapAll" value="map">
+                                                                <label for="mappedAll" style="margin-left: 5px;">{{!mapAllToggle ? 'Map' : 'Remove'}} All</label>
+                                                            </div>
+
                                                         </div>
 
+                                                        <div *ngIf="!Constant.EMPTY_STRINGS.includes(lookupLink) && type=='unmapped' && selectedMappdTaxonomyIds.length > 0 " class="d-flex justify-content-end mb-1">
+                                                            <span class="mx-2">{{selectedMappdTaxonomyIds.length}} out of <b>{{totalLookupTaxonomy}}</b> items selected</span> 
+                                                            <span style="color: red; cursor: pointer;" (click)="clearSelection()">Clear</span>
+                                                        </div>
 
+                                                        <p *ngIf="!Constant.EMPTY_STRINGS.includes(lookupLink) && type=='mapped' && unMappedIds.length > 0 " class="text-end">{{unMappedIds.length}} out of <b>{{totalLookupTaxonomy}}</b> items removed</p>
+                                                          
                                                         <div class="reportListing" *ngIf="!loadingLookupTaxonomy && lookupTaxonomyList.length > 0" style="max-height: 250px;">
                                                             <table class="table table-hover">
                                                                 <thead>
                                                                     <tr>
                                                                         <th class="tableDead" style="width: 2%;">
-                                                                            
+                                                                            <input *ngIf="type == 'unmapped'" type="checkBox" (click)="selectAll()" [checked]="allselected" />
                                                                         </th>
                                                                         <th class="tableDead" style="width: 18%;">
                                                                             <p class="mb-0">Code</p>
@@ -599,7 +625,8 @@
                                                                     <tr *ngFor="let tax of lookupTaxonomyList; let i = index">
                                                                         <td class="tableData">
                                                                             <div class="text-ceter">
-                                                                                <input type="checkbox" class="form-check" [checked]="tax.checked" (click)="selectTaxonomySingle(i)">
+                                                                                <!-- <input type="checkbox" class="form-check" [checked]="tax.checked" (click)="selectTaxonomySingle(i)"> -->
+                                                                                <input type="checkBox" name="checkBox{{ i }}" id="checkBoxid{{ i }}"  (click)="selectSingle(tax, i)" [checked]="tax.checked" />
                                                                             </div>
                                                                         </td>
                                                                         <td class="tableData">
