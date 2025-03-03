@@ -14,6 +14,7 @@ export class Route {
     static RE_FETCH_REPORT = '/reports/re-fetch-report';
     static RPA_REPORT = '/reports/rpa-report';
     static NPDB_REPORT = '/reports/npdb-report';
+    static BULK_RERUN_MODULE = '/reports/bulk-rerun';
     static RPA_MODULE = '/rpa';
 
 }

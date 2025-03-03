@@ -16,6 +16,7 @@ import { FollowUpReportComponent } from './components/follow-up-report/follow-up
 import { ReFetchReportComponent } from './components/re-fetch-report/re-fetch-report.component';
 import { RpaReportComponent } from './components/rpa-report/rpa-report.component';
 import { NpdbReportComponent } from './components/npdb-report/npdb-report.component';
+import { BulkReRunComponent } from './components/bulk-re-run/bulk-re-run.component';
 
 
 
@@ -30,7 +31,8 @@ import { NpdbReportComponent } from './components/npdb-report/npdb-report.compon
         FollowUpReportComponent,
         ReFetchReportComponent,
         RpaReportComponent,
-        NpdbReportComponent
+        NpdbReportComponent,
+        BulkReRunComponent
        
     ],
     imports: [
