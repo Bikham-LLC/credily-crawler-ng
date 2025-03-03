@@ -830,3 +830,11 @@ li.breadcrumb-item a {
   opacity: 1;
   visibility: visible;
 }
+
+.wrapText {
+  max-width: 180px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}

@@ -124,6 +124,7 @@
                 <td>
                   {{obj.createdDate | date:'MM/dd/yyyy'}}
                 </td>
+
                 
                 <td class="text-nowrap">
                   <div class="tableinfo">
@@ -212,7 +213,7 @@
             </tbody>
           </table>
         </div>
-        <div class="paginationmain mt-5" *ngIf=" !fetchingReport && providerList.length >0">
+        <div class="paginationmain mt-5" *ngIf=" !fetchingReport && totalProviders >databaseHelper.itemsPerPage">
           <div class="d-flex align-items-center justify-content-between">
             <p class="currentshowing mb-0">
               Showing <span>{{providerList.length}}</span> of <span>{{totalProviders}}</span>
