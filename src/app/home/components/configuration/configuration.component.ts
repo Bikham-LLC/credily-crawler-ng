@@ -98,6 +98,7 @@ export class ConfigurationComponent implements OnInit {
         .subscribe(value => {
           this.databaseHelper.currentPage = 1;
           this.getMappedTaxonomy(this.type);
+          this.getUnMappedTaxonomyIds(this.type);
         });
   
         this.matchConfig.pipe(
@@ -442,6 +443,7 @@ export class ConfigurationComponent implements OnInit {
             }
           })
         }
+        this.getUnMappedTaxonomyIds('unmapped');
         this.getMappedTaxonomy(this.type);
       }
     }, error => {
@@ -460,6 +462,7 @@ export class ConfigurationComponent implements OnInit {
   selectStateName() {
     this.databaseHelper.currentPage = 1;
     this.getMappedTaxonomy(this.type);
+    this.getUnMappedTaxonomyIds(this.type);
   }
 
 
@@ -504,14 +507,14 @@ export class ConfigurationComponent implements OnInit {
       this.lookupTaxonomyList[i].checked = true;
       this.selectedMappdTaxonomyIds.push(event.id);
       this.mappedIds.push(event.id);
+      
+      const allChecked = this.lookupTaxonomyList.every((element: any) => element.checked === true);
+      this.allselected = allChecked;
 
-      if (this.selectedMappdTaxonomyIds.length == this.lookupTaxonomyList.length) {
-        this.allselected = true;
-      }
     }
 
-    console.log('selectedIds: ', this.selectedMappdTaxonomyIds)
-    console.log('unMappedIds: ', this.unMappedIds)
+    // console.log('selectedIds: ', this.selectedMappdTaxonomyIds)
+    // console.log('unMappedIds: ', this.unMappedIds)
   }
 
   selectAll() {
@@ -531,14 +534,20 @@ export class ConfigurationComponent implements OnInit {
       this.selectedMappdTaxonomyIds = [];
     }
     this.selectedMappdTaxonomyIds = Array.from(new Set(this.selectedMappdTaxonomyIds));
-    console.log('After SET Ids: ',this.selectedMappdTaxonomyIds)
+    // console.log('After SET Ids: ',this.selectedMappdTaxonomyIds)
 
   }
 
   
 clearSelection() {
+  debugger
   this.selectedMappdTaxonomyIds = [];
   this.allselected = false; 
+  // this.mapAllTaxonomy();
+  if(this.mapAllToggle){
+    this.mapAllTaxonomy();
+  }
+
   this.lookupTaxonomyList.forEach((element) => {
     element.checked = false; 
   });
@@ -1343,6 +1352,7 @@ clearSelection() {
     this.selectedTaxonomyIds = config.taxonomyId;
     this.getAttachmentType();
     this.getTaxonomyLink('');
+
     this.lookupModalButton.nativeElement.click();
   }
 
@@ -1422,12 +1432,11 @@ clearSelection() {
     this.unMappedIds = [];
     this.databaseHelper.currentPage = 1;
     this.allselected = false;
+    this.mapAllToggle = false;
+    
     this.getMappedTaxonomy(type);
 
-    if(type == 'unmapped'){
-      this.getUnMappedTaxonomyIds(type);
-    }
-
+    
   }
 
 
@@ -1471,50 +1480,16 @@ clearSelection() {
 
 
   selectedMappdTaxonomyIds: number[] = new Array();
-  getMappedTaxonomy1(type: string) {
-    debugger
-    this.type = type;
-    if (type == 'mapped' && this.selectedTaxonomyIds.length == 0) {
-      this.lookupTaxonomyList = [];
-      this.totalLookupTaxonomy = 0;
-      this.loadingLookupTaxonomy = false;
-      return;
-    }
-
-      this.loadingLookupTaxonomy = true;
-      this.licenseLookupService.getMappedTaxonomy(this.selectedTaxonomyIds, type, this.selectedStateName, this.databaseHelper).subscribe(response => {
-        if (response.status) {
-          this.lookupTaxonomyList = response.object.taxonomyList;
-
-          if (this.lookupTaxonomyList != undefined) {
-            this.lookupTaxonomyList.forEach((taxonomy, index) => {
-              // taxonomy.checked = this.selectedTaxonomyIds.includes(taxonomy.id);
-              taxonomy.checked = this.selectedMappdTaxonomyIds.includes(taxonomy.id);
-            });
-          } else {
-            // this.lookupTaxonomyList = []
-          }
-
-          this.totalLookupTaxonomy = response.object.totalItems;
-          if (type == 'mapped') {
-            this.lookupTaxonomyList.forEach(l => {
-              l.checked = true;
-            })
-          }
-        }
-        this.loadingLookupTaxonomy = false;
-      }, error => {
-        this.loadingLookupTaxonomy = false;
-      })
-  }
-
   allUnMappedTaxonomyIds: number[] = Array();
+  unMapTaxonomyLoading: boolean = false;
   getUnMappedTaxonomyIds(type: string) {
     debugger
+    this.unMapTaxonomyLoading = true;
       this.licenseLookupService.getUnMappedTaxonomyIds(this.selectedTaxonomyIds, type, this.selectedStateName, this.databaseHelper).subscribe(response => {
         if (response.status) {
           this.allUnMappedTaxonomyIds = response.object.unMappedIds;
-          console.log('unMappedTaxonomyIds: ',this.allUnMappedTaxonomyIds)
+          this.unMapTaxonomyLoading = false;
+          // console.log('unMappedTaxonomyIds: ',this.allUnMappedTaxonomyIds)
         }
       }, error => {
       })
@@ -1668,8 +1643,10 @@ clearSelection() {
 
   mapAllToggle: boolean = false;
   mapAllTaxonomy() {
+    debugger
     this.mapAllToggle = !this.mapAllToggle;
     this.selectedMappdTaxonomyIds = []
+    this.allselected = false;
 
     if(this.mapAllToggle){
        // this.selectedTaxonomyIds.push(...this.lookupTaxonomyList.map(item => item.id));

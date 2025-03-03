@@ -563,12 +563,6 @@
 
                                                         <div class="align-items-center d-flex mppedBtninner row">
                                                             <div class="col-4 d-flex">
-                                                                <!-- <p class="mb-0 mppedBtn" [ngClass]="{'mpactive':type=='mapped'}" (click)="getMappedTaxonomy('mapped')">
-                                                                    Mapped
-                                                                </p>
-                                                                <p class="mb-0 mppedBtn" [ngClass]="{'mpactive':type == 'unmapped'}" (click)="getMappedTaxonomy('unmapped')">
-                                                                    Unmapped
-                                                                </p> -->
 
                                                                 <p class="mb-0 mppedBtn" [ngClass]="{'mpactive':type=='mapped'}" (click)="mapOrUnmapToggle('mapped')">
                                                                     Mapped
@@ -589,8 +583,8 @@
                                                                 <label for="unmappedAll" style="margin-left: 5px;">Unmap All</label>
                                                             </div>
 
-                                                            <div *ngIf="!Constant.EMPTY_STRINGS.includes(lookupLink) && type=='unmapped' " class="col-8 d-flex justify-content-end pointer" (click)="mapAllTaxonomy()">
-                                                                <input type="checkbox" id="mappedAll" name="mapAll" value="map">
+                                                            <div *ngIf="!Constant.EMPTY_STRINGS.includes(lookupLink) && type=='unmapped' " class="col-8 d-flex justify-content-end pointer" >
+                                                                <input [disabled]="unMapTaxonomyLoading" class="pointer" type="checkbox" id="mappedAll" name="mapAll" [checked]="mapAllToggle" value="map" (click)="mapAllTaxonomy()">
                                                                 <label for="mappedAll" style="margin-left: 5px;">{{!mapAllToggle ? 'Map' : 'Remove'}} All</label>
                                                             </div>
 
