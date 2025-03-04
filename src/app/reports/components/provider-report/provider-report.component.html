@@ -124,6 +124,7 @@
                 <td>
                   {{obj.createdDate | date:'MM/dd/yyyy'}}
                 </td>
+
                 
                 <td class="text-nowrap">
                   <div class="tableinfo">
@@ -212,7 +213,7 @@
             </tbody>
           </table>
         </div>
-        <div class="paginationmain mt-5" *ngIf=" !fetchingReport && providerList.length >0">
+        <div class="paginationmain mt-5" *ngIf=" !fetchingReport && totalProviders >databaseHelper.itemsPerPage">
           <div class="d-flex align-items-center justify-content-between">
             <p class="currentshowing mb-0">
               Showing <span>{{providerList.length}}</span> of <span>{{totalProviders}}</span>
@@ -534,8 +535,7 @@
 </div>
 
 <!-- show image modal -->
-<button type="button" #openSnapshotModalButton id="openSnapshotModalButton" class="d-none" data-bs-toggle="modal"
-  data-bs-target="#showImageModal"></button>
+<button type="button" #openSnapshotModalButton id="openSnapshotModalButton" class="d-none" data-bs-toggle="modal" data-bs-target="#showImageModal"></button>
 <div class="modal blur-bg-2" id="showImageModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false"
   aria-labelledby="shareModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" style="max-width:95%;">
