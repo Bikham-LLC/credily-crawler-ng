@@ -386,77 +386,6 @@ input[type="file"] {
 
 /* delete model button css end */
 
-.aistatusinactive {
-  display: inline-block;
-  background-color: #f7dede;
-  border-radius: 6px;
-  font-weight: 500;
-  font-size: 15px;
-  line-height: 18px;
-  text-align: center;
-  color: #810606;
-  padding: 4px 13px;
-}
-
-.aistatusactive {
-  display: inline-block;
-  background-color: #def7ec;
-  border-radius: 6px;
-  font-weight: 500;
-  font-size: 15px;
-  line-height: 18px;
-  text-align: center;
-  color: #03543f;
-  padding: 3px 14px;
-}
-
-.aistatuspending {
-  display: inline-block;
-  background-color: #fff3c3;
-  border-radius: 6px;
-  font-weight: 400;
-  font-size: 15px;
-  line-height: 19px;
-  text-align: center;
-  color: #ffc107;
-  padding: 3px 14px;
-}
-
-.aistatusLogRequired {
-  display: inline-block;
-  background-color: #c0c5bc;
-  border-radius: 6px;
-  font-weight: 400;
-  font-size: 15px;
-  line-height: 19px;
-  text-align: center;
-  color: white;
-  padding: 3px 14px;
-}
-
-.aistatusAwaitQueue {
-  display: inline-block;
-  background-color: mistyrose;
-  border-radius: 6px;
-  font-weight: 400;
-  font-size: 15px;
-  line-height: 19px;
-  text-align: center;
-  color: white;
-  padding: 3px 14px;
-}
-
-.aistatusInQueue {
-  display: inline-block;
-  background-color: #a1dbf3;
-  border-radius: 6px;
-  font-weight: 400;
-  font-size: 15px;
-  line-height: 19px;
-  text-align: center;
-  color: white;
-  padding: 3px 14px;
-}
 
 .is-read {
   border: 1px solid #ed7e7e;
@@ -480,10 +409,7 @@ input[type="file"] {
   padding: 0px 5px 1px;
 }
 
-.statusinprocess,
-.statusinawait,
-.statusinqueue,
-.reRunStatus {
+.cStatusCompleted {
   display: inline-block;
   border-radius: 6px;
   font-weight: 500;
@@ -493,23 +419,6 @@ input[type="file"] {
   padding: 4px 13px;
 }
 
-.statusinprocess {
-  background-color: #81b05c;
-  color: #810606;
-}
-.statusinawait {
-  background-color: #af6e5e;
-  color: #810606;
-}
-.statusinqueue {
-  background-color: #65949e;
-  color: #810606;
-}
-
-.reRunStatus {
-  background-color: cornsilk;
-  /* color: black; */
-}
 
 /* FIlter Btn */
 

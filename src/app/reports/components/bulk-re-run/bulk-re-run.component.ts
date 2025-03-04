@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { debounce, set } from 'lodash';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
+import { Constant } from 'src/app/models/Constant';
 import { DatabaseHelper } from 'src/app/models/DatabaseHelper';
 import { Route } from 'src/app/models/Route';
 import { DataService } from 'src/app/services/data.service';
@@ -15,6 +16,7 @@ import { ReportService } from 'src/app/services/report.service';
   styleUrls: ['./bulk-re-run.component.css']
 })
 export class BulkReRunComponent implements OnInit {
+  readonly Constant = Constant;
 
   databaseHelper: DatabaseHelper = new DatabaseHelper();
   sourceList: any;
@@ -161,6 +163,7 @@ export class BulkReRunComponent implements OnInit {
       this.p = 1;
       this.databaseHelper.currentPage = this.p;
     }
+
 //  this.crawlerLogList = [];
     this.reportService.getReRunProviderReport(this.databaseHelper, this.dataService.startDate, this.dataService.endDate,
       this.sourceList, this.licenseList, this.clientList, this.providerList, this.dataService.isLiveAccount).subscribe((res: any) => {
@@ -180,7 +183,6 @@ export class BulkReRunComponent implements OnInit {
       }, error => {
         this.fetchingReport = false
       });
-
   }
 
   crawlerLogTotalCount: any
@@ -224,7 +226,6 @@ export class BulkReRunComponent implements OnInit {
   getDistinctClients() {
     debugger
     this.reportService.getDistinctClients(this.clientSearch).subscribe((res: any) => {
-      // this.distinctClients = res;
       this.distinctClients = new Set(res);
     })
   }
@@ -485,6 +486,8 @@ export class BulkReRunComponent implements OnInit {
       } else {
         console.error(`Bulk re-run failed`);
       }
+      this.refreshData();
+      this.selectedItemList = [];
     })
   }
 
@@ -500,11 +503,51 @@ export class BulkReRunComponent implements OnInit {
       } else {
         console.error(`re-run failed`);
       }
+      this.refreshData();
     })
   }
 
   clearSearch() {
     this.databaseHelper.search = '';
     this.search.next('');
+  }
+
+  // @ViewChild('closeLogsButton') closeLogsButton!:ElementRef;
+  // closeLogModel(){
+  //   this.closeLogsButton.nativeElement.click();
+  // }
+  
+  @ViewChild('openSnapshotModalButton') openSnapshotModalButton !: ElementRef;
+  imageUrl:string='';
+  imageLoadingToggle:boolean = false;
+  imageName:string='';
+  imageExtension:string='';
+  viewSnapshot(url:string, imageName:string){
+    debugger
+    // this.handleRenderPdf();
+    this.imageName = imageName;
+    this.imageLoadingToggle = true;
+    this.imageUrl = url;
+    this.imageExtension = this.getFileExtension(url);
+    this.openSnapshotModalButton.nativeElement.click();
+
+    console.log("Ext: ",this.imageExtension)
+
+    // this.closeLogsButton.nativeElement.click();
+    setTimeout(()=>{
+      this.imageLoadingToggle = false;
+    },1000)
+    // this.openSnapshotModalButton.nativeElement.click();
+  }
+
+  getFileExtension(url: string): string {
+    const match = url.match(/\.([a-zA-Z0-9]+)(?:\?|$)/);
+    return match ? match[1] : '';
+  }
+
+  @ViewChild('closeSnapshotModalButton') closeSnapshotModalButton !: ElementRef;
+  closeSnapshotModal(){
+    this.closeSnapshotModalButton.nativeElement.click();
+    // this.viewLogsButton.nativeElement.click();
   }
 }
