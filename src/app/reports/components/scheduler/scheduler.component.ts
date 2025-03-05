@@ -11,11 +11,11 @@ import { HeaderSubscriptionService } from 'src/app/services/header-subscription.
 import { ReportService } from 'src/app/services/report.service';
 
 @Component({
-  selector: 'app-bulk-re-run',
-  templateUrl: './bulk-re-run.component.html',
-  styleUrls: ['./bulk-re-run.component.css']
+  selector: 'app-scheduler',
+  templateUrl: './scheduler.component.html',
+  styleUrls: ['./scheduler.component.css']
 })
-export class BulkReRunComponent implements OnInit {
+export class SchedulerComponent implements OnInit {  
   readonly Constant = Constant;
 
   databaseHelper: DatabaseHelper = new DatabaseHelper();
@@ -24,12 +24,12 @@ export class BulkReRunComponent implements OnInit {
   licenseList: any;
   providerList: any;
   statusList: any;
-  aiStatus: any;
+  aiStatusList: any;
   search = new Subject<string>();
 
-  // cSearch = new Subject<string>();
-  // pSearch = new Subject<string>();
-  // lSearch = new Subject<string>();
+  cSearch = new Subject<string>();
+  pSearch = new Subject<string>();
+  lSearch = new Subject<string>();
 
   fetchingReport: boolean = false;
 
@@ -66,7 +66,6 @@ export class BulkReRunComponent implements OnInit {
     this.getDistinctClients();
     this.getDistinctLicenses();
     this.getDistinctProviders();
-    this.getDistinctStatus();
     this.refreshData();
   }
 
@@ -86,14 +85,6 @@ export class BulkReRunComponent implements OnInit {
   shoFilterToggleSource: boolean = false;
   shoFilterSource() {
     this.shoFilterToggleSource = !this.shoFilterToggleSource;
-  }
-  shoFilterToggleStatus: boolean = false;
-  shoFilterStatus() {
-    this.shoFilterToggleStatus = !this.shoFilterToggleStatus;
-  }
-  shoFilterToggleAiStatus: boolean = false;
-  shoFilterAiStatus() {
-    this.shoFilterToggleAiStatus = !this.shoFilterToggleAiStatus;
   }
 
   allChecked: boolean = false;
@@ -117,6 +108,7 @@ export class BulkReRunComponent implements OnInit {
         }
       }
     });
+    console.log("selected items", this.selectedItemList)
   }
 
   onSelectRow(event: Event, item: any) {
@@ -134,6 +126,7 @@ export class BulkReRunComponent implements OnInit {
       }
     }
     this.allChecked = this.crawlerLogList.every(i => i.selected);
+    console.log("selected items", this.selectedItemList)
   }
   onSelectAll() {
     this.allChecked = true;
@@ -141,6 +134,8 @@ export class BulkReRunComponent implements OnInit {
     this.crawlerLogList.forEach((e: any) => {
       e.selected = true;
     });
+    console.log("selected items", this.selectedItemList)
+
   }
 
   clearSelection() {
@@ -153,7 +148,6 @@ export class BulkReRunComponent implements OnInit {
 
   crawlerLogList: any[] = new Array();
   getProviderCrawlerlog(isPageChange: number) {
-    debugger
     this.fetchingReport = true;
     this.databaseHelper.currentPage = this.p;
     if (!this.pageToggle) {
@@ -162,7 +156,7 @@ export class BulkReRunComponent implements OnInit {
     }
 
     this.reportService.getReRunProviderReport(this.databaseHelper, this.dataService.startDate, this.dataService.endDate,
-      this.sourceList, this.licenseList, this.clientList, this.providerList, this.statusList, this.aiStatus, this.dataService.isLiveAccount).subscribe((res: any) => {
+      this.sourceList, this.licenseList, this.clientList, this.providerList, this.statusList, this.aiStatusList, this.dataService.isLiveAccount).subscribe((res: any) => {
         this.pageToggle =  false;
         this.crawlerLogList = res;
 
@@ -184,7 +178,7 @@ export class BulkReRunComponent implements OnInit {
   crawlerLogTotalCount: any
   getPoviderCrawlerLogCount() {
     this.reportService.getReRunProviderReportCount(this.databaseHelper, this.dataService.startDate, this.dataService.endDate,
-      this.sourceList, this.licenseList, this.clientList, this.providerList, this.statusList, this.aiStatus, this.dataService.isLiveAccount).subscribe((res: any) => {
+      this.sourceList, this.licenseList, this.clientList, this.providerList, this.statusList, this.aiStatusList,  this.dataService.isLiveAccount).subscribe((res: any) => {
         this.crawlerLogTotalCount = res;
       })
   }
@@ -192,10 +186,16 @@ export class BulkReRunComponent implements OnInit {
   providerCrawlerIdList: number[] = new Array();
   getAllProviderCrawlerId() {
     this.reportService.getAllReRunProviderId(this.databaseHelper, this.dataService.startDate, this.dataService.endDate,
-      this.sourceList, this.licenseList, this.clientList, this.providerList, this.statusList, this.aiStatus, this.dataService.isLiveAccount).subscribe((res: any) => {
+      this.sourceList, this.licenseList, this.clientList, this.providerList, this.statusList, this.aiStatusList,  this.dataService.isLiveAccount).subscribe((res: any) => {
         this.providerCrawlerIdList = res;
       })
   }
+
+  // getByDate(){
+  //   this.providerList=[];
+  //   suhgfsiue="";
+  //   getList();
+  // }
   p: number = 1;
   pageToggle: boolean = false
   pageChanged(event: any) {
@@ -208,8 +208,7 @@ export class BulkReRunComponent implements OnInit {
   distinctClients: Set<string> = new Set();
   distinctLicenses: Set<string> = new Set();
   distinctProviders: Set<string> = new Set();
-  distinctStatus: Set<string> = new Set();
-  
+
   clientSearch: any
   providerSearch: any
   licenseSearch: any
@@ -232,13 +231,6 @@ export class BulkReRunComponent implements OnInit {
       this.distinctProviders = new Set(res);
     })
   }
-
-  getDistinctStatus() {
-    this.reportService.getDistinctStatus().subscribe((res: any) => {
-      this.distinctStatus = new Set(res);
-    })
-  }
-
 
   selectedClients: Set<string> = new Set();
   allClientChecked: boolean = false
@@ -334,26 +326,6 @@ export class BulkReRunComponent implements OnInit {
     }
   }
 
-  selectedStatus: Set<string> = new Set();
-  onSelectStatus(event: Event, status: string) {
-    const checked = (event.target as HTMLInputElement).checked;
-    if(checked) {
-      this.selectedStatus.add(status);
-    } else {
-      this.selectedStatus.delete(status);
-    }
-  }
-
-  selectedAiStatus: Set<string> = new Set();
-  onSelectAiStatus(event: Event, aiStatus: string) {
-    const checked = (event.target as HTMLInputElement).checked;
-    if(checked) {
-      this.selectedAiStatus.add(aiStatus);
-    } else {
-      this.selectedAiStatus.delete(aiStatus);
-    }
-  }
-
   refreshData() {
     this.getProviderCrawlerlog(0);
     this.getAllProviderCrawlerId();
@@ -361,14 +333,14 @@ export class BulkReRunComponent implements OnInit {
   }
 
   appliedFilters: string[] = [];
+
+
   updateAppliedFilters() {
     this.appliedFilters = [
       ...Array.from(this.selectedClients).map(client => `C: ${client}`),
       ...Array.from(this.selectedLicenses).map(license => `L: ${license}`),
       ...Array.from(this.selectedProviders).map(provider => `P: ${provider}`),
-      ...Array.from(this.selectedSources).map(source => `V: ${source}`),
-      ...Array.from(this.selectedStatus).map(status => `S: ${status}`),
-      ...Array.from(this.selectedAiStatus).map(aiStatus => `Ai: ${aiStatus}`)
+      ...Array.from(this.selectedSources).map(source => `S: ${source}`)
     ];
   }
 
@@ -385,18 +357,10 @@ export class BulkReRunComponent implements OnInit {
       const provider = filter.replace("P: ", "");
       this.selectedProviders.delete(provider);
       this.providerList = Array.from(this.selectedProviders);
-    } else if (filter.startsWith("V: ")) {
-      const source = filter.replace("V: ", "");
+    } else if (filter.startsWith("S: ")) {
+      const source = filter.replace("S: ", "");
       this.selectedSources.delete(source);
       this.sourceList = Array.from(this.selectedSources);
-    } else if (filter.startsWith("S: ")) {
-      const status = filter.replace("S: ", "");
-      this.selectedStatus.delete(status);
-      this.statusList = Array.from(this.selectedStatus);
-    } else if (filter.startsWith("Ai: ")) {
-      const aiStatus = filter.replace("Ai: ", "");
-      this.selectedAiStatus.delete(aiStatus);
-      this.aiStatus = Array.from(this.selectedAiStatus);
     }
 
     this.updateAppliedFilters();
@@ -477,53 +441,20 @@ export class BulkReRunComponent implements OnInit {
     this.refreshData();
   }
 
-  applyStatusFilter() {
-    this.statusList = Array.from(this.selectedStatus);
-    this.updateAppliedFilters();
-    this.refreshData();
-    this.shoFilterToggleStatus = !this.shoFilterToggleStatus;
-  }
-
-  resetStatusFilter() {
-    this.selectedStatus.clear();
-    this.statusList = [];
-    this.updateAppliedFilters();
-    this.refreshData();
-  }
-
-  applyAiStatusFilter() {
-    if (!this.selectedAiStatus.has('yes') && !this.selectedAiStatus.has('no')) {
-      this.aiStatus = null;
-    }
-    this.aiStatus = Array.from(this.selectedAiStatus);
-    this.updateAppliedFilters();
-    this.refreshData();
-    this.shoFilterToggleAiStatus = !this.shoFilterToggleAiStatus;
-  }
-
-  resetAiStatusFilter() {
-    this.selectedAiStatus.clear();
-    this.aiStatus = [];
-    this.updateAppliedFilters();
-    this.refreshData();
-  }
-
   resetCLPSFilters() {
     this.selectedClients = new Set<string>();
     this.selectedProviders = new Set<string>();
     this.selectedLicenses = new Set<string>();
     this.selectedSources = new Set<string>();
-    this.selectedAiStatus = new Set<string>();
-    this.selectedStatus = new Set<string>();
     this.clientList = [];
     this.providerList = [];
     this.licenseList = [];
     this.sourceList = [];
-    this.statusList = [];
-    this.aiStatus = [];
     this.updateAppliedFilters();
     this.refreshData();
   }
+
+  // isbulkRunDisable= true
 
   isBulkReRunLoading: boolean = false;
   bulkReRunProvider() {
@@ -562,6 +493,11 @@ export class BulkReRunComponent implements OnInit {
     this.databaseHelper.search = '';
     this.search.next('');
   }
+
+  // @ViewChild('closeLogsButton') closeLogsButton!:ElementRef;
+  // closeLogModel(){
+  //   this.closeLogsButton.nativeElement.click();
+  // }
   
   @ViewChild('openSnapshotModalButton') openSnapshotModalButton !: ElementRef;
   imageUrl:string='';
@@ -583,7 +519,7 @@ export class BulkReRunComponent implements OnInit {
     setTimeout(()=>{
       this.imageLoadingToggle = false;
     },1000)
-    this.openSnapshotModalButton.nativeElement.click();
+    // this.openSnapshotModalButton.nativeElement.click();
   }
 
   getFileExtension(url: string): string {

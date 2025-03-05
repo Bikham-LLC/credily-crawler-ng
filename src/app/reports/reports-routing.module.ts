@@ -11,6 +11,7 @@ import { ReFetchReportComponent } from './components/re-fetch-report/re-fetch-re
 import { RpaReportComponent } from './components/rpa-report/rpa-report.component';
 import { NpdbReportComponent } from './components/npdb-report/npdb-report.component';
 import { BulkReRunComponent } from './components/bulk-re-run/bulk-re-run.component';
+import { SchedulerComponent } from './components/scheduler/scheduler.component';
 
 const routes: Routes = [{ 
   path: '', component: ReportsComponent,
@@ -25,6 +26,7 @@ const routes: Routes = [{
     {path: 'rpa-report', component: RpaReportComponent},
     {path: 'npdb-report', component: NpdbReportComponent},
     {path: 'bulk-rerun', component: BulkReRunComponent},
+    {path: 'scheduler', component: SchedulerComponent},
   ] 
 
 }];

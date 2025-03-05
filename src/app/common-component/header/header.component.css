@@ -537,3 +537,15 @@ span.removeSteps {
   opacity: 1;
   visibility: visible;
 }
+
+.subMenuCard::after {
+  content: '\F285';
+  position: absolute;
+  right: 8px;
+  top: 10px;
+  font-size: 10px;
+  font-family: 'bootstrap-icons';
+}
+.subMenuCard:hover::after{
+  color: #fff;
+}

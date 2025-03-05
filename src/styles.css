@@ -736,6 +736,12 @@ li.breadcrumb-item a {
   filter: drop-shadow(0px 8px 10px rgba(0, 0, 0, 0.1));
   z-index: 999;
 }
+.filteStart {
+  left: -100px;
+}
+.filteStart2 {
+  left: -200px;
+}
 .filter-pills {
   line-height: 18px;
   color: var(--primary-color);
@@ -844,8 +850,11 @@ li.breadcrumb-item a {
 .aistatuspending,
 .aistatusLogRequired,
 .aistatusAwaitQueue,
-.aistatusInQueue
-.aistatusBulkRerun{
+.aistatusInQueue,
+.aistatusBulkRerun,
+.aistatusConfigError,
+.statusNoRecord
+{
   display: inline-block;
   border-radius: 6px;
   font-weight: 500;
@@ -883,4 +892,19 @@ li.breadcrumb-item a {
 .aistatusInQueue {
   background-color: #a1dbf3;
   color: #ffffff;
+}
+
+.aistatusBulkRerun {
+  background-color: #cfe8ff;
+  color: #038aff;
+}
+
+.aistatusConfigError {
+  background-color: #d4cdcd;
+  color: #d62a2a;
+}
+
+.statusNoRecord{
+  background-color: #cfe8ff;
+  color: #21231c;
 }

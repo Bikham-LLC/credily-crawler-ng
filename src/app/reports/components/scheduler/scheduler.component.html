@@ -8,19 +8,24 @@
                         <i class="bi bi-chevron-compact-right"></i>
                     </li>
                     <li class="breadcrumb-item">
-                        <a class="text-decoration-none">Bulk Re-run</a>
+                        <a class="text-decoration-none">Scheduler</a>
                     </li>
                 </ol>
             </nav>
         </div>
     </div>
     <div class="row align-items-center justify-content-between mt-2 mb-2">
-        <div class="col-lg-4">
-            <h3 class="mb-0 fs-16">Bulk Re-run</h3>
+        <div class="col-lg-6">
+            <!-- <h3 class="mb-0 fs-16">Scheduler</h3> -->
+            <div class=" gap-2 d-flex justify-content-start align-items-start">
+                <button class="btn mt-2 primarybtn">Scheduler</button>
+                <button class="btn mt-2 secondaryBtn">Onboarding </button>
+                <button class="btn mt-2 secondaryBtn">Updation</button>
+            </div>
         </div>
-        <div class="col-lg-8">
+        <div class="col-lg-6">
             <div class="d-flex justify-content-end align-items-center gap-2">
-                <div class="position-relative w-25">
+                <div class="position-relative w-50">
                     <input id="searchname" name="searchname" placeholder="Search" class="form-control"
                         style="padding:0px 15px 0px 38px" [(ngModel)]="databaseHelper.search"
                         (ngModelChange)="this.search.next($event)" />
@@ -32,18 +37,13 @@
                     </button>
                 </div>
 
-                <div class="position-relative">
-                    <button class="btn primaryBtn" (click)="bulkReRunProvider()"
-                        [disabled]="isBulkReRunLoading || selectedItemList.length == 0">
-                        <span *ngIf="isBulkReRunLoading" class="spinner-border spinner-border-sm me-2"></span>
-                        Bulk Re-run</button>
-                </div>
+                
 
-                <div class="position-relative">
-                    <!-- <angular2-multiselect id="statusSelectBox" name="statusSelectBox"  required>
-              </angular2-multiselect>  -->
-                    <!-- <button class="btn text-bg-danger">Delete</button> -->
-                </div>
+                <!-- <div class="position-relative">
+                    <angular2-multiselect id="statusSelectBox" name="statusSelectBox"  required>
+              </angular2-multiselect> 
+                    <button class="btn text-bg-danger">Delete</button>
+                </div> -->
 
             </div>
         </div>
@@ -56,7 +56,7 @@
                     <div class="filter-bdg d-flex align-items-center gap-2">
                         <p class="filter-pills d-flex align-items-centar gap-2 pointer"
                             *ngFor="let filter of appliedFilters">
-                            {{filter == 'S: V2' ? 'S: Credily' : filter == 'S: V3' ? 'S: PP' : filter == 'Ai: yes' ? 'Ai: Completed' : filter == 'Ai: no' ? 'Ai: Error' : filter}}
+                            {{filter == 'S: V2' ? 'S: Credily' : filter == 'S: V3' ? 'S: PP' : filter}}
                             <i class="bi bi-x-lg iconBold lh-sm pointer vertical-middle"
                                 (click)="removeFilter(filter)"></i>
                         </p>
@@ -413,117 +413,8 @@
                             </div>
                         </th>
                         <th style="min-width: 130px;">License Number</th>
-                        <!-- <th class="text-center" style="min-width: 100px">Status</th> -->
-                        <th style="min-width: 100px;">
-                            <div class="d-flex justify-content-between align-items-center w-100 ">
-                                Status
-                                <div class="table-filterBtn position-relative">
-                                    <button type="button" id="statusDropdown" class="border-0 btn p-0 shadow-none"
-                                        (click)="shoFilterStatus()">
-                                        <i class="bi bi-sliders fs-10 m-0 iconBold"></i>
-                                    </button>
-                                    <div class="not-assign-filter p-0 border position-absolute bg-white filteStart"
-                                        *ngIf="shoFilterToggleStatus">
-                                        <div
-                                            class="d-flex align-items-center justify-content-between border-bottom p-3">
-                                            <h5 class="fs-14 mb-0 text-dark">Status Filter</h5>
-                                            <span class="pointer lh-1" (click)="shoFilterStatus()">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="19"
-                                                    viewBox="0 0 18 19" fill="none">
-                                                    <g opacity="0.8">
-                                                        <mask id="mask0_7729_258" style="mask-type:alpha"
-                                                            maskUnits="userSpaceOnUse" x="0" y="0" width="18"
-                                                            height="19">
-                                                            <rect y="0.5" width="18" height="18" fill="#D9D9D9" />
-                                                        </mask>
-                                                        <g mask="url(#mask0_7729_258)">
-                                                            <path
-                                                                d="M4.8 14.75L3.75 13.7L7.95 9.5L3.75 5.3L4.8 4.25L9 8.45L13.2 4.25L14.25 5.3L10.05 9.5L14.25 13.7L13.2 14.75L9 10.55L4.8 14.75Z"
-                                                                fill="#1C1B1F" />
-                                                        </g>
-                                                    </g>
-                                                </svg>
-                                            </span>
-                                        </div>
-                                        <div class="row p-3">
-                                            <div class="col-lg-12 filterScroll noscrollbar">
-                                                <div class="categories-filter mb-3 form-check d-flex align-items-center gap-2 mb-2"
-                                                *ngFor="let status of distinctStatus; let i = index">
-                                                <input type="checkbox" class="form-check-input" id="{{i}}"
-                                                    name="attd-filter" [checked]="selectedStatus.has(status)"
-                                                    (change)="onSelectStatus($event, status)">
-                                                <label class="form-check-label fw-normal fs-14 text-dark"
-                                                    for="{{i}}">{{status}}</label>
-                                            </div>
-                                            </div>
-                                        </div>
-                                        <div class="p-2 border-top d-flex gap-2 align-items-center justify-content-end">
-                                            <button class="btn secondaryBtn" (click)="resetStatusFilter()">Reset it</button>
-                                            <button class="btn primarybtn" (click)="applyStatusFilter()">Apply</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </th>
-                        <th style="min-width: 100px;">
-                            <div class="d-flex justify-content-between align-items-center w-100 ">
-                                AI
-                                <div class="table-filterBtn position-relative">
-                                    <button type="button" id="statusDropdown" class="border-0 btn p-0 shadow-none"
-                                        (click)="shoFilterAiStatus()">
-                                        <i class="bi bi-sliders fs-10 m-0 iconBold"></i>
-                                    </button>
-                                    <div class="not-assign-filter p-0 border position-absolute bg-white filteStart2"
-                                        *ngIf="shoFilterToggleAiStatus">
-                                        <div
-                                            class="d-flex align-items-center justify-content-between border-bottom p-3">
-                                            <h5 class="fs-14 mb-0 text-dark">AI Status Filter</h5>
-                                            <span class="pointer lh-1" (click)="shoFilterAiStatus()">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="19"
-                                                    viewBox="0 0 18 19" fill="none">
-                                                    <g opacity="0.8">
-                                                        <mask id="mask0_7729_258" style="mask-type:alpha"
-                                                            maskUnits="userSpaceOnUse" x="0" y="0" width="18"
-                                                            height="19">
-                                                            <rect y="0.5" width="18" height="18" fill="#D9D9D9" />
-                                                        </mask>
-                                                        <g mask="url(#mask0_7729_258)">
-                                                            <path
-                                                                d="M4.8 14.75L3.75 13.7L7.95 9.5L3.75 5.3L4.8 4.25L9 8.45L13.2 4.25L14.25 5.3L10.05 9.5L14.25 13.7L13.2 14.75L9 10.55L4.8 14.75Z"
-                                                                fill="#1C1B1F" />
-                                                        </g>
-                                                    </g>
-                                                </svg>
-                                            </span>
-                                        </div>
-                                        <div class="row p-3">
-                                            <div class="col-lg-12 filterScroll noscrollbar">
-                                                <div
-                                                    class="categories-filter mb-3 form-check d-flex align-items-center gap-2 mb-2">
-                                                    <input type="checkbox" class="form-check-input" id="V2"
-                                                        name="attd-filter" [checked]="selectedAiStatus.has('yes')"
-                                                        (change)="onSelectAiStatus($event, 'yes')">
-                                                    <label class="form-check-label fw-normal fs-14 text-dark"
-                                                        for="V2">Completed</label>
-                                                </div>
-                                                <div
-                                                    class="categories-filter mb-3 form-check d-flex align-items-center gap-2 mb-2">
-                                                    <input type="checkbox" class="form-check-input" id="V3"
-                                                        name="attd-filter" [checked]="selectedAiStatus.has('no')"
-                                                        (change)="onSelectAiStatus($event, 'no')">
-                                                    <label class="form-check-label fw-normal fs-14 text-dark"
-                                                        for="V3">Error</label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="p-2 border-top d-flex gap-2 align-items-center justify-content-end">
-                                            <button class="btn secondaryBtn" (click)="resetAiStatusFilter()">Reset it</button>
-                                            <button class="btn primarybtn" (click)="applyAiStatusFilter()">Apply</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </th>
+                        <th class="text-center" style="min-width: 100px">Status</th>
+                        <th style="min-width: 100px">AI</th>
                         <th class=" text-center" style="min-width: 100px;">Action</th>
                     </tr>
 
@@ -568,37 +459,46 @@
                         </td>
 
                         <td class="text-center">
-                           
+                            <!-- aistatusinactive,
+                                .aistatusactive,
+                                .aistatuspending,
+                                .aistatusLogRequired,
+                                .aistatusAwaitQueue,
+                                .aistatusInQueue -->
                             <span class="fs-10" [ngClass]="{
                                     'aistatusactive': crawlerLog.crawlerStatus.toUpperCase() == 'COMPLETED', 
                                     'aistatuspending': crawlerLog.crawlerStatus.toUpperCase() == 'PENDING', 
                                     'aistatusinactive': crawlerLog.crawlerStatus.toUpperCase() == 'ERROR', 
                                     'aistatusInQueue': crawlerLog.crawlerStatus.toUpperCase() == 'LICENSE CONFIG NOT FOUND',
                                     'aistatusLogRequired': crawlerLog.crawlerStatus.toUpperCase() == 'BOARD CONFIG NOT FOUND',
-                                    'aistatusBulkRerun': crawlerLog.crawlerStatus.toUpperCase() == 'BULK-RE-RUN',
-                                    'aistatusConfigError': crawlerLog.crawlerStatus.toUpperCase() == 'CONFIG ERROR',
-                                    'statusNoRecord': crawlerLog.crawlerStatus.toUpperCase() == 'NO RECORD'
+                                    'aistatusBulkRerun': crawlerLog.crawlerStatus.toUpperCase() == 'BULK-RE-RUN'
                                 }">
                                 {{crawlerLog.crawlerStatus}}
                             </span>
 
                         </td>
                         <td>
-
-                            <span [ngClass]="{'aistatusactive': crawlerLog.verificationStatus == 'yes', 'aistatusinactive': crawlerLog.verificationStatus != 'yes'}"
-                            class="mx-auto"
-                                    [ngbTooltip]="crawlerLog.verificationLog ?? 'No Description'">
-                                    <i class="bi bi-check2-circle"></i>
-                            </span>
-
-                            
+                            <div class="tableinfo text-center">
+                                <span class="mx-auto aistatusactive"
+                                    [ngbTooltip]="crawlerLog.verificationLog ? crawlerLog.verificationLog: 'No Description'"
+                                    *ngIf="crawlerLog.verificationStatus == 1"><i
+                                        class="bi bi-check2-circle"></i></span>
+                                <span class="mx-auto aistatusinactive"
+                                    [ngbTooltip]="crawlerLog.verificationLog ? crawlerLog.verificationLog: 'No Description'"
+                                    *ngIf="crawlerLog.verificationStatus == 0"><i
+                                        class="bi bi-check2-circle"></i></span>
+                                <span class="mx-auto aistatusinactive"
+                                    [ngbTooltip]="crawlerLog.verificationLog ? crawlerLog.verificationLog: 'No Description'"
+                                    *ngIf="crawlerLog.verificationStatus == 2"><i
+                                        class="bi bi-check2-circle"></i></span>
+                            </div>
                         </td>
                         <td>
                             <div
                                 class="tableinfo text-nowrap d-flex align-items-center justify-content-end gap-2 pointer">
                                 <!-- <button  class="blkBtn btn btn-outline-light" >
                                             <i class="bi bi-link text-dark "></i>
-                                    </button> -->
+                                        </button> -->
 
                                 <button class="blkBtn btn btn-outline-light"
                                     (click)="singleReRunProvider(crawlerLog.crawlerLogId)"
@@ -608,13 +508,11 @@
                                     <i *ngIf="!(crawlerLog.crawlerLogId == logId && isSingleReRunLoading)"
                                         class="bi bi-arrow-clockwise text-dark "></i>
                                 </button>
-                                
 
                                 <button ngbTooltip="View" class="btn btn-light btn-outline-light"
                                     (click)="viewSnapshot(crawlerLog.snapShotUrl, crawlerLog.licenseName)">
                                     <i class="bi bi-eye text-dark" style="font-size: 16px;"></i>
                                 </button>
-                                
                                 <!--container-->
                                 <!-- <button  class="blkBtn btn btn-outline-light" ><i class="bi bi-upload text-dark"></i></button> -->
 

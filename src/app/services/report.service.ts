@@ -382,7 +382,7 @@ export class ReportService {
     return this.http.patch<any>(this.key.server_url + this.key.api_version_one + this.key.report + '/ocr-data', myMap, { params });
   }
 
-  getReRunProviderReport(databaseHelper: DatabaseHelper, startDate: any, endDate: any, version: string, licenseList: any, clientList: any, providerList: any, isLive: number): Observable<any> {
+  getReRunProviderReport(databaseHelper: DatabaseHelper, startDate: any, endDate: any, version: string, licenseList: any, clientList: any, providerList: any, statusList: any, aiStatus: any, isLive: number): Observable<any> {
     if (databaseHelper == undefined || databaseHelper == null) {
       databaseHelper = new DatabaseHelper();
     }
@@ -407,11 +407,17 @@ export class ReportService {
     if (providerList != null) {
       params = params.set('providerList', providerList)
     }
+    if (statusList != null) {
+      params = params.set('statusList', statusList)
+    }
+    if (aiStatus != null) {
+      params = params.set('aiStatus', aiStatus)
+    }
 
     return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.report + '/rerun-all-report', { params });
   }
 
-  getReRunProviderReportCount(databaseHelper: DatabaseHelper, startDate: any, endDate: any, version: string, licenseList: any, clientList: any, providerList: any, isLive: number): Observable<any> {
+  getReRunProviderReportCount(databaseHelper: DatabaseHelper, startDate: any, endDate: any, version: string, licenseList: any, clientList: any, providerList: any,statusList: any, aiStatus: any, isLive: number): Observable<any> {
     if (databaseHelper == undefined || databaseHelper == null) {
       databaseHelper = new DatabaseHelper();
     }
@@ -433,11 +439,17 @@ export class ReportService {
     }
     if (providerList != null) {
       params = params.set('providerList', providerList)
+    }
+    if (statusList != null) {
+      params = params.set('statusList', statusList)
+    }
+    if (aiStatus != null) {
+      params = params.set('aiStatus', aiStatus)
     }
     return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.report + '/rerun-all-report-count', { params });
   }
 
-  getAllReRunProviderId(databaseHelper: DatabaseHelper, startDate: any, endDate: any, version: string, licenseList: any, clientList: any, providerList: any, isLive: number): Observable<any> {
+  getAllReRunProviderId(databaseHelper: DatabaseHelper, startDate: any, endDate: any, version: string, licenseList: any, clientList: any, providerList: any,statusList:any, aiStatus: any, isLive: number): Observable<any> {
     if (databaseHelper == undefined || databaseHelper == null) {
       databaseHelper = new DatabaseHelper();
     }
@@ -459,6 +471,12 @@ export class ReportService {
     }
     if (providerList != null) {
       params = params.set('providerList', providerList)
+    }
+    if (statusList != null) {
+      params = params.set('statusList', statusList)
+    }
+    if (aiStatus != null) {
+      params = params.set('aiStatus', aiStatus)
     }
     return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.report + '/all-rerun-providerid', { params });
   }
@@ -487,5 +505,8 @@ export class ReportService {
     return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.report + '/get-distinct-providers', { params });
   }
 
+  getDistinctStatus(){
+    return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.report + '/get-distinct-status');
+  }
 
 }
