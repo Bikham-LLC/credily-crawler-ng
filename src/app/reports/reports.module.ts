@@ -17,6 +17,7 @@ import { ReFetchReportComponent } from './components/re-fetch-report/re-fetch-re
 import { RpaReportComponent } from './components/rpa-report/rpa-report.component';
 import { NpdbReportComponent } from './components/npdb-report/npdb-report.component';
 import { BulkReRunComponent } from './components/bulk-re-run/bulk-re-run.component';
+import { SchedulerComponent } from './components/scheduler/scheduler.component';
 
 
 
@@ -32,7 +33,8 @@ import { BulkReRunComponent } from './components/bulk-re-run/bulk-re-run.compone
         ReFetchReportComponent,
         RpaReportComponent,
         NpdbReportComponent,
-        BulkReRunComponent
+        BulkReRunComponent,
+        SchedulerComponent
        
     ],
     imports: [

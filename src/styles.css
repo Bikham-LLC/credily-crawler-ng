@@ -736,6 +736,12 @@ li.breadcrumb-item a {
   filter: drop-shadow(0px 8px 10px rgba(0, 0, 0, 0.1));
   z-index: 999;
 }
+.filteStart {
+  left: -100px;
+}
+.filteStart2 {
+  left: -200px;
+}
 .filter-pills {
   line-height: 18px;
   color: var(--primary-color);
@@ -837,4 +843,68 @@ li.breadcrumb-item a {
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+}
+
+.aistatusinactive,
+.aistatusactive,
+.aistatuspending,
+.aistatusLogRequired,
+.aistatusAwaitQueue,
+.aistatusInQueue,
+.aistatusBulkRerun,
+.aistatusConfigError,
+.statusNoRecord
+{
+  display: inline-block;
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 18px;
+  padding: 3px 14px;
+  text-align: center;
+}
+
+.aistatusinactive {
+  background-color: #f7dede;
+  color: #810606;
+}
+
+.aistatusactive {
+  background-color: #def7ec;
+  color: #03543f;
+}
+
+.aistatuspending {
+  background-color: #fff3c3;
+  color: #ffc107;
+}
+
+.aistatusLogRequired {
+  background-color: #c0c5bc;
+  color: #ffffff;
+}
+
+.aistatusAwaitQueue {
+  background-color: mistyrose;
+  color: #ffffff;
+}
+
+.aistatusInQueue {
+  background-color: #a1dbf3;
+  color: #ffffff;
+}
+
+.aistatusBulkRerun {
+  background-color: #cfe8ff;
+  color: #038aff;
+}
+
+.aistatusConfigError {
+  background-color: #d4cdcd;
+  color: #d62a2a;
+}
+
+.statusNoRecord{
+  background-color: #cfe8ff;
+  color: #21231c;
 }

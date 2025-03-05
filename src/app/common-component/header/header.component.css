@@ -515,3 +515,37 @@ span.removeSteps {
   cursor: pointer;
   transition: 0.1s linear;
 }
+.subMenu {
+  position: absolute;
+  background-color: #fff;
+  min-width: 14rem;
+  right: -102%;
+  padding: 0;
+  box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.16);
+  border-radius: 4px;
+  border: 0;
+  min-width: 14rem;
+  top: 0;
+  z-index: 10;
+  transition: 0.2s linear;
+  transform: translateY(20px);
+  opacity: 0;
+  visibility: hidden;
+}
+.navigationitemmenu li:hover .subMenu {
+  transform: translateY(0px);
+  opacity: 1;
+  visibility: visible;
+}
+
+.subMenuCard::after {
+  content: '\F285';
+  position: absolute;
+  right: 8px;
+  top: 10px;
+  font-size: 10px;
+  font-family: 'bootstrap-icons';
+}
+.subMenuCard:hover::after{
+  color: #fff;
+}

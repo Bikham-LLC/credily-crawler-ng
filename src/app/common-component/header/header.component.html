@@ -85,7 +85,19 @@
                         <li>
                             <a class="navigationmenuitem pointer" routerLinkActive="navActive" [routerLink]="Route.NPDB_REPORT">NPDB Report</a>
                         </li>
-                        <li><a class="navigationmenuitem pointer" routerLinkActive="navActive" [routerLink]="Route.BULK_RERUN_MODULE">Bulk Re-run</a></li>
+                        <li class="position-relative subMenuCard">
+                            <a class="navigationmenuitem pointer" routerLinkActive="navActive" >Bulk action</a>
+                            <div class="subMenu">
+                                <ul class="p-0">
+                                    <li>
+                                        <a class="navigationmenuitem pointer" routerLinkActive="navActive" [routerLink]="Route.BULK_RERUN_MODULE">Re-run</a>
+                                    </li>
+                                    <!-- <li>
+                                        <a class="navigationmenuitem pointer" routerLinkActive="navActive" [routerLink]="Route.SCHEDULER_MODULE">Scheduler</a>
+                                    </li> -->
+                                </ul>
+                            </div>
+                        </li>
                     </ul>
                 </div>
                 <a class="btn navigationitem" routerLinkActive="navActive" routerLinkActive="navActive" [routerLink]="Route.RPA_MODULE">

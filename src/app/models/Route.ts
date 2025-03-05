@@ -16,5 +16,6 @@ export class Route {
     static NPDB_REPORT = '/reports/npdb-report';
     static BULK_RERUN_MODULE = '/reports/bulk-rerun';
     static RPA_MODULE = '/rpa';
+    static SCHEDULER_MODULE = '/reports/scheduler'
 
 }
