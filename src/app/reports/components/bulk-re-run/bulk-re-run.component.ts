@@ -481,10 +481,12 @@ export class BulkReRunComponent implements OnInit {
     this.reportService.bulkReRunProviderLog(logIds).subscribe(res => {
       this.isBulkReRunLoading = false
       if (res.status && res.message == null) {
-        console.log(`Bulk re-run successful for log IDs: ${logIds.join(", ")}`);
+        // console.log(`Bulk re-run successful for log IDs: ${logIds.join(", ")}`);
       } else {
-        console.error(`Bulk re-run failed`);
+        // console.error(`Bulk re-run failed`);
       }
+      this.refreshData();
+      this.selectedItemList = [];
     })
   }
 
@@ -496,10 +498,11 @@ export class BulkReRunComponent implements OnInit {
     this.reportService.bulkReRunProviderLog([logId]).subscribe(res => {
       this.isSingleReRunLoading = false
       if (res.status && res.message == null) {
-        console.log(`re-run successful for log ID: ${logId}`);
+        // console.log(`re-run successful for log ID: ${logId}`);
       } else {
-        console.error(`re-run failed`);
+        // console.error(`re-run failed`);
       }
+      this.refreshData();
     })
   }
 

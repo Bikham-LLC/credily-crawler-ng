@@ -414,6 +414,7 @@
                         </th>
                         <th style="min-width: 130px;">License Number</th>
                         <th style="min-width: 100px;">License State</th>
+                        <th style="min-width: 100px;">Status</th>
                         <th class=" text-center" style="min-width: 100px;">Action</th>
                     </tr>
 
@@ -459,6 +460,10 @@
                         <td>
                             <div class="tableinfo">{{ crawlerLog.licenseState ? crawlerLog.licenseState : '----'
                                 }}</div>
+                        </td>
+
+                        <td> 
+                            <div class="tableinfo">{{crawlerLog.crawlerStatus == 'BULK-RUN' ? 'Running' : crawlerLog.crawlerStatus}}</div>
                         </td>
 
                         <td>
