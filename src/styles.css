@@ -853,7 +853,9 @@ li.breadcrumb-item a {
 .aistatusInQueue,
 .aistatusBulkRerun,
 .aistatusConfigError,
-.statusNoRecord
+.statusNoRecord,
+.statusBulkRun,
+.aistatusRerun
 {
   display: inline-block;
   border-radius: 6px;
@@ -906,5 +908,15 @@ li.breadcrumb-item a {
 
 .statusNoRecord{
   background-color: #cfe8ff;
+  color: #21231c;
+}
+
+.statusBulkRun{
+  background-color: #0ba971;
+  color: #21231c;
+}
+
+.aistatusRerun{
+  background-color: #0ba971;
   color: #21231c;
 }

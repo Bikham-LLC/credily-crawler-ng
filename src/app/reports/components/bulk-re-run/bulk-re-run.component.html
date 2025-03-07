@@ -56,7 +56,13 @@
                     <div class="filter-bdg d-flex align-items-center gap-2">
                         <p class="filter-pills d-flex align-items-centar gap-2 pointer"
                             *ngFor="let filter of appliedFilters">
-                            {{filter == 'S: V2' ? 'S: Credily' : filter == 'S: V3' ? 'S: PP' : filter == 'Ai: yes' ? 'Ai: Completed' : filter == 'Ai: no' ? 'Ai: Error' : filter}}
+                            {{ 
+                                filter === 'V: V2' ? 'V: Credily' : 
+                                filter === 'V: V3' ? 'V: PP' : 
+                                filter === 'Ai: yes' ? 'Ai: Completed' : 
+                                filter === 'Ai: no' ? 'Ai: Error' : 
+                                filter 
+                             }}
                             <i class="bi bi-x-lg iconBold lh-sm pointer vertical-middle"
                                 (click)="removeFilter(filter)"></i>
                         </p>

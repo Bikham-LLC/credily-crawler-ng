@@ -18,9 +18,18 @@
         <div class="col-lg-6">
             <!-- <h3 class="mb-0 fs-16">Scheduler</h3> -->
             <div class=" gap-2 d-flex justify-content-start align-items-start">
-                <button class="btn mt-2 primarybtn">Scheduler</button>
-                <button class="btn mt-2 secondaryBtn">Onboarding </button>
-                <button class="btn mt-2 secondaryBtn">Updation</button>
+                <button class="btn mt-2 "
+                    [ngClass]="{'primarybtn': requestSource === 'Scheduler', 'secondaryBtn': requestSource !== 'Scheduler'}"
+                    (click)="updateRequestSource('Scheduler')">
+                    Scheduler</button>
+                <button class="btn mt-2 "
+                    [ngClass]="{'primarybtn': requestSource === 'Onboarding', 'secondaryBtn': requestSource !== 'Onboarding'}"
+                    (click)="updateRequestSource('Onboarding')">
+                    Onboarding </button>
+                <button class="btn mt-2 "
+                    [ngClass]="{'primarybtn': requestSource === 'Updated', 'secondaryBtn' : requestSource !== 'Updated'}"
+                    (click)="updateRequestSource('Updated')">
+                    Updated</button>
             </div>
         </div>
         <div class="col-lg-6">
@@ -36,409 +45,53 @@
                         <i class="bi bi-x-circle text-muted"></i>
                     </button>
                 </div>
-
-                
-
-                <!-- <div class="position-relative">
-                    <angular2-multiselect id="statusSelectBox" name="statusSelectBox"  required>
-              </angular2-multiselect> 
-                    <button class="btn text-bg-danger">Delete</button>
-                </div> -->
-
-            </div>
-        </div>
-    </div>
-
-    <div class="border-top py-2 selectedFilertRow">
-        <div class="pt-1 selectedFilertInner">
-            <div class="row align-items-center justify-content-between">
-                <div class="col-lg-8">
-                    <div class="filter-bdg d-flex align-items-center gap-2">
-                        <p class="filter-pills d-flex align-items-centar gap-2 pointer"
-                            *ngFor="let filter of appliedFilters">
-                            {{filter == 'S: V2' ? 'S: Credily' : filter == 'S: V3' ? 'S: PP' : filter}}
-                            <i class="bi bi-x-lg iconBold lh-sm pointer vertical-middle"
-                                (click)="removeFilter(filter)"></i>
-                        </p>
-
-                        <!-- <p class="filter-pills d-flex align-items-centar gap-2 pointer">
-                            Client Name
-                            <span class="clientCout pe-2 position-relative">
-                                +10 -->
-
-                        <!-- <span class="clientListMain">
-                                    <span class="clientListName">John</span>
-                                    <span class="clientListName">Daniel</span>
-                                    <span class="clientListName">Zorro</span>
-                                    <span class="clientListName">David</span>
-                                    <span class="clientListName">Robert</span>
-                                    <span class="clientListName">Richard</span>
-                                </span> -->
-                        <!-- </span>
-                            <i class="bi bi-x-lg iconBold lh-sm pointer vertical-middle"></i>
-                        </p> -->
-                    </div>
+                <div class="position-relative col-lg-2 w-20">
+                    <angular2-multiselect id="versionSelectBox" name="versionSelectBox" [data]="versionList"
+                        [settings]="dropdownSettingsVersion" [(ngModel)]="selectedVersion" #versionSelectBox="ngModel"
+                        (ngModelChange)="selectVersion($event)" required>
+                    </angular2-multiselect>
                 </div>
-                <div class="col-lg-4">
-                    <div class="text-end" *ngIf="selectedItemList.length>0">
-                        <p class="mb-0 fs-12">
-                            <span class="text-primary fs-13">{{selectedItemList.length}}</span> entries on this page are
-                            selected. <span class="text-primary fs-13 pointer" (click)="onSelectAll()">Select all
-                                {{crawlerLogTotalCount}}</span> entries <span class="text-danger pointer"
-                                (click)="clearSelection()">Clear selection</span>
-                        </p>
-                    </div>
+                <div class="position-relative col-lg-2 w-25" >
+                    <angular2-multiselect id="statusSelectBox" name="statusSelectBox" [data]="statusList"
+                        [settings]="dropdownSettingsStatus" [(ngModel)]="selectedStatus" #statusSelectBox="ngModel"
+                        (ngModelChange)="selectStatus($event)" required>
+                    </angular2-multiselect>
                 </div>
             </div>
-
         </div>
     </div>
 </div>
 <div class="dashboardArea">
     <div class="dashNav-paneinner">
         <div class="usertableinner table-responsive">
-            <table class="table" *ngIf="crawlerLogList.length>0 && !fetchingReport">
+            <table class="table">
                 <thead>
                     <tr>
-                        <th style="min-width: 40px;">
-                            <div class="tableCheck">
-                                <input type="checkbox" name="bulkSelectioncheck" class="form-check mx-auto"
-                                    [checked]="allChecked" (change)="onSelectPage($event)">
-                            </div>
-                        </th>
-                        <th style="min-width: 100px;">
-                            <div class="d-flex justify-content-between align-items-center w-100 ">
-                                Client Name
-                                <div class="table-filterBtn">
-                                    <div class="d-flex justify-content-end align-items-center gap-2">
-                                        <!-- <div class="clientCountMain position-relative">
-                                            <div
-                                                class="clientCount d-inline-block fs-10 fw-normal img-20 radius-50 text-bg-primary text-center">
-                                                +10</div>
-                                            <div class="clinet">
-                                                <div class="clinetName"
-                                                    *ngFor="let e of [].constructor(12); let i = index">Name</div>
-                                            </div>
-                                        </div> -->
-                                        <button type="button" id="statusDropdown" class="border-0 btn p-0 shadow-none"
-                                            (click)="shoFilterclient()">
-                                            <i class="bi bi-sliders fs-10 m-0 iconBold"></i>
-                                        </button>
-                                    </div>
-
-                                    <div class="not-assign-filter p-0 border position-absolute bg-white"
-                                        *ngIf="shoFilterToggleclient">
-                                        <div
-                                            class="d-flex align-items-center justify-content-between border-bottom p-3">
-                                            <h5 class="fs-14 mb-0 text-dark"> Client Filter</h5>
-                                            <span class="pointer lh-1" (click)="shoFilterclient()">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="19"
-                                                    viewBox="0 0 18 19" fill="none">
-                                                    <g opacity="0.8">
-                                                        <mask id="mask0_7729_258" style="mask-type:alpha"
-                                                            maskUnits="userSpaceOnUse" x="0" y="0" width="18"
-                                                            height="19">
-                                                            <rect y="0.5" width="18" height="18" fill="#D9D9D9" />
-                                                        </mask>
-                                                        <g mask="url(#mask0_7729_258)">
-                                                            <path
-                                                                d="M4.8 14.75L3.75 13.7L7.95 9.5L3.75 5.3L4.8 4.25L9 8.45L13.2 4.25L14.25 5.3L10.05 9.5L14.25 13.7L13.2 14.75L9 10.55L4.8 14.75Z"
-                                                                fill="#1C1B1F" />
-                                                        </g>
-                                                    </g>
-                                                </svg>
-                                            </span>
-                                        </div>
-                                        <div class="row p-3">
-                                            <div class="col-lg-12">
-                                                <div class="categroySearchmain">
-                                                    <div class="position-relative">
-                                                        <input type="text" class="form-control"
-                                                            placeholder="Search Client...." [(ngModel)]="clientSearch"
-                                                            (input)="getDistinctClients()">
-                                                        <i class="bi bi-search searchIcon iconBold"></i>
-                                                        <button *ngIf="clientSearch"
-                                                            class="btn btn-link position-absolute end-0 top-50 translate-middle-y px-2"
-                                                            (click)="clearClientSearch()">
-                                                            <i class="bi bi-x-circle text-muted"></i>
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-12 filterScroll noscrollbar mt-3">
-
-                                                <!-- clientCheck: {{allClientChecked}} -->
-                                                <div
-                                                    class="categories-filter mb-3 form-check d-flex align-items-center gap-2 mb-2">
-                                                    <input type="checkbox" class="form-check-input" id="all"
-                                                        name="attd-filter" [checked]="allClientChecked"
-                                                        (change)="selectAllClients($event)">
-                                                    <label class="form-check-label fw-normal fs-14 text-dark"
-                                                        for="all">All</label>
-                                                </div>
-                                                <div class="categories-filter mb-3 form-check d-flex align-items-center gap-2 mb-2"
-                                                    *ngFor="let client of distinctClients; let i = index">
-                                                    <input type="checkbox" class="form-check-input" id="{{i}}"
-                                                        name="attd-filter" [checked]="selectedClients.has(client)"
-                                                        (change)="onSelectCLient($event, client)">
-                                                    <label class="form-check-label fw-normal fs-14 text-dark"
-                                                        for="{{i}}"> {{client}}</label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="p-2 border-top d-flex gap-2 align-items-center justify-content-end">
-                                            <button class="btn secondaryBtn" (click)="resetClientFilter()">Reset
-                                                it</button>
-                                            <button class="btn primarybtn" (click)="applyCLientFilter()">Apply</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </th>
-                        <th style="min-width: 150px;">
-                            <div class="d-flex justify-content-between align-items-center w-100 ">
-                                Provider Name
-                                <div class="table-filterBtn">
-                                    <button type="button" id="statusDropdown" class="border-0 btn p-0 shadow-none"
-                                        (click)="shoFilterProvider()">
-                                        <i class="bi bi-sliders fs-10 m-0 iconBold"></i>
-                                    </button>
-                                    <div class="not-assign-filter p-0 border position-absolute bg-white"
-                                        *ngIf="shoFilterToggleProvider">
-                                        <div
-                                            class="d-flex align-items-center justify-content-between border-bottom p-3">
-                                            <h5 class="fs-14 mb-0 text-dark"> Provider Filter</h5>
-                                            <span class="pointer lh-1" (click)="shoFilterProvider()">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="19"
-                                                    viewBox="0 0 18 19" fill="none">
-                                                    <g opacity="0.8">
-                                                        <mask id="mask0_7729_258" style="mask-type:alpha"
-                                                            maskUnits="userSpaceOnUse" x="0" y="0" width="18"
-                                                            height="19">
-                                                            <rect y="0.5" width="18" height="18" fill="#D9D9D9" />
-                                                        </mask>
-                                                        <g mask="url(#mask0_7729_258)">
-                                                            <path
-                                                                d="M4.8 14.75L3.75 13.7L7.95 9.5L3.75 5.3L4.8 4.25L9 8.45L13.2 4.25L14.25 5.3L10.05 9.5L14.25 13.7L13.2 14.75L9 10.55L4.8 14.75Z"
-                                                                fill="#1C1B1F" />
-                                                        </g>
-                                                    </g>
-                                                </svg>
-                                            </span>
-                                        </div>
-                                        <div class="row p-3">
-                                            <div class="col-lg-12">
-                                                <div class="categroySearchmain">
-                                                    <div class="position-relative">
-                                                        <input type="text" class="form-control"
-                                                            placeholder="Search Provider...."
-                                                            [(ngModel)]="providerSearch"
-                                                            (input)="getDistinctProviders()">
-                                                        <i class="bi bi-search searchIcon iconBold"></i>
-                                                        <button *ngIf="providerSearch"
-                                                            class="btn btn-link position-absolute end-0 top-50 translate-middle-y px-2"
-                                                            (click)="clearProviderSearch()">
-                                                            <i class="bi bi-x-circle text-muted"></i>
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-12 filterScroll noscrollbar mt-3">
-                                                <div
-                                                    class="categories-filter mb-3 form-check d-flex align-items-center gap-2 mb-2">
-                                                    <input type="checkbox" class="form-check-input" id="all"
-                                                        name="attd-filter" [checked]="allProviderChecked"
-                                                        (change)="selectAllProvider($event)">
-                                                    <label class="form-check-label fw-normal fs-14 text-dark"
-                                                        for="all">All</label>
-                                                </div>
-                                                <div class="categories-filter mb-3 form-check d-flex align-items-center gap-2 mb-2"
-                                                    *ngFor="let provider of distinctProviders; let i = index">
-                                                    <input type="checkbox" class="form-check-input" id="{{i}}"
-                                                        name="attd-filter" [checked]="selectedProviders.has(provider)"
-                                                        (change)="onSelectProvider($event, provider)">
-                                                    <label class="form-check-label  text-dark"
-                                                        for="{{i}}">{{provider}}</label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="p-2 border-top d-flex gap-2 align-items-center justify-content-end">
-                                            <button class="btn secondaryBtn" (click)="resetProviderFilter() ">Reset
-                                                it</button>
-                                            <button class="btn primarybtn"
-                                                (click)="applyProviderFilter()">Apply</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </th>
-
-                        <th style="min-width: 160px;">
-                            <div class="d-flex justify-content-between align-items-center w-100 ">
-                                License Name
-                                <div class="table-filterBtn">
-                                    <button type="button" id="statusDropdown" class="border-0 btn p-0 shadow-none"
-                                        (click)="shoFilterlicense()">
-                                        <i class="bi bi-sliders fs-10 m-0 iconBold"></i>
-                                    </button>
-                                    <div class="not-assign-filter p-0 border position-absolute bg-white"
-                                        *ngIf="shoFilterTogglelicense">
-                                        <div
-                                            class="d-flex align-items-center justify-content-between border-bottom p-3">
-                                            <h5 class="fs-14 mb-0 text-dark"> License Filter</h5>
-                                            <span class="pointer lh-1" (click)="shoFilterlicense()">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="19"
-                                                    viewBox="0 0 18 19" fill="none">
-                                                    <g opacity="0.8">
-                                                        <mask id="mask0_7729_258" style="mask-type:alpha"
-                                                            maskUnits="userSpaceOnUse" x="0" y="0" width="18"
-                                                            height="19">
-                                                            <rect y="0.5" width="18" height="18" fill="#D9D9D9" />
-                                                        </mask>
-                                                        <g mask="url(#mask0_7729_258)">
-                                                            <path
-                                                                d="M4.8 14.75L3.75 13.7L7.95 9.5L3.75 5.3L4.8 4.25L9 8.45L13.2 4.25L14.25 5.3L10.05 9.5L14.25 13.7L13.2 14.75L9 10.55L4.8 14.75Z"
-                                                                fill="#1C1B1F" />
-                                                        </g>
-                                                    </g>
-                                                </svg>
-                                            </span>
-                                        </div>
-                                        <div class="row p-3">
-                                            <div class="col-lg-12">
-                                                <div class="categroySearchmain">
-                                                    <div class="position-relative">
-                                                        <input type="text" class="form-control"
-                                                            placeholder="Search License...." [(ngModel)]="licenseSearch"
-                                                            (input)="getDistinctLicenses()">
-                                                        <i class="bi bi-search searchIcon iconBold"></i>
-                                                        <button *ngIf="licenseSearch"
-                                                            class="btn btn-link position-absolute end-0 top-50 translate-middle-y px-2"
-                                                            (click)="clearLicenseSearch()">
-                                                            <i class="bi bi-x-circle text-muted"></i>
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-12 filterScroll noscrollbar mt-3">
-                                                <div
-                                                    class="categories-filter mb-3 form-check d-flex align-items-center gap-2 mb-2">
-                                                    <input type="checkbox" class="form-check-input" id="all"
-                                                        name="attd-filter" [checked]="allLicenseChecked"
-                                                        (change)="selectAllLicesnse($event)">
-                                                    <label class="form-check-label fw-normal fs-14 text-dark"
-                                                        for="all">All</label>
-                                                </div>
-                                                <div class="categories-filter mb-3 form-check d-flex align-items-center gap-2 mb-2"
-                                                    *ngFor="let license of distinctLicenses; let i = index">
-                                                    <input type="checkbox" class="form-check-input" id="{{i}}"
-                                                        name="attd-filter" [checked]="selectedLicenses.has(license)"
-                                                        (change)="onSelectLicense($event, license)">
-                                                    <label class="form-check-label fw-normal fs-14 text-dark"
-                                                        for="{{i}}">{{license}}</label>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                        <div class="p-2 border-top d-flex gap-2 align-items-center justify-content-end">
-                                            <button class="btn secondaryBtn" (click)="resetLicenseFilter()">Reset
-                                                it</button>
-                                            <button class="btn primarybtn" (click)="applyLicenseFilter()">Apply</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </th>
+                        <th style="min-width: 100px;">Provider Name </th>
+                        <th style="min-width: 150px;">Client Name</th>
                         <th style="min-width: 120px;">NPI Number</th>
-                        <th style="min-width: 120px;">Updated Date</th>
+                        <th style="min-width: 120px;">Email</th>
                         <th style="min-width: 140px;">Onboarding Date</th>
-                        <th style="min-width: 160px;">
-                            <div class="d-flex justify-content-between align-items-center w-100 ">
-                                Source
-                                <div class="table-filterBtn">
-                                    <button type="button" id="statusDropdown" class="border-0 btn p-0 shadow-none"
-                                        (click)="shoFilterSource()">
-                                        <i class="bi bi-sliders fs-10 m-0 iconBold"></i>
-                                    </button>
-                                    <div class="not-assign-filter p-0 border position-absolute bg-white"
-                                        *ngIf="shoFilterToggleSource">
-                                        <div
-                                            class="d-flex align-items-center justify-content-between border-bottom p-3">
-                                            <h5 class="fs-14 mb-0 text-dark"> Source Filter</h5>
-                                            <span class="pointer lh-1" (click)="shoFilterSource()">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="19"
-                                                    viewBox="0 0 18 19" fill="none">
-                                                    <g opacity="0.8">
-                                                        <mask id="mask0_7729_258" style="mask-type:alpha"
-                                                            maskUnits="userSpaceOnUse" x="0" y="0" width="18"
-                                                            height="19">
-                                                            <rect y="0.5" width="18" height="18" fill="#D9D9D9" />
-                                                        </mask>
-                                                        <g mask="url(#mask0_7729_258)">
-                                                            <path
-                                                                d="M4.8 14.75L3.75 13.7L7.95 9.5L3.75 5.3L4.8 4.25L9 8.45L13.2 4.25L14.25 5.3L10.05 9.5L14.25 13.7L13.2 14.75L9 10.55L4.8 14.75Z"
-                                                                fill="#1C1B1F" />
-                                                        </g>
-                                                    </g>
-                                                </svg>
-                                            </span>
-                                        </div>
-                                        <div class="row p-3">
-                                            <div class="col-lg-12 filterScroll noscrollbar">
-                                                <div
-                                                    class="categories-filter mb-3 form-check d-flex align-items-center gap-2 mb-2">
-                                                    <input type="checkbox" class="form-check-input" id="V2"
-                                                        name="attd-filter" [checked]="selectedSources.has('V2')"
-                                                        (change)="onSelectSource($event, 'V2')">
-                                                    <label class="form-check-label fw-normal fs-14 text-dark"
-                                                        for="V2">Credily</label>
-                                                </div>
-                                                <div
-                                                    class="categories-filter mb-3 form-check d-flex align-items-center gap-2 mb-2">
-                                                    <input type="checkbox" class="form-check-input" id="V3"
-                                                        name="attd-filter" [checked]="selectedSources.has('V3')"
-                                                        (change)="onSelectSource($event, 'V3')">
-                                                    <label class="form-check-label fw-normal fs-14 text-dark"
-                                                        for="V3">Provider Passport</label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="p-2 border-top d-flex gap-2 align-items-center justify-content-end">
-                                            <button class="btn secondaryBtn" (click)="resetSourceFilter()">Reset
-                                                it</button>
-                                            <button class="btn primarybtn" (click)="applySourceFilter()">Apply</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </th>
-                        <th style="min-width: 130px;">License Number</th>
+                        <th style="min-width: 120px;">Updated Date</th>
+                        <th style="min-width: 100px;">Source</th>
                         <th class="text-center" style="min-width: 100px">Status</th>
-                        <th style="min-width: 100px">AI</th>
-                        <th class=" text-center" style="min-width: 100px;">Action</th>
+                        <th class="text-center" style="min-width: 50px;">Action</th>
                     </tr>
-
                 </thead>
                 <tbody *ngIf="crawlerLogList.length>0 && !fetchingReport">
                     <tr *ngFor="let crawlerLog of crawlerLogList; let i = index">
                         <td>
-                            <div class="tableCheck">
-                                <input type="checkbox" name="bulkSelectioncheck" class="form-check mx-auto"
-                                    [checked]="crawlerLog.selected" (change)="onSelectRow($event, crawlerLog)">
-                            </div>
+                            <div class="tableinfo">{{ crawlerLog.providerName}}</div>
                         </td>
                         <td>
                             <div class="tableinfo">{{ crawlerLog.clientName ? crawlerLog.clientName : '----' }}
                             </div>
                         </td>
                         <td>
-                            <div class="tableinfo">{{ crawlerLog.providerName}}</div>
+                            <div class="tableinfo"><span class="badge-grey npi-badge">{{ crawlerLog.npi }}</span></div>
                         </td>
                         <td>
-                            <div class="tableinfo wrapText">{{ crawlerLog.licenseName }}</div>
-                        </td>
-                        <td>
-                            <div class="tableinfo"><span class="badge-grey npi-badge">{{ crawlerLog.npi }}</span>
+                            <div class="tableinfo"><span class="badge-grey npi-badge">{{ crawlerLog.email }}</span>
                             </div>
                         </td>
                         <td>{{ crawlerLog.updatedDate | date:'MM/dd/yyyy' }}</td>
@@ -448,57 +101,25 @@
                             </div>
                         </td>
                         <td>
-                            <div class="tableinfo">
+                            <div class="text-center">
                                 <span>{{ crawlerLog.version == 'V2' ? 'Credily' : 'Provider Passport' }}</span>
                             </div>
                         </td>
-
-                        <td>
-                            <div class="tableinfo"><span class="badge-grey npi-badge">{{ crawlerLog.licenseNumber ?
-                                    crawlerLog.licenseNumber : '----'}}</span></div>
-                        </td>
-
                         <td class="text-center">
-                            <!-- aistatusinactive,
-                                .aistatusactive,
-                                .aistatuspending,
-                                .aistatusLogRequired,
-                                .aistatusAwaitQueue,
-                                .aistatusInQueue -->
                             <span class="fs-10" [ngClass]="{
                                     'aistatusactive': crawlerLog.crawlerStatus.toUpperCase() == 'COMPLETED', 
                                     'aistatuspending': crawlerLog.crawlerStatus.toUpperCase() == 'PENDING', 
                                     'aistatusinactive': crawlerLog.crawlerStatus.toUpperCase() == 'ERROR', 
                                     'aistatusInQueue': crawlerLog.crawlerStatus.toUpperCase() == 'LICENSE CONFIG NOT FOUND',
                                     'aistatusLogRequired': crawlerLog.crawlerStatus.toUpperCase() == 'BOARD CONFIG NOT FOUND',
-                                    'aistatusBulkRerun': crawlerLog.crawlerStatus.toUpperCase() == 'BULK-RE-RUN'
+                                    'aistatusBulkRerun': crawlerLog.crawlerStatus.toUpperCase() == 'BULK-RE-RUN',
+                                    'aistatusRerun': crawlerLog.crawlerStatus.toUpperCase() == 'RE-RUN'
                                 }">
                                 {{crawlerLog.crawlerStatus}}
                             </span>
-
                         </td>
                         <td>
-                            <div class="tableinfo text-center">
-                                <span class="mx-auto aistatusactive"
-                                    [ngbTooltip]="crawlerLog.verificationLog ? crawlerLog.verificationLog: 'No Description'"
-                                    *ngIf="crawlerLog.verificationStatus == 1"><i
-                                        class="bi bi-check2-circle"></i></span>
-                                <span class="mx-auto aistatusinactive"
-                                    [ngbTooltip]="crawlerLog.verificationLog ? crawlerLog.verificationLog: 'No Description'"
-                                    *ngIf="crawlerLog.verificationStatus == 0"><i
-                                        class="bi bi-check2-circle"></i></span>
-                                <span class="mx-auto aistatusinactive"
-                                    [ngbTooltip]="crawlerLog.verificationLog ? crawlerLog.verificationLog: 'No Description'"
-                                    *ngIf="crawlerLog.verificationStatus == 2"><i
-                                        class="bi bi-check2-circle"></i></span>
-                            </div>
-                        </td>
-                        <td>
-                            <div
-                                class="tableinfo text-nowrap d-flex align-items-center justify-content-end gap-2 pointer">
-                                <!-- <button  class="blkBtn btn btn-outline-light" >
-                                            <i class="bi bi-link text-dark "></i>
-                                        </button> -->
+                            <div class="text-nowrap d-flex align-items-center justify-content-center gap-2 pointer">
 
                                 <button class="blkBtn btn btn-outline-light"
                                     (click)="singleReRunProvider(crawlerLog.crawlerLogId)"
@@ -508,28 +129,7 @@
                                     <i *ngIf="!(crawlerLog.crawlerLogId == logId && isSingleReRunLoading)"
                                         class="bi bi-arrow-clockwise text-dark "></i>
                                 </button>
-
-                                <button ngbTooltip="View" class="btn btn-light btn-outline-light"
-                                    (click)="viewSnapshot(crawlerLog.snapShotUrl, crawlerLog.licenseName)">
-                                    <i class="bi bi-eye text-dark" style="font-size: 16px;"></i>
-                                </button>
-                                <!--container-->
-                                <!-- <button  class="blkBtn btn btn-outline-light" ><i class="bi bi-upload text-dark"></i></button> -->
-
-                                <!-- <button  class="blkBtn btn btn-outline-light">
-                                            <i class="bi bi-pencil-square text-dark"></i>
-                                        </button> -->
-                                <!--container-->
-                                <!-- <a target="_blank" class="blkBtn btn btn-outline-light"  href="https://npiregistry.cms.hhs.gov/search">
-                                            <i class="bi bi-box-arrow-up-right text-dark"></i>
-                                        </a> -->
-                                <!--container-->
-                                <!-- <button  class="blkBtn btn btn-outline-light"><i class="bi bi-0-circle text-dark"></i></button> -->
-                                <!--container-->
-                                <!-- <button class="blkBtn btn btn-outline-light">
-                                    <i class="bi bi-trash text-danger"></i>
-                                </button> -->
-                                <!--container-->
+                               
                             </div>
 
                         </td>
@@ -573,34 +173,6 @@
                         </ngb-pagination>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- show image modal -->
-<button type="button" #openSnapshotModalButton id="openSnapshotModalButton" class="d-none" data-bs-toggle="modal"
-    data-bs-target="#showImageModal"></button>
-<div class="modal blur-bg-2" id="showImageModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false"
-    aria-labelledby="shareModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" style="max-width:95%;">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">{{imageName}}'s Snapshot</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
-                    (click)="closeSnapshotModal()" #closeSnapshotModalButton id="closeSnapshotModalButton"></button>
-            </div>
-            <div class="modal-body text-center" style="overflow: scroll;height: 680px;">
-                <app-circular-loader *ngIf="imageLoadingToggle"></app-circular-loader>
-                <!-- <iframe *ngIf="!imageLoadingToggle" [src]="imageUrl | safe" style="height: 46rem;width: 100%;" alt=""> </iframe> -->
-
-                <img *ngIf="!imageLoadingToggle && (imageExtension == 'png' || imageExtension == 'jpg')"
-                    [src]="imageUrl" [alt]="'Image description'" style="width: 100%;" />
-
-                <iframe *ngIf="!imageLoadingToggle && !(imageExtension == 'png' || imageExtension == 'jpg')"
-                    [src]="imageUrl | safe" style="height: 46rem;width: 100%;" alt=""> </iframe>
-
-                <!-- <div *ngIf="!imageLoadingToggle" style="height: 46rem;width: 100%;" alt="" id="pdfContainer" #pdfContainer></div> -->
             </div>
         </div>
     </div>

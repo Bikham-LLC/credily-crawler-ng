@@ -509,4 +509,53 @@ export class ReportService {
     return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.report + '/get-distinct-status');
   }
 
+  getBulkCrawlerLog(databaseHelper: DatabaseHelper, startDate: any, endDate: any, version: string, status: any, requestSource: any, isLive: number): Observable<any> {
+    if (databaseHelper == undefined || databaseHelper == null) {
+      databaseHelper = new DatabaseHelper();
+    }
+    var params = new HttpParams()
+      .set('search', databaseHelper.search)
+      .set('currentPage', databaseHelper.currentPage)
+      .set('itemsPerPage', databaseHelper.itemsPerPage)
+      .set('isLive', isLive)
+    if (!Constant.EMPTY_STRINGS.includes(startDate) && !Constant.EMPTY_STRINGS.includes(startDate)) {
+      params = params.set('startDate', startDate)
+        .set('endDate', endDate)
+    }
+    if (version != null) {
+      params = params.set('version', version)
+    }
+    if (status != null) {
+      params = params.set('status', status)
+    }
+    if (requestSource != null){
+      params = params.set('requestSource', requestSource)
+    }
+    return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.report + '/bulk-crawler-log', { params });
+  }
+
+
+  getBulkCrawlerLogCount(databaseHelper: DatabaseHelper, startDate: any, endDate: any, version: string, status: any, requestSource: any, isLive: number): Observable<any> {
+    if (databaseHelper == undefined || databaseHelper == null) {
+      databaseHelper = new DatabaseHelper();
+    }
+    var params = new HttpParams()
+      .set('search', databaseHelper.search)
+      .set('isLive', isLive)
+    if (!Constant.EMPTY_STRINGS.includes(startDate) && !Constant.EMPTY_STRINGS.includes(startDate)) {
+      params = params.set('startDate', startDate)
+        .set('endDate', endDate)
+    }
+    if (version != null) {
+      params = params.set('version', version)
+    }
+    if (status != null) {
+      params = params.set('status', status)
+    }
+    if (requestSource != null){
+      params = params.set('requestSource', requestSource)
+    }
+    return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.report + '/bulk-crawler-log-count', { params });
+  }
+
 }
