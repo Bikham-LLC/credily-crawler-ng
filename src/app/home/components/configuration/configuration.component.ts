@@ -1485,14 +1485,14 @@ clearSelection() {
   getUnMappedTaxonomyIds(type: string) {
     debugger
     this.unMapTaxonomyLoading = true;
-      this.licenseLookupService.getUnMappedTaxonomyIds(this.selectedTaxonomyIds, type, this.selectedStateName, this.databaseHelper).subscribe(response => {
+      this.licenseLookupService.getUnMappedTaxonomyIds(this.selectedTaxonomyIds, type, this.selectedStateName, this.databaseHelper).subscribe((response: any) => {
         if (response.status) {
           this.allUnMappedTaxonomyIds = response.object.unMappedIds;
           this.unMapTaxonomyLoading = false;
           // console.log('unMappedTaxonomyIds: ',this.allUnMappedTaxonomyIds)
         }
-      }, error => {
-      })
+      });
+      
   }
 
   showTaxonomyListToggle: boolean = false;
