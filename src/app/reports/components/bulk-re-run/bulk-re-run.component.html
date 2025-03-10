@@ -57,10 +57,10 @@
                         <p class="filter-pills d-flex align-items-centar gap-2 pointer"
                             *ngFor="let filter of appliedFilters">
                             {{ 
-                                filter === 'V: V2' ? 'V: Credily' : 
-                                filter === 'V: V3' ? 'V: PP' : 
-                                filter === 'Ai: yes' ? 'Ai: Completed' : 
-                                filter === 'Ai: no' ? 'Ai: Error' : 
+                                filter === 'Source: V2' ? 'Source: Credily' : 
+                                filter === 'Source: V3' ? 'Source: PP' : 
+                                filter === 'Ai status: yes' ? 'Ai status: Completed' : 
+                                filter === 'Ai status: no' ? 'Ai status: Error' : 
                                 filter 
                              }}
                             <i class="bi bi-x-lg iconBold lh-sm pointer vertical-middle"
@@ -177,7 +177,8 @@
                                                 <div
                                                     class="categories-filter mb-3 form-check d-flex align-items-center gap-2 mb-2">
                                                     <input type="checkbox" class="form-check-input" id="all"
-                                                        name="attd-filter" [checked]="allClientChecked"
+                                                        name="attd-filter" [checked]="!clientSearch || clientSearch.length === 0 ? allClientChecked : false"
+                                                        [disabled]="clientSearch && clientSearch.length > 0"
                                                         (change)="selectAllClients($event)">
                                                     <label class="form-check-label fw-normal fs-14 text-dark"
                                                         for="all">All</label>
@@ -253,7 +254,8 @@
                                                 <div
                                                     class="categories-filter mb-3 form-check d-flex align-items-center gap-2 mb-2">
                                                     <input type="checkbox" class="form-check-input" id="all"
-                                                        name="attd-filter" [checked]="allProviderChecked"
+                                                        name="attd-filter" [checked]="!providerSearch || providerSearch.length === 0 ? allProviderChecked : false"
+                                                        [disabled]="providerSearch && providerSearch.length>0"
                                                         (change)="selectAllProvider($event)">
                                                     <label class="form-check-label fw-normal fs-14 text-dark"
                                                         for="all">All</label>
@@ -330,7 +332,8 @@
                                                 <div
                                                     class="categories-filter mb-3 form-check d-flex align-items-center gap-2 mb-2">
                                                     <input type="checkbox" class="form-check-input" id="all"
-                                                        name="attd-filter" [checked]="allLicenseChecked"
+                                                        name="attd-filter" [checked]="!licenseSearch || licenseSearch.length === 0 ? allLicenseChecked : false"
+                                                        [disabled]="licenseSearch && licenseSearch.length>0"
                                                         (change)="selectAllLicesnse($event)">
                                                     <label class="form-check-label fw-normal fs-14 text-dark"
                                                         for="all">All</label>
@@ -550,7 +553,7 @@
                             <div class="tableinfo">{{ crawlerLog.providerName}}</div>
                         </td>
                         <td>
-                            <div class="tableinfo wrapText">{{ crawlerLog.licenseName }}</div>
+                            <div class="tableinfo wrapText">{{ crawlerLog.licenseName ? crawlerLog.licenseName : '----'}}</div>
                         </td>
                         <td>
                             <div class="tableinfo"><span class="badge-grey npi-badge">{{ crawlerLog.npi }}</span>

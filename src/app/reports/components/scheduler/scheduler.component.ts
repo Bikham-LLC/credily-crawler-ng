@@ -133,7 +133,6 @@ export class SchedulerComponent implements OnInit {
         id: status, 
         itemName: status
       }));
-      console.log(this.statusList);
     })
   }
   selectedStatus: any[] = new Array();
@@ -180,4 +179,38 @@ export class SchedulerComponent implements OnInit {
     this.search.next('');
   }
   
+
+  @ViewChild('openSnapshotModalButton') openSnapshotModalButton !: ElementRef;
+  imageUrl:string='';
+  imageLoadingToggle:boolean = false;
+  imageName:string='';
+  imageExtension:string='';
+  viewSnapshot(url:string, imageName:string){
+    debugger
+    // this.handleRenderPdf();
+    this.imageName = imageName;
+    this.imageLoadingToggle = true;
+    this.imageUrl = url;
+    this.imageExtension = this.getFileExtension(url);
+    this.openSnapshotModalButton.nativeElement.click();
+
+    console.log("Ext: ",this.imageExtension)
+
+    // this.closeLogsButton.nativeElement.click();
+    setTimeout(()=>{
+      this.imageLoadingToggle = false;
+    },1000)
+    this.openSnapshotModalButton.nativeElement.click();
+  }
+
+  getFileExtension(url: string): string {
+    const match = url.match(/\.([a-zA-Z0-9]+)(?:\?|$)/);
+    return match ? match[1] : '';
+  }
+
+  @ViewChild('closeSnapshotModalButton') closeSnapshotModalButton !: ElementRef;
+  closeSnapshotModal(){
+    this.closeSnapshotModalButton.nativeElement.click();
+    // this.viewLogsButton.nativeElement.click();
+  }
 }

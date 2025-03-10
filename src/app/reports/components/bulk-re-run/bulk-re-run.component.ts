@@ -363,38 +363,38 @@ export class BulkReRunComponent implements OnInit {
   appliedFilters: string[] = [];
   updateAppliedFilters() {
     this.appliedFilters = [
-      ...Array.from(this.selectedClients).map(client => `C: ${client}`),
-      ...Array.from(this.selectedLicenses).map(license => `L: ${license}`),
-      ...Array.from(this.selectedProviders).map(provider => `P: ${provider}`),
-      ...Array.from(this.selectedSources).map(source => `V: ${source}`),
-      ...Array.from(this.selectedStatus).map(status => `S: ${status}`),
-      ...Array.from(this.selectedAiStatus).map(aiStatus => `Ai: ${aiStatus}`)
+      ...Array.from(this.selectedClients).map(client => `Client: ${client}`),
+      ...Array.from(this.selectedLicenses).map(license => `License: ${license}`),
+      ...Array.from(this.selectedProviders).map(provider => `Provider: ${provider}`),
+      ...Array.from(this.selectedSources).map(source => `Source: ${source}`),
+      ...Array.from(this.selectedStatus).map(status => `Status: ${status}`),
+      ...Array.from(this.selectedAiStatus).map(aiStatus => `Ai status: ${aiStatus}`)
     ];
   }
 
   removeFilter(filter: string) {
-    if (filter.startsWith("C: ")) {
-      const client = filter.replace("C: ", "");
+    if (filter.startsWith("Client: ")) {
+      const client = filter.replace("Client: ", "");
       this.selectedClients.delete(client);
       this.clientList = Array.from(this.selectedClients);
-    } else if (filter.startsWith("L: ")) {
-      const license = filter.replace("L: ", "");
+    } else if (filter.startsWith("License: ")) {
+      const license = filter.replace("License: ", "");
       this.selectedLicenses.delete(license);
       this.licenseList = Array.from(this.selectedLicenses);
-    } else if (filter.startsWith("P: ")) {
-      const provider = filter.replace("P: ", "");
+    } else if (filter.startsWith("Provider: ")) {
+      const provider = filter.replace("Provider: ", "");
       this.selectedProviders.delete(provider);
       this.providerList = Array.from(this.selectedProviders);
-    } else if (filter.startsWith("V: ")) {
-      const source = filter.replace("V: ", "");
+    } else if (filter.startsWith("Source: ")) {
+      const source = filter.replace("Source: ", "");
       this.selectedSources.delete(source);
       this.sourceList = Array.from(this.selectedSources);
-    } else if (filter.startsWith("S: ")) {
-      const status = filter.replace("S: ", "");
+    } else if (filter.startsWith("Status: ")) {
+      const status = filter.replace("Status: ", "");
       this.selectedStatus.delete(status);
       this.statusList = Array.from(this.selectedStatus);
-    } else if (filter.startsWith("Ai: ")) {
-      const aiStatus = filter.replace("Ai: ", "");
+    } else if (filter.startsWith("Ai status: ")) {
+      const aiStatus = filter.replace("Ai status: ", "");
       this.selectedAiStatus.delete(aiStatus);
       this.aiStatus = Array.from(this.selectedAiStatus);
     }

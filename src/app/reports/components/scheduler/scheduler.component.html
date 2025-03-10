@@ -51,7 +51,7 @@
                         (ngModelChange)="selectVersion($event)" required>
                     </angular2-multiselect>
                 </div>
-                <div class="position-relative col-lg-2 w-25" >
+                <div class="position-relative col-lg-2 w-25">
                     <angular2-multiselect id="statusSelectBox" name="statusSelectBox" [data]="statusList"
                         [settings]="dropdownSettingsStatus" [(ngModel)]="selectedStatus" #statusSelectBox="ngModel"
                         (ngModelChange)="selectStatus($event)" required>
@@ -70,6 +70,7 @@
                         <th style="min-width: 100px;">Provider Name </th>
                         <th style="min-width: 150px;">Client Name</th>
                         <th style="min-width: 120px;">NPI Number</th>
+                        <th style="min-width: 50px;">License Name</th>
                         <th style="min-width: 120px;">Email</th>
                         <th style="min-width: 140px;">Onboarding Date</th>
                         <th style="min-width: 120px;">Updated Date</th>
@@ -89,6 +90,9 @@
                         </td>
                         <td>
                             <div class="tableinfo"><span class="badge-grey npi-badge">{{ crawlerLog.npi }}</span></div>
+                        </td>
+                        <td>
+                            <div class="tableinfo wrapText">{{ crawlerLog.licenseName ? crawlerLog.licenseName : '----'}}</div>
                         </td>
                         <td>
                             <div class="tableinfo"><span class="badge-grey npi-badge">{{ crawlerLog.email }}</span>
@@ -113,7 +117,8 @@
                                     'aistatusInQueue': crawlerLog.crawlerStatus.toUpperCase() == 'LICENSE CONFIG NOT FOUND',
                                     'aistatusLogRequired': crawlerLog.crawlerStatus.toUpperCase() == 'BOARD CONFIG NOT FOUND',
                                     'aistatusBulkRerun': crawlerLog.crawlerStatus.toUpperCase() == 'BULK-RE-RUN',
-                                    'aistatusRerun': crawlerLog.crawlerStatus.toUpperCase() == 'RE-RUN'
+                                    'aistatusRerun': crawlerLog.crawlerStatus.toUpperCase() == 'RE-RUN',
+                                    'aistatusAwaitQueue': crawlerLog.crawlerStatus.toUpperCase() == 'CONFIG ERROR'
                                 }">
                                 {{crawlerLog.crawlerStatus}}
                             </span>
@@ -129,7 +134,13 @@
                                     <i *ngIf="!(crawlerLog.crawlerLogId == logId && isSingleReRunLoading)"
                                         class="bi bi-arrow-clockwise text-dark "></i>
                                 </button>
-                               
+
+                                <button ngbTooltip="View" class="btn btn-light btn-outline-light"
+                                    (click)="viewSnapshot(crawlerLog.snapShotUrl, crawlerLog.licenseName)">
+                                    <i class="bi bi-eye text-dark" style="font-size: 16px;"></i>
+                                </button>
+
+
                             </div>
 
                         </td>
@@ -173,6 +184,35 @@
                         </ngb-pagination>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- show image modal -->
+<button type="button" #openSnapshotModalButton id="openSnapshotModalButton" class="d-none" data-bs-toggle="modal"
+    data-bs-target="#showImageModal"></button>
+<div class="modal blur-bg-2" id="showImageModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false"
+    aria-labelledby="shareModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="max-width:95%;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">{{imageName}}'s Snapshot</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                    (click)="closeSnapshotModal()" #closeSnapshotModalButton id="closeSnapshotModalButton"></button>
+            </div>
+            <div class="modal-body text-center" style="overflow: scroll;height: 680px;">
+                <app-circular-loader *ngIf="imageLoadingToggle"></app-circular-loader>
+                <!-- <iframe *ngIf="!imageLoadingToggle" [src]="imageUrl | safe" style="height: 46rem;width: 100%;" alt=""> </iframe> -->
+
+                <img *ngIf="!imageLoadingToggle && (imageExtension == 'png' || imageExtension == 'jpg')"
+                    [src]="imageUrl" [alt]="'Image description'" style="width: 100%;" />
+
+                <iframe *ngIf="!imageLoadingToggle && !(imageExtension == 'png' || imageExtension == 'jpg')"
+                    [src]="imageUrl | safe" style="height: 46rem;width: 100%;" alt=""> </iframe>
+
+                <!-- <div *ngIf="!imageLoadingToggle" style="height: 46rem;width: 100%;" alt="" id="pdfContainer" #pdfContainer></div> -->
             </div>
         </div>
     </div>
