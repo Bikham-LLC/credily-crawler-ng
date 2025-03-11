@@ -52,47 +52,34 @@
     <div class="border-top py-2 selectedFilertRow">
         <div class="pt-1 selectedFilertInner">
             <div class="row align-items-center justify-content-between">
-                <div class="col-lg-8">
+                <div class="col-lg-6">
                     <div class="filter-bdg d-flex align-items-center gap-2">
                         <p class="filter-pills d-flex align-items-centar gap-2 pointer"
                             *ngFor="let filter of appliedFilters">
-                            {{ 
-                                filter === 'Source: V2' ? 'Source: Credily' : 
-                                filter === 'Source: V3' ? 'Source: PP' : 
-                                filter === 'Ai status: yes' ? 'Ai status: Completed' : 
-                                filter === 'Ai status: no' ? 'Ai status: Error' : 
-                                filter 
-                             }}
+                            {{
+                            filter === 'Source: V2' ? 'Source: Credily' :
+                            filter === 'Source: V3' ? 'Source: PP' :
+                            filter === 'Ai status: yes' ? 'Ai status: Completed' :
+                            filter === 'Ai status: no' ? 'Ai status: Error' :
+                            filter
+                            }}
                             <i class="bi bi-x-lg iconBold lh-sm pointer vertical-middle"
                                 (click)="removeFilter(filter)"></i>
                         </p>
-
-                        <!-- <p class="filter-pills d-flex align-items-centar gap-2 pointer">
-                            Client Name
-                            <span class="clientCout pe-2 position-relative">
-                                +10 -->
-
-                        <!-- <span class="clientListMain">
-                                    <span class="clientListName">John</span>
-                                    <span class="clientListName">Daniel</span>
-                                    <span class="clientListName">Zorro</span>
-                                    <span class="clientListName">David</span>
-                                    <span class="clientListName">Robert</span>
-                                    <span class="clientListName">Richard</span>
-                                </span> -->
-                        <!-- </span>
-                            <i class="bi bi-x-lg iconBold lh-sm pointer vertical-middle"></i>
-                        </p> -->
                     </div>
                 </div>
-                <div class="col-lg-4">
-                    <div class="text-end" *ngIf="selectedItemList.length>0">
-                        <p class="mb-0 fs-12">
+
+                <div class="col-lg-6" *ngIf="crawlerLogList.length>0 && !fetchingReport">
+                    <div class="text-end d-flex justify-content-end align-items-center gap-1">
+                        <p class="mb-0 fs-12" *ngIf="selectedItemList.length>0">
                             <span class="text-primary fs-13">{{selectedItemList.length}}</span> entries on this page are
                             selected. <span class="text-primary fs-13 pointer" (click)="onSelectAll()">Select all
-                                {{crawlerLogTotalCount}}</span> entries <span class="text-danger pointer"
+                                {{crawlerLogTotalCount}}</span> entries <span class="btn btn-sm mx-2 pointer text-bg-danger text-danger text-white"
                                 (click)="clearSelection()">Clear selection</span>
                         </p>
+                        <button ngbTooltip="refreshData" class="btn btn-sm btn-primary" (click)="refreshData()">
+                            <i class="bi bi-arrow-clockwise"></i> Refresh
+                        </button>
                     </div>
                 </div>
             </div>
@@ -177,7 +164,8 @@
                                                 <div
                                                     class="categories-filter mb-3 form-check d-flex align-items-center gap-2 mb-2">
                                                     <input type="checkbox" class="form-check-input" id="all"
-                                                        name="attd-filter" [checked]="!clientSearch || clientSearch.length === 0 ? allClientChecked : false"
+                                                        name="attd-filter"
+                                                        [checked]="!clientSearch || clientSearch.length === 0 ? allClientChecked : false"
                                                         [disabled]="clientSearch && clientSearch.length > 0"
                                                         (change)="selectAllClients($event)">
                                                     <label class="form-check-label fw-normal fs-14 text-dark"
@@ -254,7 +242,8 @@
                                                 <div
                                                     class="categories-filter mb-3 form-check d-flex align-items-center gap-2 mb-2">
                                                     <input type="checkbox" class="form-check-input" id="all"
-                                                        name="attd-filter" [checked]="!providerSearch || providerSearch.length === 0 ? allProviderChecked : false"
+                                                        name="attd-filter"
+                                                        [checked]="!providerSearch || providerSearch.length === 0 ? allProviderChecked : false"
                                                         [disabled]="providerSearch && providerSearch.length>0"
                                                         (change)="selectAllProvider($event)">
                                                     <label class="form-check-label fw-normal fs-14 text-dark"
@@ -332,7 +321,8 @@
                                                 <div
                                                     class="categories-filter mb-3 form-check d-flex align-items-center gap-2 mb-2">
                                                     <input type="checkbox" class="form-check-input" id="all"
-                                                        name="attd-filter" [checked]="!licenseSearch || licenseSearch.length === 0 ? allLicenseChecked : false"
+                                                        name="attd-filter"
+                                                        [checked]="!licenseSearch || licenseSearch.length === 0 ? allLicenseChecked : false"
                                                         [disabled]="licenseSearch && licenseSearch.length>0"
                                                         (change)="selectAllLicesnse($event)">
                                                     <label class="form-check-label fw-normal fs-14 text-dark"
@@ -457,17 +447,18 @@
                                         <div class="row p-3">
                                             <div class="col-lg-12 filterScroll noscrollbar">
                                                 <div class="categories-filter mb-3 form-check d-flex align-items-center gap-2 mb-2"
-                                                *ngFor="let status of distinctStatus; let i = index">
-                                                <input type="checkbox" class="form-check-input" id="{{i}}"
-                                                    name="attd-filter" [checked]="selectedStatus.has(status)"
-                                                    (change)="onSelectStatus($event, status)">
-                                                <label class="form-check-label fw-normal fs-14 text-dark"
-                                                    for="{{i}}">{{status}}</label>
-                                            </div>
+                                                    *ngFor="let status of distinctStatus; let i = index">
+                                                    <input type="checkbox" class="form-check-input" id="{{i}}"
+                                                        name="attd-filter" [checked]="selectedStatus.has(status)"
+                                                        (change)="onSelectStatus($event, status)">
+                                                    <label class="form-check-label fw-normal fs-14 text-dark"
+                                                        for="{{i}}">{{status}}</label>
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="p-2 border-top d-flex gap-2 align-items-center justify-content-end">
-                                            <button class="btn secondaryBtn" (click)="resetStatusFilter()">Reset it</button>
+                                            <button class="btn secondaryBtn" (click)="resetStatusFilter()">Reset
+                                                it</button>
                                             <button class="btn primarybtn" (click)="applyStatusFilter()">Apply</button>
                                         </div>
                                     </div>
@@ -526,8 +517,10 @@
                                             </div>
                                         </div>
                                         <div class="p-2 border-top d-flex gap-2 align-items-center justify-content-end">
-                                            <button class="btn secondaryBtn" (click)="resetAiStatusFilter()">Reset it</button>
-                                            <button class="btn primarybtn" (click)="applyAiStatusFilter()">Apply</button>
+                                            <button class="btn secondaryBtn" (click)="resetAiStatusFilter()">Reset
+                                                it</button>
+                                            <button class="btn primarybtn"
+                                                (click)="applyAiStatusFilter()">Apply</button>
                                         </div>
                                     </div>
                                 </div>
@@ -553,7 +546,8 @@
                             <div class="tableinfo">{{ crawlerLog.providerName}}</div>
                         </td>
                         <td>
-                            <div class="tableinfo wrapText">{{ crawlerLog.licenseName ? crawlerLog.licenseName : '----'}}</div>
+                            <div class="tableinfo wrapText">{{ crawlerLog.licenseName ? crawlerLog.licenseName :
+                                '----'}}</div>
                         </td>
                         <td>
                             <div class="tableinfo"><span class="badge-grey npi-badge">{{ crawlerLog.npi }}</span>
@@ -577,7 +571,7 @@
                         </td>
 
                         <td class="text-center">
-                           
+
                             <span class="fs-10" [ngClass]="{
                                     'aistatusactive': crawlerLog.crawlerStatus.toUpperCase() == 'COMPLETED', 
                                     'aistatuspending': crawlerLog.crawlerStatus.toUpperCase() == 'PENDING', 
@@ -594,13 +588,13 @@
                         </td>
                         <td>
 
-                            <span [ngClass]="{'aistatusactive': crawlerLog.verificationStatus == 'yes', 'aistatusinactive': crawlerLog.verificationStatus != 'yes'}"
-                            class="mx-auto"
-                                    [ngbTooltip]="crawlerLog.verificationLog ?? 'No Description'">
-                                    <i class="bi bi-check2-circle"></i>
+                            <span
+                                [ngClass]="{'aistatusactive': crawlerLog.verificationStatus == 'yes', 'aistatusinactive': crawlerLog.verificationStatus != 'yes'}"
+                                class="mx-auto" [ngbTooltip]="crawlerLog.verificationLog ?? 'No Description'">
+                                <i class="bi bi-check2-circle"></i>
                             </span>
 
-                            
+
                         </td>
                         <td>
                             <div
@@ -609,7 +603,7 @@
                                             <i class="bi bi-link text-dark "></i>
                                     </button> -->
 
-                                <button class="blkBtn btn btn-outline-light"
+                                <button ngbTooltip="re-run" class="blkBtn btn btn-outline-light"
                                     (click)="singleReRunProvider(crawlerLog.crawlerLogId)"
                                     [disabled]="crawlerLog.crawlerLogId == logId && isSingleReRunLoading">
                                     <span *ngIf="crawlerLog.crawlerLogId == logId && isSingleReRunLoading"
@@ -617,13 +611,13 @@
                                     <i *ngIf="!(crawlerLog.crawlerLogId == logId && isSingleReRunLoading)"
                                         class="bi bi-arrow-clockwise text-dark "></i>
                                 </button>
-                                
+
 
                                 <button ngbTooltip="View" class="btn btn-light btn-outline-light"
                                     (click)="viewSnapshot(crawlerLog.snapShotUrl, crawlerLog.licenseName)">
                                     <i class="bi bi-eye text-dark" style="font-size: 16px;"></i>
                                 </button>
-                                
+
                                 <!--container-->
                                 <!-- <button  class="blkBtn btn btn-outline-light" ><i class="bi bi-upload text-dark"></i></button> -->
 
