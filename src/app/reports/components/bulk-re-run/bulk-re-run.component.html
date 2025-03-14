@@ -69,12 +69,13 @@
                     </div>
                 </div>
 
-                <div class="col-lg-6" *ngIf="crawlerLogList.length>0 && !fetchingReport">
+                <div class="col-lg-6" *ngIf="!fetchingReport">
                     <div class="text-end d-flex justify-content-end align-items-center gap-1">
                         <p class="mb-0 fs-12" *ngIf="selectedItemList.length>0">
                             <span class="text-primary fs-13">{{selectedItemList.length}}</span> entries on this page are
                             selected. <span class="text-primary fs-13 pointer" (click)="onSelectAll()">Select all
-                                {{crawlerLogTotalCount}}</span> entries <span class="btn btn-sm mx-2 pointer text-bg-danger text-danger text-white"
+                                {{crawlerLogTotalCount}}</span> entries <span
+                                class="btn btn-sm mx-2 pointer text-bg-danger text-danger text-white"
                                 (click)="clearSelection()">Clear selection</span>
                         </p>
                         <button ngbTooltip="refreshData" class="btn btn-sm btn-primary" (click)="refreshData()">
@@ -173,11 +174,13 @@
                                                 </div>
                                                 <div class="categories-filter mb-3 form-check d-flex align-items-center gap-2 mb-2"
                                                     *ngFor="let client of distinctClients; let i = index">
-                                                    <input type="checkbox" class="form-check-input" id="{{i}}"
-                                                        name="attd-filter" [checked]="selectedClients.has(client)"
-                                                        (change)="onSelectCLient($event, client)">
+                                                    <input type="checkbox" class="form-check-input" [id]="'client-' + i"
+                                                        name="attd-filter" [checked]="selectedClients.has(client.uuid)"
+                                                        (change)="onSelectClient($event, client)">
                                                     <label class="form-check-label fw-normal fs-14 text-dark"
-                                                        for="{{i}}"> {{client}}</label>
+                                                        [for]="'client-' + i">
+                                                        {{ client.name }}
+                                                    </label>
                                                 </div>
                                             </div>
                                         </div>

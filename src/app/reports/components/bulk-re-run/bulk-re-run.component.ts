@@ -17,7 +17,7 @@ import { ReportService } from 'src/app/services/report.service';
 })
 export class BulkReRunComponent implements OnInit {
   readonly Constant = Constant;
-
+  
   databaseHelper: DatabaseHelper = new DatabaseHelper();
   sourceList: any;
   clientList: any;
@@ -50,9 +50,9 @@ export class BulkReRunComponent implements OnInit {
       debugger
       if (router.url == Route.BULK_RERUN_MODULE) {
 
-        this.selectedItemList = [];
-        this.appliedFilters = [];
-        this.resetCLPSFilters();
+        // this.selectedItemList = [];
+        // this.appliedFilters = [];
+        // this.resetCLPSFilters();
         this.updateAppliedFilters();
         this.refreshData();
       }
@@ -205,7 +205,7 @@ export class BulkReRunComponent implements OnInit {
     this.getProviderCrawlerlog(1)
   }
 
-  distinctClients: Set<string> = new Set();
+  distinctClients: { name: string; uuid: string }[] = [];
   distinctLicenses: Set<string> = new Set();
   distinctProviders: Set<string> = new Set();
   distinctStatus: Set<string> = new Set();
@@ -217,7 +217,7 @@ export class BulkReRunComponent implements OnInit {
   getDistinctClients() {
     debugger
     this.reportService.getDistinctClients(this.clientSearch).subscribe((res: any) => {
-      this.distinctClients = new Set(res);
+      this.distinctClients = res;
     })
   }
 
@@ -238,34 +238,31 @@ export class BulkReRunComponent implements OnInit {
       this.distinctStatus = new Set(res);
     })
   }
-
-
   selectedClients: Set<string> = new Set();
   allClientChecked: boolean = false
   allLicenseChecked: boolean = false
   allProviderChecked: boolean = false
-  onSelectCLient(event: Event, client: string) {
+  onSelectClient(event: Event, client: { name: string; uuid: string }) {
     debugger
     const checked = (event.target as HTMLInputElement).checked;
     this.allClientChecked = true
     if (checked) {
-      this.selectedClients.add(client);
+      this.selectedClients.add(client.uuid);
     } else {
-      this.selectedClients.delete(client);
+      this.selectedClients.delete(client.uuid);
     }
 
-    if (this.selectedClients.size < this.distinctClients.size) {
-      this.allClientChecked = false;
-    }
+    this.allClientChecked = this.distinctClients.length > 0 &&
+      this.distinctClients.every(c => this.selectedClients.has(c.uuid));
   }
 
   selectAllClients(event: Event) {
     debugger
     const checked = (event.target as HTMLInputElement).checked;
-    this.allClientChecked = true;
+    // this.allClientChecked = true;
 
     if (checked) {
-      this.selectedClients = new Set(this.distinctClients);
+      this.selectedClients = new Set(this.distinctClients.map(c => c.uuid));
     } else {
       this.selectedClients.clear();
     }
@@ -363,7 +360,11 @@ export class BulkReRunComponent implements OnInit {
   appliedFilters: string[] = [];
   updateAppliedFilters() {
     this.appliedFilters = [
-      ...Array.from(this.selectedClients).map(client => `Client: ${client}`),
+      // ...Array.from(this.selectedClients).map(client => `Client: ${client}`),
+      ...Array.from(this.selectedClients).map(uuid => {
+        const clientObj = this.distinctClients.find(c => c.uuid === uuid);
+        return clientObj ? `Client: ${clientObj.name}` : `Client: ${uuid}`;
+      }),
       ...Array.from(this.selectedLicenses).map(license => `License: ${license}`),
       ...Array.from(this.selectedProviders).map(provider => `Provider: ${provider}`),
       ...Array.from(this.selectedSources).map(source => `Source: ${source}`),
@@ -374,8 +375,11 @@ export class BulkReRunComponent implements OnInit {
 
   removeFilter(filter: string) {
     if (filter.startsWith("Client: ")) {
-      const client = filter.replace("Client: ", "");
-      this.selectedClients.delete(client);
+      const clientName = filter.replace("Client: ", "").trim()
+      const clientObj = this.distinctClients.find(c => c.name === clientName);
+      if (clientObj) {
+        this.selectedClients.delete(clientObj.uuid);
+      }
       this.clientList = Array.from(this.selectedClients);
     } else if (filter.startsWith("License: ")) {
       const license = filter.replace("License: ", "");
