@@ -27,10 +27,6 @@ export class BulkReRunComponent implements OnInit {
   aiStatus: any;
   search = new Subject<string>();
 
-  // cSearch = new Subject<string>();
-  // pSearch = new Subject<string>();
-  // lSearch = new Subject<string>();
-
   fetchingReport: boolean = false;
 
   constructor(private reportService: ReportService,
@@ -600,4 +596,13 @@ export class BulkReRunComponent implements OnInit {
     this.closeSnapshotModalButton.nativeElement.click();
     // this.viewLogsButton.nativeElement.click();
   }
+
+  isModalOpen:  boolean = false;
+  openExportModal() {
+    this.isModalOpen = true;
+}
+
+closeExportModal() {
+    this.isModalOpen = false;
+}
 }

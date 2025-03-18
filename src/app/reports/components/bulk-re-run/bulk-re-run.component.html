@@ -33,8 +33,9 @@
                 </div>
 
                 <div class="position-relative">
-                    <button class="btn primaryBtn" (click)="bulkReRunProvider()"
-                        [disabled]="isBulkReRunLoading || selectedItemList.length == 0">
+                    <button class="btn primaryBtn" (click)="openExportModal()"
+                        [disabled]="isBulkReRunLoading || selectedItemList.length == 0" data-bs-toggle="modal"
+                        data-bs-target="#blkrerunModal">
                         <span *ngIf="isBulkReRunLoading" class="spinner-border spinner-border-sm me-2"></span>
                         Bulk Re-run</button>
                 </div>
@@ -78,7 +79,7 @@
                                 class="btn btn-sm mx-2 pointer text-bg-danger text-danger text-white"
                                 (click)="clearSelection()">Clear selection</span>
                         </p>
-                        <button ngbTooltip="refreshData" class="btn btn-sm btn-primary" (click)="refreshData()">
+                        <button class="btn btn-sm btn-primary" (click)="refreshData()">
                             <i class="bi bi-arrow-clockwise"></i> Refresh
                         </button>
                     </div>
@@ -713,3 +714,43 @@
         </div>
     </div>
 </div>
+
+<!-- show excel report download modal -->
+<button type="button"  id="openSnapshotModalButton" class="" data-bs-toggle="modal"
+    data-bs-target="#blkrerunModal"></button>
+    <div class="modal blur-bg-2" id="blkrerunModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false"
+    aria-labelledby="blkrerunModalModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header align-items-center py-2">
+                <h3 class="modal-title">
+                    Export Report
+                </h3>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="closeExportModal()"></button>
+            </div>
+            <div class="modal-body text-center">
+                
+                <img src="assets/images/xls.png" class="mb-2" style="    width: 50px;"/>
+                <h4 class="modal-title w-100 mb-1">Export bulk re run report</h4>
+                <small class="pt-2 mt-2">
+                    <p class="ng-star-inserted mb-0">
+                        You can choose to re-run the selected items with or without downloading the XLS report.
+                        Select an option below to proceed.
+                    </p>
+                </small>
+                
+            </div>
+            <div class="modal-footer justify-content-end d-flex py-2">
+                <button type="button" class="btn btn-outline-primary">
+                    <span class="ng-star-inserted ">Bulk re-run and Download report</span>
+                </button>
+                <button type="button" class="btn primarybtn ms-2" (click)="bulkReRunProvider()">
+                    Bulk re-run
+                </button>
+            </div>
+        </div>
+        </div>
+        </div>
+
+        
+<!-- </div> -->

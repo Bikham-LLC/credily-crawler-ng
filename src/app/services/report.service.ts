@@ -24,7 +24,7 @@ export class ReportService {
   }
   // ------------------------------- config report section -----------------------
 
-  getProviderReport(databaseHelper: DatabaseHelper, filterType: any, startDate: any, endDate: any, version: string, providerType: string, isLive: number): Observable<any> {
+  getProviderReport(databaseHelper: DatabaseHelper, filterType: any, startDate: any, endDate: any, version: string, providerType: string, isLive: number, requestSource: string): Observable<any> {
     if (databaseHelper == undefined || databaseHelper == null) {
       databaseHelper = new DatabaseHelper();
     }
@@ -37,6 +37,7 @@ export class ReportService {
       .set('version', version)
       .set('providerType', providerType)
       .set('isLive', isLive)
+      .set('requestSource', requestSource)
     if (!Constant.EMPTY_STRINGS.includes(startDate) && !Constant.EMPTY_STRINGS.includes(startDate)) {
       params = params.set('startDate', startDate)
         .set('endDate', endDate)
@@ -45,17 +46,18 @@ export class ReportService {
     return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.report + '/provider-config-report', { params });
   }
 
-  getProviderReportCount(startDate: string, endDate: string, version: string, providerType: string, isLive: number): Observable<any> {
+  getProviderReportCount(startDate: string, endDate: string, version: string, providerType: string, isLive: number, requestSource: string): Observable<any> {
     var params = new HttpParams()
       .set('startDate', startDate)
       .set('endDate', endDate)
       .set('version', version)
       .set('providerType', providerType)
       .set('isLive', isLive)
+      .set('requestSource', requestSource)
     return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.report + '/provider-config-report-count', { params });
   }
 
-  getProviderLogs(providerUuid: string, isRpaConfig: number, providerType: string, isArchive: number, isConfigNotFound: number, isOcrConfig: number): Observable<any> {
+  getProviderLogs(providerUuid: string, isRpaConfig: number, providerType: string, isArchive: number, isConfigNotFound: number, isOcrConfig: number, requestSource: string): Observable<any> {
     var params = new HttpParams()
       .set('providerUuid', providerUuid)
       .set('isRpaConfig', isRpaConfig)
@@ -63,6 +65,7 @@ export class ReportService {
       .set('isArchive', isArchive)
       .set('isConfigNotFound', isConfigNotFound)
       .set('isOcrConfig', isOcrConfig)
+      .set('requestSource', requestSource)
     return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.report + '/logs', { params });
   }
 
@@ -245,10 +248,11 @@ export class ReportService {
   // }
 
 
-  getLogCount(providerUuid: string, providerType: string): Observable<any> {
+  getLogCount(providerUuid: string, providerType: string, requestSource: string): Observable<any> {
     var params = new HttpParams()
       .set('providerUuid', providerUuid)
       .set('providerType', providerType)
+      .set('requestSource', requestSource)
     return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.report + '/log-count', { params });
   }
 

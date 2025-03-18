@@ -50,6 +50,16 @@ a {
   gap: 8px;
   align-items: center;
 }
+.btn-outline-primary{
+  --bs-btn-color: var(--primary-color) !important;;
+  --bs-btn-border-color: var(--primary-color) !important;;
+  --bs-btn-hover-bg: var(--primary-color) !important;;
+  --bs-btn-hover-border-color: var(--primary-color) !important;;
+  --bs-btn-active-bg: var(--primary-color) !important;;
+  --bs-btn-active-border-color: var(--primary-color) !important;;
+  --bs-btn-disabled-color: var(--primary-color) !important;;
+  --bs-btn-disabled-border-color: var(--primary-color) !important;;
+}
 
 ul li,
 ol li {
@@ -176,7 +186,7 @@ ol li {
 
 .modal-title {
   font-weight: 600;
-  font-size: 20px;
+  font-size: 16px;
   line-height: 28px;
   color: #3d3d3d;
 }

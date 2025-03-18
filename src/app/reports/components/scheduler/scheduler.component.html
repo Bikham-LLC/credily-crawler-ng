@@ -77,6 +77,8 @@
                         <th style="min-width: 100px;">Source</th>
                         <th class="text-center" style="min-width: 100px">Status</th>
                         <th class="text-center" style="min-width: 50px;">Action</th>
+                        <!-- <th style="min-width: 60px;" >Logs</th> -->
+
                     </tr>
                 </thead>
                 <tbody *ngIf="crawlerLogList.length>0 && !fetchingReport">
@@ -139,27 +141,18 @@
                                     (click)="viewSnapshot(crawlerLog.snapShotUrl, crawlerLog.licenseName)">
                                     <i class="bi bi-eye text-dark" style="font-size: 16px;"></i>
                                 </button>
-
-
                             </div>
-
                         </td>
+                        <!-- <td class="text-nowrap">
+                            <div class="tableinfo">
+                              <div class="d-flex align-items-center gap-2">
+                                <button type="button" class="btn primarybtn" (click)="viewLogs(obj.providerUuid, obj.providerName, obj.id, obj.version, obj.npi)">View</button>
+                                <span *ngIf="obj.isProviderDeleted == 1" style="margin-left: 13px" class="text-danger" >Deleted!</span>
+                              </div>
+                            </div>
+                          </td> -->
                     </tr>
                 </tbody>
-                <!-- <tbody>
-                    <tr>
-                        <td colspan="12" class="border-0">
-                            <div class="empty-notific text-center" style="margin: 13% 10% 13% 3%;"
-                                *ngIf="!fetchingReport && crawlerLogList.length==0">
-                                <div class="empty-notificinner">
-                                    <img src="assets/images/allexpirable.svg" style="width: 18%;" alt="no data found" />
-                                    <h6 class="m-3 ps-5">No data found</h6>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                </tbody> -->
-
             </table>
             <app-circular-loader *ngIf="fetchingReport"></app-circular-loader>
 

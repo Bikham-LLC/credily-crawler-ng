@@ -1,5 +1,5 @@
 <div class="main">
-  
+
   <div class="align-items-center d-flex gap-2 justify-content-start ms-3 pb-1 roletitlemain">
     <div class="breadcrumb-bx">
       <nav aria-label="breadcrumb">
@@ -15,12 +15,26 @@
       </nav>
     </div>
   </div>
-  
+
   <div class="searchRowMain mb-2">
     <div class="row align-items-center justify-content-between m-0">
       <div class="col-lg-4">
         <div class="d-flex justify-content-start align-items-start gap-2">
-          <button class="btn mt-2" [ngClass]="{'primarybtn': providerType == 'licensed', 'secondaryBtn' : providerType != 'licensed'}" (click)="switchProviderType('licensed')">Licensed Provider</button>
+          <button class="btn mt-2"
+            [ngClass]="{'primarybtn': providerType == 'licensed', 'secondaryBtn' : providerType != 'licensed'}"
+            (click)="switchProviderType('licensed', '')">Licensed Provider</button>
+          <button class="btn mt-2 "
+            [ngClass]="{'primarybtn': providerType == 'licensed' && requestSource === 'SCHEDULER', 'secondaryBtn': requestSource !== 'SCHEDULER'}"
+            (click)="switchProviderType('licensed', 'SCHEDULER')">
+            Scheduler</button>
+        <button class="btn mt-2 "
+            [ngClass]="{'primarybtn': providerType == 'licensed' && requestSource === 'ONBOARDING', 'secondaryBtn': requestSource !== 'ONBOARDING'}"
+            (click)="switchProviderType('licensed', 'ONBOARDING')">
+            Onboarding </button>
+        <button class="btn mt-2 "
+            [ngClass]="{'primarybtn': providerType == 'licensed' && requestSource === 'UPDATED', 'secondaryBtn' : requestSource !== 'UPDATED'}"
+            (click)="switchProviderType('licensed', 'UPDATED')">
+            Updated</button>
           <!-- <button class="btn mt-2" [ngClass]="{'primarybtn': providerType == 'unlicensed', 'secondaryBtn' : providerType != 'unlicensed'}" (click)="switchProviderType('unlicensed')">Unlicensed Provider</button> -->
           <!-- <button class="btn mt-2" [ngClass]="{'primarybtn': providerType == 'scheduledProvider', 'secondaryBtn' : providerType != 'scheduledProvider'}" (click)="switchProviderType('scheduledProvider')">Scheduled Provider</button> -->
         </div>
@@ -28,13 +42,16 @@
       <div class="col-lg-8">
         <div class="d-flex justify-content-end align-items-center gap-2">
           <div class="position-relative w-25">
-            <input id="searchname" name="searchname" placeholder="Search" class="form-control" style="padding:0px 15px 0px 38px" [(ngModel)]="databaseHelper.search" (ngModelChange)="this.providerSearch.next($event)"/>
+            <input id="searchname" name="searchname" placeholder="Search" class="form-control"
+              style="padding:0px 15px 0px 38px" [(ngModel)]="databaseHelper.search"
+              (ngModelChange)="this.providerSearch.next($event)" />
             <i class="bi bi-search search-icon"></i>
           </div>
           <div class="position-relative col-lg-2">
-            <angular2-multiselect id="versionSelectBox" name="versionSelectBox" [data]="versionList" [settings]="dropdownSettingsVersion" [(ngModel)]="selectedVersion" #versionSelectBox="ngModel" (ngModelChange)="selectVersion($event)"
-            required>
-        </angular2-multiselect> 
+            <angular2-multiselect id="versionSelectBox" name="versionSelectBox" [data]="versionList"
+              [settings]="dropdownSettingsVersion" [(ngModel)]="selectedVersion" #versionSelectBox="ngModel"
+              (ngModelChange)="selectVersion($event)" required>
+            </angular2-multiselect>
           </div>
           <!-- <button type="button" class="tblFilterBtn" [ngClass]="{'tblFilterBtnSuccessActive': filterType == 'completed'}" (click)="getProviderReport('completed', 0)">
             <i class="bi bi-check2"></i>
@@ -42,7 +59,7 @@
             <span class="filterCount bg-success text-white" >{{completedCount}}</span>
           </button>
           <button type="button" class="tblFilterBtn" [ngClass]="{'tblFilterBtnPendingActive': filterType == 'partiallyCompleted'}" (click)="getProviderReport('partiallyCompleted', 0)">
-            <i class="bi bi-exclamation-triangle"></i>
+            <i class="bi bi-exclamation-triangle"></i>s
             Partially Completed
             <span class="filterCount bg-warning">{{partiallyCompletedCount}}</span>
           </button>
@@ -51,12 +68,18 @@
             Log Required
             <span class="filterCount bg-warning">{{logRequiredCount}}</span>
           </button> -->
-            <div class="position-relative col-lg-2">
-              <angular2-multiselect id="statusSelectBox" name="statusSelectBox" [data]="statusList" [settings]="dropdownSettingsStatus" [(ngModel)]="selectedStatus"
-               #statusSelectBox="ngModel" (ngModelChange)="selectStatus($event)" required>
-              </angular2-multiselect> 
-           </div>
-
+          <div class="position-relative col-lg-2">
+            <angular2-multiselect id="statusSelectBox" name="statusSelectBox" [data]="statusList"
+              [settings]="dropdownSettingsStatus" [(ngModel)]="selectedStatus" #statusSelectBox="ngModel"
+              (ngModelChange)="selectStatus($event)" required>
+            </angular2-multiselect>
+          </div>
+          <!-- <div class="position-relative col-lg-2">
+            <angular2-multiselect id="sourceSelectBox" name="sourceSelectBox" [data]="sourceList"
+              [settings]="dropdownSettingsSource" [(ngModel)]="selectedSource" #sourceSelectBox="ngModel"
+              (ngModelChange)="selectSource($event)" required>
+            </angular2-multiselect>
+          </div> -->
         </div>
       </div>
     </div>
@@ -97,7 +120,7 @@
             <tbody *ngIf="providerList.length>0 && !fetchingReport">
               <tr *ngFor="let obj of providerList; let i = index">
                 <td class="text-nowrap">
-                    <div class="tableinfo" >{{obj.providerName}}</div>
+                  <div class="tableinfo">{{obj.providerName}}</div>
                 </td>
                 <td class="text-nowrap">
                   <div class="tableinfo">{{obj.accountName?obj.accountName:'---'}}</div>
@@ -125,10 +148,10 @@
                   {{obj.createdDate | date:'MM/dd/yyyy'}}
                 </td>
 
-                
+
                 <td class="text-nowrap">
                   <div class="tableinfo">
-                    <span >{{obj.updatedDate | date:'MM/dd/yyyy'}}</span>
+                    <span>{{obj.updatedDate | date:'MM/dd/yyyy'}}</span>
                     <!-- <span *ngIf="providerType == 'scheduledProvider'">{{obj.scheduledDate}}</span> -->
                   </div>
                 </td>
@@ -138,7 +161,7 @@
                     <span *ngIf="Constant.EMPTY_STRINGS.includes(obj.lastScheduledDate)">---</span>
                   </div>
                 </td> -->
-               
+
                 <!-- <td class="text-nowrap">
                   <div class="tableinfo">
                     <span class=" mx-auto"><span
@@ -159,7 +182,7 @@
                 <td class="text-nowrap">
                   <div class="tableinfo">
                     <span>{{obj.version == 'V2'?'Credily':'Provider Passport'}}</span>
-                  </div> 
+                  </div>
                 </td>
 
                 <td class="text-nowrap">
@@ -175,8 +198,7 @@
                       'aistatusLogRequired': obj.status == 'LOGS REQUIRED',
                       'aistatusAwaitQueue': obj.status == 'AWAIT QUEUE',
                       'aistatusInQueue': obj.status == 'IN QUEUE'
-                    }" 
-                    [ngbTooltip]="
+                    }" [ngbTooltip]="
                       obj.status.toUpperCase() == 'COMPLETED' ? 'COMPLETED' : 
                       obj.status == 'Partially Complete' ? 'Partially Completed' : 
                       obj.status == 'Failed' ? 'Failed' : 
@@ -185,14 +207,16 @@
                       obj.status == 'IN QUEUE' ? 'In Queue' : ''">
                       <i class="bi bi-check2-circle"></i>
                     </span>
-                  </div> 
+                  </div>
                 </td>
 
                 <td class="text-nowrap">
                   <div class="tableinfo">
                     <div class="d-flex align-items-center gap-2">
-                      <button type="button" class="btn primarybtn" (click)="viewLogs(obj.providerUuid, obj.providerName, obj.id, obj.version, obj.npi)">View</button>
-                      <span *ngIf="obj.isProviderDeleted == 1" style="margin-left: 13px" class="text-danger" >Deleted!</span>
+                      <button type="button" class="btn primarybtn"
+                        (click)="viewLogs(obj.providerUuid, obj.providerName, obj.id, obj.version, obj.npi)">View</button>
+                      <span *ngIf="obj.isProviderDeleted == 1" style="margin-left: 13px"
+                        class="text-danger">Deleted!</span>
                     </div>
                   </div>
                 </td>
@@ -202,7 +226,8 @@
               <tr>
                 <td colspan="12" class="border-0">
                   <app-circular-loader *ngIf="fetchingReport"></app-circular-loader>
-                  <div class="empty-notific text-center" style="margin: 13% 10% 13% 3%;" *ngIf="!fetchingReport && providerList.length==0">
+                  <div class="empty-notific text-center" style="margin: 13% 10% 13% 3%;"
+                    *ngIf="!fetchingReport && providerList.length==0">
                     <div class="empty-notificinner">
                       <img src="assets/images/allexpirable.svg" style="width: 18%;" alt="no data found" />
                       <h6 class="m-3 ps-5">No data found</h6>
@@ -226,10 +251,9 @@
                   [boundaryLinks]="true">
                 </ngb-pagination> -->
                 <ngb-pagination class="pagination pagination-separated justify-content-sm-end mb-sm-0"
-                [collectionSize]="totalProviders" [rotate]="true" (pageChange)="pageChanged($event)"
-                [pageSize]="databaseHelper.itemsPerPage" [(page)]="p" [maxSize]="8"
-                [boundaryLinks]="true">
-              </ngb-pagination>
+                  [collectionSize]="totalProviders" [rotate]="true" (pageChange)="pageChanged($event)"
+                  [pageSize]="databaseHelper.itemsPerPage" [(page)]="p" [maxSize]="8" [boundaryLinks]="true">
+                </ngb-pagination>
               </div>
             </div>
           </div>
@@ -242,38 +266,45 @@
 
 
 
-<button data-bs-toggle="modal" style="display: none;" data-bs-target="#viewLogs" id="viewLogsButton" #viewLogsButton></button>
+<button data-bs-toggle="modal" style="display: none;" data-bs-target="#viewLogs" id="viewLogsButton"
+  #viewLogsButton></button>
 <div class="modal blur-bg-2" id="viewLogs" tabindex="-1" aria-labelledby="viewEditLabel" data-bs-backdrop="static"
   aria-hidden="true">
   <div class="modal-dialog modal-custom modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header d-flex justify-content-between align-items-center position-relative p-2 pe-4">
         <div class="credTabsinner m-2 ms-3">
-          <span style="font-weight: 500;" *ngIf="!Constant.EMPTY_STRINGS.includes(providerName)" >{{providerName}} : </span>
-          <button type="button" class="btn credTabsBtn" [ngClass]="{'credTabsBtnActive' : logType == 'crawlerLog'}" (click)="switchLogTab('crawlerLog')">
+          <span style="font-weight: 500;" *ngIf="!Constant.EMPTY_STRINGS.includes(providerName)">{{providerName}} :
+          </span>
+          <button type="button" class="btn credTabsBtn" [ngClass]="{'credTabsBtnActive' : logType == 'crawlerLog'}"
+            (click)="switchLogTab('crawlerLog')">
             Crawler Log
             <i class="spinner-border spinner-border-sm" role="status" *ngIf="countToggle"></i>
             <sup class="logCount" *ngIf="!countToggle">{{licenseCount}}</sup>
           </button>
-          <button *ngIf="providerType != 'scheduledProvider'" type="button" class="btn credTabsBtn me-2" [ngClass]="{'credTabsBtnActive' : logType == 'rpaLog'}" (click)="switchLogTab('rpaLog')">
+          <button *ngIf="providerType != 'scheduledProvider'" type="button" class="btn credTabsBtn me-2"
+            [ngClass]="{'credTabsBtnActive' : logType == 'rpaLog'}" (click)="switchLogTab('rpaLog')">
             Rpa Log
             <i class="spinner-border spinner-border-sm" role="status" *ngIf="countToggle"></i>
             <sup class="logCount" *ngIf="!countToggle">{{rpaCount}}</sup>
           </button>
-          <button *ngIf="providerType != 'scheduledProvider'" type="button" class="btn credTabsBtn me-2" [ngClass]="{'credTabsBtnActive' : logType == 'configNotFound'}" (click)="switchLogTab('configNotFound')">
+          <button *ngIf="providerType != 'scheduledProvider'" type="button" class="btn credTabsBtn me-2"
+            [ngClass]="{'credTabsBtnActive' : logType == 'configNotFound'}" (click)="switchLogTab('configNotFound')">
             Not Found config
             <i class="spinner-border spinner-border-sm" role="status" *ngIf="countToggle"></i>
             <sup class="logCount" *ngIf="!countToggle">{{configNotFoundCount}}</sup>
           </button>
-          <button *ngIf="providerType != 'scheduledProvider' && providerReqVersion == 'V3'" type="button" class="btn credTabsBtn me-2" (click)="switchLogTab('replicateLog')">
+          <button *ngIf="providerType != 'scheduledProvider' && providerReqVersion == 'V3'" type="button"
+            class="btn credTabsBtn me-2" (click)="switchLogTab('replicateLog')">
             Replicate Log
           </button>
-          <button *ngIf="providerType == 'scheduledProvider'" type="button" class="btn credTabsBtn me-2" [ngClass]="{'credTabsBtnActive' : logType == 'archiveLog'}" (click)="switchLogTab('archiveLog')">
+          <button *ngIf="providerType == 'scheduledProvider'" type="button" class="btn credTabsBtn me-2"
+            [ngClass]="{'credTabsBtnActive' : logType == 'archiveLog'}" (click)="switchLogTab('archiveLog')">
             Archive Log
             <sup class="logCount">{{archiveCount}}</sup>
           </button>
           <button *ngIf="providerType != 'scheduledProvider'" type="button" class="btn credTabsBtn me-2"
-           [ngClass]="{'credTabsBtnActive' : logType == 'ocrLog'}" (click)="switchLogTab('ocrLog')">
+            [ngClass]="{'credTabsBtnActive' : logType == 'ocrLog'}" (click)="switchLogTab('ocrLog')">
             OCR Log
           </button>
           <span class="pointer" style="margin-left: 12px;" (click)="refreshProviderLogs()">
@@ -298,7 +329,9 @@
         <span *ngIf="!Constant.EMPTY_STRINGS.includes(message)" class="errorTooltip">
           {{message}}
         </span>
-        <button type="button" class="btn-close" style="margin-left: -70%;" [disabled]="providerTestingToggle" data-bs-dismiss="modal" id="closeLogsButton" #closeLogsButton aria-label="Close" (click)="closeLogModel()"></button>
+        <button type="button" class="btn-close" style="margin-left: -70%;" [disabled]="providerTestingToggle"
+          data-bs-dismiss="modal" id="closeLogsButton" #closeLogsButton aria-label="Close"
+          (click)="closeLogModel()"></button>
       </div>
       <div class="modal-body">
         <div *ngIf="isOcrConfig == 0" class="table-responsive" style="height: 70vh;overflow-y: scroll;">
@@ -322,13 +355,14 @@
             </thead>
 
             <tbody>
-              <tr *ngFor="let log of providerCrawlerLogList; let i =index;" [ngClass]="{'is-read': tempMarkedConfigIds.includes(log.id) ? false : log.isRead == 1}">
+              <tr *ngFor="let log of providerCrawlerLogList; let i =index;"
+                [ngClass]="{'is-read': tempMarkedConfigIds.includes(log.id) ? false : log.isRead == 1}">
                 <td>
                   <div class="tableinfo text-nowrap">
                     {{i+1}}
                   </div>
                 </td>
-                <td> 
+                <td>
                   <div class="tableinfo text-nowrap">
                     <span class="textClamp"> {{log.lookupName}}</span>
                   </div>
@@ -341,28 +375,40 @@
                 </td> -->
                 <td>
                   <div class="tableinfo text-nowrap text-center">
-                    <span *ngIf="!Constant.EMPTY_STRINGS.includes(log.errorStatus)" class="statusinactive">{{log.errorStatus?log.errorStatus:'N/A'}}</span>
+                    <span *ngIf="!Constant.EMPTY_STRINGS.includes(log.errorStatus)"
+                      class="statusinactive">{{log.errorStatus?log.errorStatus:'N/A'}}</span>
                     <!-- <span *ngIf="Constant.EMPTY_STRINGS.includes(log.errorStatus)" [ngClass]="{'statusactive':log.crawlerStatus=='COMPLETED', 'statuspending' :log.crawlerStatus=='PENDING', 'statusinactive' :log.crawlerStatus =='LOGS REQUIRED', 'statusinprocess' :log.crawlerStatus =='IN PROCESS', 'statusinawait' :log.crawlerStatus =='AWAIT QUEUE', 'statusinqueue' :log.crawlerStatus == 'IN QUEUE'}" >{{log.crawlerStatus}}</span> -->
-                    <span *ngIf="Constant.EMPTY_STRINGS.includes(log.errorStatus)" [ngClass]="{'statusactive':log.crawlerStatus=='COMPLETED', 'statuspending' :log.crawlerStatus=='PENDING', 
+                    <span *ngIf="Constant.EMPTY_STRINGS.includes(log.errorStatus)"
+                      [ngClass]="{'statusactive':log.crawlerStatus=='COMPLETED', 'statuspending' :log.crawlerStatus=='PENDING', 
                     'statusinactive' :log.crawlerStatus =='LOGS REQUIRED', 'statusinprocess' :log.crawlerStatus =='IN PROCESS', 'statusinawait' :log.crawlerStatus =='AWAIT QUEUE', 'statusinqueue' :log.crawlerStatus == 'IN QUEUE', 'reRunStatus' :(log.crawlerStatus == 'RE-RUN' || log.crawlerStatus == 'RUNNING')}">{{log.crawlerStatus}}</span>
                   </div>
                 </td>
                 <td>
                   <div class="tableinfo text-nowrap text-center">
                     <div class="tableinfo pointer">
-                      <span class="mx-auto aistatusactive" [ngbTooltip]="log.verificationLog ? log.verificationLog: 'No Description'"  *ngIf="log.verificationStatus == 1"><i class="bi bi-check2-circle"></i></span>
-                      <span class="mx-auto aistatusinactive" [ngbTooltip]="log.verificationLog ? log.verificationLog: 'No Description'" *ngIf="log.verificationStatus == 0"><i class="bi bi-check2-circle"></i></span>
-                      <span class="mx-auto aistatusinactive" [ngbTooltip]="log.verificationLog ? log.verificationLog: 'No Description'" *ngIf="log.verificationStatus == 2"><i class="bi bi-check2-circle"></i></span>
+                      <span class="mx-auto aistatusactive"
+                        [ngbTooltip]="log.verificationLog ? log.verificationLog: 'No Description'"
+                        *ngIf="log.verificationStatus == 1"><i class="bi bi-check2-circle"></i></span>
+                      <span class="mx-auto aistatusinactive"
+                        [ngbTooltip]="log.verificationLog ? log.verificationLog: 'No Description'"
+                        *ngIf="log.verificationStatus == 0"><i class="bi bi-check2-circle"></i></span>
+                      <span class="mx-auto aistatusinactive"
+                        [ngbTooltip]="log.verificationLog ? log.verificationLog: 'No Description'"
+                        *ngIf="log.verificationStatus == 2"><i class="bi bi-check2-circle"></i></span>
 
-                    <!-- <button class="border-0 mx-2 bg-light pointer ai-re-run" [disabled]="log.verificationStatus == 2 || tempConfigIds != null && tempConfigIds.includes(log.id)" 
+                      <!-- <button class="border-0 mx-2 bg-light pointer ai-re-run" [disabled]="log.verificationStatus == 2 || tempConfigIds != null && tempConfigIds.includes(log.id)" 
                     [ngbTooltip]="log.verificationStatus == 2 || ((tempConfigIds != null && tempConfigIds.includes(log.id))) ? 'Running' : 'Re-run'" (click)="configAIReRun(log.id)">
                     <i style="font-size: 16px;" [ngClass]="{'text-dark': !(log.verificationStatus == 2 || tempConfigIds != null && tempConfigIds.includes(log.id))}" class="bi bi-arrow-clockwise"></i>
                     </button> -->
 
-                    <button class="border-0 mx-2 bg-light pointer ai-re-run" [disabled]="log.verificationStatus == 2 || tempConfigIds != null && tempConfigIds.includes(log.id)" 
-                    [ngbTooltip]="log.verificationStatus == 2 || ((tempConfigIds != null && tempConfigIds.includes(log.id))) ? 'Running' : 'Re-run'" (click)="configAIReRun(log.id)">
-                    <i style="font-size: 16px;" [ngClass]="{'text-dark': !(log.verificationStatus == 2 || tempConfigIds != null && tempConfigIds.includes(log.id))}" class="bi bi-arrow-clockwise"></i>
-                    </button>
+                      <button class="border-0 mx-2 bg-light pointer ai-re-run"
+                        [disabled]="log.verificationStatus == 2 || tempConfigIds != null && tempConfigIds.includes(log.id)"
+                        [ngbTooltip]="log.verificationStatus == 2 || ((tempConfigIds != null && tempConfigIds.includes(log.id))) ? 'Running' : 'Re-run'"
+                        (click)="configAIReRun(log.id)">
+                        <i style="font-size: 16px;"
+                          [ngClass]="{'text-dark': !(log.verificationStatus == 2 || tempConfigIds != null && tempConfigIds.includes(log.id))}"
+                          class="bi bi-arrow-clockwise"></i>
+                      </button>
 
                     </div>
                   </div>
@@ -393,25 +439,36 @@
                 <td>
                   <div class="tableinfo text-nowrap text-center">
                     <!-- <span>{{log.reRunCount}} <span *ngIf="log.reRunCount > 0 && log.updatedBy == 'Crawler' " class="fw-semibold text-primary">L</span></span> -->
-                    <span [ngClass]="{'fw-semibold text-primary': log.reRunCount > 0 && log.updatedBy == 'Crawler'}">{{log.reRunCount}} </span>
+                    <span
+                      [ngClass]="{'fw-semibold text-primary': log.reRunCount > 0 && log.updatedBy == 'Crawler'}">{{log.reRunCount}}
+                    </span>
                   </div>
                 </td>
                 <td>
                   <div class="tableinfo text-nowrap text-center">
-                    <span [ngClass]="{'fw-semibold text-primary': log.manualUploadCount > 0 && log.updatedBy == 'Manual'}">{{ log.manualUploadCount }} </span>
+                    <span
+                      [ngClass]="{'fw-semibold text-primary': log.manualUploadCount > 0 && log.updatedBy == 'Manual'}">{{
+                      log.manualUploadCount }} </span>
                   </div>
                 </td>
                 <td>
                   <div class="tableinfo text-nowrap d-flex align-items-center justify-content-center gap-2 pointer">
-                    <button *ngIf="isArchive != 1" ngbTooltip="Map again" class="btn btn-light btn-outline-light" [disabled]="log.mapAgainLoadingToggle || mapAgainLoadingToggle || Constant.EMPTY_STRINGS.includes(log.snapShotUrl)" (click)="mapSnapshotAgain(log.id, i)">
+                    <button *ngIf="isArchive != 1" ngbTooltip="Map again" class="btn btn-light btn-outline-light"
+                      [disabled]="log.mapAgainLoadingToggle || mapAgainLoadingToggle || Constant.EMPTY_STRINGS.includes(log.snapShotUrl)"
+                      (click)="mapSnapshotAgain(log.id, i)">
                       <i *ngIf="!log.mapAgainLoadingToggle" class="bi bi-link text-dark" style="font-size: 20px;"></i>
-                      <i *ngIf="log.mapAgainLoadingToggle" style="font-size: 16px;" class="spinner-border spinner-border-sm text-dark"></i>
+                      <i *ngIf="log.mapAgainLoadingToggle" style="font-size: 16px;"
+                        class="spinner-border spinner-border-sm text-dark"></i>
                     </button>
-                    
-                   
-                    <button class="border-0 mx-2 bg-light pointer ai-re-run" [disabled]="log.crawlerStatus == 'RE-RUN' || (Constant.EMPTY_STRINGS.includes(log.lookupName) && Constant.EMPTY_STRINGS.includes(log.lookupLink)) || tempReRunIds != null && tempReRunIds.includes(log.id)" 
-                    [ngbTooltip]="log.crawlerStatus == 'RE-RUN' || ((tempReRunIds != null && tempReRunIds.includes(log.id))) ? 'Running' : 'Re-run'" (click)="reRunProviderLog(log.id, i)">
-                    <i style="font-size: 16px;" [ngClass]="{'text-dark': !(log.crawlerStatus == 'RE-RUN' || tempReRunIds != null && tempReRunIds.includes(log.id))}" class="bi bi-arrow-clockwise"></i>
+
+
+                    <button class="border-0 mx-2 bg-light pointer ai-re-run"
+                      [disabled]="log.crawlerStatus == 'RE-RUN' || (Constant.EMPTY_STRINGS.includes(log.lookupName) && Constant.EMPTY_STRINGS.includes(log.lookupLink)) || tempReRunIds != null && tempReRunIds.includes(log.id)"
+                      [ngbTooltip]="log.crawlerStatus == 'RE-RUN' || ((tempReRunIds != null && tempReRunIds.includes(log.id))) ? 'Running' : 'Re-run'"
+                      (click)="reRunProviderLog(log.id, i)">
+                      <i style="font-size: 16px;"
+                        [ngClass]="{'text-dark': !(log.crawlerStatus == 'RE-RUN' || tempReRunIds != null && tempReRunIds.includes(log.id))}"
+                        class="bi bi-arrow-clockwise"></i>
                     </button>
 
                     <!-- <button *ngIf="isArchive != 1" placement="top" ngbTooltip="Re-run" class="btn btn-light btn-outline-light" [disabled]="log.reTestingToggle || providerTestingToggle || (Constant.EMPTY_STRINGS.includes(log.lookupName) && Constant.EMPTY_STRINGS.includes(log.lookupLink))" (click)="reRunProviderLog(log.id, i)">
@@ -419,31 +476,40 @@
                       <i *ngIf="log.reTestingToggle" style="font-size: 16px;" class="spinner-border spinner-border-sm text-dark"></i>
                     </button> -->
 
-                    <button ngbTooltip="View" class="btn btn-light btn-outline-light" [disabled]="Constant.EMPTY_STRINGS.includes(log.snapShotUrl)" (click)="viewSnapshot(log.snapShotUrl, log.lookupName)" >
+                    <button ngbTooltip="View" class="btn btn-light btn-outline-light"
+                      [disabled]="Constant.EMPTY_STRINGS.includes(log.snapShotUrl)"
+                      (click)="viewSnapshot(log.snapShotUrl, log.lookupName)">
                       <i class="bi bi-eye text-dark" style="font-size: 16px;"></i>
                     </button>
 
-                    <button *ngIf="isArchive != 1" ngbTooltip="Upload Snapshot" class="btn btn-light btn-outline-light" [disabled]="Constant.EMPTY_STRINGS.includes(log.lookupLink)" (click)="openSnapshotUploadModal(log.id, log.lookupName)">
+                    <button *ngIf="isArchive != 1" ngbTooltip="Upload Snapshot" class="btn btn-light btn-outline-light"
+                      [disabled]="Constant.EMPTY_STRINGS.includes(log.lookupLink)"
+                      (click)="openSnapshotUploadModal(log.id, log.lookupName)">
                       <i class="bi bi-upload text-dark" style="font-size: 16px;"></i>
                     </button>
 
-                    <button *ngIf="providerReqVersion == 'V3'" ngbTooltip="Delete" class="btn btn-light btn-outline-light" (click)="openDeleteLogModal(log.id)">
+                    <button *ngIf="providerReqVersion == 'V3'" ngbTooltip="Delete"
+                      class="btn btn-light btn-outline-light" (click)="openDeleteLogModal(log.id)">
                       <i class="bi bi-trash text-dark" style="font-size: 16px;"></i>
                     </button>
 
-                    <button ngbTooltip="Edit-Configuration" class="btn btn-light btn-outline-light" (click)="routeToConfiguration(log)">
+                    <button ngbTooltip="Edit-Configuration" class="btn btn-light btn-outline-light"
+                      (click)="routeToConfiguration(log)">
                       <i class="bi bi-pencil-square text-dark" style="font-size: 16px;"></i>
                     </button>
 
-                    <a ngbTooltip="Link" class="btn btn-light btn-outline-light" href="{{log.lookupLink}}" target="_blank">
+                    <a ngbTooltip="Link" class="btn btn-light btn-outline-light" href="{{log.lookupLink}}"
+                      target="_blank">
                       <i class="bi bi-box-arrow-up-right text-dark" style="font-size: 16px;"></i>
                     </a>
 
-                    <button ngbTooltip="OCR-Data" class="btn btn-light btn-outline-light" (click)="openOcrDataModal(0, log.id, log.lookupName)">
+                    <button ngbTooltip="OCR-Data" class="btn btn-light btn-outline-light"
+                      (click)="openOcrDataModal(0, log.id, log.lookupName)">
                       <i class="bi bi-0-circle text-dark" style="font-size: 16px;"></i>
                     </button>
 
-                    <button [disabled]="log.isRead == 0" ngbTooltip="Mark as complete" (click)="markAsComplete(log.id)" class="btn btn-light btn-outline-light">
+                    <button [disabled]="log.isRead == 0" ngbTooltip="Mark as complete" (click)="markAsComplete(log.id)"
+                      class="btn btn-light btn-outline-light">
                       <i class="bi bi-check-circle text-dark" style="font-size: 16px;"></i>
                     </button>
 
@@ -477,13 +543,14 @@
             </thead>
 
             <tbody>
-              <tr *ngFor="let log of providerCrawlerLogList; let i =index;" [ngClass]="{'is-read': tempMarkedConfigIds.includes(log.id) ? false : log.isRead == 1}">
+              <tr *ngFor="let log of providerCrawlerLogList; let i =index;"
+                [ngClass]="{'is-read': tempMarkedConfigIds.includes(log.id) ? false : log.isRead == 1}">
                 <td>
                   <div class="tableinfo text-nowrap">
                     {{i+1}}
                   </div>
                 </td>
-                <td> 
+                <td>
                   <div class="tableinfo text-nowrap">
                     <span class="textClamp"> {{log.docName}}</span>
                   </div>
@@ -500,16 +567,19 @@
                 </td>
                 <td>
                   <div class="d-flex gap-2 justify-content-center">
-                    <button *ngIf="isArchive != 1" ngbTooltip="View Document" (click)="viewSnapshot(log.docUrl, log.docName)" class="btn btn-light btn-outline-light" >
+                    <button *ngIf="isArchive != 1" ngbTooltip="View Document"
+                      (click)="viewSnapshot(log.docUrl, log.docName)" class="btn btn-light btn-outline-light">
                       <i class="bi bi-file-earmark-medical" style="color: rgb(23, 108, 227); font-size: 14px;"></i>
                     </button>
 
-                    <button ngbTooltip="OCR Data" class="btn btn-light btn-outline-light" (click)="openOcrDataModal(log.attachmentId, 0, '')">
+                    <button ngbTooltip="OCR Data" class="btn btn-light btn-outline-light"
+                      (click)="openOcrDataModal(log.attachmentId, 0, '')">
                       <i class="bi bi-eye" style="color: rgb(23, 108, 227); font-size: 14px;"></i>
                     </button>
 
-                    <button ngbTooltip="OCR Re-run" class="btn btn-light btn-outline-light" >
-                      <i class="bi  bi-arrow-clockwise text-dark" style="color: rgb(23, 108, 227); font-size: 15px;"></i>
+                    <button ngbTooltip="OCR Re-run" class="btn btn-light btn-outline-light">
+                      <i class="bi  bi-arrow-clockwise text-dark"
+                        style="color: rgb(23, 108, 227); font-size: 15px;"></i>
                     </button>
 
                   </div>
@@ -535,7 +605,8 @@
 </div>
 
 <!-- show image modal -->
-<button type="button" #openSnapshotModalButton id="openSnapshotModalButton" class="d-none" data-bs-toggle="modal" data-bs-target="#showImageModal"></button>
+<button type="button" #openSnapshotModalButton id="openSnapshotModalButton" class="d-none" data-bs-toggle="modal"
+  data-bs-target="#showImageModal"></button>
 <div class="modal blur-bg-2" id="showImageModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false"
   aria-labelledby="shareModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" style="max-width:95%;">
@@ -548,11 +619,13 @@
       <div class="modal-body text-center" style="overflow: scroll;height: 680px;">
         <app-circular-loader *ngIf="imageLoadingToggle"></app-circular-loader>
         <!-- <iframe *ngIf="!imageLoadingToggle" [src]="imageUrl | safe" style="height: 46rem;width: 100%;" alt=""> </iframe> -->
-        
-        <img *ngIf="!imageLoadingToggle && (imageExtension == 'png' || imageExtension == 'jpg')" [src]="imageUrl" [alt]="'Image description'" style="width: 100%;" />
-        
-        <iframe *ngIf="!imageLoadingToggle && !(imageExtension == 'png' || imageExtension == 'jpg')" [src]="imageUrl | safe" style="height: 46rem;width: 100%;" alt=""> </iframe>
-        
+
+        <img *ngIf="!imageLoadingToggle && (imageExtension == 'png' || imageExtension == 'jpg')" [src]="imageUrl"
+          [alt]="'Image description'" style="width: 100%;" />
+
+        <iframe *ngIf="!imageLoadingToggle && !(imageExtension == 'png' || imageExtension == 'jpg')"
+          [src]="imageUrl | safe" style="height: 46rem;width: 100%;" alt=""> </iframe>
+
         <!-- <div *ngIf="!imageLoadingToggle" style="height: 46rem;width: 100%;" alt="" id="pdfContainer" #pdfContainer></div> -->
       </div>
     </div>
@@ -560,40 +633,45 @@
 </div>
 
 <!------------------------------------------- Document upload  -------------------------------->
-<button id="snapshotUploadButton" #snapshotUploadButton data-bs-toggle="modal" data-bs-target="#snapshotUpload" style="display:none"></button>
-<div class="modal blur-bg-2" id="snapshotUpload" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="snapshotUploadLabel" aria-hidden="true">
+<button id="snapshotUploadButton" #snapshotUploadButton data-bs-toggle="modal" data-bs-target="#snapshotUpload"
+  style="display:none"></button>
+<div class="modal blur-bg-2" id="snapshotUpload" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="snapshotUploadLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered model-sm">
     <div class="modal-content">
       <div class="modal-header position-relative">
         <div>
           <b>Upload Snapshot</b>
         </div>
-        <button type="button" class="btn-close d-none" data-bs-dismiss="modal" id="closeSsUploadModal" #closeSsUploadModal aria-label="Close"></button>
+        <button type="button" class="btn-close d-none" data-bs-dismiss="modal" id="closeSsUploadModal"
+          #closeSsUploadModal aria-label="Close"></button>
       </div>
       <div class="form-group mdlform mb-3 modal-body">
         <div>
-          <div class="dropzone" single fileDragDrop (filesChangeEmiter)="onDrop($event)" *ngIf="!uploadingToggle && Constant.EMPTY_STRINGS.includes(fileName)">
+          <div class="dropzone" single fileDragDrop (filesChangeEmiter)="onDrop($event)"
+            *ngIf="!uploadingToggle && Constant.EMPTY_STRINGS.includes(fileName)">
             <div class="dropzoneLabel">
-              <input type="file" name="file" id="file" accept= "image/*,application/pdf" (change)="onSelectFile($event)">
+              <input type="file" name="file" id="file" accept="image/*,application/pdf" (change)="onSelectFile($event)">
               <label for="file" class="dropzoneLabelinner">
                 <div *ngIf="!uploadingToggle && Constant.EMPTY_STRINGS.includes(fileName)">
                   <i class="bi bi-cloud-upload"></i>
-                <p class="mb-0">
-                  <span class="pointer">Browse</span> files to upload or drag and drop it here
-                </p>
+                  <p class="mb-0">
+                    <span class="pointer">Browse</span> files to upload or drag and drop it here
+                  </p>
                 </div>
               </label>
             </div>
           </div>
-    
+
           <div class="dropzoneUploading" *ngIf="uploadingToggle">
-            <div class="Uploadingcounter position-relative" [ngClass]="{'Uploadingdone':!Constant.EMPTY_STRINGS.includes(fileName)}">
+            <div class="Uploadingcounter position-relative"
+              [ngClass]="{'Uploadingdone':!Constant.EMPTY_STRINGS.includes(fileName)}">
               {{progress | number : '1.0-0'}}%
             </div>
             <p *ngIf="progress>=0 && progress<100">Fetching Data</p>
             <p *ngIf="progress==100">Done</p>
           </div>
-    
+
           <div class="uplodedIconbox" *ngIf="!uploadingToggle && !Constant.EMPTY_STRINGS.includes(fileName)">
             <div class="uplodedIconinner position-relative">
               <div class="uplodedIcon position-relative">
@@ -604,17 +682,20 @@
             <span>{{fileName}}</span>
           </div>
         </div>
-          <div *ngIf="uploadValidToggle" style="color: red;">
-            <small>Please upload document first?</small>
-          </div>
+        <div *ngIf="uploadValidToggle" style="color: red;">
+          <small>Please upload document first?</small>
+        </div>
       </div>
-      <div class="modal-body pt-0">        
+      <div class="modal-body pt-0">
         <div class="modal-footer border-top-0 p-0 justify-content-between">
-          <button type="button" class="btn btn-outline-secondary mx-0" style="color: #c6c2c2;" (click)="closeSnapShotUploadModal()">
+          <button type="button" class="btn btn-outline-secondary mx-0" style="color: #c6c2c2;"
+            (click)="closeSnapShotUploadModal()">
             Cancel
           </button>
-          <button type="button" class="btn btn-outline-primary" [disabled]="updatingSnapshotToggle" (click)="uploadSnapshot()">
-            <span>Update </span> <i class="spinner-border spinner-border-sm" role="spin" *ngIf="updatingSnapshotToggle"></i>
+          <button type="button" class="btn btn-outline-primary" [disabled]="updatingSnapshotToggle"
+            (click)="uploadSnapshot()">
+            <span>Update </span> <i class="spinner-border spinner-border-sm" role="spin"
+              *ngIf="updatingSnapshotToggle"></i>
           </button>
         </div>
       </div>
@@ -626,16 +707,19 @@
 
 
 <!-- ------------------------------ add config model -------------------------------------- -->
-<button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#configModal" #createConfigModalButton>Launch Modal</button>
-<div class="modal fade modal-lg" id="configModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-bs-labelledby="exampleModalLabel" aria-bs-hidden="true">
+<button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#configModal"
+  #createConfigModalButton>Launch Modal</button>
+<div class="modal fade modal-lg" id="configModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  aria-bs-labelledby="exampleModalLabel" aria-bs-hidden="true">
   <div class="modal-dialog configModal">
     <div class="modal-content">
       <form #createConfigForm="ngForm" ngNativeValidate>
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel"> 
+          <h5 class="modal-title" id="exampleModalLabel">
             Add Configuration
           </h5>
-          <button type="button" class="close" data-bs-dismiss="modal" aria-bs-label="Close" #closeConfigModalButton [disabled]="configCreatingToggle" (click)="closeConfigModal()">
+          <button type="button" class="close" data-bs-dismiss="modal" aria-bs-label="Close" #closeConfigModalButton
+            [disabled]="configCreatingToggle" (click)="closeConfigModal()">
             <span aria-bs-hidden="true">&times;</span>
           </button>
         </div>
@@ -644,7 +728,8 @@
             <div class="mldConfigurationinner">
               <div class="lookupSearch mb-1">
                 <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="flexCheckDefault" [checked]="isConfigExistToggle" (change)="isConfigExist($event)">
+                  <input class="form-check-input" type="checkbox" id="flexCheckDefault" [checked]="isConfigExistToggle"
+                    (change)="isConfigExist($event)">
                   <label class="form-check-label" for="flexCheckDefault">
                     Does config exist ?
                   </label>
@@ -654,16 +739,20 @@
                     <div class="lookupSearchForm">
                       <label>Configuration Name <sup class="text-danger">*</sup> </label>
                       <div class="position-relative">
-                        <input type="text" class="form-control" name="configName" [(ngModel)]="lookupName" (ngModelChange)="this.matchConfig.next($event)" placeholder="Enter Configuration Name" maxlength="155" required>
+                        <input type="text" class="form-control" name="configName" [(ngModel)]="lookupName"
+                          (ngModelChange)="this.matchConfig.next($event)" placeholder="Enter Configuration Name"
+                          maxlength="155" required>
                       </div>
-                      <small *ngIf="!Constant.EMPTY_STRINGS.includes(configMessage)" style="color: red;">{{configMessage}}</small>
+                      <small *ngIf="!Constant.EMPTY_STRINGS.includes(configMessage)"
+                        style="color: red;">{{configMessage}}</small>
                     </div>
                   </div>
                   <div class="col-lg-6" *ngIf="!isConfigExistToggle">
                     <div class="lookupSearchForm">
                       <label>Config link <sup class="text-danger">*</sup> </label>
                       <div class="position-relative">
-                        <input type="text" class="form-control" name="configLink" [(ngModel)]="lookupLink" placeholder="Enter Configuration link" maxlength="155" required>
+                        <input type="text" class="form-control" name="configLink" [(ngModel)]="lookupLink"
+                          placeholder="Enter Configuration link" maxlength="155" required>
                       </div>
                     </div>
                   </div>
@@ -671,47 +760,59 @@
                     <div class="lookupSearchForm">
                       <div class="position-relative">
                         <label class="">Config Type <sup class="text-danger">*</sup> </label>
-                        <angular2-multiselect id="configType" name="configType" [data]="configTypeList" [settings]="dropdownSettingsAttachmentType" [(ngModel)]="selectedConfigType" (ngModelChange)="selectConfigType($event)" required>
+                        <angular2-multiselect id="configType" name="configType" [data]="configTypeList"
+                          [settings]="dropdownSettingsAttachmentType" [(ngModel)]="selectedConfigType"
+                          (ngModelChange)="selectConfigType($event)" required>
                         </angular2-multiselect>
                       </div>
-                      <small *ngIf="createConfigForm.submitted && Constant.EMPTY_STRINGS.includes(configType)" style="color: red;">Select config type!</small>
+                      <small *ngIf="createConfigForm.submitted && Constant.EMPTY_STRINGS.includes(configType)"
+                        style="color: red;">Select config type!</small>
                     </div>
                   </div>
                   <div class="col-lg-6" *ngIf="isConfigExistToggle">
                     <div class="lookupSearchForm">
                       <label>Configuration Name <sup class="text-danger">*</sup> </label>
-                      <angular2-multiselect id="config" name="config" [data]="configList" 
-                        [settings]="dropdownSettingsConfigName" [(ngModel)]="selectedConfigName" 
+                      <angular2-multiselect id="config" name="config" [data]="configList"
+                        [settings]="dropdownSettingsConfigName" [(ngModel)]="selectedConfigName"
                         (ngModelChange)="selectTaxonomyLink($event)" (keyup)="onSearchLink($event)" required>
                       </angular2-multiselect>
-                      <small *ngIf="createConfigForm.submitted && Constant.EMPTY_STRINGS.includes(lookupName)" style="color: red;">Select config!</small>
+                      <small *ngIf="createConfigForm.submitted && Constant.EMPTY_STRINGS.includes(lookupName)"
+                        style="color: red;">Select config!</small>
                     </div>
                   </div>
                   <div class="col-lg-6" *ngIf="!isConfigExistToggle">
                     <div class="lookupSearchForm">
                       <div class="position-relative">
                         <label class="">Attachment Type <sup class="text-danger">*</sup> </label>
-                        <angular2-multiselect id="attType" name="attType" [data]="attTypeList" [settings]="dropdownSettingsAttachmentType" [(ngModel)]="selectedAttType" (ngModelChange)="selectAttType($event)" required>
+                        <angular2-multiselect id="attType" name="attType" [data]="attTypeList"
+                          [settings]="dropdownSettingsAttachmentType" [(ngModel)]="selectedAttType"
+                          (ngModelChange)="selectAttType($event)" required>
                         </angular2-multiselect>
                       </div>
-                      <small *ngIf="createConfigForm.submitted && Constant.EMPTY_STRINGS.includes(attachmentType)" style="color: red;">Select attachment type!</small>
+                      <small *ngIf="createConfigForm.submitted && Constant.EMPTY_STRINGS.includes(attachmentType)"
+                        style="color: red;">Select attachment type!</small>
                     </div>
                   </div>
                   <div class="col-lg-6" *ngIf="!isConfigExistToggle">
                     <div class="lookupSearchForm">
                       <div class="position-relative">
                         <label class="">Attachment Sub Type <sup class="text-danger">*</sup> </label>
-                        <angular2-multiselect id="attSubType" name="attSubType" [data]="attSubTypeList" [settings]="dropdownSettingsAttachmentSubType" [(ngModel)]="selectedAttSubType" (ngModelChange)="selectAttSubType($event)" required>
+                        <angular2-multiselect id="attSubType" name="attSubType" [data]="attSubTypeList"
+                          [settings]="dropdownSettingsAttachmentSubType" [(ngModel)]="selectedAttSubType"
+                          (ngModelChange)="selectAttSubType($event)" required>
                         </angular2-multiselect>
                       </div>
-                      <small *ngIf="createConfigForm.submitted && Constant.EMPTY_STRINGS.includes(attachmentSubType)" style="color: red;">Select attachment sub type!</small>
+                      <small *ngIf="createConfigForm.submitted && Constant.EMPTY_STRINGS.includes(attachmentSubType)"
+                        style="color: red;">Select attachment sub type!</small>
                     </div>
                   </div>
                   <div class="col-lg-6" *ngIf="configType == 'License Lookup'">
                     <div class="lookupSearchForm">
                       <label>License number <sup class="text-danger">*</sup></label>
                       <div class="position-relative">
-                        <input type="text" class="form-control" id="licenseNumber" name="licenseNumber" [(ngModel)]="licenseNumber" placeholder="Enter license number" minlength="3" maxlength="155" required>
+                        <input type="text" class="form-control" id="licenseNumber" name="licenseNumber"
+                          [(ngModel)]="licenseNumber" placeholder="Enter license number" minlength="3" maxlength="155"
+                          required>
                       </div>
                     </div>
                   </div>
@@ -719,24 +820,22 @@
                     <div class="lookupSearchForm">
                       <label>License Type</label>
                       <div class="position-relative">
-                        <angular2-multiselect id="licenseTypeSelectBox" name="licenseTypeSelectBox" [data]="licenseTypeList" [settings]="dropdownSettingsLicenseType" [(ngModel)]="selectedLicenseType" (ngModelChange)="selectLicenseType($event)">
+                        <angular2-multiselect id="licenseTypeSelectBox" name="licenseTypeSelectBox"
+                          [data]="licenseTypeList" [settings]="dropdownSettingsLicenseType"
+                          [(ngModel)]="selectedLicenseType" (ngModelChange)="selectLicenseType($event)">
                         </angular2-multiselect>
                       </div>
                     </div>
                   </div>
                   <div class="col-lg-6" *ngIf="configType == 'License Lookup'">
-                    <app-state-dropdown [_updatedStateName]="selectedStateName"
-                      [(stateNameProp)]="selectedStateName"
-                      [stateNameLabelClass]="'labelCls'" 
-                      [stateCodeLabelClass]="'labelCls'"
-                      [stateNameDynamic]="'State Name'" 
-                      [stateCodeDynamic]="'State Code'" 
-                      [stateNameClass]="'col-12 labelCls'" 
-                      [stateCodeClass]="'d-none'"
-                      [requiredClass]="'d-none'"
+                    <app-state-dropdown [_updatedStateName]="selectedStateName" [(stateNameProp)]="selectedStateName"
+                      [stateNameLabelClass]="'labelCls'" [stateCodeLabelClass]="'labelCls'"
+                      [stateNameDynamic]="'State Name'" [stateCodeDynamic]="'State Code'"
+                      [stateNameClass]="'col-12 labelCls'" [stateCodeClass]="'d-none'" [requiredClass]="'d-none'"
                       [cityClass]="'d-none'">
                     </app-state-dropdown>
-                    <small *ngIf="createConfigForm.submitted && Constant.EMPTY_STRINGS.includes(selectedStateName)" style="color: red;" >Select state!</small>
+                    <small *ngIf="createConfigForm.submitted && Constant.EMPTY_STRINGS.includes(selectedStateName)"
+                      style="color: red;">Select state!</small>
                   </div>
                 </div>
               </div>
@@ -746,7 +845,8 @@
         <div class="modal-footer">
           <button type="submit" class="btn primaryBtn" [disabled]="configCreatingToggle" (click)="createConfig()">
             <span *ngIf="!configCreatingToggle">Saved</span>
-            <span *ngIf="configCreatingToggle">Saving <i *ngIf="configCreatingToggle" class="spinner-border spinner-border-sm"></i></span>
+            <span *ngIf="configCreatingToggle">Saving <i *ngIf="configCreatingToggle"
+                class="spinner-border spinner-border-sm"></i></span>
           </button>
         </div>
       </form>
@@ -754,13 +854,16 @@
   </div>
 </div>
 
- <!--delete modal-->
-<button type="button" class="d-none" id="deleteModalButton" #deleteModalButton data-bs-toggle="modal" data-bs-target= "#deleteModal"></button>
-<div class="modal blur-bg-2" id="deleteModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="profilCreatemodal" aria-hidden="true">
+<!--delete modal-->
+<button type="button" class="d-none" id="deleteModalButton" #deleteModalButton data-bs-toggle="modal"
+  data-bs-target="#deleteModal"></button>
+<div class="modal blur-bg-2" id="deleteModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="profilCreatemodal" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header d-none">
-        <button type="button" class="btn-close d-none" data-bs-dismiss="modal" aria-label="Close" #deleteCloseModalButton id="deleteCloseModalButton"></button>
+        <button type="button" class="btn-close d-none" data-bs-dismiss="modal" aria-label="Close"
+          #deleteCloseModalButton id="deleteCloseModalButton"></button>
       </div>
       <div class="modal-body text-center">
         <img src="assets/images/bin.png" style="width: 10%; margin-bottom: 15px" class="img-sm" />
@@ -771,11 +874,13 @@
         </small>
       </div>
       <div class="modal-footer justify-content-center">
-        <button type="button" [disabled]="deletingLogToggle" class="btn btnmarkcancel" data-bs-dismiss="modal" (click)="closeDeleteLogModal()">
+        <button type="button" [disabled]="deletingLogToggle" class="btn btnmarkcancel" data-bs-dismiss="modal"
+          (click)="closeDeleteLogModal()">
           Cancel
         </button>
         <button type="button" [disabled]="deletingLogToggle" class="btn btnmarkdelete" (click)="deleteLog()">
-          Yes Delete It <span><i class="spinner-border spinner-border-sm" role="status" *ngIf="deletingLogToggle"></i></span>
+          Yes Delete It <span><i class="spinner-border spinner-border-sm" role="status"
+              *ngIf="deletingLogToggle"></i></span>
         </button>
       </div>
     </div>
@@ -783,16 +888,19 @@
 </div>
 
 <!-- ------------------------------ Log Replicate Modal -------------------------------------- -->
-<button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#replicateModal" #configReplicateModalButton>Launch Modal</button>
-<div class="modal fade modal-lg" id="replicateModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-bs-labelledby="exampleModalLabel" aria-bs-hidden="true">
+<button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#replicateModal"
+  #configReplicateModalButton>Launch Modal</button>
+<div class="modal fade modal-lg" id="replicateModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  aria-bs-labelledby="exampleModalLabel" aria-bs-hidden="true">
   <div class="modal-dialog replicateModal">
     <div class="modal-content">
       <form #replicateLogForm="ngForm" ngNativeValidate>
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel"> 
+          <h5 class="modal-title" id="exampleModalLabel">
             Add Configuration
           </h5>
-          <button type="button" class="close" data-bs-dismiss="modal" aria-bs-label="Close" #closeReplicateModalButton (click)="closeReplicateModal()">
+          <button type="button" class="close" data-bs-dismiss="modal" aria-bs-label="Close" #closeReplicateModalButton
+            (click)="closeReplicateModal()">
             <span aria-bs-hidden="true">&times;</span>
           </button>
         </div>
@@ -801,9 +909,10 @@
             <table class="table">
               <thead>
                 <tr>
-                  <th> 
+                  <th>
                     <div class="d-flex gap-2">
-                      <input class="form-check-input" type="checkbox" value="" id="uuidSelect" [checked]="isAllSelected" (click)="selectAllProvider()">
+                      <input class="form-check-input" type="checkbox" value="" id="uuidSelect" [checked]="isAllSelected"
+                        (click)="selectAllProvider()">
                       <label class="form-check-label" for="uuidSelect">
                         Select All
                       </label>
@@ -817,22 +926,24 @@
                 <tr *ngFor="let obj of credilyProviderList; let i = index">
                   <td class="text-nowrap">
                     <div>
-                      <input class="form-check-input" type="checkbox" [checked]="obj.checked" value="" id="uuidSlct" (click)="selectSingleProvider(obj)">
+                      <input class="form-check-input" type="checkbox" [checked]="obj.checked" value="" id="uuidSlct"
+                        (click)="selectSingleProvider(obj)">
                     </div>
                   </td>
                   <td class="text-nowrap">
-                      <div class="tableinfo" >{{obj.providerName}}</div>
+                    <div class="tableinfo">{{obj.providerName}}</div>
                   </td>
                   <td class="text-nowrap">
                     <div class="tableinfo">{{obj.accountName?obj.accountName:'---'}}</div>
                   </td>
                 </tr>
               </tbody>
-              <tbody > 
+              <tbody>
                 <tr>
                   <td colspan="12" class="border-0">
                     <app-circular-loader *ngIf="credilyProviderLoading"></app-circular-loader>
-                    <div class="empty-notific text-center" style="margin: 13% 10% 13% 3%;" *ngIf="!credilyProviderLoading && credilyProviderList.length==0">
+                    <div class="empty-notific text-center" style="margin: 13% 10% 13% 3%;"
+                      *ngIf="!credilyProviderLoading && credilyProviderList.length==0">
                       <div class="empty-notificinner">
                         <img src="assets/images/allexpirable.svg" style="width: 18%;" alt="no data found" />
                         <h6 class="m-3 ps-5">No data found</h6>
@@ -845,9 +956,10 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button type="submit" class="btn primaryBtn" [disabled]="logReplicateToggle || this.uuidList.length == 0" (click)="replicateLogs()">
+          <button type="submit" class="btn primaryBtn" [disabled]="logReplicateToggle || this.uuidList.length == 0"
+            (click)="replicateLogs()">
             <span *ngIf="!logReplicateToggle">Replicate</span>
-            <span *ngIf="logReplicateToggle">Replicating 
+            <span *ngIf="logReplicateToggle">Replicating
               <i class="spinner-border spinner-border-sm" role="status"></i>
             </span>
           </button>
@@ -859,64 +971,68 @@
 
 
 <!-- ------------------------------ View OCR Data Modal -------------------------------------- -->
-<button type="button" class="d-none" id="showOcrDataModalButton" #showOcrDataModalButton data-bs-toggle="modal" data-bs-target= "#showOcrData"></button>
-<div class="modal blur-bg-2" id="showOcrData" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="showOcrDataLabel" aria-hidden="true">
-    <div class="modal-dialog  modal-dialog-centered">
-        <div class="modal-content">
-            <!-- <div class="d-flex justify-content-between"> -->
-              <div class="modal-header">
-                <h6 class="modal-title" id="showOcrDataLabel">Ocr Data</h6>
-               
-                <div class="d-flex gap-2">
-                  <div >
-                    <button *ngIf="keys.length > 0" type="button" [ngClass]="{'secondaryBtn': editToggle, 'primaryBtn': !editToggle}" class="btn" (click)="editOcrData()">
-                      <span *ngIf="!editToggle">Edit <i class="bi bi-pencil"></i></span>
-                      <span *ngIf="editToggle" >Cancel <i class="bi bi-x-circle"></i></span>
-                    </button>
-                  </div>
-                  <div>
-                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal" aria-label="Close" (click)="closeOcrDataModal()"> Close <i class="bi bi-x"></i></button>
-                  </div>
-                </div>
-            </div>
-            <!-- </div> -->
+<button type="button" class="d-none" id="showOcrDataModalButton" #showOcrDataModalButton data-bs-toggle="modal"
+  data-bs-target="#showOcrData"></button>
+<div class="modal blur-bg-2" id="showOcrData" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false"
+  aria-labelledby="showOcrDataLabel" aria-hidden="true">
+  <div class="modal-dialog  modal-dialog-centered">
+    <div class="modal-content">
+      <!-- <div class="d-flex justify-content-between"> -->
+      <div class="modal-header">
+        <h6 class="modal-title" id="showOcrDataLabel">Ocr Data</h6>
 
-            <div class="modal-body" style="overflow: scroll;">
-                <div class="usertable mt-1">
-                    <div class="m-5" *ngIf="ocrDataLoadingToggle">
-                        <app-circular-loader></app-circular-loader>
-                    </div>
-                    <div  *ngIf="!ocrDataLoadingToggle">
-                        <div  class="m-3 credemptyBxinner text-center" *ngIf="keys.length==0">
-                            <img src="assets/images/allexpirable.svg" alt="" class="mt-5" style="width: 50%;margin-right: 14%;">
-                            <h6 class="m-3">No data found!</h6>
-                        </div>
-                    </div>
-
-                    <div class="caqhJsonTable table-responsive">
-                      <table class="table" *ngIf="!ocrDataLoadingToggle">
-                        <tbody>
-                          <tr *ngFor="let key of keys; let i = index">
-                              <td>{{key | titlecase}}</td>
-                              <td> : </td>
-                              <td *ngIf="!editToggle">{{myMap[key] | titlecase}}</td>
-                              <td *ngIf="editToggle">
-                                <input type="text" class="form-input text-muted" [(ngModel)]="myMap[key]">
-                              </td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
-                    <div class="d-flex justify-content-end" *ngIf="editToggle">
-                      <button type="button" [disabled]="updateOcrToggle" class="btn primaryBtn" (click)="updateOcrData(myMap)">
-                        <span *ngIf="!updateOcrToggle">Update</span>
-                        <span *ngIf="updateOcrToggle">Updating 
-                          <i class="spinner-border spinner-border-sm" role="status"></i>
-                        </span>
-                      </button>
-                    </div>
-                </div>
-            </div>
+        <div class="d-flex gap-2">
+          <div>
+            <button *ngIf="keys.length > 0" type="button"
+              [ngClass]="{'secondaryBtn': editToggle, 'primaryBtn': !editToggle}" class="btn" (click)="editOcrData()">
+              <span *ngIf="!editToggle">Edit <i class="bi bi-pencil"></i></span>
+              <span *ngIf="editToggle">Cancel <i class="bi bi-x-circle"></i></span>
+            </button>
+          </div>
+          <div>
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal" aria-label="Close"
+              (click)="closeOcrDataModal()"> Close <i class="bi bi-x"></i></button>
+          </div>
         </div>
+      </div>
+      <!-- </div> -->
+
+      <div class="modal-body" style="overflow: scroll;">
+        <div class="usertable mt-1">
+          <div class="m-5" *ngIf="ocrDataLoadingToggle">
+            <app-circular-loader></app-circular-loader>
+          </div>
+          <div *ngIf="!ocrDataLoadingToggle">
+            <div class="m-3 credemptyBxinner text-center" *ngIf="keys.length==0">
+              <img src="assets/images/allexpirable.svg" alt="" class="mt-5" style="width: 50%;margin-right: 14%;">
+              <h6 class="m-3">No data found!</h6>
+            </div>
+          </div>
+
+          <div class="caqhJsonTable table-responsive">
+            <table class="table" *ngIf="!ocrDataLoadingToggle">
+              <tbody>
+                <tr *ngFor="let key of keys; let i = index">
+                  <td>{{key | titlecase}}</td>
+                  <td> : </td>
+                  <td *ngIf="!editToggle">{{myMap[key] | titlecase}}</td>
+                  <td *ngIf="editToggle">
+                    <input type="text" class="form-input text-muted" [(ngModel)]="myMap[key]">
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="d-flex justify-content-end" *ngIf="editToggle">
+            <button type="button" [disabled]="updateOcrToggle" class="btn primaryBtn" (click)="updateOcrData(myMap)">
+              <span *ngIf="!updateOcrToggle">Update</span>
+              <span *ngIf="updateOcrToggle">Updating
+                <i class="spinner-border spinner-border-sm" role="status"></i>
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
+</div>

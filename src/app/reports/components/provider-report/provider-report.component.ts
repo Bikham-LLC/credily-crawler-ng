@@ -31,11 +31,15 @@ export class ProviderReportComponent implements OnInit {
  
   dropdownSettingsVersion!: { singleSelection: boolean; text: string; enableSearchFilter: boolean; autoPosition: boolean, badgeShowLimit: number; };
   dropdownSettingsStatus!: { singleSelection: boolean; text: string; enableSearchFilter: boolean; autoPosition: boolean, badgeShowLimit: number; };
+  // dropdownSettingsSource!: { singleSelection: boolean; text: string; enableSearchFilter: boolean; autoPosition: boolean; badgeShowLimit: number; };
   versionList: any[] = [{id:'V2', itemName:'Credily'}, {id:'V3', itemName:'Provider Passport'}];
+  // sourceList: any[] = [{id:'ONBOARDING', itemName:'ONBOARDING'}, {id:'UPDATED', itemName:'UPDATED'}, {id: 'SCHEDULER', itemName: 'SCHEDULER'}];
   statusList: any;
   selectedVersion: any[] = new Array();
   selectedStatus: any[] = new Array();
 
+  requestSource: string = '';
+  // selectedSource: any[] = [];
   providerSearch = new Subject<string>();
   matchConfig = new Subject<string>();
 
@@ -81,6 +85,14 @@ export class ProviderReportComponent implements OnInit {
       autoPosition: false,
       badgeShowLimit: 1
     };
+
+    // this.dropdownSettingsSource = {
+    //   singleSelection: true,
+    //   text: 'Select Source',
+    //   enableSearchFilter: false,
+    //   autoPosition: false,
+    //   badgeShowLimit: 1
+    // };
 
     this.dropdownSettingsStatus = {
       singleSelection: true,
@@ -142,7 +154,7 @@ export class ProviderReportComponent implements OnInit {
   partiallyCompletedCount:number =0;
   logRequiredCount:number =0;
   getProviderReportCount(){
-    this.reportService.getProviderReportCount(this.dataService.startDate, this.dataService.endDate, this.version, this.providerType, this.dataService.isLiveAccount).subscribe(response=>{
+    this.reportService.getProviderReportCount(this.dataService.startDate, this.dataService.endDate, this.version, this.providerType, this.dataService.isLiveAccount, this.requestSource).subscribe(response=>{
       if(response != null){
         this.completedCount = response.completedCount;
         this.partiallyCompletedCount = response.partiallyCompletedCount;
@@ -162,8 +174,9 @@ export class ProviderReportComponent implements OnInit {
   }
 
   providerType:string = 'licensed';
-  switchProviderType(type:string){
+  switchProviderType(type:string, requestSource: string){
     this.providerType = type;
+    this.requestSource = requestSource
     this.getProviderReport(this.filterType, 0);
     this.getProviderReportCount();
   }
@@ -184,7 +197,7 @@ export class ProviderReportComponent implements OnInit {
       }
 
       this.providerList = [];
-    this.reportService.getProviderReport(this.databaseHelper, this.filterType, this.dataService.startDate, this.dataService.endDate, this.version, this.providerType, this.dataService.isLiveAccount).subscribe(response => {
+    this.reportService.getProviderReport(this.databaseHelper, this.filterType, this.dataService.startDate, this.dataService.endDate, this.version, this.providerType, this.dataService.isLiveAccount, this.requestSource).subscribe(response => {
       if(response!=null){
         this.pageToggle = false;
         this.providerList = response.object;
@@ -224,6 +237,17 @@ export class ProviderReportComponent implements OnInit {
     this.getProviderReport("", 1);
     this.getProviderReportCount();
   }
+  // selectSource(event:any){
+  //   debugger
+  //   this.requestSource = '';
+  //   this.databaseHelper.currentPage = 1;
+  //   if(event != undefined && event.length > 0){
+  //     this.requestSource = event[0].id;
+  //   }
+  //   this.getProviderReport("", 1);
+  //   this.getProviderReportCount();
+  // }
+  
 
   p: number = 1;
   pageToggle: boolean = false;
@@ -400,7 +424,7 @@ export class ProviderReportComponent implements OnInit {
   countToggle: boolean = false;
   getLogCount(){
     this.countToggle = true;
-    this.reportService.getLogCount(this.uuid, this.providerType).subscribe(response=>{
+    this.reportService.getLogCount(this.uuid, this.providerType, this.requestSource).subscribe(response=>{
       this.licenseCount = response.licenseCount;
       this.rpaCount = response.rpaCount;
       this.configNotFoundCount = response.configNotFoundCount;
@@ -415,10 +439,11 @@ export class ProviderReportComponent implements OnInit {
 
   providerCrawlerLogList:ProviderRequestCrawlerLog[]=new Array();
   logLoadingToggle:boolean = false;
+ 
   getProviderLogs(providerUuid:string){
     this.logLoadingToggle = true;
     this.providerCrawlerLogList = [];
-    this.reportService.getProviderLogs(providerUuid, this.isRpaConfig, this.providerType, this.isArchive, this.isConfigNotFound, this.isOcrConfig).subscribe(response=>{
+    this.reportService.getProviderLogs(providerUuid, this.isRpaConfig, this.providerType, this.isArchive, this.isConfigNotFound, this.isOcrConfig, this.requestSource).subscribe(response=>{
       this.providerCrawlerLogList = response;
       this.logLoadingToggle = false;
     },error=>{

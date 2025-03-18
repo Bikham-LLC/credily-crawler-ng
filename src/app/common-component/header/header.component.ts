@@ -16,7 +16,7 @@ export class HeaderComponent implements OnInit {
 
   constructor(public _router: Router,
     public dataService: DataService,
-    private router: Router,
+    public router: Router,
     private headerSubscriptionService: HeaderSubscriptionService) {
     if(!this.Constant.EMPTY_STRINGS.includes(localStorage.getItem(this.Constant.USER_NAME))){
       this.userName = String(localStorage.getItem(this.Constant.USER_NAME));

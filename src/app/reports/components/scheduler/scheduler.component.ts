@@ -213,4 +213,5 @@ export class SchedulerComponent implements OnInit {
     this.closeSnapshotModalButton.nativeElement.click();
     // this.viewLogsButton.nativeElement.click();
   }
+  
 }

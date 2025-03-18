@@ -34,6 +34,12 @@ export class DataService {
   startDate: any = new Date(this.selected.startDate.toDate()).toDateString();
   endDate: any = new Date(this.selected.endDate.toDate()).toDateString();
 
+  clearDateRange(){
+    this.selected = {startDate : null as any, endDate : null as any}; 
+    this.startDate = '';
+    this.endDate = '';
+    
+  }
 
   isLiveAccount: number = 1;
   selectedOptions: any[] = [{ id: 1, name: 'Live Account' }];
