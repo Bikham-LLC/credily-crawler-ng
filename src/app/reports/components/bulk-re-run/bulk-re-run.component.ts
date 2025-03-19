@@ -17,7 +17,7 @@ import { ReportService } from 'src/app/services/report.service';
 })
 export class BulkReRunComponent implements OnInit {
   readonly Constant = Constant;
-  
+
   databaseHelper: DatabaseHelper = new DatabaseHelper();
   sourceList: any;
   clientList: any;
@@ -159,7 +159,7 @@ export class BulkReRunComponent implements OnInit {
 
     this.reportService.getReRunProviderReport(this.databaseHelper, this.dataService.startDate, this.dataService.endDate,
       this.sourceList, this.licenseList, this.clientList, this.providerList, this.statusList, this.aiStatus, this.dataService.isLiveAccount).subscribe((res: any) => {
-        this.pageToggle =  false;
+        this.pageToggle = false;
         this.crawlerLogList = res;
 
         this.crawlerLogList.forEach(item => {
@@ -205,7 +205,7 @@ export class BulkReRunComponent implements OnInit {
   distinctLicenses: Set<string> = new Set();
   distinctProviders: Set<string> = new Set();
   distinctStatus: Set<string> = new Set();
-  
+
   clientSearch: any
   providerSearch: any
   licenseSearch: any
@@ -330,7 +330,7 @@ export class BulkReRunComponent implements OnInit {
   selectedStatus: Set<string> = new Set();
   onSelectStatus(event: Event, status: string) {
     const checked = (event.target as HTMLInputElement).checked;
-    if(checked) {
+    if (checked) {
       this.selectedStatus.add(status);
     } else {
       this.selectedStatus.delete(status);
@@ -340,7 +340,7 @@ export class BulkReRunComponent implements OnInit {
   selectedAiStatus: Set<string> = new Set();
   onSelectAiStatus(event: Event, aiStatus: string) {
     const checked = (event.target as HTMLInputElement).checked;
-    if(checked) {
+    if (checked) {
       this.selectedAiStatus.add(aiStatus);
     } else {
       this.selectedAiStatus.delete(aiStatus);
@@ -526,8 +526,14 @@ export class BulkReRunComponent implements OnInit {
   }
 
   isBulkReRunLoading: boolean = false;
-  bulkReRunProvider() {
+  bulkReRunProvider(isExporting: boolean) {
+    debugger
     this.isBulkReRunLoading = true;
+
+    if (isExporting === true) {
+      this.exportIds = [...this.selectedItemList];
+      this.exportBulkRerunReport();
+    }
 
     const logIds = Array.from(this.selectedItemList);
     this.reportService.bulkReRunProviderLog(logIds).subscribe(res => {
@@ -540,6 +546,38 @@ export class BulkReRunComponent implements OnInit {
       this.refreshData();
       this.selectedItemList = [];
     })
+    this.closeExportModal();
+  }
+  exportIds: number[] = new Array();
+  isExporting: boolean = false;
+  exportBulkRerunReport() {
+    debugger
+    const logIds = Array.from(this.exportIds);
+    this.reportService.exportBulkRerun(logIds).subscribe(response => {
+
+
+      const blob = new Blob([response], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+      const url = window.URL.createObjectURL(blob);
+
+      const timestamp = new Date().toISOString().replace(/[-:T]/g, '').split('.')[0]; 
+      const fileName = `bulk-rerun-export-${timestamp}.xlsx`;
+      
+      // Create a hidden <a> element to trigger the download
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = fileName;
+      document.body.appendChild(a);
+      a.click();
+
+      // Cleanup
+      document.body.removeChild(a);
+      window.URL.revokeObjectURL(url);
+      this.isExporting = false;
+    }, error => {
+      console.error("Download failed", error);
+      this.isExporting = false;
+    });
+
   }
 
   logId: number = 0;
@@ -562,13 +600,13 @@ export class BulkReRunComponent implements OnInit {
     this.databaseHelper.search = '';
     this.search.next('');
   }
-  
+
   @ViewChild('openSnapshotModalButton') openSnapshotModalButton !: ElementRef;
-  imageUrl:string='';
-  imageLoadingToggle:boolean = false;
-  imageName:string='';
-  imageExtension:string='';
-  viewSnapshot(url:string, imageName:string){
+  imageUrl: string = '';
+  imageLoadingToggle: boolean = false;
+  imageName: string = '';
+  imageExtension: string = '';
+  viewSnapshot(url: string, imageName: string) {
     debugger
     // this.handleRenderPdf();
     this.imageName = imageName;
@@ -577,12 +615,12 @@ export class BulkReRunComponent implements OnInit {
     this.imageExtension = this.getFileExtension(url);
     this.openSnapshotModalButton.nativeElement.click();
 
-    console.log("Ext: ",this.imageExtension)
+    console.log("Ext: ", this.imageExtension)
 
     // this.closeLogsButton.nativeElement.click();
-    setTimeout(()=>{
+    setTimeout(() => {
       this.imageLoadingToggle = false;
-    },1000)
+    }, 1000)
     this.openSnapshotModalButton.nativeElement.click();
   }
 
@@ -592,17 +630,17 @@ export class BulkReRunComponent implements OnInit {
   }
 
   @ViewChild('closeSnapshotModalButton') closeSnapshotModalButton !: ElementRef;
-  closeSnapshotModal(){
+  closeSnapshotModal() {
     this.closeSnapshotModalButton.nativeElement.click();
     // this.viewLogsButton.nativeElement.click();
   }
 
-  isModalOpen:  boolean = false;
+  isModalOpen: boolean = false;
   openExportModal() {
     this.isModalOpen = true;
-}
+  }
 
-closeExportModal() {
+  closeExportModal() {
     this.isModalOpen = false;
-}
+  }
 }

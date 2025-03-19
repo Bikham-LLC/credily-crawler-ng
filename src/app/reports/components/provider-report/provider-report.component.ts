@@ -31,15 +31,12 @@ export class ProviderReportComponent implements OnInit {
  
   dropdownSettingsVersion!: { singleSelection: boolean; text: string; enableSearchFilter: boolean; autoPosition: boolean, badgeShowLimit: number; };
   dropdownSettingsStatus!: { singleSelection: boolean; text: string; enableSearchFilter: boolean; autoPosition: boolean, badgeShowLimit: number; };
-  // dropdownSettingsSource!: { singleSelection: boolean; text: string; enableSearchFilter: boolean; autoPosition: boolean; badgeShowLimit: number; };
   versionList: any[] = [{id:'V2', itemName:'Credily'}, {id:'V3', itemName:'Provider Passport'}];
-  // sourceList: any[] = [{id:'ONBOARDING', itemName:'ONBOARDING'}, {id:'UPDATED', itemName:'UPDATED'}, {id: 'SCHEDULER', itemName: 'SCHEDULER'}];
   statusList: any;
   selectedVersion: any[] = new Array();
   selectedStatus: any[] = new Array();
 
   requestSource: string = '';
-  // selectedSource: any[] = [];
   providerSearch = new Subject<string>();
   matchConfig = new Subject<string>();
 
@@ -184,12 +181,6 @@ export class ProviderReportComponent implements OnInit {
   getProviderReport(filterType:string, isPageChange:number){
       debugger
       this.fetchingReport = true;
-      // if(this.filterType == filterType && isPageChange != 1){
-      //   this.filterType = '';
-      // } else {
-      //   this.filterType = filterType;
-      // }
-      // this.providerCrawlerLogList = [];
       this.databaseHelper.currentPage = this.p;
       if (!this.pageToggle) {
         this.p = 1;
@@ -237,16 +228,6 @@ export class ProviderReportComponent implements OnInit {
     this.getProviderReport("", 1);
     this.getProviderReportCount();
   }
-  // selectSource(event:any){
-  //   debugger
-  //   this.requestSource = '';
-  //   this.databaseHelper.currentPage = 1;
-  //   if(event != undefined && event.length > 0){
-  //     this.requestSource = event[0].id;
-  //   }
-  //   this.getProviderReport("", 1);
-  //   this.getProviderReportCount();
-  // }
   
 
   p: number = 1;

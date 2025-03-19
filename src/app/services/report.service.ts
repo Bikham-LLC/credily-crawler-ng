@@ -562,4 +562,10 @@ export class ReportService {
     return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.report + '/bulk-crawler-log-count', { params });
   }
 
+  exportBulkRerun(logIds: number[]): Observable<Blob>{
+
+    return this.http.post<any>(this.key.server_url + this.key.api_version_one + this.key.report + '/export-bulk-rerun', logIds, { responseType: 'blob' as 'json'} );
+
+  }
+
 }

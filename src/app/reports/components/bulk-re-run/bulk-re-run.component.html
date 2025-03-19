@@ -716,9 +716,9 @@
 </div>
 
 <!-- show excel report download modal -->
-<button type="button"  id="openSnapshotModalButton" class="" data-bs-toggle="modal"
-    data-bs-target="#blkrerunModal"></button>
-    <div class="modal blur-bg-2" id="blkrerunModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false"
+<button type="button"  id="openSnapshotModalButton" class="" (click)="openExportModal()"></button>
+    <div *ngIf="isModalOpen" class="modal blur-bg-2" id="blkrerunModal" tabindex="-1" 
+    data-bs-backdrop="static" data-bs-keyboard="false"
     aria-labelledby="blkrerunModalModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -742,9 +742,9 @@
             </div>
             <div class="modal-footer justify-content-end d-flex py-2">
                 <button type="button" class="btn btn-outline-primary">
-                    <span class="ng-star-inserted ">Bulk re-run and Download report</span>
+                    <span class="ng-star-inserted " (click)="bulkReRunProvider(true)">Bulk re-run and Download report</span>
                 </button>
-                <button type="button" class="btn primarybtn ms-2" (click)="bulkReRunProvider()">
+                <button type="button" class="btn primarybtn ms-2" (click)="bulkReRunProvider(false)">
                     Bulk re-run
                 </button>
             </div>
