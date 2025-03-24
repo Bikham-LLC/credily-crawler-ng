@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Constant } from '../models/Constant';
 import * as moment from 'moment';
+import { HeaderComponent } from '../common-component/header/header.component';
 declare var Toastnotify: any;
 
 @Injectable({
@@ -35,10 +36,9 @@ export class DataService {
   endDate: any = new Date(this.selected.endDate.toDate()).toDateString();
 
   clearDateRange(){
-    this.selected = {startDate : null as any, endDate : null as any}; 
-    this.startDate = '';
-    this.endDate = '';
-    
+    this.startDate = null;
+    this.endDate = null;
+    this.selected ={startDate :  this.startDate, endDate :  this.endDate};
   }
 
   isLiveAccount: number = 1;

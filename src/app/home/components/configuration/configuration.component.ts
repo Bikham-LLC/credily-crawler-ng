@@ -563,7 +563,7 @@ clearSelection() {
     debugger
     this.mapTaxonomyToggle = false;
     this.saveRpaConfigToggle = false;
-    if(this.crawlerType == this.Constant.RPA){
+    if(this.crawlerType == this.Constant.RPA || this.crawlerType == this.Constant.CRAWLER_TYPE_LICENSE_LOOKUP){
       if(this.selectedTaxonomyIds.length == 0){
         this.mapTaxonomyToggle = true;
         return;

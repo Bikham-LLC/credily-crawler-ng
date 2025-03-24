@@ -62,7 +62,7 @@ export class BulkReRunComponent implements OnInit {
     this.getDistinctClients();
     this.getDistinctLicenses();
     this.getDistinctProviders();
-    this.getDistinctStatus();
+    // this.getDistinctStatus();
     this.refreshData();
   }
 
@@ -204,7 +204,19 @@ export class BulkReRunComponent implements OnInit {
   distinctClients: { name: string; uuid: string }[] = [];
   distinctLicenses: Set<string> = new Set();
   distinctProviders: Set<string> = new Set();
-  distinctStatus: Set<string> = new Set();
+  distinctStatus: Set<string> = new Set([
+      "COMPLETED",
+      "ERROR",
+      "LICENSE CONFIG NOT FOUND",
+      "BOARD CONFIG NOT FOUND",
+      "NO RECORD",
+      "IN QUEUE",
+      "PENDING",
+      "CONFIG ERROR",
+      "FAILED",
+      "BULK-RUN",
+      "BULK-RE_RUN"
+    ]);
 
   clientSearch: any
   providerSearch: any
@@ -229,11 +241,11 @@ export class BulkReRunComponent implements OnInit {
     })
   }
 
-  getDistinctStatus() {
-    this.reportService.getDistinctStatus().subscribe((res: any) => {
-      this.distinctStatus = new Set(res);
-    })
-  }
+  // getDistinctStatus() {
+  //   this.reportService.getDistinctStatus().subscribe((res: any) => {
+  //     this.distinctStatus = new Set(res);
+  //   })
+  // }
   selectedClients: Set<string> = new Set();
   allClientChecked: boolean = false
   allLicenseChecked: boolean = false
@@ -351,6 +363,7 @@ export class BulkReRunComponent implements OnInit {
     this.getProviderCrawlerlog(0);
     this.getAllProviderCrawlerId();
     this.getPoviderCrawlerLogCount();
+    // this.getDistinctStatus();
   }
 
   appliedFilters: string[] = [];
@@ -416,6 +429,7 @@ export class BulkReRunComponent implements OnInit {
     this.allClientChecked = false;
     this.updateAppliedFilters();
     this.refreshData();
+    this.shoFilterToggleclient = !this.shoFilterToggleclient;
   }
 
   clearClientSearch() {
@@ -436,6 +450,7 @@ export class BulkReRunComponent implements OnInit {
     this.allLicenseChecked = false;
     this.updateAppliedFilters();
     this.refreshData();
+    this.shoFilterTogglelicense = !this.shoFilterTogglelicense;
   }
 
   clearLicenseSearch() {
@@ -456,6 +471,7 @@ export class BulkReRunComponent implements OnInit {
     this.allProviderChecked = false;
     this.updateAppliedFilters();
     this.refreshData();
+    this.shoFilterToggleProvider = !this.shoFilterToggleProvider
   }
 
   clearProviderSearch() {
@@ -475,6 +491,7 @@ export class BulkReRunComponent implements OnInit {
     this.sourceList = [];
     this.updateAppliedFilters();
     this.refreshData();
+    this.shoFilterToggleSource = !this.shoFilterToggleSource
   }
 
   applyStatusFilter() {
@@ -489,6 +506,7 @@ export class BulkReRunComponent implements OnInit {
     this.statusList = [];
     this.updateAppliedFilters();
     this.refreshData();
+    this.shoFilterToggleStatus = !this.shoFilterToggleStatus;
   }
 
   applyAiStatusFilter() {
@@ -506,6 +524,7 @@ export class BulkReRunComponent implements OnInit {
     this.aiStatus = [];
     this.updateAppliedFilters();
     this.refreshData();
+    this.shoFilterToggleAiStatus = !this.shoFilterToggleAiStatus;
   }
 
   resetCLPSFilters() {
@@ -555,13 +574,12 @@ export class BulkReRunComponent implements OnInit {
     const logIds = Array.from(this.exportIds);
     this.reportService.exportBulkRerun(logIds).subscribe(response => {
 
-
       const blob = new Blob([response], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
       const url = window.URL.createObjectURL(blob);
 
-      const timestamp = new Date().toISOString().replace(/[-:T]/g, '').split('.')[0]; 
+      const timestamp = new Date().toISOString().replace(/[-:T]/g, '').split('.')[0];
       const fileName = `bulk-rerun-export-${timestamp}.xlsx`;
-      
+
       // Create a hidden <a> element to trigger the download
       const a = document.createElement('a');
       a.href = url;

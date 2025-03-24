@@ -40,9 +40,15 @@ export class HeaderComponent implements OnInit {
 
   selectDateFilter(event: any) {
     debugger
-    if (this.dataService.selected != undefined && this.dataService.selected != null && this.dataService.selected.startDate != undefined && this.dataService.selected.endDate != undefined && this.dataService.selected != null) {
+    if(event==null && this.router.url === Route.BULK_RERUN_MODULE){
+      this.dataService.startDate=null;
+      this.dataService.endDate =null;
+      this.dataService.selected = null as any;
+    }
+    else if (this.dataService.selected != undefined && this.dataService.selected != null && this.dataService.selected.startDate != undefined && this.dataService.selected.endDate != undefined && this.dataService.selected != null && this.dataService.selected.startDate != null ) {
       this.dataService.startDate = new Date(this.dataService.selected.startDate.toDate()).toDateString();
       this.dataService.endDate = new Date(this.dataService.selected.endDate.toDate()).toDateString();
+      
     }
     this.headerSubscriptionService.start();
   }

@@ -91,7 +91,7 @@
 </div>
 <div class="dashboardArea">
     <div class="dashNav-paneinner">
-        <div class="usertableinner table-responsive">
+        <div class="usertableinner ">
             <table class="table" *ngIf="crawlerLogList.length>0 && !fetchingReport">
                 <thead>
                     <tr>
@@ -716,7 +716,7 @@
 </div>
 
 <!-- show excel report download modal -->
-<button type="button"  id="openSnapshotModalButton" class="" (click)="openExportModal()"></button>
+<button type="button"  id="openSnapshotModalButton" class="d-none" (click)="openExportModal()"></button>
     <div *ngIf="isModalOpen" class="modal blur-bg-2" id="blkrerunModal" tabindex="-1" 
     data-bs-backdrop="static" data-bs-keyboard="false"
     aria-labelledby="blkrerunModalModalLabel" aria-hidden="true">
