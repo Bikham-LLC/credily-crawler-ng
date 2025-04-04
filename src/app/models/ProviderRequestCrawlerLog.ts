@@ -23,5 +23,6 @@ export class ProviderRequestCrawlerLog{
     docName:string='';
     docUrl:string='';
     attachmentId: number=0;
-    updatedBy: string =''
+    updatedBy: string ='';
+    isFlag: number = 1;
 }
