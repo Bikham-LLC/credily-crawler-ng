@@ -595,9 +595,22 @@ clearSelection() {
   }
 
   closeTaxonomyModal() {
+    debugger
     this.databaseHelper = new DatabaseHelper();
     this.type = 'mapped';
     this.selectedMappdTaxonomyIds = []
+    this.newLinkToggle = false;
+    this.configId = 0;
+    if(this.configurationId >0){
+      this._router.navigate([Route.HOME_CONFIGURATION_ROUTE]);
+    }
+  }
+
+  closeTaxonomyModalOnUpdate() {
+    debugger
+    this.databaseHelper = new DatabaseHelper();
+    this.type = 'mapped';
+    // this.selectedMappdTaxonomyIds = []
     this.newLinkToggle = false;
     this.configId = 0;
     if(this.configurationId >0){
@@ -1009,7 +1022,7 @@ clearSelection() {
     this.licenseLookupConfigRequest.licenseLookUpName = this.lookupName;
     // this.licenseLookupConfigRequest.mappedIds = this.mappedIds;
 
-    this.licenseLookupConfigRequest.mappedIds = [...this.mappedIds, ...this.selectedTaxonomyIds];
+    this.licenseLookupConfigRequest.mappedIds = [...this.mappedIds, ...this.selectedTaxonomyIds, ...this.selectedMappdTaxonomyIds];
     this.licenseLookupConfigRequest.removeIds = this.unMappedIds;
 
     if (this.licenseLookupConfigRequest.removeIds.length > 0) {
