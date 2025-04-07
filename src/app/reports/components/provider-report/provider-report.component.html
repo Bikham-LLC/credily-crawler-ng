@@ -359,7 +359,8 @@
                 </td>
                 <td>
                   <div class="tableinfo text-nowrap">
-                    <span class="textClamp"> {{log.lookupName}} <span *ngIf="log.isFlag === 0" class="d-inline-block fs-10 lh-sm ms-1 px-1 py-0 radius-4 text-bg-warning">old</span></span>
+                    <span *ngIf="log.isFlag === 0" class="d-inline-block fs-10 lh-sm ms-1 px-1 py-0 radius-4 text-bg-warning">old</span>
+                    <span class="textClamp"> {{log.lookupName}} </span>
                   </div>
                 </td>
                 <!-- <td>
