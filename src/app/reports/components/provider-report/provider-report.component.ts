@@ -1178,5 +1178,20 @@ export class ProviderReportComponent implements OnInit {
       this.dataService.showToast('Something went wrong.', 'error');
     })
   }
+
+
+  refetchManual(){
+    this.refetchManualByProvider(this.uuid);
+  }
     
+
+  isRefetchingManualByProvider:boolean = false;
+  refetchManualByProvider(providerUuid:string){
+    this.isRefetchingManualByProvider = true;
+    this.reportService.refetchManualByProvider(providerUuid).subscribe(response=>{
+      this.isRefetchingManualByProvider = false;
+    },error=>{
+      this.isRefetchingManualByProvider = false;
+    })
+  }
 }
