@@ -351,10 +351,11 @@
 
             <tbody>
               <tr *ngFor="let log of providerCrawlerLogList; let i =index;"
-                [ngClass]="{'is-read': tempMarkedConfigIds.includes(log.id) ? false : log.isRead == 1}">
+                >
                 <td>
                   <div class="tableinfo text-nowrap">
                     {{i+1}}
+                    <span *ngIf="tempMarkedConfigIds.includes(log.id) ? false : log.isRead == 1" class="bi bi-circle-fill ms-1 px-1" style="color: #ed7e7e;"></span>
                   </div>
                 </td>
                 <td>
@@ -398,7 +399,7 @@
 
                       <button class="border-0 mx-2 bg-light pointer ai-re-run"
                         [disabled]="log.verificationStatus == 2 || tempConfigIds != null && tempConfigIds.includes(log.id)"
-                        [ngbTooltip]="log.verificationStatus == 2 || ((tempConfigIds != null && tempConfigIds.includes(log.id))) ? 'Running' : 'Re-run'"
+                        [ngbTooltip]="log.verificationStatus == 2 || ((tempConfigIds != null && tempConfigIds.includes(log.id))) ? 'Running' : 'Ai-Re-run'"
                         (click)="configAIReRun(log.id)">
                         <i style="font-size: 16px;"
                           [ngClass]="{'text-dark': !(log.verificationStatus == 2 || tempConfigIds != null && tempConfigIds.includes(log.id))}"
