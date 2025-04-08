@@ -568,4 +568,11 @@ export class ReportService {
 
   }
 
+
+
+  refetchManualByProvider(providerUuid: string): Observable<any> {
+    var params = new HttpParams()
+      .set('providerUuid', providerUuid)
+    return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.provider_crawler_controller + '/send-crawler-log', { params });
+  }
 }
