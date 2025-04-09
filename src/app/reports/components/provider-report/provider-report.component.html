@@ -302,15 +302,17 @@
             [ngClass]="{'credTabsBtnActive' : logType == 'ocrLog'}" (click)="switchLogTab('ocrLog')">
             OCR Log
           </button>
-          <span class="pointer" style="margin-left: 12px;" (click)="refreshProviderLogs()">
+          <button ngbTooltip="refresh" class="btn mt-2" style="margin-left: 12px;" (click)="refreshProviderLogs()">
             <i *ngIf="!logLoadingToggle" class="bi bi-arrow-repeat" style="font-size: 17px;color: #003fdaeb;"></i>
             <i *ngIf="logLoadingToggle" class="spinner-border spinner-border-sm" style="color: #003fdaeb;"></i>
-          </span>
+            Refresh
+          </button>
 
-          <span class="pointer" style="margin-left: 12px;" (click)="refetchManual()">
+          <button ngbTooltip="refetch from provider passport" class="btn mt-2" style="margin-left: 12px;" (click)="refetchManual()">
             <i *ngIf="!isRefetchingManualByProvider" class="bi bi-arrow-clockwise" style="font-size: 17px;color: #da0000eb;"></i>
             <i *ngIf="isRefetchingManualByProvider" class="bi bi-arrow-clockwise spinner-border-sm" style="color: #da0000eb;"></i>
-          </span>
+            Refetch
+          </button>
 
           <button type="button" class="btn btn-light btn-outline-light ms-4" (click)="openCreateConfigModel()">
             <i class="bi bi-plus-lg text-dark"></i>
