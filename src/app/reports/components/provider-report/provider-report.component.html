@@ -21,23 +21,30 @@
       <div class="col-lg-4">
         <div class="d-flex justify-content-start align-items-start gap-2">
           <button class="btn mt-2"
-            [ngClass]="{'primarybtn': providerType == 'licensed', 'secondaryBtn' : providerType != 'licensed'}"
-            (click)="switchProviderType('licensed', '')">Licensed Provider</button>
-          <button class="btn mt-2 "
-            [ngClass]="{'primarybtn': providerType == 'licensed' && requestSource === 'SCHEDULER', 'secondaryBtn': requestSource !== 'SCHEDULER'}"
-            (click)="switchProviderType('licensed', 'SCHEDULER')">
-            Scheduler</button>
-        <button class="btn mt-2 "
-            [ngClass]="{'primarybtn': providerType == 'licensed' && requestSource === 'ONBOARDING', 'secondaryBtn': requestSource !== 'ONBOARDING'}"
-            (click)="switchProviderType('licensed', 'ONBOARDING')">
-            Onboarding </button>
-        <button class="btn mt-2 "
-            [ngClass]="{'primarybtn': providerType == 'licensed' && requestSource === 'UPDATED', 'secondaryBtn' : requestSource !== 'UPDATED'}"
-            (click)="switchProviderType('licensed', 'UPDATED')">
-            Updated</button>
-          <!-- <button class="btn mt-2" [ngClass]="{'primarybtn': providerType == 'unlicensed', 'secondaryBtn' : providerType != 'unlicensed'}" (click)="switchProviderType('unlicensed')">Unlicensed Provider</button> -->
-          <!-- <button class="btn mt-2" [ngClass]="{'primarybtn': providerType == 'scheduledProvider', 'secondaryBtn' : providerType != 'scheduledProvider'}" (click)="switchProviderType('scheduledProvider')">Scheduled Provider</button> -->
-        </div>
+            [ngClass]="{'primarybtn': requestSource === '', 'secondaryBtn': requestSource !== ''}"
+            (click)="switchProviderType('')">Licensed Provider</button>
+
+          <button class="btn mt-2"
+            [ngClass]="{'primarybtn': requestSource === 'SCHEDULER', 'secondaryBtn': requestSource !== 'SCHEDULER'}"
+            (click)="switchProviderType('SCHEDULER')">
+            Scheduler
+            <sup class="logCount" *ngIf="schedulerToggle">{{newSchedulerCount}}</sup>
+          </button>
+
+          <button class="btn mt-2"
+            [ngClass]="{'primarybtn': requestSource === 'ONBOARDING', 'secondaryBtn': requestSource !== 'ONBOARDING'}"
+            (click)="switchProviderType('ONBOARDING')">
+            Onboarding
+            <sup class="logCount" *ngIf="onboardingToggle">{{newOnboardingCount}}</sup>
+          </button>
+
+          <button class="btn mt-2"
+            [ngClass]="{'primarybtn': requestSource === 'UPDATED', 'secondaryBtn': requestSource !== 'UPDATED'}"
+            (click)="switchProviderType('UPDATED')">
+            Updated
+            <sup class="logCount" *ngIf="updatedToggle">{{newUpdatedCount}}</sup>
+          </button>
+       </div>
       </div>
       <div class="col-lg-8">
         <div class="d-flex justify-content-end align-items-center gap-2">
@@ -74,7 +81,7 @@
               (ngModelChange)="selectStatus($event)" required>
             </angular2-multiselect>
           </div>
-          
+
         </div>
       </div>
     </div>
@@ -308,9 +315,12 @@
             Refresh
           </button>
 
-          <button ngbTooltip="refetch from provider passport" class="btn mt-2" style="margin-left: 12px;" (click)="refetchManual()">
-            <i *ngIf="!isRefetchingManualByProvider" class="bi bi-arrow-clockwise" style="font-size: 17px;color: #da0000eb;"></i>
-            <i *ngIf="isRefetchingManualByProvider" class="bi bi-arrow-clockwise spinner-border-sm" style="color: #da0000eb;"></i>
+          <button ngbTooltip="refetch from provider passport" class="btn mt-2" style="margin-left: 12px;"
+            (click)="refetchManual()">
+            <i *ngIf="!isRefetchingManualByProvider" class="bi bi-arrow-clockwise"
+              style="font-size: 17px;color: #da0000eb;"></i>
+            <i *ngIf="isRefetchingManualByProvider" class="bi bi-arrow-clockwise spinner-border-sm"
+              style="color: #da0000eb;"></i>
             Refetch
           </button>
 
@@ -358,18 +368,19 @@
             </thead>
 
             <tbody>
-              <tr *ngFor="let log of providerCrawlerLogList; let i =index;"
-                >
+              <tr *ngFor="let log of providerCrawlerLogList; let i =index;">
                 <td>
                   <div class="tableinfo text-nowrap">
                     {{i+1}}
-                    <span *ngIf="tempMarkedConfigIds.includes(log.id) ? false : log.isRead == 1" class="bi bi-circle-fill ms-1 px-1" style="color: #ed7e7e;"></span>
+                    <span *ngIf="tempMarkedConfigIds.includes(log.id) ? false : log.isRead == 1"
+                      class="bi bi-circle-fill ms-1 px-1" style="color: #ed7e7e;"></span>
                   </div>
                 </td>
                 <td>
                   <div class="tableinfo text-nowrap">
-                    <span *ngIf="log.isFlag === 0" class="d-inline-block fs-10 lh-sm ms-1 px-1 py-0 radius-4 text-bg-warning">old</span>
-                    <span class="textClamp"> {{log.lookupName}} </span>
+                    <span *ngIf="log.isFlag === 0"
+                      class="d-inline-block fs-10 lh-sm ms-1 px-1 py-0 radius-4 text-bg-warning">old</span>
+                    <span class=""> {{log.lookupName}} </span>
                   </div>
                 </td>
                 <!-- <td>

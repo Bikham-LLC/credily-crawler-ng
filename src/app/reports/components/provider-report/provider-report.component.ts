@@ -131,6 +131,7 @@ export class ProviderReportComponent implements OnInit {
 
     this.getProviderReport(this.filterType, 0);
     this.getProviderReportCount();
+    this.getNewProviderReportCount();
     // console.log('In ngOnInit - '+ this.subscribeHeader.destination.closed)
 
     this.tempConfigIds = []
@@ -171,8 +172,8 @@ export class ProviderReportComponent implements OnInit {
   }
 
   providerType:string = 'licensed';
-  switchProviderType(type:string, requestSource: string){
-    this.providerType = type;
+  switchProviderType( requestSource: string){
+    // this.providerType = type;
     this.requestSource = requestSource
     this.getProviderReport(this.filterType, 0);
     this.getProviderReportCount();
@@ -188,7 +189,7 @@ export class ProviderReportComponent implements OnInit {
       }
 
       this.providerList = [];
-    this.reportService.getProviderReport(this.databaseHelper, this.filterType, this.dataService.startDate, this.dataService.endDate, this.version, this.providerType, this.dataService.isLiveAccount, this.requestSource).subscribe(response => {
+    this.reportService.getProviderReport(this.databaseHelper, this.filterType, this.dataService.startDate, this.dataService.endDate, this.version, 'licensed', this.dataService.isLiveAccount, this.requestSource).subscribe(response => {
       if(response!=null){
         this.pageToggle = false;
         this.providerList = response.object;
@@ -197,6 +198,25 @@ export class ProviderReportComponent implements OnInit {
       this.fetchingReport = false;
     }, error => {
       this.fetchingReport = false;
+    })
+  }
+
+  newSchedulerCount:number = 0;
+  newOnboardingCount:number = 0;
+  newUpdatedCount:number = 0;
+  schedulerToggle: boolean = false
+  onboardingToggle: boolean = false
+  updatedToggle: boolean = false
+  getNewProviderReportCount(){
+    this.reportService.getNewProviderReportCount(this.dataService.startDate, this.dataService.endDate,'licensed',1).subscribe(response => {
+      if(response != null){
+        this.newOnboardingCount = response.object.newOnboardingCount;
+        this.newSchedulerCount = response.object.newSchedulerCount;
+        this.newUpdatedCount = response.object.newUpdatedCount;
+        if(this.newOnboardingCount>0) this.onboardingToggle = true
+        if(this.newSchedulerCount>0) this.schedulerToggle = true
+        if(this.newUpdatedCount>0) this.updatedToggle = true
+      }
     })
   }
 

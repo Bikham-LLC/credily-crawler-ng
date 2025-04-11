@@ -575,4 +575,15 @@ export class ReportService {
       .set('providerUuid', providerUuid)
     return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.provider_crawler_controller + '/send-crawler-log', { params });
   }
+
+  getNewProviderReportCount(startDate: any, endDate: any, providerType: string, isLive: number): Observable<any> {
+    var params = new HttpParams()
+      .set('providerType', providerType)
+      .set('isLive', isLive)
+    if (!Constant.EMPTY_STRINGS.includes(startDate) && !Constant.EMPTY_STRINGS.includes(startDate)) {
+      params = params.set('startDate', startDate)
+        .set('endDate', endDate)
+    }
+    return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.report + '/new-provider-report-count', { params });
+  }
 }
