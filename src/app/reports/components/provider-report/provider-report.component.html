@@ -18,7 +18,7 @@
 
   <div class="searchRowMain mb-2">
     <div class="row align-items-center justify-content-between m-0">
-      <div class="col-lg-4">
+      <div class="col-lg-5">
         <div class="d-flex justify-content-start align-items-start gap-2">
           <button class="btn mt-2"
             [ngClass]="{'primarybtn': requestSource === '', 'secondaryBtn': requestSource !== ''}"
@@ -28,25 +28,25 @@
             [ngClass]="{'primarybtn': requestSource === 'SCHEDULER', 'secondaryBtn': requestSource !== 'SCHEDULER'}"
             (click)="switchProviderType('SCHEDULER')">
             Scheduler
-            <sup class="logCount" *ngIf="schedulerToggle">{{newSchedulerCount}}</sup>
+            <span class="logCount" *ngIf="schedulerToggle">{{newSchedulerCount}}</span>
           </button>
 
           <button class="btn mt-2"
             [ngClass]="{'primarybtn': requestSource === 'ONBOARDING', 'secondaryBtn': requestSource !== 'ONBOARDING'}"
             (click)="switchProviderType('ONBOARDING')">
             Onboarding
-            <sup class="logCount" *ngIf="onboardingToggle">{{newOnboardingCount}}</sup>
+            <span class="logCount" *ngIf="onboardingToggle">{{newOnboardingCount}}</span>
           </button>
 
           <button class="btn mt-2"
             [ngClass]="{'primarybtn': requestSource === 'UPDATED', 'secondaryBtn': requestSource !== 'UPDATED'}"
             (click)="switchProviderType('UPDATED')">
             Updated
-            <sup class="logCount" *ngIf="updatedToggle">{{newUpdatedCount}}</sup>
+            <span class="logCount" *ngIf="updatedToggle">{{newUpdatedCount}}</span>
           </button>
        </div>
       </div>
-      <div class="col-lg-8">
+      <div class="col-lg-7">
         <div class="d-flex justify-content-end align-items-center gap-2">
           <div class="position-relative w-25">
             <input id="searchname" name="searchname" placeholder="Search" class="form-control"

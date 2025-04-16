@@ -28,6 +28,9 @@ export class ProviderReportComponent implements OnInit {
 
   readonly Route = Route;
   readonly Constant = Constant;
+
+  today: any = new Date(moment().toDate()).toDateString();
+  yesterday: any = new Date(moment().subtract(1, 'days').toDate()).toDateString();
  
   dropdownSettingsVersion!: { singleSelection: boolean; text: string; enableSearchFilter: boolean; autoPosition: boolean, badgeShowLimit: number; };
   dropdownSettingsStatus!: { singleSelection: boolean; text: string; enableSearchFilter: boolean; autoPosition: boolean, badgeShowLimit: number; };
@@ -52,7 +55,7 @@ export class ProviderReportComponent implements OnInit {
       debounceTime(600))
       .subscribe(value => {
         this.databaseHelper.currentPage = 1;
-        this.getProviderReport(this.filterType, 0);
+        this.getProviderReport(this.filterType, 1);
       });
 
     this.matchConfig.pipe(
@@ -64,7 +67,7 @@ export class ProviderReportComponent implements OnInit {
       this.subscribeHeader = this.headerSubscriptionService.headerVisibilityChange.subscribe(async (value) => {
         debugger
         if(router.url == Route.PROVIDER_REPORT){
-          this.getProviderReport(this.filterType, 0);
+          this.getProviderReport(this.filterType, 1);
           this.getProviderReportCount();
         }
         console.log('In constructor - '+ this.subscribeHeader?.destination?.closed)
@@ -175,7 +178,7 @@ export class ProviderReportComponent implements OnInit {
   switchProviderType( requestSource: string){
     // this.providerType = type;
     this.requestSource = requestSource
-    this.getProviderReport(this.filterType, 0);
+    this.getProviderReport(this.filterType, 1);
     this.getProviderReportCount();
   }
 
@@ -183,7 +186,7 @@ export class ProviderReportComponent implements OnInit {
       debugger
       this.fetchingReport = true;
       this.databaseHelper.currentPage = this.p;
-      if (!this.pageToggle) {
+      if (isPageChange === 1) {
         this.p = 1;
         this.databaseHelper.currentPage = this.p;
       }
@@ -208,7 +211,7 @@ export class ProviderReportComponent implements OnInit {
   onboardingToggle: boolean = false
   updatedToggle: boolean = false
   getNewProviderReportCount(){
-    this.reportService.getNewProviderReportCount(this.dataService.startDate, this.dataService.endDate,'licensed',1).subscribe(response => {
+    this.reportService.getNewProviderReportCount(this.yesterday, this.today,'licensed',1).subscribe(response => {
       if(response != null){
         this.newOnboardingCount = response.object.newOnboardingCount;
         this.newSchedulerCount = response.object.newSchedulerCount;
@@ -382,7 +385,6 @@ export class ProviderReportComponent implements OnInit {
        
         // this.logType = 'crawlerLog';
         this.getProviderReport(this.filterType, 0);
-
       }
       this.logReplicateToggle = false;
     }, error=>{
