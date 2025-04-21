@@ -30,7 +30,7 @@ export class ProviderReportComponent implements OnInit {
   readonly Constant = Constant;
 
   today: any = new Date(moment().toDate()).toDateString();
-  yesterday: any = new Date(moment().subtract(1, 'days').toDate()).toDateString();
+  yesterday: any = new Date(moment().toDate()).toDateString();
  
   dropdownSettingsVersion!: { singleSelection: boolean; text: string; enableSearchFilter: boolean; autoPosition: boolean, badgeShowLimit: number; };
   dropdownSettingsStatus!: { singleSelection: boolean; text: string; enableSearchFilter: boolean; autoPosition: boolean, badgeShowLimit: number; };
@@ -55,7 +55,7 @@ export class ProviderReportComponent implements OnInit {
       debounceTime(600))
       .subscribe(value => {
         this.databaseHelper.currentPage = 1;
-        this.getProviderReport(this.filterType, 1);
+        this.getProviderReport(this.filterType, 0);
       });
 
     this.matchConfig.pipe(
@@ -67,7 +67,7 @@ export class ProviderReportComponent implements OnInit {
       this.subscribeHeader = this.headerSubscriptionService.headerVisibilityChange.subscribe(async (value) => {
         debugger
         if(router.url == Route.PROVIDER_REPORT){
-          this.getProviderReport(this.filterType, 1);
+          this.getProviderReport(this.filterType, 0);
           this.getProviderReportCount();
         }
         console.log('In constructor - '+ this.subscribeHeader?.destination?.closed)
@@ -178,7 +178,7 @@ export class ProviderReportComponent implements OnInit {
   switchProviderType( requestSource: string){
     // this.providerType = type;
     this.requestSource = requestSource
-    this.getProviderReport(this.filterType, 1);
+    this.getProviderReport(this.filterType, 0);
     this.getProviderReportCount();
   }
 
@@ -186,7 +186,7 @@ export class ProviderReportComponent implements OnInit {
       debugger
       this.fetchingReport = true;
       this.databaseHelper.currentPage = this.p;
-      if (isPageChange === 1) {
+      if (!this.pageToggle) {
         this.p = 1;
         this.databaseHelper.currentPage = this.p;
       }
@@ -382,9 +382,11 @@ export class ProviderReportComponent implements OnInit {
         this.uuid = '';
         this.isAllSelected = false;
         this.closeReplicateModalButton.nativeElement.click();
-       
+        this.pageToggle = true;
+      
         // this.logType = 'crawlerLog';
         this.getProviderReport(this.filterType, 0);
+
       }
       this.logReplicateToggle = false;
     }, error=>{
