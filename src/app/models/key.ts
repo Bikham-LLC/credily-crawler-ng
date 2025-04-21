@@ -3,11 +3,11 @@ export class Keys{
     /**
      * Server url key
      */
-    // server_url: string = "https://crawler.providerpassport.info";
+    server_url: string = "https://crawler.providerpassport.info";
 
       // server_url :string ="http://crawler-admin-staging-env.eba-eri7vij8.ap-south-1.elasticbeanstalk.com";  
 
-    server_url: string = "http://localhost:8081";
+    // server_url: string = "http://localhost:8081";
 
 
     api_version_one = "/api/v1";
