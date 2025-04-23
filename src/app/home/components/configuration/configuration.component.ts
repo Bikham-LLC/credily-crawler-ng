@@ -618,6 +618,14 @@ clearSelection() {
     }
   }
 
+  handleTaxonomyModalClose() {
+    if (this.crawlerType === this.Constant.CRAWLER_TYPE_LICENSE_LOOKUP) {
+      this.closeTaxonomyModalOnUpdate();
+    } else {
+      this.closeTaxonomyModal();
+    }
+  }
+
 
   selectTicketType(event :any){
     debugger
@@ -1022,7 +1030,11 @@ clearSelection() {
     this.licenseLookupConfigRequest.licenseLookUpName = this.lookupName;
     // this.licenseLookupConfigRequest.mappedIds = this.mappedIds;
 
-    this.licenseLookupConfigRequest.mappedIds = [...this.mappedIds, ...this.selectedTaxonomyIds, ...this.selectedMappdTaxonomyIds];
+    this.licenseLookupConfigRequest.mappedIds = [
+      ...(this.mappedIds || []),
+      ...(this.selectedTaxonomyIds || []),
+      ...(this.selectedMappdTaxonomyIds || [])
+    ];
     this.licenseLookupConfigRequest.removeIds = this.unMappedIds;
 
     if (this.licenseLookupConfigRequest.removeIds.length > 0) {
@@ -1068,7 +1080,7 @@ clearSelection() {
           if(this.crawlerType == this.Constant.RPA){
             this.closeTaxomonyModalButton.nativeElement.click();
           } else {
-            this.closeSaveUuidModal.nativeElement.click();
+            // this.closeSaveUuidModal.nativeElement.click();
           }
           this.saveRpaConfigToggle = false;
         }, error => {
@@ -1086,7 +1098,7 @@ clearSelection() {
           if(this.crawlerType == this.Constant.RPA){
             this.closeTaxomonyModalButton.nativeElement.click();
           } else {
-            this.closeSaveUuidModal.nativeElement.click();
+            // this.closeSaveUuidModal.nativeElement.click();
           }
           this.saveRpaConfigToggle = false;
         }, error => {
