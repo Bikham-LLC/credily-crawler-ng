@@ -675,7 +675,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn primarycancelbtn d-none" style="border-color: #F05252 !important;" data-bs-dismiss="modal" #closeTaxomonyModalButton (click)="closeTaxonomyModalOnUpdate()">Close</button>
+                        <button type="button" class="btn primarycancelbtn d-none" style="border-color: #F05252 !important;" data-bs-dismiss="modal" #closeTaxomonyModalButton (click)="handleTaxonomyModalClose()">Close</button>
                         
                         <button *ngIf="crawlerType != Constant.RPA" type="submit" class="btn primaryBtn" 
                         [disabled]="mapLookupTaxonomyForm.invalid || updateLinkToggle || taxanomyLinkLoading || loadingLookupTaxonomy || !Constant.EMPTY_STRINGS.includes(configMessage)">

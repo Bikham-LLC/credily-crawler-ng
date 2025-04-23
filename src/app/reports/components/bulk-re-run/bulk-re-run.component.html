@@ -618,6 +618,7 @@
 
 
                                 <button ngbTooltip="View" class="btn btn-light btn-outline-light"
+                                    [disabled]="Constant.EMPTY_STRINGS.includes(crawlerLog.snapShotUrl)"
                                     (click)="viewSnapshot(crawlerLog.snapShotUrl, crawlerLog.licenseName)">
                                     <i class="bi bi-eye text-dark" style="font-size: 16px;"></i>
                                 </button>
