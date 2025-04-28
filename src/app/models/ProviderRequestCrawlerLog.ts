@@ -25,4 +25,5 @@ export class ProviderRequestCrawlerLog{
     attachmentId: number=0;
     updatedBy: string ='';
     isFlag: number = 1;
+    deleteFlag: number = 0;
 }

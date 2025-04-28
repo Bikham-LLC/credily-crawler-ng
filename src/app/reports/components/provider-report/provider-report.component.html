@@ -44,7 +44,7 @@
             Updated
             <span class="logCount" *ngIf="updatedToggle">{{newUpdatedCount}}</span>
           </button>
-       </div>
+        </div>
       </div>
       <div class="col-lg-7">
         <div class="d-flex justify-content-end align-items-center gap-2">
@@ -379,7 +379,11 @@
                 <td>
                   <div class="tableinfo text-nowrap">
                     <span *ngIf="log.isFlag === 0"
-                      class="d-inline-block fs-10 lh-sm ms-1 px-1 py-0 radius-4 text-bg-warning">old</span>
+                      class="d-inline-block fs-10 lh-sm ms-1 px-1 py-0 radius-4 text-bg-warning">old
+                    </span>
+                    <span *ngIf="log.deleteFlag === 1" 
+                    class="bi bi-ban text-danger ms-1" 
+                    ngbTooltip="deleted from PP"></span>
                     <span class=""> {{log.lookupName}} </span>
                   </div>
                 </td>
