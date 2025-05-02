@@ -577,6 +577,7 @@ export class ProviderReportComponent implements OnInit {
   refreshProviderLogs(){
     this.tempConfigIds = []
     this.getProviderLogs(this.uuid);
+    this.getLogCount();
   }
 
   routeToConfiguration(obj:ProviderRequestCrawlerLog){
