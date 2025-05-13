@@ -16,7 +16,8 @@ export class ProviderReport{
     scheduledDate:string='';
     lastScheduledDate:string='';
     isProviderDeleted:number=0;
-    inValidCount:number=0
+    inValidCount:number=0;
     validCount:number=0;
     refreshProviderLoading:boolean=false;
+    isRead:number=0;
 }

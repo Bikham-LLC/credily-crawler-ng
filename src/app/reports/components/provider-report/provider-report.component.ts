@@ -1142,6 +1142,19 @@ export class ProviderReportComponent implements OnInit {
     })
   }
 
+  markAsRead(obj: any) {
+    if (obj.isRead === 0) {
+      obj.isRead = 1;
+  
+      this.reportService.markAsRead(obj.id).subscribe({
+        next: () => {},
+        error: () => {
+          obj.isRead = 0;
+        }
+      });
+    }
+  }  
+
   @ViewChild('showOcrDataModalButton') showOcrDataModalButton!:ElementRef
   openOcrDataModal(attachmentId:number, crawlerLogId:number, lookupName:string){
     this.ocrAttachmentId = attachmentId;

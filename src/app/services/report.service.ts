@@ -377,6 +377,12 @@ export class ReportService {
     return this.http.patch<any>(this.key.server_url + this.key.api_version_one + this.key.report + '/mark-complete', {}, { params });
   }
 
+  markAsRead(providerId: number): Observable<any> {
+    var params = new HttpParams()
+      .set('providerId', providerId)
+    return this.http.patch<any>(this.key.server_url + this.key.api_version_one + this.key.report + '/mark-as-read', {}, { params });
+  }
+
   updateOcrData(attachmentId: number, crawlerLogId: number, ocrConfigName: string, version: string, myMap: any) {
     var params = new HttpParams()
       .set('attachmentId', attachmentId)

@@ -529,3 +529,9 @@ input[type="file"] {
   /* color: black; */
   padding: 3px 14px;
 }
+
+.unread-row {
+  font-weight: 600;
+  background-color: #eef5ff; 
+  /* border-left: 4px solid #007bff; */
+}
