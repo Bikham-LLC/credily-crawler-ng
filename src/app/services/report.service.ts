@@ -592,4 +592,9 @@ export class ReportService {
     }
     return this.http.get<any>(this.key.server_url + this.key.api_version_one + this.key.report + '/new-provider-report-count', { params });
   }
+
+  bulkAiReRunProviderLog(logIds: any[]): Observable<any> {
+    return this.http.post<any>(this.key.server_url + this.key.api_version_one + this.key.report + '/bulk-verify-documents', logIds);
+  }
+
 }
