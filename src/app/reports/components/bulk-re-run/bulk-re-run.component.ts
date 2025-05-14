@@ -215,7 +215,8 @@ export class BulkReRunComponent implements OnInit {
       "CONFIG ERROR",
       "FAILED",
       "BULK-RUN",
-      "BULK-RE_RUN"
+      "BULK-RE-RUN",
+      "RE-RUN"
     ]);
 
   clientSearch: any
