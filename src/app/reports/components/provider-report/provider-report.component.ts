@@ -1217,12 +1217,10 @@ export class ProviderReportComponent implements OnInit {
     })
   }
 
-
   refetchManual(){
     this.refetchManualByProvider(this.uuid);
   }
     
-
   isRefetchingManualByProvider:boolean = false;
   refetchManualByProvider(providerUuid:string){
     this.isRefetchingManualByProvider = true;

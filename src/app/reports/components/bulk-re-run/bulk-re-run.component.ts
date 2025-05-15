@@ -615,6 +615,34 @@ export class BulkReRunComponent implements OnInit {
     })
   }
 
+  singleAiReRunProvider(logId: number) {
+    // this.isSingleReRunLoading = true
+    this.logId = logId;
+    this.reportService.bulkAiReRunProviderLog([logId]).subscribe(res => {
+      this.selectedItemList = [];
+    })
+  }
+
+  bulkAiReRunProvider() {
+    debugger
+
+    const logIds = Array.from(this.selectedItemList);
+    this.reportService.bulkAiReRunProviderLog(logIds) 
+    .subscribe({
+      next: (res: any) => {
+        console.log('Response:', res);
+        this.selectedItemList = [];
+        this.refreshData();
+      },
+      error: (err: any) => {
+        console.error('An error occurred in bulkAiReRunProviderLog:', err);
+      },
+      complete: () => {
+        console.log('bulkAiReRunProviderLog operation completed.');
+      }
+    });
+  }
+
   clearSearch() {
     this.databaseHelper.search = '';
     this.search.next('');

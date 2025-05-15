@@ -33,6 +33,12 @@
                 </div>
 
                 <div class="position-relative">
+                    <button class="btn primaryBtn" (click)="bulkAiReRunProvider()"
+                        [disabled]="selectedItemList.length == 0">
+                        Bulk AI Re-run</button>
+                </div>
+
+                <div class="position-relative">
                     <button class="btn primaryBtn" (click)="openExportModal()"
                         [disabled]="isBulkReRunLoading || selectedItemList.length == 0" data-bs-toggle="modal"
                         data-bs-target="#blkrerunModal">
